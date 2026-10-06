@@ -239,8 +239,11 @@ h1, h2, h3, p { margin: 0; }
 .trust { margin-top: clamp(56px, 9vh, 112px); background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .trust .grid { padding-block: 26px 28px; align-items: center; row-gap: 20px; }
 .trust-names { grid-column: 1 / 6; display: grid; gap: 6px; }
-.trust-names p { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .55em; font-weight: 400; font-size: clamp(20px, 1.6vw, 26px); line-height: 1.2; letter-spacing: -.02em; }
-.trust-names .sep { color: var(--faint); }
+.logos { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 40px; }
+.logos li { display: flex; align-items: center; height: 60px; }
+.logos img { display: block; width: auto; filter: grayscale(1); opacity: .72; transition: filter .3s ease, opacity .3s ease; }
+.logos li:hover img { filter: none; opacity: 1; }
+.lg-mfc { height: 58px; } .lg-5ka { height: 32px; } .lg-mf { height: 25px; }
 .trust-stats { grid-column: 6 / -1; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .trust-stats div { padding: 2px 0 2px 20px; border-left: 1px solid var(--line); display: grid; gap: 4px; align-content: start; }
 .trust-stats dt { font-weight: 400; font-size: clamp(20px, 1.6vw, 26px); line-height: 1.1; letter-spacing: -.02em; }
@@ -442,6 +445,7 @@ h1, h2, h3, p { margin: 0; }
   .trust-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
   .trust-stats div:nth-child(odd) { border-left: 0; padding-left: 0; }
   .trust { margin-top: 32px; }
+  .logos { gap: 8px 28px; } .lg-mfc { height: 40px; } .lg-5ka { height: 26px; } .lg-mf { height: 20px; }
   .pr-cards { grid-template-columns: 1fr; }
   .pr-card p { min-height: 0; }
   .pr-inc { grid-template-columns: 1fr; }
@@ -513,7 +517,7 @@ h1, h2, h3, p { margin: 0; }
   <!-- 2 trust strip -->
   <section class="sec trust" id="trust" aria-label="Нам доверяют">
     <div class="grid">
-      <div class="trust-names"><span class="mono dot">Работали на объектах</span><p><span>МФЦ</span><span class="sep">/</span><span>Пятёрочка</span><span class="sep">/</span><span>МегаФон</span></p></div>
+      <div class="trust-names"><span class="mono dot">Работали на объектах</span><ul class="logos"><li><img src="../assets/logos/mfc.svg" alt="МФЦ «Мои документы»" class="lg-mfc" width="80" height="48"></li><li><img src="../assets/logos/pyaterochka.svg" alt="Пятёрочка" class="lg-5ka" width="143" height="34"></li><li><img src="../assets/logos/megafon.svg" alt="МегаФон" class="lg-mf" width="144" height="26"></li></ul></div>
       <dl class="trust-stats">
         <div><dt>8 лет</dt><dd>монтируем климат и электрику</dd></div>
         <div><dt>1 200+</dt><dd>объектов сдано по акту</dd></div>
