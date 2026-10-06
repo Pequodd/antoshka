@@ -278,30 +278,36 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .trust-tiles li:hover img { filter: none; opacity: 1; }
 .lg-mfc { height: clamp(52px, 4.6vw, 72px); } .lg-5ka { height: clamp(28px, 2.4vw, 38px); } .lg-mf { height: clamp(22px, 1.9vw, 30px); }
 .trust-say { max-width: 22em; margin: clamp(64px, 10vh, 120px) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
-/* 2 prices: area slider picks the package */
-.pb { padding-top: 28px; row-gap: 32px; align-items: stretch; }
-.pb-in { grid-column: 1 / 7; display: grid; gap: 14px; align-content: start; padding-top: 22px; border-top: 1px solid var(--ink); }
-.pb-area { font-weight: 300; font-size: clamp(64px, 6.4vw, 104px); line-height: .9; letter-spacing: -.06em; font-variant-numeric: tabular-nums; }
-.pb-area span { font-size: .34em; letter-spacing: 0; margin-left: .2em; color: var(--muted); }
-.pb-range { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; margin: 8px 0 0; background: transparent; cursor: pointer; }
+/* 2 prices: area slider as one horizontal instrument panel */
+.pb { margin: 24px var(--m) 0; border-top: 1px solid var(--ink); }
+.pb-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr); }
+.pb-cell { display: grid; gap: 10px; align-content: start; padding: 22px 24px 26px; border-right: 1px solid var(--line); }
+.pb-cell:first-child { padding-left: 0; } .pb-cell:last-child { border-right: 0; padding-right: 0; }
+.pb-cell-price { justify-items: end; text-align: right; }
+.pb-cell .mono { color: var(--muted); }
+.pb-swap .mono { color: var(--orange-ink); }
+.pb-cell-price.pb-swap .mono { color: var(--muted); }
+.pb-area { font-weight: 300; font-size: clamp(48px, 4.4vw, 72px); line-height: .9; letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
+.pb-area span { font-size: .4em; letter-spacing: 0; margin-left: .18em; color: var(--muted); }
+.pb-kw { font-weight: 300; font-size: clamp(32px, 2.8vw, 46px); line-height: 1; letter-spacing: -.04em; }
+.pb-use { margin: 0; color: var(--muted); }
+.pb-price { font-weight: 300; font-size: clamp(48px, 4.4vw, 72px); line-height: .9; letter-spacing: -.05em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pb-swap { transition: opacity .2s ease, transform .3s cubic-bezier(.2,.7,.2,1); }
+.pb-out.swap .pb-swap { opacity: 0; transform: translateY(6px); }
+.pb-track { padding-top: 6px; border-top: 1px solid var(--line); }
+.pb-range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 48px; margin: 0; background: transparent; cursor: pointer; }
 .pb-range::-webkit-slider-runnable-track { height: 2px; background: linear-gradient(90deg, var(--ink) var(--p, 19%), var(--line) var(--p, 19%)); }
 .pb-range::-moz-range-track { height: 2px; background: var(--line); } .pb-range::-moz-range-progress { height: 2px; background: var(--ink); }
-.pb-range::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; margin-top: -13px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); box-shadow: 0 0 0 6px rgba(244,121,32,.18); }
-.pb-range::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); box-shadow: 0 0 0 6px rgba(244,121,32,.18); }
+.pb-range::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; margin-top: -14px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); box-shadow: 0 0 0 7px rgba(244,121,32,.18); }
+.pb-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); box-shadow: 0 0 0 7px rgba(244,121,32,.18); }
 .pb-range:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
-.pb-zones { display: grid; grid-template-columns: 25fr 25fr 30fr; font: 400 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
-.pb-zones span { padding-top: 8px; border-top: 1px dashed var(--line); }
-.pb-zones span + span { padding-left: 10px; border-left: 1px solid var(--line); }
-.pb-hint { margin: 6px 0 0; color: var(--muted); max-width: 46ch; }
-.pb-out { grid-column: 8 / -1; display: grid; gap: 12px; align-content: start; padding: 28px; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
-.pb-out > .mono { color: var(--orange-ink); }
-.pb-kw { font-weight: 300; font-size: clamp(34px, 3vw, 48px); line-height: 1; letter-spacing: -.04em; }
-.pb-use { margin: 0; color: var(--muted); }
-.pb-price { display: grid; gap: 2px; padding-top: 16px; margin-top: 6px; border-top: 1px solid var(--line); }
-.pb-price b { font-weight: 300; font-size: clamp(40px, 3.6vw, 56px); line-height: 1; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
-.pb-out .btn { justify-self: start; margin-top: 8px; }
-.pb-kw, .pb-use, .pb-price b, .pb-out > .mono { transition: opacity .2s ease, transform .3s cubic-bezier(.2,.7,.2,1); }
-.pb-out.swap .pb-kw, .pb-out.swap .pb-use, .pb-out.swap .pb-price b, .pb-out.swap > .mono { opacity: 0; transform: translateY(6px); }
+.pb-zones { display: grid; grid-template-columns: 25fr 25fr 30fr; }
+.pb-zones span { display: flex; align-items: baseline; gap: 10px; padding: 10px 0 0 12px; border-left: 1px solid var(--line); font: 400 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--faint); transition: color .25s; }
+.pb-zones span:first-child { border-left: 0; padding-left: 0; }
+.pb-zones b { font-family: Onest, system-ui, sans-serif; font-weight: 300; font-size: 22px; line-height: 1; letter-spacing: -.02em; text-transform: none; }
+.pb-zones span.on { color: var(--ink); }
+.pb-foot { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+.pb-hint { margin: 0; color: var(--muted); max-width: 52ch; }
 .px-row { margin-top: clamp(56px, 9vh, 96px); row-gap: 20px; align-items: start; }
 .px-row-head { grid-column: 1 / 5; display: grid; gap: 10px; }
 .px-row-head p { margin: 0; color: var(--muted); max-width: 28ch; }
@@ -494,8 +500,12 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   .trust-tiles li { height: 84px; }
   .lg-mfc { height: 42px; } .lg-5ka { height: 18px; } .lg-mf { height: 15px; }
   .corner { display: none; }
-  .pb-in, .pb-out { grid-column: 1 / -1; }
-  .pb-zones { font-size: 9px; }
+  .pb-row { grid-template-columns: 1fr 1fr; }
+  .pb-cell { padding: 16px 12px 18px; }
+  .pb-cell:nth-child(2) { border-right: 0; padding-right: 0; }
+  .pb-cell-price { grid-column: 1 / -1; padding: 14px 0 16px; border-top: 1px solid var(--line); justify-items: start; text-align: left; }
+  .pb-zones span { gap: 6px; padding-left: 8px; font-size: 9px; }
+  .pb-zones b { font-size: 18px; }
   .px-row-head, .px-inc, .px-extra-head, .px-table { grid-column: 1 / -1; }
   .px-inc, .px-table { grid-template-columns: 1fr; }
   .wk-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: 0; padding-inline: var(--m); scroll-padding-inline: var(--m); }
@@ -609,22 +619,19 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     <div class="rule"></div>
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">2</span>Цены</h2>
       <p class="aside">Цена фиксируется в смете до начала работ и не растёт на месте. Кондиционер, купленный не у нас, ставим по тем же ценам.</p></div>
-    <div class="pv-pr">
-      <div class="grid pb">
-        <div class="pb-in">
-          <label class="mono" for="pbRange">Площадь помещения</label>
-          <output class="pb-area" id="pbArea" for="pbRange">25<span>м²</span></output>
-          <input class="pb-range" id="pbRange" type="range" min="10" max="90" step="1" value="25" aria-describedby="pbHint">
-          <div class="pb-zones" aria-hidden="true"><span>до 35 м² · S</span><span>до 60 м² · M</span><span>до 90 м² · L</span></div>
-          <p class="pb-hint" id="pbHint">Больше 90 м² или несколько комнат — посчитаем мульти-сплит или канальную систему.</p>
-        </div>
-        <div class="pb-out" aria-live="polite">
-          <span class="mono" id="pbKicker">вам подойдёт · пакет S</span>
-          <div class="pb-kw" id="pbKw">2–3,5 кВт</div>
-          <p class="pb-use" id="pbUse">Спальня, детская, кабинет</p>
-          <div class="pb-price"><span class="mono">монтаж под ключ</span><b id="pbPrice">14 900 ₽</b></div>
-          <a class="btn btn-ink" href="#contact" id="pbCta" data-pk="S">Рассчитать мой объект <i>↗</i></a>
-        </div>
+    <div class="pb pb-out" aria-live="polite">
+      <div class="pb-row">
+        <div class="pb-cell"><label class="mono" for="pbRange">Площадь помещения</label><output class="pb-area" id="pbArea" for="pbRange">25<span>м²</span></output></div>
+        <div class="pb-cell pb-swap"><span class="mono" id="pbKicker">подойдёт · пакет S</span><div class="pb-kw" id="pbKw">2–3,5 кВт</div><p class="pb-use" id="pbUse">Спальня, детская, кабинет</p></div>
+        <div class="pb-cell pb-cell-price pb-swap"><span class="mono">монтаж под ключ</span><b class="pb-price" id="pbPrice">14 900 ₽</b></div>
+      </div>
+      <div class="pb-track">
+        <input class="pb-range" id="pbRange" type="range" min="10" max="90" step="1" value="25" aria-describedby="pbHint" aria-label="Площадь помещения, м²">
+        <div class="pb-zones" aria-hidden="true"><span class="on"><b>S</b>до 35 м²</span><span><b>M</b>до 60 м²</span><span><b>L</b>до 90 м²</span></div>
+      </div>
+      <div class="pb-foot">
+        <p class="pb-hint" id="pbHint">Больше 90 м² или несколько комнат — посчитаем мульти-сплит или канальную систему.</p>
+        <a class="btn btn-ink" href="#contact" id="pbCta" data-pk="S">Рассчитать мой объект <i>↗</i></a>
       </div>
     </div>
     <div class="grid px-row">
@@ -1050,8 +1057,9 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     const v = +pbRange.value, k = v <= 35 ? 0 : v <= 60 ? 1 : 2, P = PKS[k];
     document.getElementById('pbArea').firstChild.nodeValue = v; pbRange.style.setProperty('--p', ((v - 10) / 80 * 100).toFixed(1) + '%');
     if (k === pbK && pbOut.dataset.ready) return; pbK = k; pbOut.dataset.ready = 1;
+    document.querySelectorAll('.pb-zones span').forEach((z, j) => z.classList.toggle('on', j === k));
     pbOut.classList.add('swap'); clearTimeout(pbT);
-    pbT = setTimeout(() => { document.getElementById('pbKicker').textContent = `вам подойдёт · пакет ${P.code}`; document.getElementById('pbKw').textContent = P.kw;
+    pbT = setTimeout(() => { document.getElementById('pbKicker').textContent = `подойдёт · пакет ${P.code}`; document.getElementById('pbKw').textContent = P.kw;
       document.getElementById('pbUse').textContent = P.use; document.getElementById('pbPrice').textContent = P.price; document.getElementById('pbCta').dataset.pk = P.code; pbOut.classList.remove('swap'); }, reduce ? 0 : 160);
   }
   pbRange.addEventListener('input', pbSync); pbSync();
