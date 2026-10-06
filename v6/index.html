@@ -278,15 +278,30 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .trust-tiles li:hover img { filter: none; opacity: 1; }
 .lg-mfc { height: clamp(52px, 4.6vw, 72px); } .lg-5ka { height: clamp(28px, 2.4vw, 38px); } .lg-mf { height: clamp(22px, 1.9vw, 30px); }
 .trust-say { max-width: 22em; margin: clamp(64px, 10vh, 120px) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
-/* 2 prices: floor plan drawing + area slider, package readout on the right */
-.plan { padding-top: 24px; row-gap: 28px; align-items: start; }
-.plan-left { grid-column: 1 / 8; padding-top: 20px; border-top: 1px solid var(--ink); }
-.plan-fig { margin: 0 0 8px; }
-.plan-svg { width: 100%; height: auto; display: block; }
+/* 2 prices: a drawing sheet — plan + slider on the left, title block on the right */
+.sheet { margin: 24px var(--m) 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 380px); grid-template-rows: 1fr auto; border: 1px solid var(--ink); background: #FCFCFC; }
+.sheet-plan { grid-column: 1; grid-row: 1; margin: 0; position: relative; padding: 20px 24px 8px; }
+.sheet-plan figcaption { position: absolute; left: 24px; top: 16px; color: var(--muted); }
+.plan-svg { width: 100%; max-height: 360px; height: auto; display: block; }
 .plan-svg text { font: 400 11px var(--mono); letter-spacing: .06em; fill: #66737A; }
-.plan-svg .big { font: 300 30px Onest, system-ui, sans-serif; letter-spacing: -.03em; fill: #24363F; }
+.sheet-ctl { grid-column: 1; grid-row: 2; padding: 16px 24px 18px; border-top: 1px solid var(--line); }
 .plan-ctl { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; }
-.plan-val { font-weight: 300; font-size: 26px; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.plan-val { font-weight: 300; font-size: 24px; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.sheet-block { grid-column: 2; grid-row: 1 / 3; display: grid; grid-template-rows: auto auto auto 1fr auto; border-left: 1px solid var(--ink); }
+.sb-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 20px; border-bottom: 1px solid var(--line); }
+.sb-row > span:not(.mono) { text-align: right; color: var(--muted); font-size: 15px; }
+.sb-row > .mono { white-space: nowrap; flex: none; }
+.sb-row b { font-weight: 400; font-size: 18px; letter-spacing: -.01em; }
+.sb-head { background: var(--ink); border-bottom-color: var(--ink); }
+.sb-head .mono { color: rgba(255,255,255,.7); } .sb-head .mono + .mono { color: #fff; }
+.sb-price { align-items: flex-end; flex-direction: column; justify-content: flex-end; gap: 6px; }
+.sb-price .mono { align-self: flex-start; }
+.sb-price b { font-weight: 300; font-size: clamp(34px, 3vw, 46px); line-height: 1; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
+.sb-cta { display: grid; gap: 10px; border-bottom: 0; }
+.sb-cta .btn { justify-content: space-between; }
+.sheet-block b, .sheet-block span[id] { transition: opacity .18s ease; }
+.pb-out.swap .sheet-block b, .pb-out.swap .sheet-block span[id] { opacity: .2; }
+.plan-hint { margin: 0; color: var(--muted); font-size: 13px; }
 .pb-range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 40px; margin: 0; background: transparent; cursor: pointer; }
 .pb-range::-webkit-slider-runnable-track { height: 1px; background: linear-gradient(90deg, var(--ink) var(--p, 25%), var(--line) var(--p, 25%)); }
 .pb-range::-moz-range-track { height: 1px; background: var(--line); } .pb-range::-moz-range-progress { height: 1px; background: var(--ink); }
@@ -298,17 +313,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .pb-zones span { padding-top: 4px; transition: color .25s; }
 .pb-zones span:nth-child(2) { text-align: center; } .pb-zones span:last-child { text-align: right; }
 .pb-zones span.on { color: var(--ink); }
-.plan-side { grid-column: 9 / -1; display: grid; gap: 14px; align-content: start; padding-top: 20px; border-top: 1px solid var(--ink); }
-.plan-kicker { color: var(--orange-ink); }
-.plan-dl { margin: 0 0 6px; }
-.plan-dl div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 13px 0; border-bottom: 1px solid var(--line); }
-.plan-dl div:first-child { border-top: 1px solid var(--line); }
-.plan-dl dt { font: 400 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); flex: none; }
-.plan-dl dd { margin: 0; text-align: right; font-size: 16px; transition: opacity .18s ease; }
-.plan-dl .plan-price dd { font-weight: 300; font-size: clamp(30px, 2.6vw, 42px); line-height: 1; letter-spacing: -.04em; }
-.pb-out.swap .plan-dl dd, .pb-out.swap .plan-kicker { opacity: .2; }
-.plan-side .btn { justify-self: start; }
-.plan-hint { margin: 4px 0 0; color: var(--muted); font-size: 14px; max-width: 36ch; }
+.pb-out.swap .px-row { margin-top: clamp(56px, 9vh, 96px); row-gap: 20px; align-items: start; }
 .px-row { margin-top: clamp(56px, 9vh, 96px); row-gap: 20px; align-items: start; }
 .px-row-head { grid-column: 1 / 5; display: grid; gap: 10px; }
 .px-row-head p { margin: 0; color: var(--muted); max-width: 28ch; }
@@ -501,9 +506,13 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   .trust-tiles li { height: 84px; }
   .lg-mfc { height: 42px; } .lg-5ka { height: 18px; } .lg-mf { height: 15px; }
   .corner { display: none; }
-  .plan-left, .plan-side { grid-column: 1 / -1; }
-  .plan-svg text { font-size: 19px; }
-  .plan-svg .big { font-size: 44px; }
+  .sheet { grid-template-columns: 1fr; grid-template-rows: auto; }
+  .sheet-plan, .sheet-ctl, .sheet-block { grid-column: 1; grid-row: auto; }
+  .sheet-plan { padding: 36px 12px 4px; } .sheet-plan figcaption { left: 12px; top: 12px; }
+  .sheet-ctl { padding: 14px 16px 16px; }
+  .sheet-block { border-left: 0; border-top: 1px solid var(--ink); }
+  .sb-row { padding: 12px 16px; }
+  .plan-svg text { font-size: 20px; }
   .pb-zones { font-size: 9px; }
   .px-row-head, .px-inc, .px-extra-head, .px-table { grid-column: 1 / -1; }
   .px-inc, .px-table { grid-template-columns: 1fr; }
@@ -618,32 +627,30 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     <div class="rule"></div>
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">2</span>Цены</h2>
       <p class="aside">Цена фиксируется в смете до начала работ и не растёт на месте. Кондиционер, купленный не у нас, ставим по тем же ценам.</p></div>
-    <div class="grid plan pb-out">
-      <div class="plan-left">
-        <figure class="plan-fig" aria-hidden="true">
-          <svg class="plan-svg" id="planSvg" viewBox="0 0 640 400">
-            <defs>
-              <pattern id="planHatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0v8" stroke="#24363F" stroke-opacity=".08" stroke-width="1"/></pattern>
-              <radialGradient id="planFade" cx="50%" cy="50%" r="60%"><stop offset="55%" stop-color="#fff"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>
-              <mask id="planMask"><rect width="640" height="400" fill="url(#planFade)"/></mask>
-            </defs>
-            <g id="planGrid" mask="url(#planMask)"></g>
-            <g id="planRoom"></g>
-          </svg>
-        </figure>
+    <div class="sheet pb-out">
+      <figure class="sheet-plan" aria-hidden="true">
+        <svg class="plan-svg" id="planSvg" viewBox="0 0 640 340">
+          <defs>
+            <pattern id="planHatch" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 0v8" stroke="#24363F" stroke-opacity=".07" stroke-width="1"/></pattern>
+            <radialGradient id="planFade" cx="50%" cy="50%" r="62%"><stop offset="50%" stop-color="#fff"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/></radialGradient>
+            <mask id="planMask"><rect width="640" height="340" fill="url(#planFade)"/></mask>
+          </defs>
+          <g id="planGrid" mask="url(#planMask)"></g>
+          <g id="planRoom"></g>
+        </svg>
+        <figcaption class="mono">план · вид сверху</figcaption>
+      </figure>
+      <div class="sheet-ctl">
         <div class="plan-ctl"><label class="mono" for="plRange">Площадь помещения</label><output class="plan-val" id="plArea" for="plRange">30 м²</output></div>
         <input class="pb-range" id="plRange" type="range" min="10" max="90" step="1" value="30" aria-describedby="plHint">
         <div class="pb-zones" aria-hidden="true"><span class="on">S · до 35 м²</span><span>M · до 60 м²</span><span>L · до 90 м²</span></div>
       </div>
-      <div class="plan-side">
-        <span class="mono plan-kicker" id="plKicker">подойдёт · пакет S</span>
-        <dl class="plan-dl" aria-live="polite">
-          <div><dt>Мощность</dt><dd id="plKw">2–3,5 кВт</dd></div>
-          <div><dt>Подходит для</dt><dd id="plUse">Спальня, детская, кабинет</dd></div>
-          <div class="plan-price"><dt>Монтаж под ключ</dt><dd id="plPrice">14 900 ₽</dd></div>
-        </dl>
-        <a class="btn btn-ink" href="#contact" id="plCta" data-pk="S">Рассчитать мой объект <i>↗</i></a>
-        <p class="plan-hint" id="plHint">Больше 90 м² или несколько комнат — посчитаем мульти-сплит или канальную систему.</p>
+      <div class="sheet-block" aria-live="polite">
+        <div class="sb-row sb-head"><span class="mono">Подбор</span><span class="mono" id="plKicker">пакет S</span></div>
+        <div class="sb-row"><span class="mono">Мощность</span><b id="plKw">2–3,5 кВт</b></div>
+        <div class="sb-row"><span class="mono">Подходит для</span><span id="plUse">Спальня, детская, кабинет</span></div>
+        <div class="sb-row sb-price"><span class="mono">Монтаж под ключ</span><b id="plPrice">14 900 ₽</b></div>
+        <div class="sb-row sb-cta"><a class="btn btn-ink" href="#contact" id="plCta" data-pk="S">Рассчитать мой объект <i>↗</i></a><p class="plan-hint" id="plHint">Больше 90 м² — посчитаем мульти-сплит или канальную систему.</p></div>
       </div>
     </div>
     <div class="grid px-row">
@@ -1066,17 +1073,17 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   /* B: floor plan drawing driven by the slider */
   const plRange = document.getElementById('plRange'), NS = 'http://www.w3.org/2000/svg';
   const svgEl = (tag, at, parent) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); parent.appendChild(e); return e; };
-  { const g = document.getElementById('planGrid'); for (let x = 0; x <= 640; x += 20) svgEl('line', { x1: x, y1: 0, x2: x, y2: 400, stroke: '#24363F', 'stroke-opacity': x % 100 === 20 ? .07 : .035 }, g);
-    for (let y = 0; y <= 400; y += 20) svgEl('line', { x1: 0, y1: y, x2: 640, y2: y, stroke: '#24363F', 'stroke-opacity': .035 }, g); }
+  { const g = document.getElementById('planGrid'); for (let x = 0; x <= 640; x += 20) svgEl('line', { x1: x, y1: 0, x2: x, y2: 340, stroke: '#24363F', 'stroke-opacity': x % 100 === 20 ? .07 : .035 }, g);
+    for (let y = 0; y <= 340; y += 20) svgEl('line', { x1: 0, y1: y, x2: 640, y2: y, stroke: '#24363F', 'stroke-opacity': .035 }, g); }
   let plK = -1, plT = 0;
   function planDraw() {
     const a = +plRange.value, k = a <= 35 ? 0 : a <= 60 ? 1 : 2, P = PKS[k], g = document.getElementById('planRoom');
-    const wM = Math.sqrt(a * 1.5), dM = a / wM, px = 470 / Math.sqrt(90 * 1.5), W = wM * px, D = dM * px, x = 320 - W / 2, y = 214 - D / 2;
+    const wM = Math.sqrt(a * 1.5), dM = a / wM, px = 400 / Math.sqrt(90 * 1.5), W = wM * px, D = dM * px, x = 320 - W / 2, y = 186 - D / 2;
     g.textContent = '';
     const ink = '#24363F';
     svgEl('rect', { x, y, width: W, height: D, fill: 'url(#planHatch)', stroke: 'none' }, g);
     // walls with a door gap on the bottom wall and a window on the left wall
-    const t = 6, dg = Math.min(46, W * .3);
+    const t = 4, dg = Math.min(40, W * .28);
     svgEl('path', { d: `M${x},${y + D} V${y} H${x + W} V${y + D} H${x + W * .72} M${x + W * .72 - dg},${y + D} H${x}`, fill: 'none', stroke: ink, 'stroke-width': t, 'stroke-linejoin': 'miter' }, g);
     svgEl('path', { d: `M${x + W * .72 - dg},${y + D} A${dg},${dg} 0 0 1 ${x + W * .72},${y + D - dg}`, fill: 'none', stroke: ink, 'stroke-opacity': .35, 'stroke-dasharray': '3 3' }, g);
     const wy = y + D * .3, wl = Math.min(90, D * .4);
@@ -1095,12 +1102,11 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     const dx = x + W + 26; svgEl('line', { x1: dx, y1: y, x2: dx, y2: y + D, stroke: ink, 'stroke-opacity': .5 }, g);
     [y, y + D].forEach(v => svgEl('line', { x1: dx - 5, y1: v, x2: dx + 5, y2: v, stroke: ink, 'stroke-opacity': .5 }, g));
     const td = svgEl('text', { x: dx + 10, y: y + D / 2 + 4 }, g); td.textContent = dM.toFixed(1).replace('.', ',') + ' м';
-    const ta = svgEl('text', { x: ux, y: y + D * .74, 'text-anchor': 'middle', class: 'big' }, g); ta.textContent = a + ' м²';
     plRange.style.setProperty('--p', ((a - 10) / 80 * 100).toFixed(1) + '%');
     document.getElementById('plArea').textContent = a + ' м²';
     document.querySelectorAll('.pb-zones span').forEach((z, j) => z.classList.toggle('on', j === k));
     if (k !== plK) { plK = k; const o = document.querySelector('.pb-out'); o.classList.add('swap'); clearTimeout(plT); plT = setTimeout(() => o.classList.remove('swap'), reduce ? 0 : 140); }
-    document.getElementById('plKicker').textContent = `подойдёт · пакет ${P.code}`;
+    document.getElementById('plKicker').textContent = `пакет ${P.code}`;
     document.getElementById('plKw').textContent = P.kw; document.getElementById('plUse').textContent = P.use;
     document.getElementById('plPrice').textContent = P.price; document.getElementById('plCta').dataset.pk = P.code;
   }
