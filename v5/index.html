@@ -51,7 +51,8 @@ h1, h2, h3, p { margin: 0; }
 /* section scaffold (aevion): giant word + numbered pill, hairline on top */
 .sec { position: relative; z-index: 3; background: var(--bg); }
 .title { padding-top: clamp(64px, 10vh, 120px); padding-bottom: 20px; align-items: start; }
-.title h2 { grid-column: 1 / 12; font-weight: 300; font-size: clamp(76px, 16.6vw, 240px); line-height: .92; letter-spacing: -.055em; }
+.title h2 { grid-column: 1 / 9; font-weight: 300; font-size: clamp(52px, 7vw, 112px); line-height: .95; letter-spacing: -.05em; }
+.title .aside { grid-column: 9 / 12; align-self: end; font-size: 16px; color: var(--muted); max-width: 36ch; }
 .pill { grid-column: 12 / -1; justify-self: end; display: inline-grid; place-items: center; min-width: 40px; height: 28px; padding: 0 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--muted); }
 .rule { border-top: 1px solid var(--line); margin-inline: var(--m); }
 .split { padding-block: clamp(56px, 9vh, 96px); row-gap: 24px; }
@@ -88,19 +89,48 @@ h1, h2, h3, p { margin: 0; }
 .hero .word { position: absolute; z-index: 0; left: var(--m); right: var(--m); top: 70px; overflow: hidden; white-space: nowrap; font-weight: 300; font-size: 31vw; line-height: .8; letter-spacing: -.065em;
   color: transparent; background: linear-gradient(180deg, rgba(255,255,255,.95) 0%, rgba(255,255,255,.55) 70%, rgba(255,255,255,0) 100%); -webkit-background-clip: text; background-clip: text;
   -webkit-text-stroke: 1px rgba(36,54,63,.08); }
-.hero .anchor { position: absolute; left: 22%; right: 22%; top: 22%; bottom: 34%; }
+.hero .anchor { position: absolute; left: 24%; right: 24%; top: 14%; bottom: 46%; }
 .hero .foot { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; padding-bottom: 20px; align-items: end; }
 .hero .foot::before { content: ""; grid-column: 1 / -1; border-top: 1px solid var(--line); margin-bottom: 20px; }
-.hero h1 { font-weight: 400; font-size: 15px; line-height: 1.45; }
-.hero h1 span { display: block; color: var(--muted); }
-.hero .scroll { justify-self: end; display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.offer { display: grid; gap: 18px; align-content: end; }
+.offer h1 { font-weight: 300; font-size: clamp(36px, 3.6vw, 56px); line-height: 1.04; letter-spacing: -.04em; text-wrap: balance; }
+.offer p { color: var(--muted); font-size: 17px; max-width: 46ch; }
+.offer .row { display: flex; flex-wrap: wrap; gap: 8px; }
+.offer .btn { min-height: 52px; padding: 0 22px; font-size: 16px; }
+.price { display: grid; gap: 4px; justify-items: end; text-align: right; align-content: end; }
+.price b { font-weight: 300; font-size: clamp(30px, 2.6vw, 40px); letter-spacing: -.04em; }
+.hero .scroll { justify-self: start; display: flex; align-items: center; gap: 10px; text-decoration: none; }
 
 /* 2 statement */
 .statement .grid { padding-block: clamp(120px, 20vh, 220px); }
-.statement p { grid-column: 1 / 7; font-weight: 300; font-size: clamp(36px, 4.45vw, 64px); line-height: 1.125; letter-spacing: -.0375em; }
-.statement .vline { grid-column: 7 / 8; border-left: 1px solid var(--line); }
+.statement .grid { align-items: center; }
+.statement p { grid-column: 1 / 7; font-weight: 300; font-size: clamp(32px, 3.6vw, 56px); line-height: 1.12; letter-spacing: -.035em; }
+.statement figure { grid-column: 8 / -1; margin: 0; display: grid; gap: 10px; }
+.statement figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; display: block; }
 
-/* 3 standard dial */
+/* 3 standard: drawing with callouts */
+.std { position: relative; z-index: 2; }
+.std-track { height: 400vh; }
+.std .sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.std-anchor { position: absolute; left: 30%; right: 30%; top: 30%; bottom: 36%; }
+.leaders { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.leaders path { fill: none; stroke: var(--faint); stroke-width: 1; transition: stroke .3s; }
+.leaders circle { fill: var(--bg); stroke: var(--faint); stroke-width: 1; transition: fill .3s, stroke .3s; }
+.leaders .on path { stroke: var(--ink); }
+.leaders .on circle { fill: var(--orange); stroke: var(--orange); }
+.co { position: absolute; width: min(300px, 24vw); display: grid; gap: 6px; color: var(--faint); transition: color .3s; }
+.co .mono { color: inherit; }
+.co b { font-weight: 300; font-size: clamp(26px, 2.4vw, 36px); line-height: 1.1; letter-spacing: -.035em; }
+.co p { font-size: 15px; }
+.co.on { color: var(--ink); }
+.co.on p { color: var(--muted); }
+.co.tl { left: var(--m); top: 16%; } .co.tr { right: var(--m); top: 16%; text-align: right; }
+.co.br { right: var(--m); bottom: 18%; text-align: right; } .co.bl { left: var(--m); bottom: 18%; }
+.std-foot { position: absolute; left: 0; right: 0; bottom: 24px; align-items: center; }
+.steps-bar { display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 8px; align-items: center; }
+.steps-bar i { height: 2px; background: var(--line); transition: background .3s; }
+.steps-bar i.on { background: var(--ink); }
+/* (old dial styles below are unused) */
 .dial-track { height: 300vh; }
 .sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 .dial .sticky { display: grid; grid-template-rows: 1fr auto; padding-top: 56px; }
@@ -124,13 +154,19 @@ h1, h2, h3, p { margin: 0; }
 .tab:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
 .panel { padding-block: 40px 96px; row-gap: 40px; }
 .panel[hidden] { display: none !important; }
+.illo { grid-column: 1 / 6; width: 100%; height: auto; display: block; }
+.illo .k { fill: none; stroke: var(--ink); stroke-width: 1.2; }
+.illo .f { fill: none; stroke: var(--faint); stroke-width: 1; }
+.illo .o { fill: none; stroke: var(--orange); stroke-width: 1.4; }
+.illo .od { fill: var(--orange); }
+.illo text { font: 400 10px var(--mono); fill: var(--muted); letter-spacing: .06em; }
 .panel .text { grid-column: 1 / 5; display: grid; gap: 16px; font-size: 16px; }
 .specs { grid-column: 1 / 5; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
 .specs div { padding: 10px 12px 12px 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }
 .specs div:nth-child(odd) { border-right: 1px solid var(--line); }
 .specs div:nth-child(even) { padding-left: 12px; }
 .specs b { font-weight: 400; font-size: 20px; letter-spacing: -.02em; }
-.works { grid-column: 7 / -1; grid-row: 1 / span 2; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); align-self: start; }
+.works { grid-column: 7 / -1; grid-row: 1 / span 3; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); align-self: start; }
 .works li { display: grid; grid-template-columns: 40px minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
 .works b { font-weight: 400; font-size: 20px; letter-spacing: -.02em; }
 .works span:last-child { color: var(--muted); font-size: 15px; }
@@ -223,7 +259,17 @@ h1, h2, h3, p { margin: 0; }
   .hero .anchor { left: 4%; right: 4%; top: 24%; bottom: 42%; }
   .hero .scroll { justify-self: start; }
   .hero .foot { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); row-gap: 8px; }
-  .statement .vline { display: none; }
+  .statement figure { grid-column: 1 / -1; }
+  .title .aside { grid-column: 1 / -1; margin-top: 12px; }
+  .price { justify-items: start; text-align: left; }
+  .hero .anchor { top: 12%; bottom: 58%; }
+  .std-track { height: 300vh; }
+  .std-anchor { left: 8%; right: 8%; top: 12%; bottom: 62%; }
+  .co { position: static; width: auto; text-align: left !important; }
+  .callouts { position: absolute; left: var(--m); right: var(--m); bottom: 64px; display: grid; gap: 10px; }
+  .co:not(.on) { display: none; }
+  .std-foot { bottom: 16px; }
+  .illo { grid-column: 1 / -1; }
   .cells > div { padding: 16px 6px 20px; }
   .cells .mono { font-size: 9px; }
   .cells strong { font-size: 22px; }
@@ -264,9 +310,14 @@ h1, h2, h3, p { margin: 0; }
     <div class="word" aria-hidden="true">climate</div>
     <div class="anchor" aria-hidden="true"></div>
     <div class="grid foot">
-      <h1 class="c1-6">Монтаж кондиционеров, вентиляции и электрики.<span>Точно по проекту, с гарантией по договору.</span></h1>
-      <span class="mono c7-9">Челябинская и Свердловская области</span>
-      <a class="scroll c10-12" href="#about">Листайте <span aria-hidden="true">↓</span></a>
+      <div class="offer c1-6">
+        <span class="mono brk">Челябинск · Екатеринбург</span>
+        <h1>Кондиционер под ключ за&nbsp;1&nbsp;день</h1>
+        <p>Монтаж кондиционеров, вентиляции и электрики. Смета до начала работ, гарантия <span class="ph">[X]</span> года по договору.</p>
+        <div class="row"><a class="btn btn-ink" href="#contact">Рассчитать стоимость <i>↗</i></a><a class="btn btn-soft" href="tel:+73510000000">+7 351 XXX-XX-XX</a></div>
+      </div>
+      <a class="scroll mono c7-9" href="#about" style="align-self:end">Листайте <span aria-hidden="true">↓</span></a>
+      <div class="price c10-12"><span class="mono">Монтаж сплит-системы</span><b>от XX XXX ₽</b><span class="mono">Консультация и выезд — бесплатно</span></div>
     </div>
   </section>
 
@@ -274,39 +325,28 @@ h1, h2, h3, p { margin: 0; }
   <section class="sec statement" id="about">
     <div class="grid">
       <p data-reveal>Подбираем, проектируем, монтируем и обслуживаем климат — до того, как жара или сквозняк станут проблемой.</p>
-      <div class="vline" aria-hidden="true"></div>
+      <figure><img src="../assets/hero-poster.jpg" alt="Бригада Climate Solution Pro в форме монтирует кондиционер на объекте" loading="lazy" width="1280" height="720"><figcaption class="mono brk">бригада на объекте · своя форма и инструмент</figcaption></figure>
     </div>
   </section>
 
   <!-- 3 -->
   <section class="sec" id="standard">
     <div class="rule"></div>
-    <div class="grid title"><h2>Монтаж</h2><span class="pill">3</span></div>
-    <div class="grid split">
-      <span class="mono dot c1-6">Стандарт</span>
-      <div class="c7-12">
-        <p class="big" data-reveal>Каждый объект начинается со сметы и проекта. Правки вносите, пока работы не начались.</p>
-        <p class="big" data-reveal>После запуска покажем управление и оставим гарантию по договору.</p>
-      </div>
-    </div>
-    <div class="dial" id="dialTrack">
-      <div class="dial-track">
-        <div class="sticky">
-          <div class="dial-stage">
-            <svg viewBox="-300 -300 600 310" aria-hidden="true">
-              <path d="M -280 0 A 280 280 0 0 1 280 0" fill="none" stroke="#CDD3D6"></path>
-              <g id="dialTicks" stroke="#8F9BA1" stroke-width="1"></g>
-              <g id="needle"><line x1="0" y1="-262" x2="0" y2="-250" stroke="#24363F" stroke-width="1.5"></line><polygon points="0,-292 -5,-284 5,-284" fill="#24363F"></polygon></g>
-            </svg>
-            <span class="mono dial-label brk" id="dialLabel">Монтаж</span>
-            <div class="dial-core" id="dialIcon"></div>
-          </div>
-          <div class="cells" id="dialTabs">
-            <div class="on"><strong>1 день</strong><span class="mono brk">монтаж квартиры</span></div>
-            <div><strong>≤ 500 мкм</strong><span class="mono brk">вакуум перед запуском</span></div>
-            <div><strong><span class="ph">[X]</span> года</strong><span class="mono brk">гарантия на работы</span></div>
-          </div>
+    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">3</span>Монтаж</h2>
+      <p class="aside" data-reveal>Каждый объект начинается со сметы и проекта. После запуска покажем управление и оставим гарантию по договору.</p></div>
+  </section>
+  <section class="std" data-scene="split" data-ry="-0.18" data-anchor=".std-anchor" aria-label="Стандарт монтажа">
+    <div class="std-track" id="stdTrack">
+      <div class="sticky">
+        <div class="std-anchor" aria-hidden="true"></div>
+        <svg class="leaders" id="leaders" aria-hidden="true"></svg>
+        <div class="callouts" id="callouts">
+          <div class="co tl on"><span class="mono">[ 01 ] кронштейн</span><b>По уровню</b><p>Блок висит ровно, конденсат уходит в дренаж, а не на обои.</p></div>
+          <div class="co tr"><span class="mono">[ 02 ] трасса</span><b>до <span class="ph">[X]</span> м в цене</b><p>Медь в теплоизоляции, без заломов и лишних соединений.</p></div>
+          <div class="co br"><span class="mono">[ 03 ] вакуум</span><b>≤ 500 мкм</b><p>Убираем воздух и влагу из контура перед запуском.</p></div>
+          <div class="co bl"><span class="mono">[ 04 ] запуск</span><b>1 день</b><p>Проверяем давление и температуру на выходе, показываем управление.</p></div>
         </div>
+        <div class="grid std-foot"><span class="mono c1-6">Стандарт монтажа сплит-системы</span><div class="steps-bar c7-12"><i></i><i></i><i></i><i></i><span class="mono" id="stdIdx">[ 01 / 04 ]</span></div></div>
       </div>
     </div>
   </section>
@@ -323,6 +363,14 @@ h1, h2, h3, p { margin: 0; }
     <div class="rule"></div>
 
     <div class="grid panel" role="tabpanel" id="p1" aria-labelledby="t1">
+      <svg class="illo" viewBox="0 0 520 220" role="img" aria-label="Схема: внутренний блок, трасса и наружный блок">
+        <line class="f" x1="330" y1="10" x2="330" y2="210"/><text x="338" y="22">[ СТЕНА ]</text>
+        <rect class="k" x="40" y="40" width="230" height="58" rx="14"/><line class="k" x1="54" y1="84" x2="256" y2="84"/><rect class="k" x1="0" x="226" y="58" width="20" height="5"/>
+        <path class="f" d="M70 110c10 18 0 30 10 46M130 110c10 18 0 30 10 46M190 110c10 18 0 30 10 46"/><text x="40" y="176">[ ВОЗДУХ +22° ]</text>
+        <path class="o" d="M270 62h40v100h52"/><path class="o" d="M270 72h32v100h60" stroke-dasharray="4 4"/><circle class="od" cx="310" cy="62" r="3"/>
+        <rect class="k" x="362" y="120" width="130" height="86" rx="6"/><circle class="k" cx="410" cy="163" r="30"/><circle class="k" cx="410" cy="163" r="18"/><circle class="k" cx="410" cy="163" r="5"/>
+        <line class="k" x1="452" y1="134" x2="452" y2="192"/><line class="k" x1="462" y1="134" x2="462" y2="192"/><line class="k" x1="472" y1="134" x2="472" y2="192"/>
+        <text x="362" y="112">[ НАРУЖНЫЙ БЛОК ]</text><text x="276" y="54">[ ТРАССА ]</text></svg>
       <div class="text"><p>Кондиционер подбираем по площади, числу людей и режиму работы. Предложим несколько моделей, чтобы было из чего выбрать.</p><p>После монтажа проверяем систему, показываем управление и рассказываем об уходе.</p></div>
       <div class="specs">
         <div><span class="mono">Монтаж</span><b>1 день</b></div><div><span class="mono">Гарантия</span><b><span class="ph">[X]</span> года</b></div>
@@ -338,6 +386,15 @@ h1, h2, h3, p { margin: 0; }
     </div>
 
     <div class="grid panel" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
+      <svg class="illo" viewBox="0 0 520 220" role="img" aria-label="Схема: приточно-вытяжная вентиляция с рекуператором">
+        <line class="k" x1="20" y1="70" x2="190" y2="70"/><line class="k" x1="20" y1="100" x2="190" y2="100"/>
+        <line class="k" x1="330" y1="70" x2="500" y2="70"/><line class="k" x1="330" y1="100" x2="500" y2="100"/>
+        <rect class="k" x="190" y="45" width="140" height="80" rx="4"/><line class="k" x1="190" y1="45" x2="330" y2="125"/><line class="k" x1="330" y1="45" x2="190" y2="125"/>
+        <path class="o" d="M30 85h60m-10-8 10 8-10 8"/><text x="20" y="60">[ СВЕЖИЙ ВОЗДУХ ]</text>
+        <path class="f" d="M490 85h-60m10-8-10 8 10 8"/><text x="400" y="60">[ ВЫТЯЖКА ]</text>
+        <rect class="k" x="80" y="100" width="40" height="10"/><rect class="k" x="400" y="100" width="40" height="10"/>
+        <path class="o" d="M100 116v40m-6-8 6 8 6-8"/><path class="f" d="M420 156v-40m-6 8 6-8 6 8"/>
+        <text x="200" y="146">[ РЕКУПЕРАТОР ]</text><text x="200" y="160">возврат тепла</text></svg>
       <div class="text"><p>Свежий воздух без сквозняков и шума. Каждый проект считаем под помещение и нужный воздухообмен.</p><p>Обслуживаем и ремонтируем уже установленные системы.</p></div>
       <div class="specs">
         <div><span class="mono">Проект</span><b>расчёт</b></div><div><span class="mono">Системы</span><b>приток · вытяжка</b></div>
@@ -353,6 +410,13 @@ h1, h2, h3, p { margin: 0; }
     </div>
 
     <div class="grid panel" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
+      <svg class="illo" viewBox="0 0 520 220" role="img" aria-label="Схема: электрощит с автоматами, УЗО и заземлением">
+        <rect class="k" x="170" y="20" width="180" height="180" rx="4"/><line class="k" x1="186" y1="70" x2="334" y2="70"/><line class="k" x1="186" y1="130" x2="334" y2="130"/>
+        <g class="k"><rect x="190" y="40" width="12" height="26"/><rect x="208" y="40" width="12" height="26"/><rect x="226" y="40" width="12" height="26"/><rect x="244" y="40" width="12" height="26"/><rect x="262" y="40" width="12" height="26"/><rect x="280" y="40" width="12" height="26"/><rect x="298" y="40" width="12" height="26"/><rect x="316" y="40" width="12" height="26"/><rect x="190" y="100" width="12" height="26"/><rect x="208" y="100" width="12" height="26"/><rect x="226" y="100" width="12" height="26"/><rect x="244" y="100" width="12" height="26"/><rect x="262" y="100" width="12" height="26"/><rect x="280" y="100" width="12" height="26"/></g>
+        <rect class="o" x="298" y="96" width="30" height="30"/><text x="296" y="146">[ УЗО ]</text>
+        <path class="k" d="M260 200v10m-14 0h28m-22 5h16m-10 5h4"/><text x="282" y="214">[ ЗАЗЕМЛЕНИЕ ]</text>
+        <path class="o" d="M196 40V10H40"/><path class="o" d="M214 40V4h-4"/><path class="f" d="M232 40V14h250"/><path class="f" d="M250 40V8h240"/>
+        <text x="40" y="30">[ ЛИНИИ ОСВЕЩЕНИЯ ]</text><text x="380" y="30">[ РОЗЕТКИ ]</text><text x="186" y="164">[ АВТОМАТЫ ]</text></svg>
       <div class="text"><p>Электрика, к которой не придётся возвращаться: защита в щите, проводка по схеме, свет без тёмных углов.</p><p>Работаем в новостройках и при ремонте, модернизируем старые сети.</p></div>
       <div class="specs">
         <div><span class="mono">Защита</span><b>УЗО · автоматы</b></div><div><span class="mono">Заземление</span><b>в каждом щите</b></div>
@@ -483,18 +547,32 @@ h1, h2, h3, p { margin: 0; }
     return [...el.querySelectorAll('.w')];
   });
 
-  /* dial */
-  let t = '';
-  for (let i = 0; i <= 72; i++) {
-    const a = Math.PI + (i / 72) * Math.PI, long = i % 12 === 0, r2 = long ? 252 : 262;
-    if (i % 3 === 0 || long) t += `<line x1="${(Math.cos(a) * 270).toFixed(1)}" y1="${(Math.sin(a) * 270).toFixed(1)}" x2="${(Math.cos(a) * r2).toFixed(1)}" y2="${(Math.sin(a) * r2).toFixed(1)}"/>`;
+  /* standard callouts */
+  const stdTrack = document.getElementById('stdTrack'), leaders = document.getElementById('leaders');
+  const cos = [...document.querySelectorAll('#callouts .co')], bars = [...document.querySelectorAll('.steps-bar i')], stdIdx = document.getElementById('stdIdx');
+  const stdAnchor = document.querySelector('.std-anchor');
+  const TARGET = [[.12, .25], [.92, .3], [.95, .62], [.5, .85]]; // points on the unit, as fractions of its slot
+  let si = -1;
+  function drawLeaders() {
+    if (mobile) { leaders.innerHTML = ''; return; }
+    const box = leaders.getBoundingClientRect(), a = stdAnchor.getBoundingClientRect();
+    leaders.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+    leaders.innerHTML = cos.map((c, i) => {
+      const r = c.getBoundingClientRect(), right = c.classList.contains('tr') || c.classList.contains('br');
+      const sx = right ? r.left - box.left - 16 : r.right - box.left + 16, sy = r.top - box.top + 14;
+      const tx = a.left - box.left + a.width * TARGET[i][0], ty = a.top - box.top + a.height * TARGET[i][1];
+      const mx = sx + (right ? -40 : 40);
+      return `<g class="${i === si ? 'on' : ''}"><path d="M${sx} ${sy}H${mx}L${tx} ${ty}"/><circle cx="${tx}" cy="${ty}" r="4"/></g>`;
+    }).join('');
   }
-  document.getElementById('dialTicks').innerHTML = t;
-  const ICONS = [[0,2,4,6,8], [1,3,4,5,7], [0,1,2,3,4,5,6,7,8]].map(on => `<svg viewBox="0 0 18 18" aria-hidden="true">${[...Array(9)].map((_, i) => `<circle cx="${3 + (i % 3) * 6}" cy="${3 + Math.floor(i / 3) * 6}" r="1.6" fill="${on.includes(i) ? '#24363F' : '#C9CFD2'}"/>`).join('')}</svg>`);
-  const needle = document.getElementById('needle'), dialTabs = [...document.querySelectorAll('#dialTabs > div')], dialLabel = document.getElementById('dialLabel'), dialIcon = document.getElementById('dialIcon');
-  const dialNames = ['Монтаж', 'Вакуум', 'Гарантия'];
-  const dialTrack = document.querySelector('.dial-track');
-  let di = -1;
+  function setStd(i) {
+    if (i === si) return; si = i;
+    cos.forEach((c, j) => c.classList.toggle('on', j === i));
+    bars.forEach((b, j) => b.classList.toggle('on', j <= i));
+    stdIdx.textContent = `[ 0${i + 1} / 04 ]`;
+    [...leaders.children].forEach((g, j) => g.classList.toggle('on', j === i));
+  }
+  addEventListener('resize', drawLeaders);
 
   /* tabs */
   const tabs = [...document.querySelectorAll('[role="tab"]')];
@@ -556,16 +634,14 @@ h1, h2, h3, p { margin: 0; }
       const n = Math.round(p * words.length * 1.1);
       words.forEach((w, i) => w.classList.toggle('on', i < n));
     }
-    const dp = prog(dialTrack), d = reduce ? 0 : Math.min(2, Math.floor(dp * 3));
-    needle.setAttribute('transform', `rotate(${(-78 + dp * 156).toFixed(1)})`);
-    if (d !== di) { di = d; dialTabs.forEach((x, i) => x.classList.toggle('on', reduce || i === d)); dialLabel.textContent = dialNames[d]; dialIcon.innerHTML = ICONS[d]; }
+    const sp = prog(stdTrack); setStd(reduce ? 3 : Math.min(3, Math.floor(sp * 4)));
     const ep = prog(equipTrack);
     setEquip(Math.min(4, Math.floor(ep * 5)));
     ringArc.setAttribute('stroke-dasharray', `${(ep * 1483).toFixed(0)} 1483`);
   }
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
-  onScroll();
+  onScroll(); drawLeaders(); setStd(0);
 
   /* WebGL (from V4) */
   const canvas = document.getElementById('gl');
@@ -830,7 +906,8 @@ h1, h2, h3, p { margin: 0; }
 
     // hold a readable 3/4 front view and sway around it
     if (!reduce) spin += dt * .5;
-    const ry = -.45 + Math.sin(spin) * (isEquip ? .45 : .2) + mx * .25;
+    const fixed = best.dataset.ry !== undefined, base = fixed ? +best.dataset.ry : -.45;
+    const ry = base + Math.sin(spin) * (isEquip ? .45 : fixed ? .04 : .2) + mx * (fixed ? .04 : .25);
     const rx = (isEquip && keyName === 'cassette' ? -.55 : .22) + my * .1;
     group.rotation.y += (ry - group.rotation.y) * clamp(dt * 3);
     group.rotation.x += (rx - group.rotation.x) * clamp(dt * 3);
