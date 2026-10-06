@@ -108,26 +108,38 @@ h1, h2, h3, p { margin: 0; }
 .statement figure { grid-column: 8 / -1; margin: 0; display: grid; gap: 10px; }
 .statement figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; display: block; }
 
-/* 3 standard: drawing with callouts */
-.std { position: relative; z-index: 2; }
+/* 3 standard: list · product panel · value (same rhythm as the equipment block) */
+.std { position: relative; }
 .std-track { height: 400vh; }
-.std .sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-.std-anchor { position: absolute; left: 30%; right: 30%; top: 30%; bottom: 36%; }
-.leaders { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.leaders path { fill: none; stroke: var(--faint); stroke-width: 1; transition: stroke .3s; }
-.leaders circle { fill: var(--bg); stroke: var(--faint); stroke-width: 1; transition: fill .3s, stroke .3s; }
-.leaders .on path { stroke: var(--ink); }
-.leaders .on circle { fill: var(--orange); stroke: var(--orange); }
-.co { position: absolute; width: min(300px, 24vw); display: grid; gap: 6px; color: var(--faint); transition: color .3s; }
-.co .mono { color: inherit; }
-.co b { font-weight: 300; font-size: clamp(26px, 2.4vw, 36px); line-height: 1.1; letter-spacing: -.035em; }
-.co p { font-size: 15px; }
-.co.on { color: var(--ink); }
-.co.on p { color: var(--muted); }
-.co.tl { left: var(--m); top: 16%; } .co.tr { right: var(--m); top: 16%; text-align: right; }
-.co.br { right: var(--m); bottom: 18%; text-align: right; } .co.bl { left: var(--m); bottom: 18%; }
-.std-foot { position: absolute; left: 0; right: 0; bottom: 24px; align-items: center; }
-.steps-bar { display: grid; grid-template-columns: repeat(4, 1fr) auto; gap: 8px; align-items: center; }
+.std .sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: grid; grid-template-rows: 1fr auto; padding-top: 56px; }
+.std-grid { align-items: center; height: 100%; }
+.std-list { grid-column: 1 / 4; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); position: relative; z-index: 3; }
+.std-list li { border-bottom: 1px solid var(--line); }
+.std-list button { all: unset; box-sizing: border-box; cursor: pointer; width: 100%; display: grid; grid-template-columns: 40px 1fr; align-items: baseline; padding: 12px 0;
+  font-weight: 300; font-size: clamp(26px, 2.4vw, 38px); letter-spacing: -.03em; line-height: 1.15; color: rgba(36,54,63,.38); transition: color .3s, padding .3s; }
+.std-list button .mono { color: inherit; }
+.std-list button:hover { color: var(--muted); }
+.std-list button[aria-pressed="true"] { color: var(--ink); padding-left: 10px; }
+.std-list button[aria-pressed="true"] .mono { color: var(--orange-ink); }
+.std-list button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+.std-panel { grid-column: 4 / 10; position: relative; height: min(66vh, 620px); }
+.std-panel::before { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: 4px; background: var(--panel); }
+.std-panel > .mono { position: absolute; z-index: 3; }
+.std-panel .tl { left: 16px; top: 12px; } .std-panel .tr { right: 16px; top: 12px; }
+.std-panel .bl { left: 16px; bottom: 12px; } .std-panel .br { right: 16px; bottom: 12px; }
+.std-anchor { position: absolute; left: 12%; right: 12%; top: 26%; bottom: 26%; }
+.pin { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; overflow: visible; }
+.pin path { fill: none; stroke: var(--ink); stroke-width: 1; }
+.pin .halo { fill: none; stroke: var(--orange); stroke-width: 1; opacity: .5; transform-box: fill-box; transform-origin: center; animation: halo 1.8s ease-out infinite; }
+.pin .core { fill: var(--orange); }
+.pin text { font: 400 11px var(--mono); letter-spacing: .06em; fill: var(--ink); text-transform: uppercase; }
+.pin rect { fill: var(--white); stroke: var(--line); }
+@keyframes halo { from { transform: scale(.6); opacity: .7; } to { transform: scale(2.2); opacity: 0; } }
+.std-value { grid-column: 10 / -1; display: grid; gap: 12px; align-content: center; position: relative; z-index: 3; }
+.std-value strong { font-weight: 300; font-size: clamp(34px, 3.4vw, 52px); line-height: 1.05; letter-spacing: -.04em; }
+.std-value p { color: var(--muted); font-size: 16px; max-width: 30ch; }
+.std-foot { padding-block: 0 28px; }
+.steps-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .steps-bar i { height: 2px; background: var(--line); transition: background .3s; }
 .steps-bar i.on { background: var(--ink); }
 /* (old dial styles below are unused) */
@@ -264,11 +276,12 @@ h1, h2, h3, p { margin: 0; }
   .price { justify-items: start; text-align: left; }
   .hero .anchor { top: 12%; bottom: 58%; }
   .std-track { height: 300vh; }
-  .std-anchor { left: 8%; right: 8%; top: 12%; bottom: 62%; }
-  .co { position: static; width: auto; text-align: left !important; }
-  .callouts { position: absolute; left: var(--m); right: var(--m); bottom: 64px; display: grid; gap: 10px; }
-  .co:not(.on) { display: none; }
-  .std-foot { bottom: 16px; }
+  .std-grid { grid-template-rows: auto auto auto; align-content: center; row-gap: 16px; }
+  .std-panel { grid-row: 1; height: 38vh; }
+  .std-list { grid-row: 2; }
+  .std-list button { font-size: 22px; padding: 6px 0; }
+  .std-value { grid-row: 3; }
+  .std-value strong { font-size: 28px; }
   .illo { grid-column: 1 / -1; }
   .cells > div { padding: 16px 6px 20px; }
   .cells .mono { font-size: 9px; }
@@ -335,18 +348,25 @@ h1, h2, h3, p { margin: 0; }
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">3</span>Монтаж</h2>
       <p class="aside" data-reveal>Каждый объект начинается со сметы и проекта. После запуска покажем управление и оставим гарантию по договору.</p></div>
   </section>
-  <section class="std" data-scene="split" data-ry="-0.18" data-anchor=".std-anchor" aria-label="Стандарт монтажа">
+  <section class="std" data-scene="split" data-ry="-0.22" data-anchor=".std-anchor" aria-label="Стандарт монтажа">
     <div class="std-track" id="stdTrack">
       <div class="sticky">
-        <div class="std-anchor" aria-hidden="true"></div>
-        <svg class="leaders" id="leaders" aria-hidden="true"></svg>
-        <div class="callouts" id="callouts">
-          <div class="co tl on"><span class="mono">[ 01 ] кронштейн</span><b>По уровню</b><p>Блок висит ровно, конденсат уходит в дренаж, а не на обои.</p></div>
-          <div class="co tr"><span class="mono">[ 02 ] трасса</span><b>до <span class="ph">[X]</span> м в цене</b><p>Медь в теплоизоляции, без заломов и лишних соединений.</p></div>
-          <div class="co br"><span class="mono">[ 03 ] вакуум</span><b>≤ 500 мкм</b><p>Убираем воздух и влагу из контура перед запуском.</p></div>
-          <div class="co bl"><span class="mono">[ 04 ] запуск</span><b>1 день</b><p>Проверяем давление и температуру на выходе, показываем управление.</p></div>
+        <div class="grid std-grid">
+          <ol class="std-list" id="stdList" aria-label="Этапы монтажа">
+            <li><button type="button" aria-pressed="true" data-i="0"><span class="mono">01</span>Кронштейн</button></li>
+            <li><button type="button" aria-pressed="false" data-i="1"><span class="mono">02</span>Трасса</button></li>
+            <li><button type="button" aria-pressed="false" data-i="2"><span class="mono">03</span>Вакуум</button></li>
+            <li><button type="button" aria-pressed="false" data-i="3"><span class="mono">04</span>Запуск</button></li>
+          </ol>
+          <div class="std-panel">
+            <span class="mono brk tl">тех</span><span class="mono brk tr" id="stdIdx">01 / 04</span>
+            <div class="std-anchor" aria-hidden="true"></div>
+            <svg class="pin" id="pin" aria-hidden="true"></svg>
+            <span class="mono brk bl">сплит-система</span><span class="mono brk br">стандарт</span>
+          </div>
+          <div class="std-value" aria-live="polite"><strong id="stdVal">По уровню</strong><p id="stdTxt">Блок висит ровно, конденсат уходит в дренаж, а не на обои.</p></div>
         </div>
-        <div class="grid std-foot"><span class="mono c1-6">Стандарт монтажа сплит-системы</span><div class="steps-bar c7-12"><i></i><i></i><i></i><i></i><span class="mono" id="stdIdx">[ 01 / 04 ]</span></div></div>
+        <div class="grid std-foot"><div class="steps-bar c1-12"><i class="on"></i><i></i><i></i><i></i></div></div>
       </div>
     </div>
   </section>
@@ -547,32 +567,41 @@ h1, h2, h3, p { margin: 0; }
     return [...el.querySelectorAll('.w')];
   });
 
-  /* standard callouts */
-  const stdTrack = document.getElementById('stdTrack'), leaders = document.getElementById('leaders');
-  const cos = [...document.querySelectorAll('#callouts .co')], bars = [...document.querySelectorAll('.steps-bar i')], stdIdx = document.getElementById('stdIdx');
-  const stdAnchor = document.querySelector('.std-anchor');
-  const TARGET = [[.12, .25], [.92, .3], [.95, .62], [.5, .85]]; // points on the unit, as fractions of its slot
+  /* standard: list + pinned point on the unit */
+  const STD = [
+    { v: 'По уровню', t: 'Блок висит ровно, конденсат уходит в дренаж, а не на обои.', p: [.08, .2], label: 'кронштейн', side: -1 },
+    { v: 'до [X] м в цене', t: 'Медь в теплоизоляции, без заломов и лишних соединений.', p: [.96, .32], label: 'трасса', side: 1 },
+    { v: '≤ 500 мкм', t: 'Убираем воздух и влагу из контура перед запуском.', p: [.94, .7], label: 'вакуум', side: 1 },
+    { v: '1 день', t: 'Проверяем давление и температуру на выходе, показываем управление.', p: [.45, .9], label: 'запуск', side: -1 }
+  ];
+  const stdTrack = document.getElementById('stdTrack'), pin = document.getElementById('pin'), stdAnchor = document.querySelector('.std-anchor');
+  const stdBtns = [...document.querySelectorAll('#stdList button')], bars = [...document.querySelectorAll('.steps-bar i')];
+  const stdIdx = document.getElementById('stdIdx'), stdVal = document.getElementById('stdVal'), stdTxt = document.getElementById('stdTxt');
   let si = -1;
-  function drawLeaders() {
-    if (mobile) { leaders.innerHTML = ''; return; }
-    const box = leaders.getBoundingClientRect(), a = stdAnchor.getBoundingClientRect();
-    leaders.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
-    leaders.innerHTML = cos.map((c, i) => {
-      const r = c.getBoundingClientRect(), right = c.classList.contains('tr') || c.classList.contains('br');
-      const sx = right ? r.left - box.left - 16 : r.right - box.left + 16, sy = r.top - box.top + 14;
-      const tx = a.left - box.left + a.width * TARGET[i][0], ty = a.top - box.top + a.height * TARGET[i][1];
-      const mx = sx + (right ? -40 : 40);
-      return `<g class="${i === si ? 'on' : ''}"><path d="M${sx} ${sy}H${mx}L${tx} ${ty}"/><circle cx="${tx}" cy="${ty}" r="4"/></g>`;
-    }).join('');
+  function drawPin() {
+    if (si < 0) return;
+    const s = STD[si], box = pin.getBoundingClientRect(), a = stdAnchor.getBoundingClientRect();
+    const x = a.left - box.left + a.width * s.p[0], y = a.top - box.top + a.height * s.p[1];
+    const up = s.p[1] > .6 ? 1 : -1, ex = x + s.side * 48, ey = y + up * 44, w = s.label.length * 7.4 + 20;
+    let lx = s.side > 0 ? ex : ex - w;
+    lx = Math.max(8, Math.min(box.width - w - 8, lx));
+    pin.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
+    pin.innerHTML = `<path d="M${x} ${y}L${ex} ${ey}"/><circle class="halo" cx="${x}" cy="${y}" r="8"/><circle class="core" cx="${x}" cy="${y}" r="4"/>
+      <rect x="${lx}" y="${ey - 11}" width="${w}" height="22" rx="2"/><text x="${lx + 10}" y="${ey + 4}">${s.label}</text>`;
   }
   function setStd(i) {
     if (i === si) return; si = i;
-    cos.forEach((c, j) => c.classList.toggle('on', j === i));
+    stdBtns.forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
     bars.forEach((b, j) => b.classList.toggle('on', j <= i));
-    stdIdx.textContent = `[ 0${i + 1} / 04 ]`;
-    [...leaders.children].forEach((g, j) => g.classList.toggle('on', j === i));
+    stdIdx.textContent = `0${i + 1} / 04`;
+    stdVal.innerHTML = STD[i].v.replace('[X]', '<span class="ph">[X]</span>'); stdTxt.textContent = STD[i].t;
+    drawPin();
   }
-  addEventListener('resize', drawLeaders);
+  stdBtns.forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.i, top = stdTrack.getBoundingClientRect().top + scrollY, span = stdTrack.offsetHeight - innerHeight;
+    scrollTo({ top: top + span * ((i + .5) / 4), behavior: reduce ? 'auto' : 'smooth' }); setStd(i);
+  }));
+  addEventListener('resize', drawPin);
 
   /* tabs */
   const tabs = [...document.querySelectorAll('[role="tab"]')];
@@ -641,7 +670,7 @@ h1, h2, h3, p { margin: 0; }
   }
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
-  onScroll(); drawLeaders(); setStd(0);
+  setStd(0); onScroll();
 
   /* WebGL (from V4) */
   const canvas = document.getElementById('gl');
