@@ -247,32 +247,33 @@ h1, h2, h3, p { margin: 0; }
 .trust-tiles li:hover img { filter: none; opacity: 1; }
 .lg-mfc { height: clamp(52px, 4.6vw, 72px); } .lg-5ka { height: clamp(28px, 2.4vw, 38px); } .lg-mf { height: clamp(22px, 1.9vw, 30px); }
 .trust-say { max-width: 22em; margin: clamp(64px, 10vh, 120px) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
-/* 2 prices */
-.px { padding-top: 24px; row-gap: 48px; align-items: start; }
-.px-main { grid-column: 1 / 7; display: grid; gap: 18px; align-content: start; }
-.px-main > .mono { color: var(--orange-ink); }
-.px-price { display: flex; align-items: flex-start; gap: .12em; font-weight: 300; line-height: .82; letter-spacing: -.06em; }
-.px-price b { font-weight: 300; font-size: clamp(96px, 11vw, 196px); font-variant-numeric: tabular-nums; transition: opacity .2s ease, transform .35s cubic-bezier(.2,.7,.2,1); }
-.px-price span { font-size: clamp(36px, 3.6vw, 64px); margin-top: .18em; color: var(--muted); letter-spacing: 0; }
-.px.swap .px-price b, .px.swap .px-for { opacity: 0; transform: translateY(10px); }
-.px-for { margin: 6px 0 10px; display: grid; gap: 4px; transition: opacity .2s ease, transform .35s cubic-bezier(.2,.7,.2,1); }
-.px-for span:first-child { font-size: clamp(22px, 1.9vw, 30px); letter-spacing: -.02em; }
-.px-for span:last-child { color: var(--muted); }
-.px-side { grid-column: 8 / -1; display: grid; gap: 14px; align-content: start; }
-.px-index { border-top: 1px solid var(--ink); }
-.px-index button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 14px minmax(0, 1fr) auto auto; align-items: baseline; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); color: var(--faint); transition: color .25s ease; }
-.px-index button span:not(.mono) { font-size: clamp(22px, 1.9vw, 30px); letter-spacing: -.025em; }
-.px-index button .mono { color: inherit; }
-.px-index button b { font-weight: 400; font-size: 17px; }
-.px-index button i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; align-self: center; opacity: 0; transition: opacity .25s; }
-.px-index button:hover { color: var(--muted); }
-.px-index button[aria-selected="true"] { color: var(--ink); }
-.px-index button[aria-selected="true"] i { opacity: 1; background: var(--orange); }
-.px-index button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
-.px-inc-label { margin-top: 18px; }
-.px-inc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
-.px-inc li { position: relative; padding: 9px 0 9px 18px; border-bottom: 1px dashed var(--line); font-size: 15px; }
-.px-inc li::before { content: ""; position: absolute; left: 0; top: 17px; width: 6px; height: 1px; background: var(--ink); }
+/* 2 prices: spec-sheet table, columns = packages */
+.spec { margin: 24px var(--m) 0; display: grid; grid-template-columns: minmax(0, 1.1fr) repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(6, auto); border-top: 1px solid var(--ink); }
+.spec-col { grid-row: 1 / -1; display: grid; grid-template-rows: subgrid; position: relative; transition: background .3s ease; }
+.spec-col + .spec-col { border-left: 1px solid var(--line); }
+.spec-col.hot { background: #F1F3F4; }
+.spec-col:not(.spec-labels):hover { background: #ECEFF1; }
+.spec .c { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; align-items: center; gap: 10px; min-width: 0; }
+.spec-labels .c { padding-left: 0; font: 400 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.spec-labels .c:last-child { border-bottom: 0; }
+.c-name { justify-content: space-between; }
+.c-name .mono { color: var(--ink); }
+.spec-badge { padding: 0 8px; border-radius: 999px; background: var(--orange); color: #fff !important; line-height: 1.9; font-size: 10px; }
+.c-kw { font-size: clamp(22px, 1.8vw, 28px); letter-spacing: -.025em; }
+.c-use { color: var(--muted); font-size: 15px; line-height: 1.4; }
+.c-price b { font-weight: 300; font-size: clamp(30px, 2.6vw, 42px); letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.spec .c-cta { border-bottom: 0; padding-top: 18px; padding-bottom: 22px; }
+.spec-link { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 16px; border-radius: 4px; background: var(--black); color: #fff; text-decoration: none; font-size: 15px; transition: background .2s; }
+.spec-link:hover { background: #333; }
+.spec-col:not(.hot) .spec-link { background: #ECEEEF; color: var(--ink); }
+.spec-col:not(.hot) .spec-link:hover { background: #E0E3E5; }
+.spec-link:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.px-row { margin-top: clamp(56px, 9vh, 96px); row-gap: 20px; align-items: start; }
+.px-row-head { grid-column: 1 / 5; display: grid; gap: 10px; }
+.px-row-head p { margin: 0; color: var(--muted); max-width: 28ch; }
+.px-inc { grid-column: 6 / -1; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 32px; border-top: 1px solid var(--ink); }
+.px-inc li { position: relative; padding: 13px 0 13px 18px; border-bottom: 1px solid var(--line); font-size: 15px; }
+.px-inc li::before { content: ""; position: absolute; left: 0; top: 23px; width: 8px; height: 1px; background: var(--orange); }
 .px-extra { margin-top: clamp(72px, 11vh, 128px); padding-bottom: clamp(72px, 11vh, 128px); row-gap: 24px; align-items: start; }
 .px-extra-head { grid-column: 1 / 5; display: grid; gap: 10px; align-content: start; }
 .px-extra-head h3 { margin: 6px 0 0; font-weight: 300; font-size: clamp(30px, 2.8vw, 44px); line-height: 1; letter-spacing: -.04em; }
@@ -454,11 +455,14 @@ h1, h2, h3, p { margin: 0; }
   .trust-tiles li { height: 84px; }
   .lg-mfc { height: 42px; } .lg-5ka { height: 18px; } .lg-mf { height: 15px; }
   .corner { display: none; }
-  .px-main, .px-side, .px-extra-head, .px-table { grid-column: 1 / -1; }
-  .px-price b { font-size: 88px; }
+  .spec { grid-template-columns: 1fr; grid-template-rows: none; gap: 12px; border-top: 0; }
+  .spec-labels { display: none !important; }
+  .spec-col { grid-row: auto; display: block; border: 1px solid var(--line) !important; border-radius: 8px; }
+  .spec .c { padding: 12px 16px; justify-content: space-between; }
+  .spec .c[data-l]:not(.c-name)::before { content: attr(data-l); font: 400 10px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); flex: none; }
+  .c-use { text-align: right; }
+  .px-row-head, .px-inc, .px-extra-head, .px-table { grid-column: 1 / -1; }
   .px-inc, .px-table { grid-template-columns: 1fr; }
-  .px-index button { grid-template-columns: 10px minmax(0, 1fr) auto; }
-  .px-index button .mono { display: none; }
   .wk-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: 0; padding-inline: var(--m); scroll-padding-inline: var(--m); }
   .wk-grid::-webkit-scrollbar { display: none; }
   .b2b-photo video { aspect-ratio: 4 / 3; }
@@ -539,23 +543,36 @@ h1, h2, h3, p { margin: 0; }
     <div class="rule"></div>
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">2</span>Цены</h2>
       <p class="aside">Цена фиксируется в смете до начала работ и не растёт на месте. Кондиционер, купленный не у нас, ставим по тем же ценам.</p></div>
-    <div class="grid px" id="px" data-k="1">
-      <div class="px-main">
-        <span class="mono" id="pxKicker">монтаж под ключ · пакет M</span>
-        <div class="px-price" aria-live="polite"><b id="pxPrice">18 900</b><span>₽</span></div>
-        <p class="px-for"><span id="pxPower">4–6 кВт · до 60 м²</span><span id="pxUse">Гостиная, студия, небольшой офис</span></p>
-        <div class="row"><a class="btn btn-ink" href="#contact" id="pxCta">Рассчитать мой объект <i>↗</i></a><a class="btn btn-soft" href="tel:+73510000000">Позвонить</a></div>
+    <div class="spec" role="table" aria-label="Пакеты монтажа">
+      <div class="spec-col spec-labels" role="rowgroup" aria-hidden="true"><div class="c">Пакет</div><div class="c">Мощность</div><div class="c">Площадь</div><div class="c">Подходит для</div><div class="c">Монтаж под ключ</div><div class="c"></div></div>
+      <div class="spec-col" role="rowgroup">
+        <div class="c c-name" data-l="Пакет"><span class="mono">Пакет S</span></div>
+        <div class="c c-kw" data-l="Мощность">2–3,5 кВт</div>
+        <div class="c" data-l="Площадь">до 35 м²</div>
+        <div class="c c-use" data-l="Подходит для">Спальня, детская, кабинет</div>
+        <div class="c c-price" data-l="Монтаж под ключ"><b>14 900 ₽</b></div>
+        <div class="c c-cta"><a class="spec-link" href="#contact" data-pk="S">Рассчитать мой объект <i aria-hidden="true">↗</i></a></div>
       </div>
-      <div class="px-side">
-        <span class="mono">Мощность кондиционера</span>
-        <div class="px-index" role="tablist" aria-label="Пакеты по мощности">
-          <button role="tab" aria-selected="false" tabindex="-1" data-code="S" data-kw="2–3,5 кВт" data-area="до 35 м²" data-price="14 900" data-use="Спальня, детская, кабинет"><i aria-hidden="true"></i><span>2–3,5 кВт</span><span class="mono">до 35 м²</span><b>14 900 ₽</b></button>
-          <button role="tab" aria-selected="true" data-code="M" data-kw="4–6 кВт" data-area="до 60 м²" data-price="18 900" data-use="Гостиная, студия, небольшой офис"><i aria-hidden="true"></i><span>4–6 кВт</span><span class="mono">до 60 м²</span><b>18 900 ₽</b></button>
-          <button role="tab" aria-selected="false" tabindex="-1" data-code="L" data-kw="7–9 кВт" data-area="до 90 м²" data-price="24 900" data-use="Кухня-гостиная, магазин, open space"><i aria-hidden="true"></i><span>7–9 кВт</span><span class="mono">до 90 м²</span><b>24 900 ₽</b></button>
-        </div>
-        <span class="mono px-inc-label">Входит в каждый пакет</span>
-        <ul class="px-inc"><li>Выезд и замер</li><li>Трасса до 3 м, медь в изоляции</li><li>Кронштейны наружного блока</li><li>Отверстие в стене до 50 см</li><li>Дренаж наружу</li><li>Вакуумирование и проверка утечек</li><li>Подключение к готовой розетке</li><li>Запуск и инструктаж</li><li>Уборка после работ</li></ul>
+      <div class="spec-col hot" role="rowgroup">
+        <div class="c c-name" data-l="Пакет"><span class="mono">Пакет M</span><span class="spec-badge mono">чаще всего</span></div>
+        <div class="c c-kw" data-l="Мощность">4–6 кВт</div>
+        <div class="c" data-l="Площадь">до 60 м²</div>
+        <div class="c c-use" data-l="Подходит для">Гостиная, студия, небольшой офис</div>
+        <div class="c c-price" data-l="Монтаж под ключ"><b>18 900 ₽</b></div>
+        <div class="c c-cta"><a class="spec-link" href="#contact" data-pk="M">Рассчитать мой объект <i aria-hidden="true">↗</i></a></div>
       </div>
+      <div class="spec-col" role="rowgroup">
+        <div class="c c-name" data-l="Пакет"><span class="mono">Пакет L</span></div>
+        <div class="c c-kw" data-l="Мощность">7–9 кВт</div>
+        <div class="c" data-l="Площадь">до 90 м²</div>
+        <div class="c c-use" data-l="Подходит для">Кухня-гостиная, магазин, open space</div>
+        <div class="c c-price" data-l="Монтаж под ключ"><b>24 900 ₽</b></div>
+        <div class="c c-cta"><a class="spec-link" href="#contact" data-pk="L">Рассчитать мой объект <i aria-hidden="true">↗</i></a></div>
+      </div>
+    </div>
+    <div class="grid px-row">
+      <div class="px-row-head"><span class="mono dot">Входит в каждый пакет</span><p>Всё, что нужно для стандартного монтажа, уже в цене.</p></div>
+      <ul class="px-inc"><li>Выезд и замер</li><li>Трасса до 3 м, медь в изоляции</li><li>Кронштейны наружного блока</li><li>Отверстие в стене до 50 см</li><li>Дренаж наружу</li><li>Вакуумирование и проверка утечек</li><li>Подключение к готовой розетке</li><li>Запуск и инструктаж</li><li>Уборка после работ</li></ul>
     </div>
     <div class="grid px-extra">
       <div class="px-extra-head"><span class="mono dot">Дополнительно</span><h3>Если понадобится</h3><p>Считаем на замере и сразу вносим в смету.</p></div>
@@ -940,24 +957,10 @@ h1, h2, h3, p { margin: 0; }
     const b = e.target.closest('button'); if (!b) return;
     g.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); qcSel[g.dataset.q] = b.textContent; qcUpdate();
   }));
-  /* prices: package index drives the big price */
-  const px = document.getElementById('px'), pxBtns = [...px.querySelectorAll('.px-index button')];
-  let pxT = 0;
-  function pxSet(i) {
-    const b = pxBtns[i]; px.dataset.k = i;
-    pxBtns.forEach((x, j) => { x.setAttribute('aria-selected', j === i); x.tabIndex = j === i ? 0 : -1; });
-    const fill = () => { document.getElementById('pxPrice').textContent = b.dataset.price; document.getElementById('pxPower').textContent = `${b.dataset.kw} · ${b.dataset.area}`;
-      document.getElementById('pxUse').textContent = b.dataset.use; document.getElementById('pxKicker').textContent = `монтаж под ключ · пакет ${b.dataset.code}`; px.classList.remove('swap'); };
-    px.classList.add('swap'); clearTimeout(pxT); pxT = setTimeout(fill, reduce ? 0 : 180);
-  }
-  pxBtns.forEach((b, i) => {
-    b.addEventListener('click', () => pxSet(i));
-    b.addEventListener('keydown', e => { const d = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0; if (d) { e.preventDefault(); const n = (i + d + 3) % 3; pxBtns[n].focus(); pxSet(n); } });
-  });
-  document.getElementById('pxCta').addEventListener('click', () => {
-    const i = +px.dataset.k, g = document.querySelector('.qc-chips[data-q="pw"]');
+  document.querySelectorAll('[data-pk]').forEach(a => a.addEventListener('click', () => {
+    const i = { S: 0, M: 1, L: 2 }[a.dataset.pk], g = document.querySelector('.qc-chips[data-q="pw"]');
     g.querySelectorAll('button').forEach((x, j) => x.setAttribute('aria-pressed', j === i)); qcSel.pw = g.children[i].textContent; qcUpdate();
-  });
+  }));
   /* reviews carousel */
   const rvTrack = document.getElementById('rvTrack'), rvPrev = document.getElementById('rvPrev'), rvNext = document.getElementById('rvNext');
   const rvStep = () => rvTrack.firstElementChild.getBoundingClientRect().width + 16;
