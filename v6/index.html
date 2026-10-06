@@ -278,6 +278,72 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .trust-tiles li:hover img { filter: none; opacity: 1; }
 .lg-mfc { height: clamp(52px, 4.6vw, 72px); } .lg-5ka { height: clamp(28px, 2.4vw, 38px); } .lg-mf { height: clamp(22px, 1.9vw, 30px); }
 .trust-say { max-width: 22em; margin: clamp(64px, 10vh, 120px) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
+/* price variants switcher (temporary) */
+.vsw-wrap { padding: 8px var(--m) 4px; }
+.vsw { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.vsw .mono { margin-right: 6px; }
+.vsw button { all: unset; cursor: pointer; font-size: 14px; min-height: 36px; padding: 0 14px; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); transition: all .2s; }
+.vsw button:hover { color: var(--ink); border-color: var(--faint); }
+.vsw button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.vsw button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+/* B: area slider */
+.pb { padding-top: 28px; row-gap: 32px; align-items: stretch; }
+.pb-in { grid-column: 1 / 7; display: grid; gap: 14px; align-content: start; padding-top: 22px; border-top: 1px solid var(--ink); }
+.pb-area { font-weight: 300; font-size: clamp(64px, 6.4vw, 104px); line-height: .9; letter-spacing: -.06em; font-variant-numeric: tabular-nums; }
+.pb-area span { font-size: .34em; letter-spacing: 0; margin-left: .2em; color: var(--muted); }
+.pb-range { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; margin: 8px 0 0; background: transparent; cursor: pointer; }
+.pb-range::-webkit-slider-runnable-track { height: 2px; background: linear-gradient(90deg, var(--ink) var(--p, 19%), var(--line) var(--p, 19%)); }
+.pb-range::-moz-range-track { height: 2px; background: var(--line); } .pb-range::-moz-range-progress { height: 2px; background: var(--ink); }
+.pb-range::-webkit-slider-thumb { -webkit-appearance: none; width: 28px; height: 28px; margin-top: -13px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); box-shadow: 0 0 0 6px rgba(244,121,32,.18); }
+.pb-range::-moz-range-thumb { width: 24px; height: 24px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); box-shadow: 0 0 0 6px rgba(244,121,32,.18); }
+.pb-range:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.pb-zones { display: grid; grid-template-columns: 25fr 25fr 30fr; font: 400 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.pb-zones span { padding-top: 8px; border-top: 1px dashed var(--line); }
+.pb-zones span + span { padding-left: 10px; border-left: 1px solid var(--line); }
+.pb-hint { margin: 6px 0 0; color: var(--muted); max-width: 46ch; }
+.pb-out { grid-column: 8 / -1; display: grid; gap: 12px; align-content: start; padding: 28px; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+.pb-out > .mono { color: var(--orange-ink); }
+.pb-kw { font-weight: 300; font-size: clamp(34px, 3vw, 48px); line-height: 1; letter-spacing: -.04em; }
+.pb-use { margin: 0; color: var(--muted); }
+.pb-price { display: grid; gap: 2px; padding-top: 16px; margin-top: 6px; border-top: 1px solid var(--line); }
+.pb-price b { font-weight: 300; font-size: clamp(40px, 3.6vw, 56px); line-height: 1; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
+.pb-out .btn { justify-self: start; margin-top: 8px; }
+.pb-kw, .pb-use, .pb-price b, .pb-out > .mono { transition: opacity .2s ease, transform .3s cubic-bezier(.2,.7,.2,1); }
+.pb-out.swap .pb-kw, .pb-out.swap .pb-use, .pb-out.swap .pb-price b, .pb-out.swap > .mono { opacity: 0; transform: translateY(6px); }
+/* C: ruler */
+.pc { position: relative; margin: 28px var(--m) 0; padding-top: 8px; }
+.pc-ruler { position: absolute; left: 0; right: 0; top: 112px; height: 1px; background: var(--line);
+  background-image: repeating-linear-gradient(90deg, var(--faint) 0 1px, transparent 1px 2%); background-size: 100% 9px; background-repeat: no-repeat; background-position: 0 -4px; }
+.pc-fill { position: absolute; left: 0; top: -.5px; height: 2px; width: 50%; background: var(--orange); transition: width .5s cubic-bezier(.2,.7,.2,1); }
+.pc-stops { position: relative; height: 230px; }
+.pc-stop { all: unset; box-sizing: border-box; cursor: pointer; position: absolute; top: 0; left: var(--x); transform: translateX(-50%); width: min(30%, 320px); display: grid; justify-items: center; text-align: center; gap: 6px; color: var(--faint); transition: color .3s ease; }
+.pc-stop .mono { color: inherit; }
+.pc-kw { font-size: clamp(26px, 2.2vw, 36px); letter-spacing: -.03em; line-height: 1.1; }
+.pc-dot { width: 12px; height: 12px; margin: 22px 0 18px; border-radius: 50%; background: var(--bg); border: 1.5px solid currentColor; transition: all .3s ease; }
+.pc-stop b { font-weight: 300; font-size: clamp(30px, 2.6vw, 42px); letter-spacing: -.04em; line-height: 1; }
+.pc-area { font-size: 14px; }
+.pc-stop:hover { color: var(--muted); }
+.pc-stop[aria-selected="true"] { color: var(--ink); }
+.pc-stop[aria-selected="true"] .pc-dot { background: var(--orange); border-color: var(--orange); box-shadow: 0 0 0 7px rgba(244,121,32,.18); transform: scale(1.15); }
+.pc-stop:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; border-radius: 6px; }
+.pc-detail { display: flex; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap; padding: 18px 0 4px; border-top: 1px solid var(--line); transition: opacity .2s ease; }
+.pc-detail p { margin: 0; color: var(--muted); font-size: 17px; }
+.pc.swap .pc-detail { opacity: 0; }
+/* D: rows */
+.pd { list-style: none; margin: 28px var(--m) 0; padding: 0; border-top: 1px solid var(--ink); }
+.pd-row { display: grid; grid-template-columns: 90px minmax(0, 1.1fr) minmax(0, .7fr) minmax(0, 1.4fr) auto 56px; align-items: center; gap: 24px; padding: 26px 20px; border-bottom: 1px solid var(--line); text-decoration: none; color: var(--ink); transition: background .35s ease, color .35s ease, padding .45s cubic-bezier(.2,.7,.2,1); }
+.pd-code { display: grid; gap: 4px; }
+.pd-code em { font-style: normal; color: var(--orange-ink); }
+.pd-kw { font-weight: 300; font-size: clamp(30px, 2.8vw, 46px); letter-spacing: -.04em; line-height: 1; }
+.pd-area { font-size: 17px; }
+.pd-use { color: var(--muted); }
+.pd-price { font-weight: 300; font-size: clamp(30px, 2.8vw, 46px); letter-spacing: -.04em; line-height: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.pd-go { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line); display: grid; place-items: center; justify-self: end; transition: all .35s ease; }
+.pd-go svg { width: 18px; height: 18px; transition: transform .35s cubic-bezier(.2,.7,.2,1); }
+.pd-row:hover, .pd-row:focus-visible { background: var(--ink); color: #fff; padding-left: 32px; outline: none; }
+.pd-row:hover .pd-use, .pd-row:focus-visible .pd-use, .pd-row:hover .pd-code, .pd-row:focus-visible .pd-code { color: rgba(255,255,255,.62); }
+.pd-row:hover .pd-go, .pd-row:focus-visible .pd-go { background: var(--orange); border-color: var(--orange); color: #fff; }
+.pd-row:hover .pd-go svg { transform: rotate(45deg); }
 /* 2 prices: spec-sheet table, columns = packages */
 .spec { margin: 24px var(--m) 0; display: grid; grid-template-columns: minmax(0, 1.1fr) repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(6, auto); border-top: 1px solid var(--ink); }
 .spec-col { grid-row: 1 / -1; display: grid; grid-template-rows: subgrid; position: relative; transition: background .3s ease; }
@@ -491,6 +557,18 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   .trust-tiles li { height: 84px; }
   .lg-mfc { height: 42px; } .lg-5ka { height: 18px; } .lg-mf { height: 15px; }
   .corner { display: none; }
+  .pb-in, .pb-out { grid-column: 1 / -1; }
+  .pb-zones { font-size: 9px; }
+  .pc-ruler { display: none; }
+  .pc-stops { height: auto; display: grid; gap: 8px; }
+  .pc-stop { position: static; transform: none; width: 100%; grid-template-columns: 1fr auto; justify-items: start; text-align: left; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; }
+  .pc-stop .mono { grid-column: 1 / -1; } .pc-dot { display: none; } .pc-stop b { grid-row: 2; grid-column: 2; font-size: 28px; } .pc-kw { font-size: 24px; } .pc-area { grid-column: 1 / -1; }
+  .pc-stop[aria-selected="true"] { border-color: var(--ink); }
+  .pc-detail { justify-content: flex-start; border-top: 0; }
+  .pd-row { grid-template-columns: 1fr auto; gap: 6px 16px; padding: 18px 4px; }
+  .pd-code { grid-column: 1 / -1; display: flex; gap: 10px; } .pd-kw { font-size: 28px; } .pd-price { font-size: 28px; grid-column: 2; grid-row: 2; }
+  .pd-area, .pd-use { grid-column: 1 / -1; font-size: 15px; } .pd-go { display: none; }
+  .pd-row:hover, .pd-row:focus-visible { padding-left: 12px; }
   .spec { grid-template-columns: 1fr; grid-template-rows: none; gap: 12px; border-top: 0; }
   .spec-labels { display: none !important; }
   .spec-col { grid-row: auto; display: block; border: 1px solid var(--line) !important; border-radius: 8px; }
@@ -610,6 +688,11 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     <div class="rule"></div>
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">2</span>Цены</h2>
       <p class="aside">Цена фиксируется в смете до начала работ и не растёт на месте. Кондиционер, купленный не у нас, ставим по тем же ценам.</p></div>
+    <div class="grid vsw-wrap"><div class="vsw c1-12" role="tablist" aria-label="Варианты блока цен">
+      <span class="mono">вариант блока:</span>
+      <button role="tab" data-v="a">A · таблица</button><button role="tab" data-v="b">B · подбор по площади</button><button role="tab" data-v="c">C · шкала</button><button role="tab" data-v="d">D · строки</button>
+    </div></div>
+    <div class="pv-pr" data-pv="a" hidden>
     <div class="spec" role="table" aria-label="Пакеты монтажа">
       <div class="spec-col spec-labels" role="rowgroup" aria-hidden="true"><div class="c">Пакет</div><div class="c">Мощность</div><div class="c">Площадь</div><div class="c">Подходит для</div><div class="c">Монтаж под ключ</div><div class="c"></div></div>
       <div class="spec-col" role="rowgroup">
@@ -636,6 +719,43 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
         <div class="c c-price" data-l="Монтаж под ключ"><b>24 900 ₽</b></div>
         <div class="c c-cta"><a class="spec-link" href="#contact" data-pk="L">Рассчитать мой объект <i aria-hidden="true">↗</i></a></div>
       </div>
+    </div>
+    </div>
+    <div class="pv-pr" data-pv="b" hidden>
+      <div class="grid pb">
+        <div class="pb-in">
+          <label class="mono" for="pbRange">Площадь помещения</label>
+          <output class="pb-area" id="pbArea" for="pbRange">25<span>м²</span></output>
+          <input class="pb-range" id="pbRange" type="range" min="10" max="90" step="1" value="25" aria-describedby="pbHint">
+          <div class="pb-zones" aria-hidden="true"><span>до 35 м² · S</span><span>до 60 м² · M</span><span>до 90 м² · L</span></div>
+          <p class="pb-hint" id="pbHint">Больше 90 м² или несколько комнат — посчитаем мульти-сплит или канальную систему.</p>
+        </div>
+        <div class="pb-out" aria-live="polite">
+          <span class="mono" id="pbKicker">вам подойдёт · пакет S</span>
+          <div class="pb-kw" id="pbKw">2–3,5 кВт</div>
+          <p class="pb-use" id="pbUse">Спальня, детская, кабинет</p>
+          <div class="pb-price"><span class="mono">монтаж под ключ</span><b id="pbPrice">14 900 ₽</b></div>
+          <a class="btn btn-ink" href="#contact" id="pbCta" data-pk="S">Рассчитать мой объект <i>↗</i></a>
+        </div>
+      </div>
+    </div>
+    <div class="pv-pr" data-pv="c" hidden>
+      <div class="pc" id="pc" data-k="1">
+        <div class="pc-ruler" aria-hidden="true"><i class="pc-fill" id="pcFill"></i></div>
+        <div class="pc-stops" role="tablist" aria-label="Мощность">
+          <button class="pc-stop" role="tab" aria-selected="false" tabindex="-1" style="--x:16.6%"><span class="mono">Пакет S</span><span class="pc-kw">2–3,5 кВт</span><i class="pc-dot" aria-hidden="true"></i><b>14 900 ₽</b><span class="pc-area">до 35 м²</span></button>
+          <button class="pc-stop" role="tab" aria-selected="true" style="--x:50%"><span class="mono">Пакет M · чаще всего</span><span class="pc-kw">4–6 кВт</span><i class="pc-dot" aria-hidden="true"></i><b>18 900 ₽</b><span class="pc-area">до 60 м²</span></button>
+          <button class="pc-stop" role="tab" aria-selected="false" tabindex="-1" style="--x:83.4%"><span class="mono">Пакет L</span><span class="pc-kw">7–9 кВт</span><i class="pc-dot" aria-hidden="true"></i><b>24 900 ₽</b><span class="pc-area">до 90 м²</span></button>
+        </div>
+        <div class="pc-detail" aria-live="polite"><p id="pcUse">Гостиная, студия, небольшой офис</p><a class="btn btn-ink" href="#contact" id="pcCta" data-pk="M">Рассчитать мой объект <i>↗</i></a></div>
+      </div>
+    </div>
+    <div class="pv-pr" data-pv="d" hidden>
+      <ol class="pd">
+        <li><a class="pd-row" href="#contact" data-pk="S"><span class="mono pd-code">S</span><span class="pd-kw">2–3,5 кВт</span><span class="pd-area">до 35 м²</span><span class="pd-use">Спальня, детская, кабинет</span><b class="pd-price">14 900 ₽</b><span class="pd-go"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 14L14 6M7 6h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li><a class="pd-row" href="#contact" data-pk="M"><span class="mono pd-code">M<em>чаще всего</em></span><span class="pd-kw">4–6 кВт</span><span class="pd-area">до 60 м²</span><span class="pd-use">Гостиная, студия, небольшой офис</span><b class="pd-price">18 900 ₽</b><span class="pd-go"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 14L14 6M7 6h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+        <li><a class="pd-row" href="#contact" data-pk="L"><span class="mono pd-code">L</span><span class="pd-kw">7–9 кВт</span><span class="pd-area">до 90 м²</span><span class="pd-use">Кухня-гостиная, магазин, open space</span><b class="pd-price">24 900 ₽</b><span class="pd-go"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 14L14 6M7 6h7v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a></li>
+      </ol>
     </div>
     <div class="grid px-row">
       <div class="px-row-head"><span class="mono dot">Входит в каждый пакет</span><p>Всё, что нужно для стандартного монтажа, уже в цене.</p></div>
@@ -1053,6 +1173,33 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     const b = e.target.closest('button'); if (!b) return;
     g.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); qcSel[g.dataset.q] = b.textContent; qcUpdate();
   }));
+  /* price variants (temporary switcher) */
+  const prSec = document.getElementById('prices'), vswBtns = [...prSec.querySelectorAll('.vsw button')], prVs = [...prSec.querySelectorAll('.pv-pr')];
+  function prSet(v) { vswBtns.forEach(b => b.setAttribute('aria-selected', b.dataset.v === v)); prVs.forEach(x => x.hidden = x.dataset.pv !== v); try { localStorage.setItem('csp-pr', v); } catch (e) {} }
+  vswBtns.forEach(b => b.addEventListener('click', () => prSet(b.dataset.v)));
+  { let v = new URLSearchParams(location.search).get('pr'); try { v = v || localStorage.getItem('csp-pr'); } catch (e) {} prSet(['a', 'b', 'c', 'd'].includes(v) ? v : 'b'); }
+  const PKS = [{ code: 'S', kw: '2–3,5 кВт', area: 'до 35 м²', use: 'Спальня, детская, кабинет', price: '14 900 ₽' },{ code: 'M', kw: '4–6 кВт', area: 'до 60 м²', use: 'Гостиная, студия, небольшой офис', price: '18 900 ₽' },{ code: 'L', kw: '7–9 кВт', area: 'до 90 м²', use: 'Кухня-гостиная, магазин, open space', price: '24 900 ₽' }];
+  /* B: area slider */
+  const pbRange = document.getElementById('pbRange'), pbOut = prSec.querySelector('.pb-out'); let pbK = 0, pbT = 0;
+  function pbSync() {
+    const v = +pbRange.value, k = v <= 35 ? 0 : v <= 60 ? 1 : 2, P = PKS[k];
+    document.getElementById('pbArea').firstChild.nodeValue = v; pbRange.style.setProperty('--p', ((v - 10) / 80 * 100).toFixed(1) + '%');
+    if (k === pbK && pbOut.dataset.ready) return; pbK = k; pbOut.dataset.ready = 1;
+    pbOut.classList.add('swap'); clearTimeout(pbT);
+    pbT = setTimeout(() => { document.getElementById('pbKicker').textContent = `вам подойдёт · пакет ${P.code}`; document.getElementById('pbKw').textContent = P.kw;
+      document.getElementById('pbUse').textContent = P.use; document.getElementById('pbPrice').textContent = P.price; document.getElementById('pbCta').dataset.pk = P.code; pbOut.classList.remove('swap'); }, reduce ? 0 : 160);
+  }
+  pbRange.addEventListener('input', pbSync); pbSync();
+  /* C: ruler */
+  const pc = document.getElementById('pc'), pcStops = [...pc.querySelectorAll('.pc-stop')]; let pcT = 0;
+  function pcSet(i) {
+    pcStops.forEach((b, j) => { b.setAttribute('aria-selected', j === i); b.tabIndex = j === i ? 0 : -1; });
+    document.getElementById('pcFill').style.width = [16.6, 50, 83.4][i] + '%';
+    pc.classList.add('swap'); clearTimeout(pcT);
+    pcT = setTimeout(() => { document.getElementById('pcUse').textContent = PKS[i].use; document.getElementById('pcCta').dataset.pk = PKS[i].code; pc.classList.remove('swap'); }, reduce ? 0 : 160);
+  }
+  pcStops.forEach((b, i) => { b.addEventListener('click', () => pcSet(i)); b.addEventListener('mouseenter', () => { if (matchMedia('(hover: hover)').matches) pcSet(i); });
+    b.addEventListener('keydown', e => { const d = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0; if (d) { e.preventDefault(); const n = (i + d + 3) % 3; pcStops[n].focus(); pcSet(n); } }); });
   document.querySelectorAll('[data-pk]').forEach(a => a.addEventListener('click', () => {
     const i = { S: 0, M: 1, L: 2 }[a.dataset.pk], g = document.querySelector('.qc-chips[data-q="pw"]');
     g.querySelectorAll('button').forEach((x, j) => x.setAttribute('aria-pressed', j === i)); qcSel.pw = g.children[i].textContent; qcUpdate();
