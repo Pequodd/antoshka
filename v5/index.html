@@ -158,32 +158,30 @@ h1, h2, h3, p { margin: 0; }
 .cells .mono { color: inherit; }
 .cells .on { color: var(--ink); }
 
-/* 4 services (aevion "Solutions") */
-.tabs { display: flex; flex-wrap: wrap; gap: 8px 32px; padding-block: 8px 24px; }
-.tab { all: unset; cursor: pointer; font-weight: 300; font-size: clamp(26px, 2.6vw, 38px); letter-spacing: -.03em; line-height: 1.3; color: var(--faint); border-bottom: 1px solid transparent; transition: color .25s, border-color .25s; }
+/* 4 services: tabs + short list on the left, one 3D object on the right */
+.svc { position: relative; }
+.svc-grid { padding-block: 24px clamp(80px, 12vh, 140px); align-items: stretch; }
+.svc-left { grid-column: 1 / 6; position: relative; z-index: 3; display: grid; gap: 28px; align-content: start; }
+.tabs { display: flex; flex-wrap: wrap; gap: 4px 28px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.tab { all: unset; cursor: pointer; font-weight: 300; font-size: clamp(24px, 2vw, 32px); letter-spacing: -.03em; line-height: 1.3; color: rgba(36,54,63,.38); border-bottom: 1px solid transparent; transition: color .25s, border-color .25s; }
 .tab:hover { color: var(--muted); }
 .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
-.tab:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
-.panel { padding-block: 40px 96px; row-gap: 40px; }
+.tab:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; border-radius: 2px; }
+.panel { display: grid; gap: 28px; }
 .panel[hidden] { display: none !important; }
-.illo { grid-column: 1 / 6; width: 100%; height: auto; display: block; }
-.illo .k { fill: none; stroke: var(--ink); stroke-width: 1.2; }
-.illo .f { fill: none; stroke: var(--faint); stroke-width: 1; }
-.illo .o { fill: none; stroke: var(--orange); stroke-width: 1.4; }
-.illo .od { fill: var(--orange); }
-.illo text { font: 400 10px var(--mono); fill: var(--muted); letter-spacing: .06em; }
-.panel .text { grid-column: 1 / 5; display: grid; gap: 16px; font-size: 16px; }
-.specs { grid-column: 1 / 5; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line); }
-.specs div { padding: 10px 12px 12px 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }
-.specs div:nth-child(odd) { border-right: 1px solid var(--line); }
-.specs div:nth-child(even) { padding-left: 12px; }
-.specs b { font-weight: 400; font-size: 20px; letter-spacing: -.02em; }
-.works { grid-column: 7 / -1; grid-row: 1 / span 3; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); align-self: start; }
-.works li { display: grid; grid-template-columns: 40px minmax(0, 1fr) minmax(0, 1.3fr); gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
-.works b { font-weight: 400; font-size: 20px; letter-spacing: -.02em; }
-.works span:last-child { color: var(--muted); font-size: 15px; }
-.tags { grid-column: 7 / -1; display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
-.tags span { font: 400 10px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; }
+.lede { font-weight: 300; font-size: clamp(22px, 1.9vw, 30px); line-height: 1.25; letter-spacing: -.025em; max-width: 24ch; }
+.works { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.works li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.works b { font-weight: 400; font-size: 19px; letter-spacing: -.015em; }
+.works span { color: var(--muted); font-size: 15px; text-align: right; }
+.svc-cta { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; }
+.svc-cta b { display: block; font-weight: 300; font-size: 32px; letter-spacing: -.035em; }
+.svc-visual { grid-column: 7 / -1; position: relative; min-height: min(64vh, 600px); }
+.svc-visual::before { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: 4px; background: var(--panel); }
+.svc-visual > .mono { position: absolute; z-index: 3; }
+.svc-visual .tl { left: 16px; top: 12px; } .svc-visual .tr { right: 16px; top: 12px; }
+.svc-visual .bl { left: 16px; bottom: 12px; } .svc-visual .br { right: 16px; bottom: 12px; }
+.svc-anchor { position: absolute; left: 14%; right: 14%; top: 22%; bottom: 22%; }
 
 /* 5 equipment — carried over from V4 */
 .equip { z-index: 2; background: transparent; }
@@ -282,13 +280,11 @@ h1, h2, h3, p { margin: 0; }
   .std-list button { font-size: 22px; padding: 6px 0; }
   .std-value { grid-row: 3; }
   .std-value strong { font-size: 28px; }
-  .illo { grid-column: 1 / -1; }
+  .svc-visual { grid-row: 1; min-height: 42vh; }
+  .svc-left { grid-row: 2; }
   .cells > div { padding: 16px 6px 20px; }
   .cells .mono { font-size: 9px; }
   .cells strong { font-size: 22px; }
-  .works li { grid-template-columns: 28px 1fr; }
-  .works span:last-child { grid-column: 2; }
-  .tags { justify-content: flex-start; }
   .ring { top: 36%; width: min(78vw, 40vh); }
   .equip ol { align-self: end; margin-right: 0; }
   .equip ol button { font-size: 26px; padding: 6px 0; grid-template-columns: 36px 1fr 12px; }
@@ -374,81 +370,53 @@ h1, h2, h3, p { margin: 0; }
   <!-- 4 -->
   <section class="sec" id="services">
     <div class="rule"></div>
-    <div class="grid title"><h2>Услуги</h2><span class="pill">4</span></div>
-    <div class="grid"><div class="tabs c1-12" role="tablist" aria-label="Направления">
-      <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true">Кондиционеры</button>
-      <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1">Вентиляция</button>
-      <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1">Электрика</button>
-    </div></div>
-    <div class="rule"></div>
-
-    <div class="grid panel" role="tabpanel" id="p1" aria-labelledby="t1">
-      <svg class="illo" viewBox="0 0 520 220" role="img" aria-label="Схема: внутренний блок, трасса и наружный блок">
-        <line class="f" x1="330" y1="10" x2="330" y2="210"/><text x="338" y="22">[ СТЕНА ]</text>
-        <rect class="k" x="40" y="40" width="230" height="58" rx="14"/><line class="k" x1="54" y1="84" x2="256" y2="84"/><rect class="k" x1="0" x="226" y="58" width="20" height="5"/>
-        <path class="f" d="M70 110c10 18 0 30 10 46M130 110c10 18 0 30 10 46M190 110c10 18 0 30 10 46"/><text x="40" y="176">[ ВОЗДУХ +22° ]</text>
-        <path class="o" d="M270 62h40v100h52"/><path class="o" d="M270 72h32v100h60" stroke-dasharray="4 4"/><circle class="od" cx="310" cy="62" r="3"/>
-        <rect class="k" x="362" y="120" width="130" height="86" rx="6"/><circle class="k" cx="410" cy="163" r="30"/><circle class="k" cx="410" cy="163" r="18"/><circle class="k" cx="410" cy="163" r="5"/>
-        <line class="k" x1="452" y1="134" x2="452" y2="192"/><line class="k" x1="462" y1="134" x2="462" y2="192"/><line class="k" x1="472" y1="134" x2="472" y2="192"/>
-        <text x="362" y="112">[ НАРУЖНЫЙ БЛОК ]</text><text x="276" y="54">[ ТРАССА ]</text></svg>
-      <div class="text"><p>Кондиционер подбираем по площади, числу людей и режиму работы. Предложим несколько моделей, чтобы было из чего выбрать.</p><p>После монтажа проверяем систему, показываем управление и рассказываем об уходе.</p></div>
-      <div class="specs">
-        <div><span class="mono">Монтаж</span><b>1 день</b></div><div><span class="mono">Гарантия</span><b><span class="ph">[X]</span> года</b></div>
-        <div><span class="mono">Трасса в базе</span><b>до <span class="ph">[X]</span> м</b></div><div><span class="mono">Цена</span><b>от XX XXX ₽</b></div>
+    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">4</span>Услуги</h2>
+      <p class="aside">Один подрядчик на климат, воздух и электрику: проект, монтаж и обслуживание.</p></div>
+  </section>
+  <section class="svc" id="svc" data-scene="split" data-ry="-0.4" data-anchor=".svc-anchor">
+    <div class="grid svc-grid">
+      <div class="svc-left">
+        <div class="tabs" role="tablist" aria-label="Направления">
+          <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true" data-shape="split">Кондиционеры</button>
+          <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1" data-shape="recup">Вентиляция</button>
+          <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1" data-shape="panel">Электрика</button>
+        </div>
+        <div class="panel" role="tabpanel" id="p1" aria-labelledby="t1">
+          <p class="lede">Подберём модель по площади и режиму, смонтируем за день и покажем управление.</p>
+          <ul class="works">
+            <li><b>Сплит и мультисплит</b><span>квартиры и офисы</span></li>
+            <li><b>Канальные</b><span>скрыты в потолке</span></li>
+            <li><b>Мобильные и оконные</b><span>для аренды</span></li>
+            <li><b>Обслуживание</b><span>чистка, ремонт</span></li>
+          </ul>
+          <div class="svc-cta"><div><span class="mono">Монтаж сплит-системы</span><b>от XX XXX ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
+        </div>
+        <div class="panel" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
+          <p class="lede">Свежий воздух без сквозняков и шума — считаем воздухообмен под ваше помещение.</p>
+          <ul class="works">
+            <li><b>Проектирование</b><span>расчёт и схема</span></li>
+            <li><b>Приток и вытяжка</b><span>тихие системы</span></li>
+            <li><b>Рекуператоры</b><span>возврат тепла</span></li>
+            <li><b>Обслуживание</b><span>фильтры, чистка</span></li>
+          </ul>
+          <div class="svc-cta"><div><span class="mono">Проект вентиляции</span><b>от XX XXX ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
+        </div>
+        <div class="panel" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
+          <p class="lede">Электрика, к которой не придётся возвращаться: защита в щите и проводка по схеме.</p>
+          <ul class="works">
+            <li><b>Электрощит</b><span>автоматы, УЗО</span></li>
+            <li><b>Проводка</b><span>новостройки, ремонт</span></li>
+            <li><b>Освещение</b><span>LED, точечный свет</span></li>
+            <li><b>Розетки и умный дом</b><span>под ключ</span></li>
+          </ul>
+          <div class="svc-cta"><div><span class="mono">Сборка электрощита</span><b>от XX XXX ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
+        </div>
       </div>
-      <ol class="works">
-        <li><span class="mono">01</span><b>Сплит-системы</b><span>Для квартир и офисов, односплит и мультисплит.</span></li>
-        <li><span class="mono">02</span><b>Канальные</b><span>Скрыты в потолке, воздух идёт по всему помещению.</span></li>
-        <li><span class="mono">03</span><b>Мобильные и оконные</b><span>Для съёмного жилья и небольших комнат.</span></li>
-        <li><span class="mono">04</span><b>Обслуживание и ремонт</b><span>Чистка, диагностика, дозаправка в любой сезон.</span></li>
-      </ol>
-      <div class="tags"><span>Квартиры</span><span>Дома</span><span>Офисы</span><span>Магазины</span></div>
-    </div>
-
-    <div class="grid panel" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
-      <svg class="illo" viewBox="0 0 520 220" role="img" aria-label="Схема: приточно-вытяжная вентиляция с рекуператором">
-        <line class="k" x1="20" y1="70" x2="190" y2="70"/><line class="k" x1="20" y1="100" x2="190" y2="100"/>
-        <line class="k" x1="330" y1="70" x2="500" y2="70"/><line class="k" x1="330" y1="100" x2="500" y2="100"/>
-        <rect class="k" x="190" y="45" width="140" height="80" rx="4"/><line class="k" x1="190" y1="45" x2="330" y2="125"/><line class="k" x1="330" y1="45" x2="190" y2="125"/>
-        <path class="o" d="M30 85h60m-10-8 10 8-10 8"/><text x="20" y="60">[ СВЕЖИЙ ВОЗДУХ ]</text>
-        <path class="f" d="M490 85h-60m10-8-10 8 10 8"/><text x="400" y="60">[ ВЫТЯЖКА ]</text>
-        <rect class="k" x="80" y="100" width="40" height="10"/><rect class="k" x="400" y="100" width="40" height="10"/>
-        <path class="o" d="M100 116v40m-6-8 6 8 6-8"/><path class="f" d="M420 156v-40m-6 8 6-8 6 8"/>
-        <text x="200" y="146">[ РЕКУПЕРАТОР ]</text><text x="200" y="160">возврат тепла</text></svg>
-      <div class="text"><p>Свежий воздух без сквозняков и шума. Каждый проект считаем под помещение и нужный воздухообмен.</p><p>Обслуживаем и ремонтируем уже установленные системы.</p></div>
-      <div class="specs">
-        <div><span class="mono">Проект</span><b>расчёт</b></div><div><span class="mono">Системы</span><b>приток · вытяжка</b></div>
-        <div><span class="mono">Рекуперация</span><b>возврат тепла</b></div><div><span class="mono">Цена</span><b>от XX XXX ₽</b></div>
+      <div class="svc-visual">
+        <span class="mono brk tl" id="svcTag">сплит-система</span><span class="mono brk tr" id="svcIdx">01 / 03</span>
+        <div class="svc-anchor" aria-hidden="true"></div>
+        <span class="mono brk bl">3D</span><span class="mono brk br">climate solution pro</span>
       </div>
-      <ol class="works">
-        <li><span class="mono">01</span><b>Проектирование</b><span>Воздухообмен для жилых и коммерческих объектов.</span></li>
-        <li><span class="mono">02</span><b>Приток и вытяжка</b><span>Механические и естественные системы, низкий шум.</span></li>
-        <li><span class="mono">03</span><b>Рекуператоры</b><span>Возвращают тепло уходящего воздуха, экономят на отоплении.</span></li>
-        <li><span class="mono">04</span><b>Обслуживание</b><span>Чистка воздуховодов, замена фильтров, диагностика.</span></li>
-      </ol>
-      <div class="tags"><span>Квартиры</span><span>Дома</span><span>Офисы</span><span>Торговые залы</span></div>
-    </div>
-
-    <div class="grid panel" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
-      <svg class="illo" viewBox="0 0 520 220" role="img" aria-label="Схема: электрощит с автоматами, УЗО и заземлением">
-        <rect class="k" x="170" y="20" width="180" height="180" rx="4"/><line class="k" x1="186" y1="70" x2="334" y2="70"/><line class="k" x1="186" y1="130" x2="334" y2="130"/>
-        <g class="k"><rect x="190" y="40" width="12" height="26"/><rect x="208" y="40" width="12" height="26"/><rect x="226" y="40" width="12" height="26"/><rect x="244" y="40" width="12" height="26"/><rect x="262" y="40" width="12" height="26"/><rect x="280" y="40" width="12" height="26"/><rect x="298" y="40" width="12" height="26"/><rect x="316" y="40" width="12" height="26"/><rect x="190" y="100" width="12" height="26"/><rect x="208" y="100" width="12" height="26"/><rect x="226" y="100" width="12" height="26"/><rect x="244" y="100" width="12" height="26"/><rect x="262" y="100" width="12" height="26"/><rect x="280" y="100" width="12" height="26"/></g>
-        <rect class="o" x="298" y="96" width="30" height="30"/><text x="296" y="146">[ УЗО ]</text>
-        <path class="k" d="M260 200v10m-14 0h28m-22 5h16m-10 5h4"/><text x="282" y="214">[ ЗАЗЕМЛЕНИЕ ]</text>
-        <path class="o" d="M196 40V10H40"/><path class="o" d="M214 40V4h-4"/><path class="f" d="M232 40V14h250"/><path class="f" d="M250 40V8h240"/>
-        <text x="40" y="30">[ ЛИНИИ ОСВЕЩЕНИЯ ]</text><text x="380" y="30">[ РОЗЕТКИ ]</text><text x="186" y="164">[ АВТОМАТЫ ]</text></svg>
-      <div class="text"><p>Электрика, к которой не придётся возвращаться: защита в щите, проводка по схеме, свет без тёмных углов.</p><p>Работаем в новостройках и при ремонте, модернизируем старые сети.</p></div>
-      <div class="specs">
-        <div><span class="mono">Защита</span><b>УЗО · автоматы</b></div><div><span class="mono">Заземление</span><b>в каждом щите</b></div>
-        <div><span class="mono">Проект</span><b>схема сети</b></div><div><span class="mono">Цена точки</span><b>от XXX ₽</b></div>
-      </div>
-      <ol class="works">
-        <li><span class="mono">01</span><b>Проект и сети</b><span>Схемы для новых объектов и модернизация старых.</span></li>
-        <li><span class="mono">02</span><b>Щит и защита</b><span>Автоматы, УЗО, заземление: меньше риск замыкания.</span></li>
-        <li><span class="mono">03</span><b>Проводка и свет</b><span>LED, точечные светильники, люстры.</span></li>
-        <li><span class="mono">04</span><b>Розетки и умный дом</b><span>Розетки, выключатели, управление техникой.</span></li>
-      </ol>
-      <div class="tags"><span>Новостройки</span><span>Ремонт</span><span>Офисы</span><span>Диагностика</span></div>
     </div>
   </section>
 
@@ -605,7 +573,12 @@ h1, h2, h3, p { margin: 0; }
 
   /* tabs */
   const tabs = [...document.querySelectorAll('[role="tab"]')];
-  function select(tab) { tabs.forEach(x => { const on = x === tab; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; }); }
+  const svc = document.getElementById('svc'), svcTag = document.getElementById('svcTag'), svcIdx = document.getElementById('svcIdx');
+  const SVC_TAG = { split: 'сплит-система', recup: 'рекуператор', panel: 'электрощит' };
+  function select(tab) {
+    tabs.forEach((x, i) => { const on = x === tab; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; if (on) svcIdx.textContent = `0${i + 1} / 03`; });
+    svc.dataset.scene = tab.dataset.shape; svcTag.textContent = SVC_TAG[tab.dataset.shape];
+  }
   tabs.forEach((x, i) => {
     x.addEventListener('click', () => select(x));
     x.addEventListener('keydown', e => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (d) { const n = tabs[(i + d + tabs.length) % tabs.length]; select(n); n.focus(); } });
@@ -749,6 +722,11 @@ h1, h2, h3, p { margin: 0; }
     }
     return { pos, col };
   }
+  SHAPES.panel = [
+    [.4, 1, () => boxEdge(1.3, 1.8, .34)], [.25, .38, () => boxSurf(1.3, 1.8, .34)],
+    [.17, .9, () => { const r = Math.floor(Math.random() * 3); return [rnd(-.5, .5), .5 - r * .45, .18]; }],
+    [.18, .8, () => boxEdge(1.1, 1.6, .02, 0, 0, .18)]
+  ];
   const shapes = {}; for (const k in SHAPES) shapes[k] = build(SHAPES[k]);
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.5 : 2));
@@ -843,6 +821,19 @@ h1, h2, h3, p { margin: 0; }
       [[0, .78, 1.5, .14], [0, -.78, 1.5, .14], [.78, 0, .14, 1.5], [-.78, 0, .14, 1.5]].forEach(([x, z, w, d]) => add(g, box(w, .02, d), DARK, x, -.115, z, false));
       add(g, box(.95, .02, .95), GRILLE, 0, -.115, 0, false);
       for (let i = -4; i <= 4; i++) add(g, box(.92, .025, .012), PANEL, 0, -.125, i * .1, false);
+      return g;
+    },
+    panel() {
+      const g = new THREE.Group();
+      add(g, rbox(1.3, 1.8, .34, .03), BODY);
+      add(g, box(1.14, 1.62, .02), PANEL, 0, 0, .18);
+      for (let r = 0; r < 3; r++) {
+        add(g, box(1.0, .05, .02), METAL, 0, .5 - r * .45 - .17, .2, false);
+        const n = r === 2 ? 5 : 8;
+        for (let i = 0; i < n; i++) add(g, box(.09, .26, .06), i === n - 1 && r === 1 ? DARK : M(i % 4 === 0 ? '#2A3940' : '#F2F4F5', .5), -.45 + i * .12, .5 - r * .45, .22);
+      }
+      add(g, box(.24, .26, .07), M('#D4561A', .55), .25, .5 - 2 * .45, .22);
+      [-.4, -.13, .13, .4].forEach(x => add(g, new THREE.CylinderGeometry(.04, .04, .14, 16), DARK, x, .95, 0, false));
       return g;
     },
     recup() {
