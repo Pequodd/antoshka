@@ -374,7 +374,7 @@ h1, h2, h3, p { margin: 0; }
 
 /* 8 business */
 .b2b-photo { margin: 0 var(--m); display: grid; gap: 10px; }
-.b2b-photo img { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; border-radius: 10px; display: block; }
+.b2b-photo video { width: 100%; aspect-ratio: 21 / 9; object-fit: cover; border-radius: 10px; display: block; background: #E9ECEE; }
 .tags { display: flex; flex-wrap: wrap; gap: 8px; }
 .tags span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 15px; background: #fff; }
 .names { display: flex; flex-wrap: wrap; gap: 0 .6em; font-weight: 300; font-size: clamp(40px, 6vw, 88px); line-height: 1.05; letter-spacing: -.045em; }
@@ -458,7 +458,7 @@ h1, h2, h3, p { margin: 0; }
   .pr-extra summary .mono { display: none; }
   .wk-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: 0; padding-inline: var(--m); scroll-padding-inline: var(--m); }
   .wk-grid::-webkit-scrollbar { display: none; }
-  .b2b-photo img { aspect-ratio: 4 / 3; }
+  .b2b-photo video { aspect-ratio: 4 / 3; }
   .wk, .wk.big, .wk.tall { flex: 0 0 82%; height: 440px; scroll-snap-align: start; }
   .wk.big figcaption { right: 12px; left: 12px; bottom: 12px; }
   .rv, .faq { grid-template-columns: 1fr; row-gap: 24px; }
@@ -671,13 +671,13 @@ h1, h2, h3, p { margin: 0; }
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">6</span>Объекты</h2>
       <p class="aside">Фото с наших объектов: квартиры, офисы, магазины и фасады — летом и зимой.</p></div>
     <div class="wk-grid">
-      <figure class="wk big"><video class="wk-video" src="../assets/hero.mp4" poster="../assets/hero-poster.jpg" muted loop playsinline preload="none" aria-label="Бригада монтирует электрощит и кондиционер в офисе"></video><figcaption><span class="mono">Офис · open space</span><b>Электрощит и климат в офисе на 400 м²</b><span class="wk-meta">Челябинск · бригада из трёх человек</span></figcaption></figure>
+      <figure class="wk big"><img src="../assets/photos/alpinist-outdoor-unit-sm.webp" srcset="../assets/photos/alpinist-outdoor-unit-sm.webp 720w, ../assets/photos/alpinist-outdoor-unit.webp 1400w" sizes="(max-width: 900px) 82vw, 64vw" alt="Монтажник-альпинист поднимает наружный блок по фасаду" loading="lazy" decoding="async"><figcaption><span class="mono">Фасад · без автовышки</span><b>Наружный блок поднимает альпинист</b><span class="wk-meta">Челябинск · 9-й этаж, кирпичный фасад</span></figcaption></figure>
       <figure class="wk tall"><img src="../assets/photos/alpinist-drilling-winter-sm.webp" srcset="../assets/photos/alpinist-drilling-winter-sm.webp 720w, ../assets/photos/alpinist-drilling-winter.webp 1400w" sizes="(max-width: 900px) 82vw, 34vw" alt="Альпинист зимой сверлит фасад рядом с трассой в изоляции" loading="lazy" decoding="async"><figcaption><span class="mono">Фасад · зима</span><b>Трасса по фасаду на 12-м этаже</b><span class="wk-meta">Екатеринбург · альпинист, −15 °C</span></figcaption></figure>
-      <figure class="wk"><img src="../assets/photos/alpinist-outdoor-unit-sm.webp" srcset="../assets/photos/alpinist-outdoor-unit-sm.webp 720w, ../assets/photos/alpinist-outdoor-unit.webp 1400w" sizes="(max-width: 900px) 82vw, 34vw" alt="Монтажник-альпинист поднимает наружный блок по фасаду" loading="lazy" decoding="async"><figcaption><span class="mono">Фасад</span><b>Наружный блок без автовышки</b><span class="wk-meta">Челябинск · альпинист</span></figcaption></figure>
       <figure class="wk"><img src="../assets/photos/store-ducts-1-sm.webp" srcset="../assets/photos/store-ducts-1-sm.webp 720w, ../assets/photos/store-ducts-1.webp 1400w" sizes="(max-width: 900px) 82vw, 34vw" alt="Вентиляционные короба, диффузоры и кабельные лотки в торговом зале" loading="lazy" decoding="async"><figcaption><span class="mono">Магазин</span><b>Вентиляция и кабельные трассы зала</b><span class="wk-meta">Екатеринбург · 1 200 м²</span></figcaption></figure>
-      <figure class="wk tall"><img src="../assets/photos/bathroom-fan-sm.webp" srcset="../assets/photos/bathroom-fan-sm.webp 720w, ../assets/photos/bathroom-fan.webp 1400w" sizes="(max-width: 900px) 82vw, 34vw" alt="Вытяжной вентилятор в санузле с плиткой" loading="lazy" decoding="async"><figcaption><span class="mono">Квартира</span><b>Вытяжка в санузле</b><span class="wk-meta">Челябинск · скрытая проводка</span></figcaption></figure>
       <figure class="wk"><img src="../assets/photos/split-bedroom-sm.webp" srcset="../assets/photos/split-bedroom-sm.webp 720w, ../assets/photos/split-bedroom.webp 1400w" sizes="(max-width: 900px) 82vw, 34vw" alt="Сплит-система в комнате, трасса спрятана в короб" loading="lazy" decoding="async"><figcaption><span class="mono">Квартира</span><b>Сплит 2,5 кВт, трасса в коробе</b><span class="wk-meta">Челябинск · 3 часа</span></figcaption></figure>
+      <figure class="wk tall"><img src="../assets/photos/bathroom-fan-sm.webp" srcset="../assets/photos/bathroom-fan-sm.webp 720w, ../assets/photos/bathroom-fan.webp 1400w" sizes="(max-width: 900px) 82vw, 34vw" alt="Вытяжной вентилятор в санузле с плиткой" loading="lazy" decoding="async"><figcaption><span class="mono">Квартира</span><b>Вытяжка в санузле</b><span class="wk-meta">Челябинск · скрытая проводка</span></figcaption></figure>
       <figure class="wk"><img src="../assets/photos/garage-ceiling-sm.webp" srcset="../assets/photos/garage-ceiling-sm.webp 720w, ../assets/photos/garage-ceiling.webp 1400w" sizes="(max-width: 900px) 82vw, 34vw" alt="Светильники в потолке-грильято" loading="lazy" decoding="async"><figcaption><span class="mono">Гараж</span><b>Свет в потолке-грильято</b><span class="wk-meta">Сосновка · линии и автоматы</span></figcaption></figure>
+      <figure class="wk"><img src="../assets/photos/store-ducts-2-sm.webp" srcset="../assets/photos/store-ducts-2-sm.webp 720w, ../assets/photos/store-ducts-2.webp 1400w" sizes="(max-width: 900px) 82vw, 34vw" alt="Освещение и кабельные лотки вдоль витрин торгового зала" loading="lazy" decoding="async"><figcaption><span class="mono">Магазин</span><b>Свет и лотки вдоль витрин</b><span class="wk-meta">Екатеринбург · без закрытия соседей</span></figcaption></figure>
     </div>
   </section>
 
@@ -735,7 +735,7 @@ h1, h2, h3, p { margin: 0; }
     <div class="grid title"><h2>Бизнес</h2><span class="pill">9</span></div>
     <div class="grid split"><span class="mono dot c1-6">Для юрлиц</span>
       <div class="c7-12"><p class="big" data-reveal>Офисы, магазины и отделения: монтаж и обслуживание по договору, ночью и в выходные, без остановки работы.</p></div></div>
-    <figure class="b2b-photo"><img src="../assets/photos/store-ducts-2-sm.webp" srcset="../assets/photos/store-ducts-2-sm.webp 720w, ../assets/photos/store-ducts-2.webp 1400w" sizes="(max-width: 900px) 100vw, 96vw" alt="Торговый зал: вентиляция, кабельные лотки и освещение под потолком" loading="lazy" decoding="async"><figcaption class="mono">торговый зал · вентиляция, кабельные трассы и свет · работы шли без закрытия соседних магазинов</figcaption></figure>
+    <figure class="b2b-photo"><video class="wk-video" src="../assets/hero.mp4" poster="../assets/hero-poster.jpg" muted loop playsinline preload="none" aria-label="Бригада в форме монтирует электрощит и кондиционер в офисе"></video><figcaption class="mono">офис 400 м² · электрощит, линии и кондиционеры · бригада из трёх человек, своя форма и инструмент</figcaption></figure>
     <div class="grid" style="padding-block: 32px 96px"><div class="tags c1-12" style="justify-content:flex-start"><span>Договор и ТЗ</span><span>Безнал и закрывающие</span><span>Ночные работы</span><span>Регламентное ТО</span><span>Аварийные выезды</span></div></div>
   </section>
 
