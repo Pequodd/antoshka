@@ -220,25 +220,58 @@ h1, h2, h3, p { margin: 0; }
 .equip .info .price { font: 400 13px/1.6 var(--mono); color: var(--ink); text-transform: uppercase; }
 
 /* 6 process (aevion "Software" cards) */
-.cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); margin-inline: var(--m); }
-.card { padding: 24px 24px 28px 0; border-bottom: 1px solid var(--line); display: grid; gap: 14px; align-content: start; }
-.card + .card { padding-left: 24px; }
-.card:nth-child(3n+1) { padding-left: 0; }
-.card:not(:nth-child(3n)) { border-right: 1px solid var(--line); }
-.card .n { font-weight: 300; font-size: 48px; line-height: 1; letter-spacing: -.05em; color: var(--faint); }
-.card h3 { font-weight: 400; font-size: 24px; letter-spacing: -.02em; }
-.card p { color: var(--muted); }
-.card dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; }
-.card dt, .card dd { margin: 0; font: 400 11px/1.8 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
-.card dt { color: var(--muted); }
+/* 6 process: horizontal timeline that fills as you scroll */
+.tl { position: relative; margin-inline: var(--m); padding-top: 8px; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); column-gap: 28px; }
+.tl-line { position: absolute; left: 0; right: 0; top: 33px; height: 1px; background: var(--line); }
+.tl-line i { position: absolute; left: 0; top: -.5px; height: 2px; width: 0; background: var(--orange); }
+.tl-step { display: grid; gap: 12px; align-content: start; padding-bottom: 8px; }
+.tl-node { position: relative; z-index: 1; width: 52px; height: 52px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); display: grid; place-items: center;
+  font: 400 12px/1 var(--mono); letter-spacing: .04em; color: var(--muted); transition: background .35s ease, color .35s ease, border-color .35s ease, transform .45s cubic-bezier(.2,.7,.2,1); }
+.tl-step.on .tl-node { background: var(--ink); border-color: var(--ink); color: #fff; transform: scale(1.06); }
+.tl-step h3 { margin: 10px 0 0; font-weight: 400; font-size: clamp(19px, 1.45vw, 23px); letter-spacing: -.02em; }
+.tl-step p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.45; }
+.tl-step dl { margin: 4px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.tl-step dt, .tl-step dd { margin: 0; font: 400 11px/1.8 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.tl-step dt { color: var(--muted); }
+.tl-step.hl .tl-node { box-shadow: 0 0 0 6px rgba(244,121,32,.18); border-color: var(--orange); }
+.tl-step.hl:not(.on) .tl-node { color: var(--orange-ink); }
+.tl-note { margin: 0; text-decoration: none; font: 400 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--orange-ink); }
 
 /* 7 promises (aevion spec cells) */
-.promise { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-inline: var(--m); border-top: 1px solid var(--line); }
-.promise div { padding: 18px 16px 28px 0; border-bottom: 1px solid var(--line); display: grid; gap: 8px; align-content: start; }
-.promise div:not(:nth-child(3n)) { border-right: 1px solid var(--line); }
-.promise div:not(:nth-child(3n+1)) { padding-left: 16px; }
-.promise b { font-weight: 300; font-size: clamp(26px, 2.6vw, 36px); line-height: 1.1; letter-spacing: -.035em; }
-.promise span:last-child { color: var(--muted); font-size: 15px; }
+/* 7 guarantees: conditions list on the left, the document where each one is written on the right */
+.gt { margin-inline: var(--m); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 0 clamp(32px, 5vw, 96px); align-items: start; padding-top: clamp(40px, 6vh, 72px); padding-bottom: clamp(64px, 10vh, 120px); }
+.gt-list { margin: 0; padding: 0; border-top: 1px solid var(--ink); }
+.gt-row { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: baseline; gap: 4px 20px; padding: 20px 0 22px; border-bottom: 1px solid var(--line); transition: background .25s ease, padding .35s cubic-bezier(.2,.7,.2,1); }
+.gt-row .mono:first-child { color: var(--faint); }
+.gt-row b { font-weight: 300; font-size: clamp(24px, 2.2vw, 34px); line-height: 1.1; letter-spacing: -.035em; }
+.gt-row .src { font: 400 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; white-space: nowrap; transition: all .25s ease; }
+.gt-row .desc { grid-column: 2 / -1; color: var(--muted); font-size: 15px; }
+.gt-row:hover, .gt-row[aria-selected="true"] { padding-left: 14px; background: linear-gradient(90deg, rgba(244,121,32,.07), transparent 70%); }
+.gt-row[aria-selected="true"] .mono:first-child { color: var(--orange-ink); }
+.gt-row[aria-selected="true"] .src { background: var(--ink); border-color: var(--ink); color: #fff; }
+.gt-row:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.gt-doc { position: sticky; top: 110px; width: 100%; max-width: 500px; justify-self: end; padding: 0 28px 28px 0; }
+#guarantee { overflow-x: clip; }
+.paper { position: relative; aspect-ratio: 1 / 1.22; background: #fff; border: 1px solid rgba(36,54,63,.1); border-radius: 4px; padding: 9% 10% 10%; display: grid; grid-template-rows: auto auto 1fr auto; gap: 18px;
+  box-shadow: 0 1px 0 rgba(36,54,63,.04), 0 30px 60px -20px rgba(36,54,63,.22); transform: rotate(-1.2deg); transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+.paper-stack { position: relative; isolation: isolate; }
+.paper-stack::before, .paper-stack::after { content: ""; position: absolute; inset: 0; z-index: -1; background: #fff; border: 1px solid rgba(36,54,63,.08); border-radius: 4px; }
+.paper-stack::before { transform: rotate(2deg) translate(10px, 6px); } .paper-stack::after { transform: rotate(4.5deg) translate(20px, 14px); opacity: .7; }
+.gt-doc:hover .paper { transform: rotate(0deg); }
+.paper-h { display: flex; justify-content: space-between; gap: 12px; font: 400 11px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.paper-h b { font-weight: 500; color: var(--ink); }
+.paper-t { font-weight: 400; font-size: clamp(18px, 1.5vw, 24px); letter-spacing: -.02em; }
+.paper-body { display: grid; gap: 10px; align-content: start; }
+.paper-body i { display: block; height: 7px; border-radius: 2px; background: rgba(36,54,63,.08); }
+.paper-body i:nth-child(3n) { width: 82%; } .paper-body i:nth-child(4n) { width: 64%; }
+.paper-body .clause { margin: 6px 0; padding: 12px 14px; border-radius: 3px; background: rgba(244,121,32,.14); box-shadow: inset 3px 0 0 var(--orange); font-size: 15px; line-height: 1.4; color: var(--ink); transition: opacity .25s ease, transform .35s cubic-bezier(.2,.7,.2,1); }
+.paper-body .clause .mono { display: block; margin-bottom: 4px; font-size: 10px; color: var(--orange-ink); }
+.paper.swap .clause, .paper.swap .paper-t, .paper.swap .paper-h b { opacity: 0; transform: translateY(6px); }
+.paper-t, .paper-h b { display: inline-block; transition: opacity .25s ease, transform .35s cubic-bezier(.2,.7,.2,1); }
+.paper-f { display: flex; align-items: end; justify-content: space-between; gap: 16px; font: 400 10px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.paper-f .sign { flex: 1; border-bottom: 1px solid var(--ink); height: 30px; position: relative; }
+.paper-f .sign svg { position: absolute; left: 6px; bottom: 2px; width: 90px; height: 34px; }
+.stamp { flex: none; width: 76px; height: 76px; border-radius: 50%; border: 2px solid rgba(168,73,13,.55); color: rgba(168,73,13,.75); display: grid; place-items: center; text-align: center; font: 500 9px/1.25 var(--mono); letter-spacing: .1em; transform: rotate(-14deg); box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 5px rgba(168,73,13,.4); }
 
 /* 8 business */
 .names { display: flex; flex-wrap: wrap; gap: 0 .6em; font-weight: 300; font-size: clamp(40px, 6vw, 88px); line-height: 1.05; letter-spacing: -.045em; }
@@ -307,8 +340,22 @@ h1, h2, h3, p { margin: 0; }
   .equip ol button { font-size: 26px; padding: 6px 0; grid-template-columns: 36px 1fr 12px; }
   .equip .sticky > .grid { padding-block: 80px 24px; grid-template-rows: auto auto 1fr auto; row-gap: 12px; }
   .equip .info { align-self: end; }
-  .cards, .promise { grid-template-columns: 1fr; }
-  .card, .card + .card, .promise div, .promise div:not(:nth-child(3n+1)) { padding-left: 0; padding-right: 0; border-right: 0 !important; }
+  .tl { grid-template-columns: 1fr; padding-left: 70px; row-gap: 28px; }
+  .tl-line { left: 26px; right: auto; top: 8px; bottom: 0; width: 1px; height: auto; }
+  .tl-line i { left: -.5px; top: 0; width: 2px; height: 0; }
+  .tl-node { position: absolute; left: -70px; top: 0; }
+  .tl-step { position: relative; min-height: 52px; }
+  .tl-step h3 { margin-top: 12px; }
+  .gt { grid-template-columns: 1fr; row-gap: 40px; }
+  .gt { row-gap: 20px; }
+  .gt-doc { position: sticky; top: 64px; z-index: 2; grid-row: 1; max-width: none; width: 100%; justify-self: stretch; padding: 0 10px 10px 0; }
+  .paper { aspect-ratio: auto; padding: 14px 16px 16px; gap: 8px; transform: rotate(-.6deg); }
+  .paper-h { padding-bottom: 8px; }
+  .paper-t { font-size: 16px; }
+  .paper-body i, .paper-f { display: none; }
+  .paper-body .clause { margin: 2px 0 0; font-size: 14px; }
+  .gt-row { grid-template-columns: 28px minmax(0, 1fr); }
+  .gt-row .src { grid-column: 2; justify-self: start; }
   .cols > div { grid-column: span 2; }
   .mbar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; z-index: 50; left: 0; right: 0; bottom: 0;
     padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); background: rgba(250,250,250,.94); border-top: 1px solid var(--line); backdrop-filter: blur(10px); }
@@ -466,28 +513,39 @@ h1, h2, h3, p { margin: 0; }
       <span class="mono dot c1-6">Шесть шагов</span>
       <div class="c7-12"><p class="big" data-reveal>От звонка до работающей системы. Проект и смету согласуем до начала работ, а правки вносим до монтажа, не после.</p></div>
     </div>
-    <div class="cards">
-      <article class="card"><span class="n">01</span><h3>Консультация</h3><p>По телефону или заявке на сайте. Ответим на вопросы и поможем с выбором.</p><dl><dt>Срок:</dt><dd>в день обращения</dd><dt>Цена:</dt><dd>бесплатно</dd></dl></article>
-      <article class="card"><span class="n">02</span><h3>Выезд и смета</h3><p>Если нужно, мастер приедет, оценит объём работ и учтёт нюансы объекта.</p><dl><dt>Итог:</dt><dd>смета</dd><dt>Цена:</dt><dd>фиксируется</dd></dl></article>
-      <article class="card"><span class="n">03</span><h3>Проект</h3><p>Схемы и описание работ. Изменения вносите, пока монтаж не начался.</p><dl><dt>Итог:</dt><dd>схема + описание</dd><dt>Правки:</dt><dd>до монтажа</dd></dl></article>
-      <article class="card"><span class="n">04</span><h3>Монтаж</h3><p>По нормам и стандартам, с защитой мебели и уборкой после работ.</p><dl><dt>Срок:</dt><dd>дата в договоре</dd><dt>Квартира:</dt><dd>1 день</dd></dl></article>
-      <article class="card"><span class="n">05</span><h3>Обучение</h3><p>Покажем, как пользоваться кондиционером, вентиляцией и электрикой.</p><dl><dt>Когда:</dt><dd>при сдаче</dd><dt>Итог:</dt><dd>акт сдачи</dd></dl></article>
-      <article class="card"><span class="n">06</span><h3>Обслуживание</h3><p>Плановое ТО, чтобы системы работали без неожиданных поломок.</p><dl><dt>Режим:</dt><dd>по графику</dd><dt>Ремонт:</dt><dd>по заявке</dd></dl></article>
+    <div class="tl" id="tl">
+      <div class="tl-line" aria-hidden="true"><i id="tlFill"></i></div>
+      <article class="tl-step"><span class="tl-node">01</span><h3>Консультация</h3><p>По телефону или заявке на сайте. Ответим на вопросы и поможем с выбором.</p><dl><dt>Срок:</dt><dd>в день обращения</dd><dt>Цена:</dt><dd>бесплатно</dd></dl></article>
+      <article class="tl-step"><span class="tl-node">02</span><h3>Выезд и смета</h3><p>Мастер приедет, оценит объём работ и учтёт нюансы объекта.</p><dl><dt>Итог:</dt><dd>смета</dd><dt>Цена:</dt><dd>фиксируется</dd></dl></article>
+      <article class="tl-step"><span class="tl-node">03</span><h3>Проект</h3><p>Схемы и описание работ. Изменения вносите, пока монтаж не начался.</p><dl><dt>Итог:</dt><dd>схема + описание</dd><dt>Правки:</dt><dd>до монтажа</dd></dl></article>
+      <article class="tl-step hl"><span class="tl-node">04</span><h3>Монтаж</h3><p>По нормам, с защитой мебели и уборкой после работ.</p><dl><dt>Срок:</dt><dd>дата в договоре</dd><dt>Квартира:</dt><dd>1 день</dd></dl><a class="tl-note" href="#standard">↑ подробно показали выше</a></article>
+      <article class="tl-step"><span class="tl-node">05</span><h3>Обучение</h3><p>Покажем, как пользоваться кондиционером, вентиляцией и электрикой.</p><dl><dt>Когда:</dt><dd>при сдаче</dd><dt>Итог:</dt><dd>акт сдачи</dd></dl></article>
+      <article class="tl-step"><span class="tl-node">06</span><h3>Обслуживание</h3><p>Плановое ТО, чтобы системы работали без неожиданных поломок.</p><dl><dt>Режим:</dt><dd>по графику</dd><dt>Ремонт:</dt><dd>по заявке</dd></dl></article>
     </div>
   </section>
 
   <!-- 7 -->
   <section class="sec" id="guarantee">
-    <div class="grid title"><h2>Гарантии</h2><span class="pill">7</span></div>
-    <div class="grid split"><span class="mono dot c1-6">Где это записано</span>
-      <div class="c7-12"><p class="big" data-reveal>Мы не обещаем «качество и профессионализм». Мы записываем конкретные условия в договор, смету и акт.</p></div></div>
-    <div class="promise">
-      <div><span class="mono brk">договор</span><b><span class="ph">[X]</span> года</b><span>Гарантия на все работы. Если что-то не так — приедем и устраним.</span></div>
-      <div><span class="mono brk">договор</span><b>Дата монтажа</b><span>Фиксируем заранее и соблюдаем.</span></div>
-      <div><span class="mono brk">смета</span><b>Цена</b><span>Согласована до начала работ и не растёт на месте.</span></div>
-      <div><span class="mono brk">смета</span><b>Оборудование</b><span>Проверенные производители, марка и модель указаны.</span></div>
-      <div><span class="mono brk">проект</span><b>Защита</b><span>Автоматы, УЗО и заземление в каждом электрощите.</span></div>
-      <div><span class="mono brk">акт</span><b>Инструктаж</b><span>Показываем управление и уход при сдаче объекта.</span></div>
+    <div class="rule"></div>
+    <div class="grid title"><h2>Гарантии</h2><span class="pill">7</span>
+      <p class="aside">Мы не обещаем «качество и профессионализм». Каждое условие записано в документ — выберите, чтобы увидеть где.</p></div>
+    <div class="gt">
+      <div class="gt-list" role="tablist" aria-label="Условия и документы">
+        <button class="gt-row" role="tab" aria-selected="true" data-doc="Договор" data-pt="п. 6" data-clause='Подрядчик гарантирует качество работ в течение <span class="ph">[X]</span> лет с даты подписания акта.'><span class="mono">01</span><b>Гарантия — <span class="ph">[X]</span> года</b><span class="src">Договор</span><span class="desc">На все работы. Если что-то не так — приедем и устраним бесплатно.</span></button>
+        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Договор" data-pt="п. 3" data-clause='Монтаж выполняется <span class="ph">[дата]</span>. Перенос — только по согласованию сторон.'><span class="mono">02</span><b>Дата монтажа — в договоре</b><span class="src">Договор</span><span class="desc">Фиксируем день заранее и приезжаем вовремя.</span></button>
+        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Смета" data-pt="итог" data-clause='Итоговая стоимость работ и материалов: <span class="ph">XX XXX ₽</span>. Изменение — только письменно.'><span class="mono">03</span><b>Цена — не растёт</b><span class="src">Смета</span><span class="desc">Согласована до начала работ и не меняется на месте.</span></button>
+        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Смета" data-pt="поз. 1" data-clause='Сплит-система <span class="ph">[марка, модель]</span>, 1 шт. Гарантия производителя.'><span class="mono">04</span><b>Оборудование — марка и модель</b><span class="src">Смета</span><span class="desc">Проверенные производители, всё названо прямо.</span></button>
+        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Проект" data-pt="щит" data-clause='Ввод через автомат <span class="ph">[X] А</span> и УЗО 30 мА, линия с заземлением.'><span class="mono">05</span><b>Защита — автоматы и УЗО</b><span class="src">Проект</span><span class="desc">Защита и заземление в каждом электрощите.</span></button>
+        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Акт" data-pt="подпись" data-clause='Заказчик проинструктирован по эксплуатации. Претензий к работам нет.'><span class="mono">06</span><b>Инструктаж — при сдаче</b><span class="src">Акт</span><span class="desc">Показываем управление и уход за системой.</span></button>
+      </div>
+      <div class="gt-doc" aria-hidden="true"><div class="paper-stack">
+        <div class="paper" id="paper">
+          <div class="paper-h"><b id="paperDoc">Договор</b><span>№ <span class="ph">[X]</span> · Челябинск</span></div>
+          <div><span class="paper-t" id="paperT">Договор подряда на монтаж</span></div>
+          <div class="paper-body"><i></i><i></i><i></i><i></i><div class="clause" id="paperClause"></div><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="paper-f"><span>Подрядчик</span><span class="sign"><svg viewBox="0 0 90 34" fill="none" stroke="#24363F" stroke-width="1.4" stroke-linecap="round"><path d="M3 26c8-14 12-20 15-18s-6 18-2 18 9-16 13-15-3 13 1 13 7-9 11-9 2 7 6 7 10-5 14-7 10-2 14-1"/></svg></span><span class="stamp">climate<br>solution<br>pro</span></div>
+        </div>
+      </div></div>
     </div>
   </section>
 
@@ -617,6 +675,32 @@ h1, h2, h3, p { margin: 0; }
   ];
   const equipBtns = [...document.querySelectorAll('#equipList button')];
   const equipInfo = document.getElementById('equipInfo'), ringArc = document.getElementById('ringArc'), ringIdx = document.getElementById('ringIdx');
+  /* process timeline fill */
+  const tl = document.getElementById('tl'), tlFill = document.getElementById('tlFill'), tlSteps = [...tl.querySelectorAll('.tl-step')], tlMob = matchMedia('(max-width: 900px)');
+  function tlUpdate() {
+    const r = tl.getBoundingClientRect(), m = tlMob.matches;
+    const p = reduce ? 1 : m ? clamp((innerHeight * .6 - r.top) / r.height) : clamp((innerHeight * .85 - r.top) / (innerHeight * .5));
+    if (m) { tlFill.style.height = (p * 100).toFixed(1) + '%'; tlFill.style.width = ''; } else { tlFill.style.width = (p * 100).toFixed(1) + '%'; tlFill.style.height = ''; }
+    tlSteps.forEach((x, i) => x.classList.toggle('on', m ? p * r.height >= x.offsetTop + 10 : p >= i / 6 + .001));
+  }
+  /* guarantees: row ↔ document clause */
+  const gtRows = [...document.querySelectorAll('.gt-row')], paper = document.getElementById('paper');
+  const DOC_T = { 'Договор': 'Договор подряда на монтаж', 'Смета': 'Смета на работы и оборудование', 'Проект': 'Проект электроснабжения', 'Акт': 'Акт сдачи-приёмки работ' };
+  let gtT = 0, gtCur = -1;
+  function gtSelect(i) {
+    if (i === gtCur) return; gtCur = i;
+    const row = gtRows[i];
+    gtRows.forEach((x, j) => { x.setAttribute('aria-selected', j === i); x.tabIndex = j === i ? 0 : -1; });
+    const fill = () => { document.getElementById('paperDoc').textContent = row.dataset.doc; document.getElementById('paperT').textContent = DOC_T[row.dataset.doc];
+      document.getElementById('paperClause').innerHTML = `<span class="mono">${row.dataset.doc} · ${row.dataset.pt}</span>${row.dataset.clause}`; paper.classList.remove('swap'); };
+    paper.classList.add('swap'); clearTimeout(gtT); gtT = setTimeout(fill, reduce ? 0 : 180);
+  }
+  gtRows.forEach((x, i) => {
+    x.addEventListener('click', () => gtSelect(i));
+    x.addEventListener('mouseenter', () => { if (matchMedia('(hover: hover)').matches) gtSelect(i); });
+    x.addEventListener('keydown', e => { const d = e.key === 'ArrowDown' ? 1 : e.key === 'ArrowUp' ? -1 : 0; if (d) { e.preventDefault(); const n = (i + d + gtRows.length) % gtRows.length; gtRows[n].focus(); gtSelect(n); } });
+  });
+  gtSelect(0);
   const equipTrack = document.getElementById('equipTrack');
   let equipIndex = -1;
   function setEquip(i) {
@@ -657,6 +741,7 @@ h1, h2, h3, p { margin: 0; }
     const ep = prog(equipTrack);
     setEquip(Math.min(4, Math.floor(ep * 5)));
     ringArc.setAttribute('stroke-dasharray', `${(ep * 1483).toFixed(0)} 1483`);
+    tlUpdate();
   }
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
