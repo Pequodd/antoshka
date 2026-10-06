@@ -457,6 +457,43 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 
 .mbar { display: none; }
 
+/* ============ LAYOUT SYSTEM ============
+   12-col grid, side margin --m.
+   G1 = column 1 (left edge): section titles and primary content.
+   G2 = column 7 (half): every title aside and all secondary / right-hand content.
+   Rhythm: --sec-t before each section title, --sec-h title -> content, --sec-b after the content. */
+:root { --sec-t: clamp(112px, 15vh, 184px); --sec-h: clamp(36px, 5vh, 56px); --sec-b: clamp(72px, 10vh, 128px); }
+.pill { display: none; }
+.title { padding-top: var(--sec-t); padding-bottom: var(--sec-h); align-items: end; row-gap: 16px; }
+.title h2 { grid-column: 1 / 7; font-size: clamp(48px, 6vw, 96px); }
+.title .aside { grid-column: 7 / 12; align-self: end; margin: 0; padding-bottom: .5em; max-width: 46ch; font-size: 16px; line-height: 1.5; color: var(--muted); }
+.st-head .aside { grid-column: 7 / 12; }
+/* prices */
+.sheet { margin-top: 0; }
+.px-row { margin-top: var(--sec-b); }
+.px-row-head, .px-extra-head { grid-column: 1 / 7; }
+.px-inc, .px-table { grid-column: 7 / -1; }
+.px-inc { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.px-extra { margin-top: var(--sec-b); padding-bottom: var(--sec-b); }
+/* services, works, process, business */
+.svc-grid { padding-top: 0; padding-bottom: var(--sec-b); }
+.wk-grid { padding-bottom: var(--sec-b); }
+.b2b-photo { margin-top: 0; }
+.b2b-tags { padding-block: 24px var(--sec-b); }
+.tags { justify-content: flex-start; }
+/* guarantees: list on G1, document on G2 */
+.gt { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding-top: 0; padding-bottom: var(--sec-b); }
+.gt-list { grid-column: 1 / 7; }
+.gt-doc { grid-column: 8 / -1; justify-self: stretch; max-width: none; }
+/* reviews & faq: lead on G1, content on G2 */
+.rv, .faq { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding-top: 0; padding-bottom: var(--sec-b); }
+.rv-sum, .faq-side { grid-column: 1 / 6; }
+.rv-track, .faq-list { grid-column: 7 / -1; }
+.rv-track { grid-auto-columns: minmax(280px, calc((100% - 16px) / 1.6)); margin-right: calc(var(--m) * -1); padding-right: var(--m); }
+/* contact */
+.end { padding-top: var(--sec-t); }
+.end .ask { grid-column: 1 / 7; }
+.form { grid-column: 7 / -1; }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
@@ -545,6 +582,15 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   .mbar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; z-index: 50; left: 0; right: 0; bottom: 0;
     padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); background: rgba(250,250,250,.94); border-top: 1px solid var(--line); backdrop-filter: blur(10px); }
   .mbar .btn { justify-content: center; min-height: 46px; }
+  /* layout system, mobile */
+  :root { --sec-t: 88px; --sec-h: 28px; --sec-b: 64px; }
+  .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
+  .title h2 { font-size: 44px; }
+  .title .aside { padding-bottom: 0; }
+  .px-row-head, .px-extra-head, .px-inc, .px-table, .gt-list, .gt-doc, .rv-sum, .faq-side, .rv-track, .faq-list, .end .ask, .form { grid-column: 1 / -1; }
+  .px-inc { grid-template-columns: 1fr; }
+  .rv, .faq, .gt { row-gap: 24px; }
+  .rv-track { grid-auto-columns: 86%; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -626,7 +672,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   <!-- 2 prices: one big price + package index (anveril "index list" pattern) -->
   <section class="sec" id="prices">
     <div class="rule"></div>
-    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">2</span>Цены</h2>
+    <div class="grid title"><h2>Цены</h2>
       <p class="aside">Цена фиксируется в смете до начала работ и не растёт на месте. Кондиционер, купленный не у нас, ставим по тем же ценам.</p></div>
     <div class="sheet pb-out" id="sheet">
       <figure class="sheet-plan" aria-hidden="true">
@@ -681,7 +727,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
       <div class="sticky st-stage" id="stStage" data-k="0">
         <div class="tint t0"></div><div class="tint t1"></div><div class="tint t2"></div><div class="tint t3"></div>
         <div class="giant" aria-hidden="true"><span>Разметка</span><span>Трасса</span><span>Вакуум</span><span>Запуск</span></div>
-        <div class="grid st-head"><h2><span class="pill">3</span>Монтаж</h2>
+        <div class="grid st-head"><h2>Монтаж</h2>
           <p class="aside">Каждый объект начинается со сметы и проекта. Листайте — монтажники пройдут все четыре этапа.</p></div>
         <div class="room-anchor" aria-hidden="true"></div>
         <svg class="st-lead" id="stLead" aria-hidden="true"><line id="stLine" x1="0" y1="0" x2="0" y2="0"/></svg>
@@ -698,7 +744,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   <!-- 4 -->
   <section class="sec" id="services">
     <div class="rule"></div>
-    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">4</span>Услуги</h2>
+    <div class="grid title"><h2>Услуги</h2>
       <p class="aside">Один подрядчик на климат, воздух и электрику: проект, монтаж и обслуживание.</p></div>
   </section>
   <section class="svc" id="svc" data-scene="split" data-ry="-0.4" data-anchor=".svc-anchor">
@@ -751,7 +797,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   <!-- 5 equipment heading + block from V4 -->
   <section class="sec">
     <div class="rule"></div>
-    <div class="grid title" style="padding-bottom: 8px"><h2>Техника</h2><span class="pill">5</span></div>
+    <div class="grid title"><h2>Техника</h2></div>
   </section>
   <section class="equip" id="equip" data-scene="equip" data-anchor=".ring">
     <div class="equip-track" id="equipTrack">
@@ -781,7 +827,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   <!-- 6 works -->
   <section class="sec" id="works">
     <div class="rule"></div>
-    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">6</span>Объекты</h2>
+    <div class="grid title"><h2>Объекты</h2>
       <p class="aside">Фото с наших объектов: квартиры, офисы, магазины и фасады — летом и зимой.</p></div>
     <div class="wk-grid">
       <figure class="wk big"><img src="../assets/photos/alpinist-outdoor-unit-sm.webp" srcset="../assets/photos/alpinist-outdoor-unit-sm.webp 720w, ../assets/photos/alpinist-outdoor-unit.webp 1400w" sizes="(max-width: 900px) 82vw, 64vw" alt="Монтажник-альпинист поднимает наружный блок по фасаду" loading="lazy" decoding="async"><figcaption><span class="mono">Фасад · без автовышки</span><b>Наружный блок поднимает альпинист</b><span class="wk-meta">Челябинск · 9-й этаж, кирпичный фасад</span></figcaption></figure>
@@ -797,11 +843,8 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   <!-- 7 -->
   <section class="sec" id="process">
     <div class="rule"></div>
-    <div class="grid title"><h2>Процесс</h2><span class="pill">7</span></div>
-    <div class="grid split">
-      <span class="mono dot c1-6">Шесть шагов</span>
-      <div class="c7-12"><p class="big" data-reveal>От звонка до работающей системы. Проект и смету согласуем до начала работ, а правки вносим до монтажа, не после.</p></div>
-    </div>
+    <div class="grid title"><h2>Процесс</h2>
+      <p class="aside">От звонка до работающей системы. Проект и смету согласуем до начала работ, а правки вносим до монтажа, не после.</p></div>
     <div class="pv pv-c">
       <div class="prail-track" id="prailTrack"><div class="sticky prail-stage">
         <div class="prail-head"><span class="mono" id="prailCount">01 / 06</span><div class="prail-prog"><i id="prailProg"></i></div></div>
@@ -821,7 +864,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   <!-- 8 -->
   <section class="sec" id="guarantee">
     <div class="rule"></div>
-    <div class="grid title"><h2>Гарантии</h2><span class="pill">8</span>
+    <div class="grid title"><h2>Гарантии</h2>
       <p class="aside">Мы не обещаем «качество и профессионализм». Каждое условие записано в документ — выберите, чтобы увидеть где.</p></div>
     <div class="gt">
       <div class="gt-list" role="tablist" aria-label="Условия и документы">
@@ -845,17 +888,16 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 
   <!-- 9 -->
   <section class="sec" id="b2b">
-    <div class="grid title"><h2>Бизнес</h2><span class="pill">9</span></div>
-    <div class="grid split"><span class="mono dot c1-6">Для юрлиц</span>
-      <div class="c7-12"><p class="big" data-reveal>Офисы, магазины и отделения: монтаж и обслуживание по договору, ночью и в выходные, без остановки работы.</p></div></div>
+    <div class="grid title"><h2>Бизнес</h2>
+      <p class="aside">Офисы, магазины и отделения: монтаж и обслуживание по договору, ночью и в выходные, без остановки работы.</p></div>
     <figure class="b2b-photo"><video class="wk-video" src="../assets/hero.mp4" poster="../assets/hero-poster.jpg" muted loop playsinline preload="none" aria-label="Бригада в форме монтирует электрощит и кондиционер в офисе"></video><figcaption class="mono">офис 400 м² · электрощит, линии и кондиционеры · бригада из трёх человек, своя форма и инструмент</figcaption></figure>
-    <div class="grid" style="padding-block: 32px 96px"><div class="tags c1-12" style="justify-content:flex-start"><span>Договор и ТЗ</span><span>Безнал и закрывающие</span><span>Ночные работы</span><span>Регламентное ТО</span><span>Аварийные выезды</span></div></div>
+    <div class="grid b2b-tags"><div class="tags c1-12"><span>Договор и ТЗ</span><span>Безнал и закрывающие</span><span>Ночные работы</span><span>Регламентное ТО</span><span>Аварийные выезды</span></div></div>
   </section>
 
   <!-- 10 reviews -->
   <section class="sec" id="reviews">
     <div class="rule"></div>
-    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">10</span>Отзывы</h2>
+    <div class="grid title"><h2>Отзывы</h2>
       <p class="aside">Публикуем отзывы с Яндекс Карт и 2ГИС как есть — без правок.</p></div>
     <div class="rv">
       <div class="rv-sum">
@@ -878,7 +920,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   <!-- 11 faq -->
   <section class="sec" id="faq">
     <div class="rule"></div>
-    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">11</span>Вопросы</h2></div>
+    <div class="grid title"><h2>Вопросы</h2></div>
     <div class="faq">
       <div class="faq-side"><p>Не нашли ответ? Спросите мастера напрямую — ответим в течение 15 минут в рабочее время.</p><div class="row"><a class="btn btn-ink" href="#contact">Задать вопрос <i>↗</i></a><a class="btn btn-soft" href="tel:+73510000000">Позвонить</a></div></div>
       <div class="faq-list">
