@@ -558,6 +558,74 @@ html[data-hero="g"] .offer .offer-tags { display: none; }
 /* ---------- hero variant H: centred statement over a running ribbon of real objects ---------- */
 html[data-hero="f"] .offer h1 em, html[data-hero="g"] .offer h1 em { color: var(--orange-ink); }
 html[data-hero="f"] .offer .btn-ink, html[data-hero="g"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
+/* ---------- hero variant H: big Swiss type with a live film pill inside the headline ---------- */
+.h1-pill, .hero-deck, .hero-dark, .hero-kpi { display: none; }
+html[data-hero="h"] .hero::before, html[data-hero="h"] .hero .word,
+html[data-hero="i"] .hero .word,
+html[data-hero="j"] .hero::before, html[data-hero="j"] .hero .word { display: none; }
+html[data-hero="h"] .hero .foot { top: 56px; align-content: center; padding-bottom: 0; }
+html[data-hero="h"] .hero .foot::before { display: none; }
+html[data-hero="h"] .offer { grid-column: 1 / -1; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); row-gap: 28px; }
+html[data-hero="h"] .offer h1 { padding-bottom: 36px; border-bottom: 1px solid var(--line); }
+html[data-hero="h"] .offer .offer-tags { align-self: start; padding-top: .3em; }
+html[data-hero="h"] .offer .row { align-self: start; }
+html[data-hero="h"] .offer .brk, html[data-hero="h"] .offer h1 { grid-column: 1 / -1; }
+html[data-hero="h"] .offer h1 { font-size: clamp(52px, 7.4vw, 128px); line-height: .98; letter-spacing: -.05em; max-width: 13.5em; text-wrap: initial; }
+html[data-hero="h"] .offer h1 em { color: var(--orange-ink); }
+html[data-hero="h"] .offer p { grid-column: 1 / 6; margin: 0; }
+html[data-hero="h"] .offer .offer-tags { grid-column: 7 / 10; align-self: end; }
+html[data-hero="h"] .offer .row { grid-column: 10 / -1; justify-content: flex-end; align-self: end; }
+html[data-hero="h"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
+html[data-hero="h"] .hero .price, html[data-hero="h"] .hero .scroll { display: none; }
+html[data-hero="h"] .h1-pill { display: inline-block; vertical-align: -.06em; height: .78em; width: 0; border-radius: 999px; overflow: hidden; background: #1B2A31; margin: 0 .04em;
+  transition: width 1.3s cubic-bezier(.76,0,.24,1) .3s; }
+html[data-hero="h"] .hero.open .h1-pill { width: 2.3em; }
+html[data-hero="h"] .h1-pill video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.3); transition: transform 2s cubic-bezier(.16,1,.3,1) .5s; }
+html[data-hero="h"] .hero.open .h1-pill video { transform: none; }
+html[data-hero="h"] .hero .anchor { display: none; }
+/* ---------- hero variant I: a self-shuffling deck of the three directions ---------- */
+html[data-hero="i"] .hero-deck { display: block; position: absolute; z-index: 2; right: calc(var(--m) + 36px); top: 116px; width: min(40vw, 600px); height: calc(100% - 330px); min-height: 300px; }
+html[data-hero="i"] .dk { position: absolute; inset: 0; overflow: hidden; border-radius: 10px; color: #fff; text-decoration: none; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; padding: 22px;
+  box-shadow: 0 30px 60px -30px rgba(36,54,63,.45); transition: transform .9s cubic-bezier(.16,1,.3,1), opacity .5s ease, filter .9s ease; }
+html[data-hero="i"] .dk img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
+html[data-hero="i"] .dk::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(18,26,30,0) 45%, rgba(18,26,30,.75) 100%); }
+html[data-hero="i"] .dk span { color: rgba(255,255,255,.8); }
+html[data-hero="i"] .dk b { font-weight: 300; font-size: clamp(26px, 2.4vw, 40px); letter-spacing: -.03em; }
+html[data-hero="i"] .dk:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+html[data-hero="i"] .dk[data-p="0"] { z-index: 3; transform: none; }
+html[data-hero="i"] .dk[data-p="1"] { z-index: 2; transform: translate(18px, -18px) rotate(2.5deg) scale(.96); filter: brightness(.85); }
+html[data-hero="i"] .dk[data-p="2"] { z-index: 1; transform: translate(36px, -36px) rotate(5deg) scale(.92); filter: brightness(.7); }
+html[data-hero="i"] .dk.out { z-index: 4; transform: translate(-70%, 12%) rotate(-12deg); opacity: 0; }
+html[data-hero="i"] .dk-dots { position: absolute; left: 0; bottom: -34px; display: flex; gap: 14px; color: var(--faint); }
+html[data-hero="i"] .dk-dots span.on { color: var(--ink); }
+html[data-hero="i"] .offer h1 em { color: var(--orange-ink); }
+html[data-hero="i"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
+html[data-hero="i"] .hero .price, html[data-hero="i"] .hero .scroll, html[data-hero="i"] .hero .anchor { display: none; }
+html[data-hero="i"] .hero::before { height: calc(100% - 56px); }
+/* ---------- hero variant J: night product stage with key figures ---------- */
+html[data-hero="j"] .hero { background: linear-gradient(var(--bg) 0 56px, #0B233D 56px); }
+html[data-hero="j"] .hero-dark { display: block; position: absolute; top: 56px; right: 0; bottom: 0; width: 72%; z-index: 0; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%); mask-image: linear-gradient(90deg, transparent 0%, #000 34%); opacity: 0; transition: opacity 1.4s ease; }
+html[data-hero="j"] .hero.open .hero-dark { opacity: 1; }
+html[data-hero="j"] .hero-dark video { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transform: scale(1.1) translateX(4%); transition: transform 2.6s cubic-bezier(.16,1,.3,1); }
+html[data-hero="j"] .hero.open .hero-dark video { transform: none; }
+html[data-hero="j"] .hero .foot { color: #fff; }
+html[data-hero="j"] .hero .foot::before { border-color: rgba(255,255,255,.16); }
+html[data-hero="j"] .hero .foot .mono, html[data-hero="j"] .offer p { color: rgba(255,255,255,.7); }
+html[data-hero="j"] .offer { grid-column: 1 / 7; }
+html[data-hero="j"] .offer h1 { font-size: clamp(42px, 4.2vw, 68px); }
+html[data-hero="j"] .offer h1 em { color: #FFB37A; }
+html[data-hero="j"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
+html[data-hero="j"] .hero .price, html[data-hero="j"] .hero .scroll, html[data-hero="j"] .hero .anchor { display: none; }
+html[data-hero="j"] .hero-kpi { display: grid; position: absolute; z-index: 2; right: var(--m); bottom: 28px; width: min(26vw, 380px); margin: 0; color: #fff; }
+html[data-hero="j"] .hero-kpi div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 12px 0; border-top: 1px solid rgba(255,255,255,.18);
+  opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .8s cubic-bezier(.16,1,.3,1); }
+html[data-hero="j"] .hero.open .hero-kpi div { opacity: 1; transform: none; }
+html[data-hero="j"] .hero.open .hero-kpi div:nth-child(2) { transition-delay: .1s; } html[data-hero="j"] .hero.open .hero-kpi div:nth-child(3) { transition-delay: .2s; } html[data-hero="j"] .hero.open .hero-kpi div:nth-child(4) { transition-delay: .3s; }
+html[data-hero="j"] .hero-kpi dt { color: rgba(255,255,255,.6); }
+html[data-hero="j"] .hero-kpi dd { margin: 0; font-weight: 300; font-size: clamp(22px, 1.9vw, 30px); letter-spacing: -.03em; }
+html[data-hero="j"] .hero-kpi div:last-child dd { color: #FFB37A; }
+html[data-hero="j"] .hero-vsw { background: rgba(255,255,255,.85); }
 /* ============ LAYOUT SYSTEM ============
    12-col grid, side margin --m.
    G1 = column 1 (left edge): section titles and primary content.
@@ -712,6 +780,20 @@ html[data-hero="f"] .offer .btn-ink, html[data-hero="g"] .offer .btn-ink { backg
   html[data-hero="g"] .hero-tri b { font-size: 20px; }
   html[data-hero="g"] .offer p { display: none; }
   html[data-hero="e"] .hero .price { justify-items: start; text-align: left; }
+  html[data-hero="h"] .offer h1 { font-size: 46px; }
+  html[data-hero="h"] .offer p { display: none; }
+  html[data-hero="h"] .offer h1 { padding-bottom: 20px; }
+  html[data-hero="h"] .offer p, html[data-hero="h"] .offer .offer-tags, html[data-hero="h"] .offer .row { grid-column: 1 / -1; justify-content: flex-start; }
+  html[data-hero="h"] .offer { row-gap: 18px; }
+  html[data-hero="i"] .hero-deck { left: var(--m); right: calc(var(--m) + 24px); width: auto; top: 118px; height: 27vh; min-height: 0; }
+  html[data-hero="i"] .dk-dots { display: none; }
+  html[data-hero="i"] .dk { padding: 14px; }
+  html[data-hero="i"] .dk[data-p="1"] { transform: translate(10px, -10px) rotate(2deg) scale(.96); }
+  html[data-hero="i"] .dk[data-p="2"] { transform: translate(20px, -20px) rotate(4deg) scale(.92); }
+  html[data-hero="i"] .offer h1, html[data-hero="j"] .offer h1 { font-size: 34px; }
+  html[data-hero="j"] .hero-dark { width: 100%; height: 36%; bottom: auto; -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 60%, transparent 100%); }
+  html[data-hero="j"] .hero-kpi { display: none; }
+  html[data-hero="j"] .offer { grid-column: 1 / -1; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -723,6 +805,7 @@ html[data-hero="f"] .offer .btn-ink, html[data-hero="g"] .offer .btn-ink { backg
   .rv-track { grid-auto-columns: 86%; }
 }
 @media (prefers-reduced-motion: reduce) {
+  html[data-hero="h"] .h1-pill, html[data-hero="h"] .h1-pill video, html[data-hero="i"] .dk, html[data-hero="j"] .hero-dark, html[data-hero="j"] .hero-dark video, html[data-hero="j"] .hero-kpi div { transition: none !important; }
   html[data-hero="e"] .hero-iris { display: none; }
   html[data-hero="e"] .hero-win, html[data-hero="e"] .hero-win video, html[data-hero="e"] .offer > *, html[data-hero="f"] .sp-media, html[data-hero="f"] .sp-media video, html[data-hero="g"] .hero-tri a { transition: none !important; }
   html { scroll-behavior: auto; }
@@ -778,9 +861,17 @@ html[data-hero="f"] .offer .btn-ink, html[data-hero="g"] .offer .btn-ink { backg
     <div class="word" aria-hidden="true">climate</div>
     <div class="hero-temp" aria-hidden="true"><span id="heroTemp">32</span><sup>°</sup></div>
     <div class="hero-read" aria-hidden="true"><span class="mono">в комнате</span><b><span id="heroRead">32</span> °C</b><span class="mono hero-was">было +32 °C · сейчас прохладно</span></div>
-    <div class="hero-vsw mono" role="group" aria-label="Вариант первого экрана"><span>экран:</span><button type="button" data-h="a">A</button><button type="button" data-h="b">B</button><button type="button" data-h="e">E</button><button type="button" data-h="f">F</button><button type="button" data-h="g">G</button></div>
+    <div class="hero-vsw mono" role="group" aria-label="Вариант первого экрана"><span>экран:</span><button type="button" data-h="a">A</button><button type="button" data-h="b">B</button><button type="button" data-h="e">E</button><button type="button" data-h="f">F</button><button type="button" data-h="g">G</button><button type="button" data-h="h">H</button><button type="button" data-h="i">I</button><button type="button" data-h="j">J</button></div>
     <div class="hero-win" aria-hidden="true"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></div>
     <i class="hero-iris" aria-hidden="true"></i>
+    <div class="hero-deck" aria-label="Направления">
+      <a href="#svc" class="dk"><img src="../assets/photos/split-bedroom.webp" alt="" loading="lazy"><span class="mono">квартиры и дома</span><b>Кондиционирование</b></a>
+      <a href="#svc" class="dk"><img src="../assets/photos/store-ducts-1.webp" alt="" loading="lazy"><span class="mono">магазины и офисы</span><b>Вентиляция</b></a>
+      <a href="#svc" class="dk"><img src="../assets/photos/garage-ceiling.webp" alt="" loading="lazy"><span class="mono">щиты, линии, свет</span><b>Электрика</b></a>
+      <div class="dk-dots mono" aria-hidden="true"><span>01</span><span>02</span><span>03</span></div>
+    </div>
+    <div class="hero-dark" aria-hidden="true"><video data-src="../assets/csp-hero-3d.mp4" poster="../assets/hero-3d-poster.jpg" muted loop playsinline preload="none"></video></div>
+    <dl class="hero-kpi"><div><dt class="mono">на рынке</dt><dd>8 лет</dd></div><div><dt class="mono">объектов сдано</dt><dd>1&nbsp;200+</dd></div><div><dt class="mono">гарантия</dt><dd>3 года</dd></div><div><dt class="mono">монтаж под ключ</dt><dd>от 14&nbsp;900&nbsp;₽</dd></div></dl>
     <div class="hero-split" aria-hidden="true">
       <div class="sp-media"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></div>
       <dl class="sp-stats"><div><dt class="mono">лет на рынке</dt><dd>8</dd></div><div><dt class="mono">объектов сдано</dt><dd>1&nbsp;200+</dd></div><div><dt class="mono">гарантия по договору</dt><dd>3 года</dd></div></dl>
@@ -794,7 +885,7 @@ html[data-hero="f"] .offer .btn-ink, html[data-hero="g"] .offer .btn-ink { backg
     <div class="grid foot">
       <div class="offer c1-6">
         <span class="mono brk">Челябинск · Екатеринбург</span>
-        <h1>Климат и инженерные системы <em>под&nbsp;ключ</em></h1>
+        <h1>Климат <span class="h1-pill" aria-hidden="true"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></span> и&nbsp;инженерные системы <em>под&nbsp;ключ</em></h1>
         <p>Кондиционирование, вентиляция и электрика для домов, квартир и бизнеса. Проектируем, устанавливаем и обслуживаем инженерные системы любой сложности.</p>
         <span class="mono offer-tags">Кондиционирование • вентиляция • электрика</span>
         <div class="row"><a class="btn btn-ink" href="#contact">Рассчитать стоимость <i>↗</i></a></div>
@@ -1137,24 +1228,34 @@ html[data-hero="f"] .offer .btn-ink, html[data-hero="g"] .offer .btn-ink { backg
   }
   /* E: the brand film loads only when the variant is shown, then the window opens to full bleed */
   let heroT = 0;
+  /* I: the deck shuffles every few seconds; hovering or focusing it pauses */
+  const deck = hero.querySelector('.hero-deck'), dks = [...deck.querySelectorAll('.dk')], dkDots = [...deck.querySelectorAll('.dk-dots span')];
+  let dkOrder = [0, 1, 2], dkT = 0, dkHold = false;
+  const dkPaint = () => { dkOrder.forEach((c, pos) => dks[c].dataset.p = pos); dkDots.forEach((d, k) => d.classList.toggle('on', k === dkOrder[0])); };
+  const dkNext = () => { if (dkHold) return; const top = dks[dkOrder[0]]; top.classList.add('out');
+    setTimeout(() => { dkOrder.push(dkOrder.shift()); top.classList.remove('out'); dkPaint(); }, 450); };
+  function deckRun(on) { clearInterval(dkT); dkPaint(); if (on && !reduce) dkT = setInterval(dkNext, 3200); }
+  deck.addEventListener('pointerenter', () => dkHold = true); deck.addEventListener('pointerleave', () => dkHold = false);
+  deck.addEventListener('focusin', () => dkHold = true); deck.addEventListener('focusout', () => dkHold = false);
   function heroMedia(v) {
     clearTimeout(heroT); hero.classList.remove('open');
-    const own = { e: '.hero-win video', f: '.hero-split video' };
+    const own = { e: '.hero-win video', f: '.hero-split video', h: '.h1-pill video', j: '.hero-dark video' };
     Object.entries(own).forEach(([k, sel]) => { const vid = hero.querySelector(sel);
       if (k !== v) { vid.pause(); return; }
       if (!vid.src) vid.src = vid.dataset.src;
       if (!reduce) vid.play().catch(() => {}); });
-    if ('efg'.includes(v)) heroT = setTimeout(() => hero.classList.add('open'), reduce ? 0 : v === 'e' ? 700 : 250);
+    if ('efghj'.includes(v)) heroT = setTimeout(() => hero.classList.add('open'), reduce ? 0 : v === 'e' ? 700 : 250);
+    deckRun(v === 'i');
   }
   function heroSet(v) {
     document.documentElement.dataset.hero = v; heroBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.h === v));
     try { localStorage.setItem('csp-hero', v); } catch (e) {}
-    hero.dataset.scene = 'efg'.includes(v) ? 'off' : 'split';
+    hero.dataset.scene = 'efghij'.includes(v) ? 'off' : 'split';
     heroMedia(v);
     if (v === 'b') heroCool(); else { cancelAnimationFrame(heroRun); hero.classList.remove('cooled'); delete hero.dataset.air; }
   }
   heroBtns.forEach(b => b.addEventListener('click', () => heroSet(b.dataset.h)));
-  { let v = new URLSearchParams(location.search).get('hero'); try { v = v || localStorage.getItem('csp-hero'); } catch (e) {} heroSet(/^[abefg]$/.test(v || '') ? v : 'e'); }
+  { let v = new URLSearchParams(location.search).get('hero'); try { v = v || localStorage.getItem('csp-hero'); } catch (e) {} heroSet(/^[abefghij]$/.test(v || '') ? v : 'e'); }
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
