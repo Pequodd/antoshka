@@ -5,363 +5,353 @@
 <title>Climate Solution Pro Mist</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:wght@200;300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400&display=swap">
 <style>
-/* Layout: one fixed WebGL point cloud behind transparent dark "scan" sections; solid light "spec sheet" sections slide over it. Single committed look (dark lab + pale engineering paper). */
+/* Grid taken from the references: 12 full-bleed columns, 32px margins, 16px gutter (cominvi);
+   light 300 display type, mono 12px labels, halves at 50% (aevion). */
 :root {
   color-scheme: light;
-  --ink: #F2F3F3;          /* morning mist ground (drone ref) */
-  --ink-2: #1C252B;        /* graphite footer */
-  --paper: #FFFFFF;        /* spec-sheet white */
-  --sage: #E6E8E9;         /* cool concrete */
-  --on-dark: #1C252B;      /* graphite text on mist */
-  --on-dark-muted: #5B666D;
-  --on-light: #1C252B;
-  --on-light-muted: #5B666D;
-  --line-dark: rgba(28, 37, 43, .14);
-  --line-light: #D7DBDD;
-  --scan: #E5531A;         /* signal orange from workwear (cominvi ref) */
-  --scan-ink: #B83E0C;     /* orange that reads on white */
-  --heat: #1C252B;         /* CTA = graphite pill */
-  --heat-hover: #34424B;
-  --display: "Commissioner", "Segoe UI", system-ui, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --m: 32px;
+  --g: 16px;
+  --white: #FFFFFF;
+  --ink: #24363F;          /* aevion text */
+  --black: #151515;        /* cominvi ground */
+  --muted: #5F6E75;
+  --faint: rgba(36, 54, 63, .24);
+  --line: #E1E5E7;
+  --sage: #E7EBE6;         /* cominvi services ground */
+  --orange: #F47920;       /* cominvi accent */
+  --sans: "Onest", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--ink); color: var(--on-dark); font: 400 17px/1.55 var(--display); -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--white); color: var(--ink); font: 400 17px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
 a { color: inherit; }
 button { font: inherit; color: inherit; }
-:focus-visible { outline: 2px solid var(--scan); outline-offset: 3px; border-radius: 6px; }
+img { max-width: 100%; display: block; }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+h1, h2, h3, p { margin: 0; }
 
-#gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; display: block; }
+#gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
 .no-gl #gl { display: none; }
 
-.mono { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
-.tag { display: inline-flex; align-items: center; gap: 10px; }
-.tag b { display: inline-grid; place-items: center; min-width: 34px; height: 20px; padding: 0 6px; border: 1px solid currentColor; border-radius: 4px; font-weight: 500; }
+/* grid */
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding-inline: var(--m); }
+.c1-3 { grid-column: 1 / 4; } .c1-4 { grid-column: 1 / 5; } .c1-5 { grid-column: 1 / 6; } .c1-6 { grid-column: 1 / 7; }
+.c1-8 { grid-column: 1 / 9; } .c1-9 { grid-column: 1 / 10; } .c1-12 { grid-column: 1 / -1; }
+.c7-9 { grid-column: 7 / 10; } .c7-12 { grid-column: 7 / -1; } .c8-12 { grid-column: 8 / -1; }
+.c10-12 { grid-column: 10 / -1; } .c10-11 { grid-column: 10 / 12; } .c11-12 { grid-column: 11 / -1; } .c12 { grid-column: 12 / -1; }
 
-/* HUD header (drone ref) */
-.hud { position: fixed; z-index: 30; top: env(safe-area-inset-top, 0px); left: 0; right: 0; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
-  gap: 16px; padding: 12px clamp(16px, 3vw, 32px); color: var(--on-dark); background: rgba(242,243,243,.72); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--line-dark); }
-.hud a { text-decoration: none; }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 15px; letter-spacing: -.01em; }
-.brand i { width: 22px; height: 22px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; }
-.hud .mid { display: flex; gap: 28px; }
-.hud .right { display: flex; justify-content: flex-end; align-items: center; gap: 18px; }
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 24px; border-radius: 999px; border: 1px solid transparent;
-  font: 500 15px/1 var(--display); text-decoration: none; cursor: pointer; transition: background .2s, border-color .2s, color .2s; }
-.btn-heat { background: var(--heat); color: #FFFFFF; }
-.btn-heat:hover { background: var(--heat-hover); }
-.btn-line { border-color: rgba(28,37,43,.35); color: var(--on-dark); }
-.btn-line:hover { border-color: var(--on-dark); }
-.btn-dark { background: var(--on-light); color: #FFFFFF; }
-.btn-dark:hover { background: #26303A; }
-.btn .arr { font-family: var(--mono); }
+/* type scale (from refs) */
+.mega { font-weight: 300; font-size: clamp(88px, 16.6vw, 240px); line-height: .92; letter-spacing: -.055em; }
+.xl { font-weight: 300; font-size: clamp(34px, 4.45vw, 64px); line-height: 1.125; letter-spacing: -.0375em; }
+.lg { font-weight: 500; font-size: clamp(28px, 3.33vw, 48px); line-height: 1.05; letter-spacing: -.02em; }
+.md { font-weight: 300; font-size: clamp(22px, 2.22vw, 32px); line-height: 1.25; letter-spacing: -.025em; }
+.mono { font: 400 12px/2 var(--mono); letter-spacing: .02em; text-transform: uppercase; color: var(--muted); }
+.dot::before { content: ""; display: inline-block; width: 4px; height: 4px; margin-right: 10px; vertical-align: middle; background: currentColor; }
+.chip { display: inline-grid; vertical-align: .55em; margin-right: .6em; gap: 2px; font: 400 11px/1 var(--mono); text-transform: uppercase; letter-spacing: 0; }
+.chip span { padding: 3px 5px; border: 1px solid currentColor; border-radius: 3px; }
+.chip span + span { background: var(--black); color: var(--white); border-color: var(--black); }
+.ph { color: var(--orange); }
 
-/* shared section scaffolding */
+.btn { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px; border-radius: 4px; border: 1px solid transparent; text-decoration: none; cursor: pointer;
+  font: 400 15px/1 var(--sans); transition: background .2s, border-color .2s; }
+.btn-black { background: var(--black); color: var(--white); }
+.btn-black:hover { background: #333; }
+.btn-ghost { border-color: var(--line); background: var(--white); }
+.btn-ghost:hover { border-color: var(--ink); }
+.btn i { font-style: normal; font-family: var(--mono); }
+
+/* header (aevion) */
+.hud { position: fixed; z-index: 40; top: env(safe-area-inset-top, 0px); left: 0; right: 0; align-items: center; height: 64px; font-size: 14px;
+  background: rgba(255,255,255,.82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.hud .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; white-space: nowrap; }
+.hud .brand b { font-weight: 500; }
+.hud .brand i { width: 22px; height: 22px; border: 2px solid var(--ink); border-right-color: transparent; border-radius: 50%; flex: none; }
+.hud .sub { color: var(--muted); }
+.hud .c12 { display: flex; justify-content: flex-end; }
+.hud .btn { min-height: 34px; padding: 0 12px; font-size: 14px; }
+
 section { position: relative; }
-.dark { z-index: 2; background: transparent; }
-.light { z-index: 3; background: var(--paper); color: var(--on-light); }
-.wrap { max-width: 1360px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 48px); }
-h1, h2, h3 { margin: 0; font-weight: 300; letter-spacing: -.035em; text-wrap: balance; }
+.solid { z-index: 3; background: var(--white); }
 
-/* HERO (cominvi cinematic + drone wordmark) */
-.hero { min-height: 100vh; min-height: 100svh; display: grid; overflow: hidden; }
-.wordmark { position: absolute; z-index: 0; left: 50%; top: 13vh; transform: translateX(-50%); white-space: nowrap; pointer-events: none;
-  font: 400 clamp(90px, 21vw, 360px)/.82 var(--display); letter-spacing: -.07em; color: transparent;
-  background: linear-gradient(180deg, rgba(28,37,43,.16) 0%, rgba(28,37,43,.05) 55%, rgba(28,37,43,0) 85%); -webkit-background-clip: text; background-clip: text; }
-.hero::before { content: ""; position: absolute; inset: 0; z-index: 0; background: linear-gradient(180deg, #DDE1E3 0%, rgba(242,243,243,0) 60%); pointer-events: none; }
-.hero .wrap { position: relative; z-index: 2; width: 100%; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: end; padding-block: 120px 40px; }
-.hero-copy { display: grid; gap: 24px; align-self: end; }
-.hero h1 { font-size: clamp(38px, 5vw, 76px); line-height: 1.02; max-width: 13ch; }
-.hero h1 em { font-style: normal; color: var(--on-dark-muted); }
-.hero .lead { margin: 0; max-width: 46ch; color: var(--on-dark-muted); font-size: 18px; }
-.row { display: flex; flex-wrap: wrap; gap: 12px; }
-.anchor-hero { position: absolute; z-index: 0; right: 2vw; top: 20vh; width: 50vw; height: 46vh; }
-.hero-foot { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px; margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line-dark); color: var(--on-dark-muted); }
-.hero-cards { display: flex; gap: 12px; }
-.hero-cards a { display: grid; gap: 22px; width: 190px; padding: 12px; border: 1px solid var(--line-dark); border-radius: 10px; text-decoration: none; background: rgba(255,255,255,.55); backdrop-filter: blur(6px); transition: border-color .2s; }
-.hero-cards a:hover { border-color: var(--on-dark); }
-.hero-cards a span:last-child { display: flex; justify-content: space-between; color: var(--on-dark); }
+/* 1 hero */
+.hero { z-index: 2; height: 100vh; height: 100svh; min-height: 640px; overflow: hidden; }
+.hero .word { position: absolute; z-index: 0; left: var(--m); right: var(--m); top: 76px; white-space: nowrap; overflow: hidden;
+  font-weight: 300; font-size: 31.5vw; line-height: .8; letter-spacing: -.065em; color: transparent;
+  background: linear-gradient(180deg, rgba(36,54,63,.2) 0%, rgba(36,54,63,.06) 60%, rgba(36,54,63,0) 92%); -webkit-background-clip: text; background-clip: text; }
+.hero .anchor { position: absolute; left: 20%; right: 20%; top: 26%; bottom: 30%; }
+.hero .grid { position: absolute; z-index: 2; left: 0; right: 0; bottom: 32px; align-items: end; row-gap: 20px; }
+.hero h1 { font-weight: 400; font-size: clamp(22px, 2.2vw, 32px); line-height: 1.25; letter-spacing: -.02em; }
+.hero h1 span { color: var(--muted); }
+.hero .row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.hero .right { text-align: right; }
 
-/* STATEMENT word reveal (drone) */
-.statement { padding-block: 22vh 26vh; }
-.statement p { margin: 18px 0 0; font-size: clamp(30px, 4.2vw, 64px); line-height: 1.1; letter-spacing: -.035em; max-width: 22ch; }
-.statement .w { opacity: .2; transition: opacity .25s; }
+/* 2 statement */
+.statement { padding-block: clamp(120px, 18vh, 200px); }
+.statement .rule { grid-column: 7 / 8; border-left: 1px solid var(--line); }
+.w { transition: color .25s; color: var(--faint); }
+.w.on { color: var(--ink); }
 
-/* SPEC DIAL (drone gear) */
+/* 3 standard */
+.standard .head { padding-top: clamp(96px, 14vh, 160px); row-gap: 48px; }
+.pill { justify-self: end; display: inline-grid; place-items: center; min-width: 44px; height: 32px; border: 1px solid var(--line); border-radius: 999px; font-size: 15px; color: var(--muted); }
 .dial-track { height: 300vh; }
 .sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
-.dial .sticky { display: grid; grid-template-rows: auto 1fr auto; padding-block: 88px 0; }
-.dial-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; }
-.dial-head h2 { font-size: clamp(56px, 10vw, 150px); line-height: .9; }
-.dial-head p { margin: 0; max-width: 36ch; color: var(--on-light-muted); }
-.dial-stage { position: relative; display: grid; place-items: end center; min-height: 0; }
-.dial-stage svg { width: min(620px, 92vw); height: auto; overflow: visible; }
-.dial-core { position: absolute; bottom: -26px; left: 50%; transform: translateX(-50%); width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--line-light); background: var(--paper);
-  display: grid; place-items: center; }
-.dial-core i { width: 8px; height: 8px; border-radius: 50%; background: var(--scan); box-shadow: 0 0 0 6px rgba(229,83,26,.15); }
-.dial-label { position: absolute; bottom: 44px; left: 50%; transform: translateX(-50%); color: var(--on-light-muted); white-space: nowrap; }
-.dial-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line-light); }
-.dial-tabs div { padding: 30px 16px 40px; text-align: center; display: grid; gap: 8px; color: #B3BAB4; transition: color .3s; }
-.dial-tabs div + div { border-left: 1px solid var(--line-light); }
-.dial-tabs strong { font-weight: 400; font-size: clamp(30px, 3.6vw, 52px); letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.dial-tabs .on { color: var(--on-light); }
+.dial .sticky { display: grid; grid-template-rows: 1fr auto; padding-top: 64px; }
+.dial-stage { position: relative; display: grid; place-items: end center; }
+.dial-stage svg { width: min(640px, 86vw); height: auto; overflow: visible; display: block; }
+.dial-core { position: absolute; left: 50%; bottom: -24px; transform: translateX(-50%); width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line); background: var(--white); display: grid; place-items: center; }
+.dial-core i { width: 6px; height: 6px; background: var(--orange); }
+.dial-label { position: absolute; left: 50%; bottom: 40px; transform: translateX(-50%); white-space: nowrap; }
+.tabs { border-top: 1px solid var(--line); padding-inline: 0; column-gap: 0; }
+.tabs > div { grid-column: span 4; padding: 40px 16px 48px; text-align: center; display: grid; gap: 6px; color: var(--faint); transition: color .3s; }
+.tabs > div + div { border-left: 1px solid var(--line); }
+.tabs strong { font-weight: 300; font-size: clamp(30px, 3.33vw, 48px); line-height: 1.17; letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
+.tabs .on { color: var(--ink); }
+.tabs .mono { color: inherit; }
 
-/* EQUIPMENT turntable (cominvi minerals) */
+/* 4 equipment (cominvi minerals) */
+.equip { z-index: 2; }
 .equip-track { height: 520vh; }
-.equip .sticky { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: center; gap: 24px; padding-inline: clamp(16px, 4vw, 48px); max-width: 1360px; margin: 0 auto; }
-.equip-list { display: grid; gap: 22px; }
-.equip-list ol { list-style: none; margin: 0; padding: 0; display: grid; }
-.equip-list button { all: unset; cursor: pointer; display: block; font-size: clamp(30px, 3.4vw, 50px); line-height: 1.12; letter-spacing: -.03em; color: rgba(28,37,43,.2); transition: color .3s; }
-.equip-list button:hover { color: rgba(28,37,43,.5); }
-.equip-list button[aria-pressed="true"] { color: var(--on-dark); }
-.equip-list button:focus-visible { outline: 2px solid var(--scan); outline-offset: 4px; }
-.equip-info { display: grid; gap: 10px; max-width: 40ch; min-height: 130px; color: var(--on-dark-muted); }
-.equip-info .price { color: var(--on-dark); font-family: var(--mono); font-size: 14px; }
-.ring-wrap { position: relative; display: grid; place-items: center; }
-.ring { width: min(560px, 44vw); aspect-ratio: 1; max-width: 100%; }
+.equip .sticky > .grid { height: 100%; grid-template-rows: auto 1fr auto; padding-block: 88px 40px; }
+.ring { position: absolute; left: 50%; top: 52%; width: min(64vh, 46vw); aspect-ratio: 1; transform: translate(-50%, -50%); }
 .ring svg { width: 100%; height: 100%; overflow: visible; }
-.ring .ticks { transform-origin: 50% 50%; animation: spin 60s linear infinite; }
+.ring .ticks { transform-box: fill-box; transform-origin: center; animation: spin 80s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.ring-meta { position: absolute; inset: auto 0 -6px 0; display: flex; justify-content: space-between; color: var(--on-dark-muted); }
+.equip ol { list-style: none; margin: 0; padding: 0; align-self: end; position: relative; z-index: 3; }
+.equip ol button { all: unset; cursor: pointer; display: block; font-weight: 300; font-size: clamp(26px, 2.22vw, 32px); line-height: 1.25; letter-spacing: -.025em; color: var(--faint); transition: color .3s; }
+.equip ol button:hover { color: var(--muted); }
+.equip ol button[aria-pressed="true"] { color: var(--ink); }
+.equip ol button:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.equip .info { align-self: center; position: relative; z-index: 3; display: grid; gap: 12px; font-size: 15px; color: var(--muted); }
+.equip .info .price { font: 400 13px/1.6 var(--mono); color: var(--ink); text-transform: uppercase; }
 
-/* NUMBERS (cominvi stats) */
-.numbers { padding-block: clamp(96px, 14vh, 160px); }
-.lede { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 20px; align-items: start; }
-.lede p { margin: 0; font-size: clamp(24px, 2.6vw, 38px); line-height: 1.18; letter-spacing: -.025em; max-width: 30ch; }
-.stats { margin-top: 72px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.stat { display: grid; grid-template-columns: 28px 1fr; gap: 6px 14px; padding: 26px 20px 26px 0; border-top: 1px solid var(--line-light); }
-.stat svg { width: 22px; height: 22px; stroke: var(--on-light-muted); fill: none; stroke-width: 1.4; margin-top: 8px; }
-.stat strong { font-weight: 400; font-size: clamp(36px, 3.4vw, 52px); line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.stat .mono { grid-column: 2; color: var(--on-light-muted); font-size: 11px; }
-.ph { color: var(--scan-ink); }
+/* 5 numbers (cominvi about) */
+.about { padding-block: clamp(96px, 14vh, 140px); }
+.about .media { margin-top: clamp(96px, 18vh, 200px); aspect-ratio: 4 / 3; border-radius: 6px; overflow: hidden; background: var(--sage); }
+.about .media img { width: 100%; height: 100%; object-fit: cover; }
+.stats { margin-top: clamp(96px, 18vh, 200px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--g); align-content: start; }
+.stat { display: grid; grid-template-columns: 48px 1fr; padding: 16px 0 48px; border-top: 1px solid var(--line); }
+.stat svg { width: 28px; height: 28px; fill: none; stroke: var(--ink); stroke-width: 1.4; }
+.stat strong { display: block; font-weight: 500; font-size: clamp(28px, 2.5vw, 36px); line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.stat .mono { display: block; margin-top: 6px; line-height: 1.4; }
+.about .note { margin-top: 32px; font-size: 15px; color: var(--muted); }
 
-/* B2B (cominvi services grid) */
-.b2b { background: var(--sage); padding-block: clamp(96px, 14vh, 160px); }
-.cards { margin-top: 64px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-.card { background: var(--paper); border-radius: 6px; padding: 22px; min-height: 230px; display: grid; align-content: space-between; gap: 40px; }
-.card svg { width: 26px; height: 26px; stroke: var(--on-light); fill: none; stroke-width: 1.4; }
-.card h3 { font-size: 21px; letter-spacing: -.02em; }
-.card p { margin: 6px 0 0; font-size: 15px; color: var(--on-light-muted); }
-.b2b-foot { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; align-items: center; }
-.clients { color: var(--on-light-muted); }
-.clients span { color: var(--on-light); }
+/* 6 b2b (cominvi services) */
+.b2b { background: var(--sage); padding-block: clamp(96px, 14vh, 140px); }
+.cards { margin-top: clamp(80px, 14vh, 160px); row-gap: var(--g); padding-inline: var(--m); }
+.card { grid-column: span 3; background: var(--white); border-radius: 4px; min-height: 260px; padding: 20px; display: grid; align-content: space-between; gap: 32px; }
+.card svg { width: 28px; height: 28px; fill: none; stroke: var(--ink); stroke-width: 1.4; }
+.card h3 { font-weight: 500; font-size: 20px; letter-spacing: -.015em; }
+.card p { margin-top: 6px; font-size: 15px; color: var(--muted); }
+.b2b .foot { margin-top: 32px; align-items: center; }
+.b2b .foot .c10-12 { justify-self: end; }
 
-/* FINAL CTA */
-.final { min-height: 100vh; min-height: 100svh; display: grid; align-items: center; padding-block: 120px; }
-.final .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; align-items: center; width: 100%; }
-.anchor-final { height: 52vh; }
-.form { background: rgba(255,255,255,.78); backdrop-filter: blur(10px); border: 1px solid var(--line-dark); border-radius: 14px; padding: clamp(22px, 3vw, 36px); display: grid; gap: 18px; max-width: 520px; }
-.form h2 { font-size: clamp(30px, 3.2vw, 46px); line-height: 1.05; }
-.field { display: grid; gap: 8px; }
-.field label { color: var(--on-dark-muted); }
-.field input { height: 52px; border-radius: 10px; border: 1px solid var(--line-dark); background: #FFFFFF; color: var(--on-dark); padding: 0 16px; font: 400 17px var(--display); }
-.field input:focus { outline: none; border-color: var(--scan); }
-.consent { display: flex; gap: 10px; align-items: start; font-size: 13px; color: var(--on-dark-muted); }
-.consent input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--scan); }
-.err { color: #B42318; font-size: 13px; min-height: 1em; }
-.done { display: grid; gap: 10px; }
-.done strong { font-weight: 400; font-size: 26px; letter-spacing: -.02em; color: var(--scan-ink); }
-
-footer { position: relative; z-index: 3; background: var(--ink-2); color: #AEB6BB; }
-footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: space-between; padding-block: 36px; }
+/* 7 order + footer (cominvi dark) */
+.order { background: var(--black); color: var(--white); padding-block: clamp(96px, 14vh, 140px) 0; }
+.order .mono { color: rgba(255,255,255,.6); }
+.order h2 { font-weight: 300; font-size: clamp(34px, 3.9vw, 56px); line-height: 1.1; letter-spacing: -.035em; }
+.form { display: grid; gap: 24px; align-content: start; }
+.field { display: grid; gap: 6px; }
+.field input { height: 48px; border: 0; border-bottom: 1px solid rgba(255,255,255,.3); background: transparent; color: var(--white); font: 300 20px var(--sans); padding: 0; border-radius: 0; }
+.field input:focus { outline: none; border-bottom-color: var(--orange); }
+.consent { display: flex; gap: 10px; font-size: 13px; color: rgba(255,255,255,.65); }
+.consent input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--orange); }
+.err { min-height: 1.2em; font-size: 13px; color: #FF9B5C; }
+.btn-orange { background: var(--orange); color: var(--black); justify-self: start; min-height: 48px; padding: 0 22px; }
+.btn-orange:hover { background: #FF8F45; }
+.done { display: grid; gap: 8px; }
+.done strong { font-weight: 300; font-size: 32px; letter-spacing: -.03em; }
+.foot-row { margin-top: clamp(96px, 14vh, 140px); padding-block: 24px 32px; border-top: 1px solid rgba(255,255,255,.14); row-gap: 8px; }
+.foot-row .c10-12 { text-align: right; }
 
 @media (max-width: 900px) {
-  .hud { grid-template-columns: 1fr auto; }
-  .hud .mid { display: none; }
-  .hud .clock { display: none; }
-  .hero .wrap { grid-template-columns: 1fr; padding-block: 0 28px; }
-  .anchor-hero { left: 5vw; right: 5vw; width: auto; top: 12vh; height: 30vh; }
-  .wordmark { top: 10vh; }
-  .hero-copy { padding-top: 46vh; }
-  .hero-cards { display: none; }
-  .dial-head { flex-direction: column; align-items: start; }
-  .dial-tabs div { padding: 20px 6px 28px; }
-  .dial-tabs .mono { font-size: 10px; }
-  .equip .sticky { grid-template-columns: 1fr; grid-template-rows: auto auto; align-content: center; gap: 8px; }
-  .ring-wrap { order: -1; }
-  .ring { width: min(78vw, 42vh); }
-  .equip-list button { font-size: 26px; }
-  .equip-info { min-height: 110px; font-size: 15px; }
+  :root { --m: 16px; --g: 12px; }
+  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .grid > * { grid-column: 1 / -1; }
+  .hud .sub, .hud .c7-9, .hud .c10-11 { display: none; }
+  .hud .brand { grid-column: 1 / 4; }
+  .hud .c12 { grid-column: 4 / -1; }
+  .hero .word { font-size: 31vw; top: 84px; }
+  .hero .anchor { left: 6%; right: 6%; top: 18%; bottom: 46%; }
+  .hero .right { text-align: left; }
+  .statement .rule { display: none; }
+  .pill { justify-self: start; }
+  .tabs > div { grid-column: span 4; padding: 14px 8px; }
+  .tabs > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  .tabs { grid-template-columns: 1fr; }
+  .dial .sticky { grid-template-rows: 1fr auto; }
+  .dial-stage svg { width: 92vw; }
+  .ring { top: 40%; width: min(80vw, 46vh); }
+  .equip .sticky > .grid { padding-block: 80px 24px; grid-template-rows: auto auto 1fr auto; row-gap: 12px; }
+  .equip .info { align-self: end; }
   .stats { grid-template-columns: 1fr 1fr; }
-  .cards { grid-template-columns: 1fr 1fr; }
-  .final .wrap { grid-template-columns: 1fr; }
-  .anchor-final { height: 34vh; order: -1; }
-  .lede { grid-template-columns: 1fr; }
+  .stat { grid-template-columns: 36px 1fr; padding-bottom: 28px; }
+  .card { grid-column: span 2; min-height: 200px; }
+  .foot-row .c10-12 { text-align: left; }
 }
 @media (max-width: 520px) {
-  .cards { grid-template-columns: 1fr; }
-  .card { min-height: 0; gap: 24px; }
-  .hud .cta-mini { display: none; }
+  .card { grid-column: 1 / -1; min-height: 0; }
+  .hud .btn { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .ring .ticks { animation: none; }
-  .statement .w { opacity: 1; transition: none; }
+  .w { color: var(--ink); transition: none; }
 }
 </style>
 
-<header class="hud">
-  <a class="brand" href="#top"><i aria-hidden="true"></i>Climate Solution Pro</a>
-  <nav class="mid mono" aria-label="Разделы">
-    <a href="#equip">Оборудование</a><a href="#b2b">Для бизнеса</a><a href="#order">Заявка</a>
-  </nav>
-  <div class="right">
-    <span class="mono clock" id="clock">Челябинск --:--</span>
-    <a class="btn btn-heat cta-mini" href="#order">Рассчитать <span class="arr">↗</span></a>
-  </div>
+<header class="hud grid">
+  <a class="brand c1-4" href="#top"><i aria-hidden="true"></i><b>Climate Solution Pro</b><span class="sub">· Монтаж климата</span></a>
+  <span class="c7-9 sub">Челябинск · Екатеринбург</span>
+  <span class="c10-11 sub" id="clock">Челябинск --:--</span>
+  <div class="c12"><a class="btn btn-black" href="#order">Рассчитать</a></div>
 </header>
 
 <canvas id="gl" aria-hidden="true"></canvas>
 
 <main id="top">
-  <section class="hero dark" data-scene="split" data-air="1" data-anchor=".anchor-hero">
-    <div class="wordmark" aria-hidden="true">CLIMATE</div>
-    <div class="anchor-hero" aria-hidden="true"></div>
-    <div class="wrap">
-      <div class="hero-copy">
-        <span class="mono tag"><b>01</b>Климат · вентиляция · электрика</span>
-        <h1>Климат по стандарту <em>федеральных сетей</em> у вас дома</h1>
-        <p class="lead">Монтируем кондиционеры, вентиляцию и электрику в Челябинске и Екатеринбурге. Смета фиксируется до начала работ, монтаж квартиры занимает один день.</p>
+  <!-- 1 -->
+  <section class="hero" data-scene="split" data-air="1" data-anchor=".anchor">
+    <div class="word" aria-hidden="true">climate</div>
+    <div class="anchor" aria-hidden="true"></div>
+    <div class="grid">
+      <div class="c1-6">
+        <h1>Монтаж климата по стандарту федеральных сетей.<br><span>Челябинск и Екатеринбург, монтаж квартиры за один день.</span></h1>
         <div class="row">
-          <a class="btn btn-heat" href="#order">Рассчитать стоимость <span class="arr">↗</span></a>
-          <a class="btn btn-line" href="#b2b">Для бизнеса</a>
+          <a class="btn btn-black" href="#order">Рассчитать стоимость <i>↗</i></a>
+          <a class="btn btn-ghost" href="#b2b">Для бизнеса</a>
         </div>
       </div>
-      <div class="hero-foot mono">
-        <span>Челябинская и Свердловская области</span>
-        <div class="hero-cards">
-          <a href="#equip"><span>[ 04 ]</span><span>Оборудование <span class="arr">→</span></span></a>
-          <a href="#b2b"><span>[ 06 ]</span><span>Для бизнеса <span class="arr">→</span></span></a>
-        </div>
-        <span>Листайте ↓</span>
-      </div>
+      <span class="c7-9 mono">Кондиционеры · вентиляция · электрика</span>
+      <span class="c10-12 mono right">Листайте ↓</span>
     </div>
   </section>
 
-  <section class="statement dark" data-scene="air" data-anchor="self">
-    <div class="wrap">
-      <span class="mono tag"><b>02</b>Почему мы</span>
-      <p id="reveal">Мы работаем на объектах федеральных сетей, где у монтажа есть регламент. Тот же регламент у вас дома: смета до начала работ, чистота и акт сдачи.</p>
+  <!-- 2 -->
+  <section class="statement solid">
+    <div class="grid">
+      <p class="xl c1-6" data-reveal>Работаем на объектах федеральных сетей, где у монтажа есть регламент. Тот же регламент у вас дома: смета до начала работ, чистота и акт сдачи.</p>
+      <div class="rule" aria-hidden="true"></div>
     </div>
   </section>
 
-  <section class="dial light" id="standard">
-    <div class="dial-track" id="dialTrack">
-      <div class="sticky">
-        <div class="wrap dial-head">
-          <div>
-            <span class="mono tag"><b>03</b>Стандарт монтажа</span>
-            <h2>Стандарт</h2>
+  <!-- 3 -->
+  <section class="standard solid" id="standard">
+    <div class="grid head">
+      <h2 class="mega c1-9">Стандарт</h2>
+      <span class="pill c12">3</span>
+      <span class="mono dot c1-6">Монтаж по договору</span>
+      <p class="md c7-12" data-reveal>Три цифры, которые мы записываем в договор и проверяем при сдаче объекта вместе с вами.</p>
+    </div>
+    <div class="dial" id="dialTrack">
+      <div class="dial-track">
+        <div class="sticky">
+          <div class="dial-stage">
+            <svg viewBox="-320 -320 640 330" aria-hidden="true">
+              <g id="dialTicks" stroke="#C9CFD2" stroke-width="1"></g>
+              <path d="M -300 0 A 300 300 0 0 1 300 0" fill="none" stroke="#E1E5E7"></path>
+              <g id="needle"><line x1="0" y1="0" x2="0" y2="-300" stroke="#24363F" stroke-width="1"></line><rect x="-3" y="-306" width="6" height="6" fill="#F47920"></rect></g>
+            </svg>
+            <span class="mono dial-label" id="dialLabel">[ Монтаж ]</span>
+            <div class="dial-core"><i></i></div>
           </div>
-          <p>Три цифры, которые мы записываем в договор и проверяем при сдаче объекта.</p>
-        </div>
-        <div class="dial-stage">
-          <svg viewBox="-320 -320 640 330" aria-hidden="true">
-            <g id="dialTicks" stroke="#B9C0B8" stroke-width="1"></g>
-            <path d="M -300 0 A 300 300 0 0 1 300 0" fill="none" stroke="#CDD3CB"></path>
-            <g id="needle"><line x1="0" y1="0" x2="0" y2="-300" stroke="#B83E0C" stroke-width="1.5"></line><polygon points="0,-312 -6,-300 6,-300" fill="#B83E0C"></polygon></g>
-          </svg>
-          <span class="mono dial-label" id="dialLabel">[ Монтаж ]</span>
-          <div class="dial-core"><i></i></div>
-        </div>
-        <div class="wrap dial-tabs" id="dialTabs">
-          <div class="on"><strong>1 день</strong><span class="mono">[ монтаж квартиры ]</span></div>
-          <div><strong>≤ 500 мкм</strong><span class="mono">[ вакуум перед запуском ]</span></div>
-          <div><strong class="ph">[X] года</strong><span class="mono">[ гарантия на работы ]</span></div>
+          <div class="grid tabs" id="dialTabs">
+            <div class="on"><strong>1 день</strong><span class="mono">[ монтаж квартиры ]</span></div>
+            <div><strong>≤ 500 мкм</strong><span class="mono">[ вакуум перед запуском ]</span></div>
+            <div><strong>[X] года</strong><span class="mono">[ гарантия на работы ]</span></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="equip dark" id="equip" data-scene="equip" data-anchor=".ring">
+  <!-- 4 -->
+  <section class="equip" id="equip" data-scene="equip" data-anchor=".ring">
     <div class="equip-track" id="equipTrack">
       <div class="sticky">
-        <div class="equip-list">
-          <span class="mono tag"><b>04</b>Что устанавливаем</span>
-          <ol id="equipList">
+        <div class="ring" aria-hidden="true">
+          <svg viewBox="-260 -260 520 520">
+            <g class="ticks" id="ringTicks" stroke="rgba(36,54,63,.35)" stroke-width="1"></g>
+            <circle r="236" fill="none" stroke="#F47920" stroke-width="1.2" stroke-dasharray="0 1483" id="ringArc" transform="rotate(-90)"></circle>
+          </svg>
+        </div>
+        <div class="grid">
+          <span class="c1-6"><span class="chip"><span>S.04</span><span>Оборудование</span></span></span>
+          <span class="c10-12 mono right" id="ringIdx" style="text-align:right">[ Тип 01 / 05 ]</span>
+          <ol class="c1-4" id="equipList">
             <li><button type="button" aria-pressed="true" data-i="0">Сплит-система</button></li>
             <li><button type="button" aria-pressed="false" data-i="1">Мультисплит</button></li>
             <li><button type="button" aria-pressed="false" data-i="2">Канальный</button></li>
             <li><button type="button" aria-pressed="false" data-i="3">Кассетный</button></li>
             <li><button type="button" aria-pressed="false" data-i="4">Рекуператор</button></li>
           </ol>
-          <div class="equip-info" id="equipInfo" aria-live="polite"></div>
-        </div>
-        <div class="ring-wrap">
-          <div class="ring">
-            <svg viewBox="-260 -260 520 520" aria-hidden="true">
-              <g class="ticks" id="ringTicks" stroke="rgba(28,37,43,.32)" stroke-width="1"></g>
-              <circle r="236" fill="none" stroke="#E5531A" stroke-width="1.5" stroke-dasharray="0 1483" id="ringArc" transform="rotate(-90)"></circle>
-            </svg>
-          </div>
-          <div class="ring-meta mono"><span id="ringIdx">Тип 01 / 05</span><span>[ Скан ]</span></div>
+          <div class="info c10-12" id="equipInfo" aria-live="polite"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="numbers light">
-    <div class="wrap">
-      <div class="lede">
-        <span class="mono tag"><b>05</b>В цифрах</span>
-        <p>Climate Solution Pro монтирует климатические системы для квартир, офисов и торговых сетей в Челябинской и Свердловской областях.</p>
-      </div>
-      <div class="stats">
-        <div class="stat"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><strong class="ph">[X]</strong><span class="mono">лет опыта</span></div>
-        <div class="stat"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 14h10"/></svg><strong class="ph">[N]</strong><span class="mono">установленных систем</span></div>
-        <div class="stat"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg><strong class="ph">[N]</strong><span class="mono">коммерческих объектов</span></div>
-        <div class="stat"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><strong>2</strong><span class="mono">города: Челябинск, Екатеринбург</span></div>
-        <div class="stat"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><strong>1 день</strong><span class="mono">монтаж квартиры</span></div>
-        <div class="stat"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg><strong class="ph">[X] года</strong><span class="mono">гарантия по договору</span></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="b2b light" id="b2b">
-    <div class="wrap">
-      <div class="lede">
-        <span class="mono tag"><b>06</b>Для бизнеса</span>
-        <p>Магазины, офисы и отделения: монтаж и обслуживание по договору, без остановки работы объекта.</p>
-      </div>
-      <div class="cards">
-        <article class="card"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M9 11h6M9 15h6"/></svg><div><h3>Договор и ТЗ</h3><p>Работаем по вашему техзаданию и регламентам объекта.</p></div></article>
-        <article class="card"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg><div><h3>Безнал и документы</h3><p>Счёт, акты, полный пакет закрывающих документов.</p></div></article>
-        <article class="card"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><div><h3>Ночью и в выходные</h3><p>Монтируем без остановки торговли и приёма посетителей.</p></div></article>
-        <article class="card"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg><div><h3>Регламентное ТО</h3><p>Обслуживание по графику и аварийные выезды.</p></div></article>
-      </div>
-      <div class="b2b-foot">
-        <span class="mono clients">Работали на объектах: <span>МФЦ · Пятёрочка · МегаФон</span></span>
-        <a class="btn btn-dark" href="#order">Запросить КП <span class="arr">↗</span></a>
+  <!-- 5 -->
+  <section class="about solid">
+    <div class="grid">
+      <p class="lg c1-9"><span class="chip"><span>S.05</span><span>О компании</span></span>Climate Solution Pro монтирует климатические системы для квартир, офисов и торговых сетей в Челябинской и Свердловской областях.</p>
+      <div class="media c1-6"><img src="../assets/hero-poster.jpg" alt="Монтажники в форме устанавливают внутренний блок кондиционера" loading="lazy"></div>
+      <div class="c7-12">
+        <div class="stats">
+          <div class="stat"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><strong class="ph">[X]</strong><span class="mono">лет опыта</span></div></div>
+          <div class="stat"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="10" rx="1"/><path d="M7 14h10"/></svg><div><strong class="ph">[N]</strong><span class="mono">установленных систем</span></div></div>
+          <div class="stat"><svg viewBox="0 0 24 24"><path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/></svg><div><strong class="ph">[N]</strong><span class="mono">коммерческих объектов</span></div></div>
+          <div class="stat"><svg viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><div><strong>2</strong><span class="mono">города</span></div></div>
+          <div class="stat"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="1"/><path d="M4 10h16M9 3v4M15 3v4"/></svg><div><strong>1 день</strong><span class="mono">монтаж квартиры</span></div></div>
+          <div class="stat"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg><div><strong class="ph">[X] года</strong><span class="mono">гарантия по договору</span></div></div>
+        </div>
+        <p class="note">Работаем по договору с физическими и юридическими лицами. Цифры в скобках заменим реальными перед запуском.</p>
       </div>
     </div>
   </section>
 
-  <section class="final dark" id="order" data-scene="split" data-air="1" data-anchor=".anchor-final">
-    <div class="wrap">
-      <form class="form" id="leadForm" novalidate>
-        <span class="mono tag"><b>07</b>Заявка</span>
+  <!-- 6 -->
+  <section class="b2b solid" id="b2b" style="background: var(--sage)">
+    <div class="grid">
+      <p class="lg c1-9"><span class="chip"><span>S.06</span><span>Для бизнеса</span></span>Магазины, офисы и отделения: монтаж и обслуживание по договору, без остановки работы объекта.</p>
+    </div>
+    <div class="grid cards">
+      <article class="card"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M9 11h6M9 15h6"/></svg><div><h3>Договор и ТЗ</h3><p>Работаем по вашему техзаданию и регламентам объекта.</p></div></article>
+      <article class="card"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="1"/><path d="M3 10h18"/></svg><div><h3>Безнал и документы</h3><p>Счёт, акты, полный пакет закрывающих документов.</p></div></article>
+      <article class="card"><svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg><div><h3>Ночью и в выходные</h3><p>Монтируем без остановки торговли и приёма посетителей.</p></div></article>
+      <article class="card"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg><div><h3>Регламентное ТО</h3><p>Обслуживание по графику и аварийные выезды.</p></div></article>
+    </div>
+    <div class="grid foot">
+      <span class="c1-6 mono">Работали на объектах: МФЦ · Пятёрочка · МегаФон</span>
+      <div class="c10-12"><a class="btn btn-black" href="#order">Запросить КП <i>↗</i></a></div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="order solid" id="order" style="background: var(--black)">
+    <div class="grid">
+      <div class="c1-6" style="display:grid; gap:20px; align-content:start">
+        <span class="mono dot">S.07 · Заявка</span>
         <h2>Перезвоним за 15 минут и назовём цену</h2>
-        <div class="field"><label class="mono" for="fName">Имя</label><input id="fName" name="name" autocomplete="given-name"></div>
-        <div class="field"><label class="mono" for="fPhone">Телефон</label><input id="fPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7"></div>
+      </div>
+      <form class="form c8-12" id="leadForm" novalidate>
+        <div class="field"><label class="mono" for="fName">Имя</label><input id="fName" autocomplete="given-name"></div>
+        <div class="field"><label class="mono" for="fPhone">Телефон</label><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7"></div>
         <label class="consent"><input type="checkbox" id="fConsent"><span>Согласен на обработку персональных данных</span></label>
         <div class="err" id="fErr" role="alert"></div>
-        <button class="btn btn-heat" type="submit">Перезвоните мне <span class="arr">↗</span></button>
+        <button class="btn btn-orange" type="submit">Перезвоните мне <i>↗</i></button>
       </form>
-      <div class="anchor-final" aria-hidden="true"></div>
     </div>
+    <footer class="grid foot-row mono">
+      <span class="c1-4">Climate Solution Pro · ИП [ФИО]</span>
+      <span class="c7-9">+7 (351) XXX-XX-XX · +7 (343) XXX-XX-XX</span>
+      <span class="c10-12">Прототип V4</span>
+    </footer>
   </section>
 </main>
-
-<footer>
-  <div class="wrap mono">
-    <span>Climate Solution Pro · ИП [ФИО]</span>
-    <span>Челябинск +7 (351) XXX-XX-XX · Екатеринбург +7 (343) XXX-XX-XX</span>
-    <span>Прототип V4 · цифры в скобках заменим реальными</span>
-  </div>
-</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -370,40 +360,37 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: 
   const mobile = matchMedia('(max-width: 900px)').matches;
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
-  /* ---------- HUD clock (Chelyabinsk & Ekaterinburg share UTC+5) ---------- */
   const clock = document.getElementById('clock');
   const fmt = new Intl.DateTimeFormat('ru-RU', { timeZone: 'Asia/Yekaterinburg', hour: '2-digit', minute: '2-digit' });
   const tick = () => { clock.textContent = 'Челябинск ' + fmt.format(new Date()); };
   tick(); setInterval(tick, 20000);
 
-  /* ---------- word reveal ---------- */
-  const reveal = document.getElementById('reveal');
-  reveal.innerHTML = reveal.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
-  const words = [...reveal.querySelectorAll('.w')];
+  /* word-by-word reveal (aevion) */
+  const reveals = [...document.querySelectorAll('[data-reveal]')].map(el => {
+    el.innerHTML = el.textContent.trim().split(/\s+/).map(w => `<span class="w">${w}</span>`).join(' ');
+    return { el, words: [...el.querySelectorAll('.w')] };
+  });
 
-  /* ---------- dial ---------- */
-  const dialTicks = document.getElementById('dialTicks');
+  /* dial */
   let t = '';
   for (let i = 0; i <= 60; i++) {
-    const a = Math.PI + (i / 60) * Math.PI, long = i % 10 === 0;
-    const r1 = 300, r2 = long ? 280 : 290;
-    t += `<line x1="${(Math.cos(a) * r1).toFixed(1)}" y1="${(Math.sin(a) * r1).toFixed(1)}" x2="${(Math.cos(a) * r2).toFixed(1)}" y2="${(Math.sin(a) * r2).toFixed(1)}"${long ? ' stroke="#7E8781"' : ''}/>`;
+    const a = Math.PI + (i / 60) * Math.PI, long = i % 10 === 0, r2 = long ? 280 : 291;
+    t += `<line x1="${(Math.cos(a) * 300).toFixed(1)}" y1="${(Math.sin(a) * 300).toFixed(1)}" x2="${(Math.cos(a) * r2).toFixed(1)}" y2="${(Math.sin(a) * r2).toFixed(1)}"${long ? ' stroke="#8A979D"' : ''}/>`;
   }
-  dialTicks.innerHTML = t;
+  document.getElementById('dialTicks').innerHTML = t;
   const needle = document.getElementById('needle');
   const dialTabs = [...document.querySelectorAll('#dialTabs > div')];
   const dialLabel = document.getElementById('dialLabel');
   const dialNames = ['[ Монтаж ]', '[ Вакуум ]', '[ Гарантия ]'];
+  const dialTrack = document.querySelector('.dial-track');
 
-  /* ---------- equipment ---------- */
-  const ringTicks = document.getElementById('ringTicks');
+  /* equipment */
   t = '';
   for (let i = 0; i < 120; i++) {
-    const a = (i / 120) * Math.PI * 2, long = i % 10 === 0;
-    const r1 = 250, r2 = long ? 228 : 240;
-    t += `<line x1="${(Math.cos(a) * r1).toFixed(1)}" y1="${(Math.sin(a) * r1).toFixed(1)}" x2="${(Math.cos(a) * r2).toFixed(1)}" y2="${(Math.sin(a) * r2).toFixed(1)}"/>`;
+    const a = (i / 120) * Math.PI * 2, long = i % 10 === 0, r2 = long ? 228 : 241;
+    t += `<line x1="${(Math.cos(a) * 250).toFixed(1)}" y1="${(Math.sin(a) * 250).toFixed(1)}" x2="${(Math.cos(a) * r2).toFixed(1)}" y2="${(Math.sin(a) * r2).toFixed(1)}"/>`;
   }
-  ringTicks.innerHTML = t;
+  document.getElementById('ringTicks').innerHTML = t;
   const EQUIP = [
     { key: 'split', text: 'Внутренний и наружный блок. Для квартиры, спальни, небольшого офиса.', price: 'Монтаж от XX XXX ₽' },
     { key: 'multi', text: 'Один наружный блок на 2–5 комнат. Меньше блоков на фасаде.', price: 'Монтаж от XX XXX ₽' },
@@ -422,49 +409,40 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: 
     equipIndex = i;
     equipBtns.forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
     equipInfo.innerHTML = `<span>${EQUIP[i].text}</span><span class="price">${EQUIP[i].price}</span>`;
-    ringIdx.textContent = `Тип 0${i + 1} / 05`;
+    ringIdx.textContent = `[ Тип 0${i + 1} / 05 ]`;
   }
   setEquip(0);
   equipBtns.forEach(b => b.addEventListener('click', () => {
-    const i = +b.dataset.i;
-    const top = equipTrack.getBoundingClientRect().top + scrollY;
-    const span = equipTrack.offsetHeight - innerHeight;
-    scrollTo({ top: top + span * ((i + 0.5) / 5), behavior: reduce ? 'auto' : 'smooth' });
+    const i = +b.dataset.i, top = equipTrack.getBoundingClientRect().top + scrollY, span = equipTrack.offsetHeight - innerHeight;
+    scrollTo({ top: top + span * ((i + .5) / 5), behavior: reduce ? 'auto' : 'smooth' });
     setEquip(i);
   }));
 
-  /* ---------- form ---------- */
+  /* form */
   const form = document.getElementById('leadForm');
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const fName = document.getElementById('fName'), fPhone = document.getElementById('fPhone'), fConsent = document.getElementById('fConsent');
-    const name = fName.value.trim(), phone = fPhone.value.replace(/\D/g, ''), err = document.getElementById('fErr');
-    if (!name) { err.textContent = 'Напишите, как к вам обращаться.'; fName.focus(); return; }
-    if (phone.length < 10) { err.textContent = 'Проверьте номер: нужно 10 цифр после +7.'; fPhone.focus(); return; }
+    const fName = document.getElementById('fName'), fPhone = document.getElementById('fPhone'), fConsent = document.getElementById('fConsent'), err = document.getElementById('fErr');
+    if (!fName.value.trim()) { err.textContent = 'Напишите, как к вам обращаться.'; fName.focus(); return; }
+    if (fPhone.value.replace(/\D/g, '').length < 10) { err.textContent = 'Проверьте номер: нужно 10 цифр после +7.'; fPhone.focus(); return; }
     if (!fConsent.checked) { err.textContent = 'Отметьте согласие на обработку данных.'; fConsent.focus(); return; }
-    form.innerHTML = '<div class="done"><span class="mono tag"><b>07</b>Заявка</span><strong>Заявка принята</strong><span>Это прототип: данные никуда не отправлены. На живом сайте заявка уйдёт в Telegram менеджеру.</span></div>';
+    form.innerHTML = '<div class="done"><span class="mono">Заявка</span><strong>Заявка принята</strong><span class="mono">Прототип: данные никуда не отправлены</span></div>';
   });
 
-  /* ---------- scroll-driven DOM ---------- */
-  const dialTrack = document.getElementById('dialTrack');
-  function trackProgress(el) {
-    const r = el.getBoundingClientRect();
-    return clamp(-r.top / (r.height - innerHeight));
-  }
+  /* scroll-driven DOM */
+  const prog = el => { const r = el.getBoundingClientRect(); return clamp(-r.top / (r.height - innerHeight)); };
   function onScroll() {
-    // word reveal
-    const rr = reveal.getBoundingClientRect();
-    const p = reduce ? 1 : clamp((innerHeight * 0.85 - rr.top) / (rr.height + innerHeight * 0.35));
-    const n = words.length;
-    words.forEach((w, i) => { w.style.opacity = (0.2 + 0.8 * clamp(p * n * 1.15 - i)).toFixed(2); });
-    // dial
-    const dp = trackProgress(dialTrack);
-    const di = reduce ? 0 : Math.min(2, Math.floor(dp * 3));
+    for (const { el, words } of reveals) {
+      const r = el.getBoundingClientRect();
+      const p = reduce ? 1 : clamp((innerHeight * .8 - r.top) / (r.height + innerHeight * .25));
+      const n = Math.round(p * words.length * 1.1);
+      words.forEach((w, i) => w.classList.toggle('on', i < n));
+    }
+    const dp = prog(dialTrack), di = reduce ? 0 : Math.min(2, Math.floor(dp * 3));
     needle.setAttribute('transform', `rotate(${(-80 + dp * 160).toFixed(1)})`);
     dialTabs.forEach((d, i) => d.classList.toggle('on', reduce || i === di));
     dialLabel.textContent = dialNames[di];
-    // equipment
-    const ep = trackProgress(equipTrack);
+    const ep = prog(equipTrack);
     setEquip(Math.min(4, Math.floor(ep * 5)));
     ringArc.setAttribute('stroke-dasharray', `${(ep * 1483).toFixed(0)} 1483`);
   }
@@ -472,15 +450,14 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: 
   addEventListener('resize', onScroll);
   onScroll();
 
-  /* ---------- WebGL point cloud ---------- */
+  /* WebGL point cloud */
   const canvas = document.getElementById('gl');
-  let gl = null;
-  try { gl = window.THREE && (canvas.getContext('webgl2') || canvas.getContext('webgl')); } catch (e) { gl = null; }
-  if (!gl) { document.documentElement.classList.add('no-gl'); return; }
+  let ok = false;
+  try { ok = !!(window.THREE && (canvas.getContext('webgl2') || canvas.getContext('webgl'))); } catch (e) { ok = false; }
+  if (!ok) { document.documentElement.classList.add('no-gl'); return; }
 
-  const N = mobile ? 4200 : 8000;
+  const N = mobile ? 4000 : 7000;
   const rnd = (a, b) => a + Math.random() * (b - a);
-
   // samplers return [x, y, z]
   function boxEdge(w, h, d, cx = 0, cy = 0, cz = 0) {
     const L = [w, h, d], total = 4 * (w + h + d); let r = Math.random() * total;
@@ -538,14 +515,14 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: 
     air: [[1, .45, () => [rnd(-7, 7), rnd(-4, 4), rnd(-3, 2)]]]
   };
 
-  const base = new THREE.Color('#1C252B'), mist = new THREE.Color('#F2F3F3');
+  const base = new THREE.Color('#24363F'), mist = new THREE.Color('#FFFFFF');
   function build(parts) {
     const pos = new Float32Array(N * 3), col = new Float32Array(N * 3);
     const tot = parts.reduce((s, p) => s + p[0], 0);
     for (let i = 0; i < N; i++) {
       let r = Math.random() * tot, k = 0; while ((r -= parts[k][0]) > 0 && k < parts.length - 1) k++;
       const [x, y, z] = parts[k][2](), b = parts[k][1] * rnd(.75, 1.05);
-      pos[i * 3] = x + rnd(-.006, .006); pos[i * 3 + 1] = y + rnd(-.006, .006); pos[i * 3 + 2] = z + rnd(-.006, .006);
+      pos[i * 3] = x + rnd(-.003, .003); pos[i * 3 + 1] = y + rnd(-.003, .003); pos[i * 3 + 2] = z + rnd(-.003, .003);
       const c = mist.clone().lerp(base, Math.min(1, b * .95));
       col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
     }
@@ -553,7 +530,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: 
   }
   const shapes = {}; for (const k in SHAPES) shapes[k] = build(SHAPES[k]);
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.5 : 2));
   renderer.setClearColor(0x000000, 0);
   const scene = new THREE.Scene();
@@ -561,60 +538,47 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: 
   camera.position.set(0, 0, 9);
 
   const dot = (() => {
-    const c = document.createElement('canvas'); c.width = c.height = 64;
-    const g = c.getContext('2d'), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
-    gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(.35, 'rgba(255,255,255,.75)'); gr.addColorStop(1, 'rgba(255,255,255,0)');
-    g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+    const c = document.createElement('canvas'); c.width = c.height = 32;
+    const g = c.getContext('2d'); g.beginPath(); g.arc(16, 16, 14, 0, 6.2832); g.fillStyle = '#fff'; g.fill();
     return new THREE.CanvasTexture(c);
   })();
 
   const group = new THREE.Group(); scene.add(group);
   const cur = { pos: shapes.air.pos.slice(), col: shapes.air.col.slice() };
+  const disp = cur.col.slice();
   const geo = new THREE.BufferGeometry();
   geo.setAttribute('position', new THREE.BufferAttribute(cur.pos, 3));
-  const disp = cur.col.slice();
   geo.setAttribute('color', new THREE.BufferAttribute(disp, 3));
-  const mat = new THREE.PointsMaterial({ size: mobile ? .05 : .04, map: dot, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.NormalBlending, sizeAttenuation: true });
-  const cloud = new THREE.Points(geo, mat); group.add(cloud);
+  const mat = new THREE.PointsMaterial({ size: mobile ? .04 : .034, map: dot, alphaTest: .5, vertexColors: true, sizeAttenuation: true });
+  group.add(new THREE.Points(geo, mat));
 
-  // airflow: cold stream out of the louver, warm drift off the back
-  const AC = mobile ? 900 : 1800, AW = mobile ? 300 : 600, A = AC + AW;
+  const AC = mobile ? 500 : 900, AW = mobile ? 160 : 300, A = AC + AW;
   const aPos = new Float32Array(A * 3), aCol = new Float32Array(A * 3);
-  const aSeed = Array.from({ length: A }, (_, i) => ({ x: rnd(-1.2, 1.2), t: Math.random(), s: rnd(.18, .34), w: Math.random() * 6.28, warm: i >= AC }));
+  const aSeed = Array.from({ length: A }, (_, i) => ({ x: rnd(-1.2, 1.2), t: Math.random(), s: rnd(.16, .3), w: Math.random() * 6.28, warm: i >= AC }));
   const aGeo = new THREE.BufferGeometry();
   aGeo.setAttribute('position', new THREE.BufferAttribute(aPos, 3));
   aGeo.setAttribute('color', new THREE.BufferAttribute(aCol, 3));
-  const aMat = new THREE.PointsMaterial({ size: mobile ? .06 : .05, map: dot, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.NormalBlending });
-  const air = new THREE.Points(aGeo, aMat); group.add(air);
-  const cold = new THREE.Color('#5E7887'), warm = new THREE.Color('#E5531A'), sig = new THREE.Color('#E5531A');
+  const air = new THREE.Points(aGeo, new THREE.PointsMaterial({ size: mobile ? .032 : .024, map: dot, alphaTest: .5, vertexColors: true }));
+  group.add(air);
+  const cold = new THREE.Color('#6E8794'), warm = new THREE.Color('#F47920'), sig = new THREE.Color('#F47920');
 
-  // which dark section drives the scene
   const scenes = [...document.querySelectorAll('[data-scene]')];
   const tmpV = new THREE.Vector3();
   function screenToWorld(x, y) {
     tmpV.set((x / innerWidth) * 2 - 1, -(y / innerHeight) * 2 + 1, .5).unproject(camera);
     tmpV.sub(camera.position).normalize();
-    const d = -camera.position.z / tmpV.z;
-    return camera.position.clone().add(tmpV.multiplyScalar(d));
+    return camera.position.clone().add(tmpV.multiplyScalar(-camera.position.z / tmpV.z));
   }
-
   let mx = 0, my = 0;
   addEventListener('pointermove', e => { mx = e.clientX / innerWidth * 2 - 1; my = e.clientY / innerHeight * 2 - 1; }, { passive: true });
-
-  function resize() {
-    renderer.setSize(innerWidth, innerHeight, false);
-    camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
-  }
+  function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }
   addEventListener('resize', resize); resize();
 
-  let targetKey = 'split', airAmt = 0, spin = 0, scanT = 0, last = performance.now();
-  const gPos = new THREE.Vector3(), gScale = { v: 1 };
-  let first = true;
+  let airAmt = 0, spin = 0, scanT = 0, last = performance.now(), first = true;
+  const gPos = new THREE.Vector3(); let gScale = 1;
 
   function frame(now) {
     const dt = Math.min(.05, (now - last) / 1000); last = now;
-
-    // pick the most visible scene section
     let best = null, bestVis = 0;
     for (const s of scenes) {
       const r = s.getBoundingClientRect();
@@ -622,72 +586,52 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 16px 40px; justify-content: 
       if (vis > bestVis) { bestVis = vis; best = s; }
     }
     if (!best || bestVis < .02) { requestAnimationFrame(frame); return; }
-
-    let key = best.dataset.scene;
-    if (key === 'equip') key = EQUIP[Math.max(0, equipIndex)].key;
-    targetKey = key;
-    const tgt = shapes[targetKey];
-    const k = reduce ? 1 : clamp(dt * (first ? 1.6 : 3.4));
+    const isEquip = best.dataset.scene === 'equip';
+    const key = isEquip ? EQUIP[Math.max(0, equipIndex)].key : best.dataset.scene;
+    const tgt = shapes[key];
+    const k = reduce ? 1 : clamp(dt * (first ? 1.5 : 3.4));
     const P = cur.pos, C = cur.col, TP = tgt.pos, TC = tgt.col;
     for (let i = 0; i < P.length; i++) { P[i] += (TP[i] - P[i]) * k; C[i] += (TC[i] - C[i]) * k; }
-    // LiDAR sweep: an orange band travels down the object, leaving a fading trail
-    if (!reduce) scanT = (scanT + dt * .32) % 1.25;
-    const scanning = targetKey !== 'air' && !reduce && scanT < 1;
-    const sy = 1.0 - scanT * 2.1;
+    if (first && Math.abs(P[0] - TP[0]) < .02) first = false;
+    if (!reduce) scanT = (scanT + dt * .3) % 1.3;
+    const scanning = !reduce && scanT < 1, sy = 1 - scanT * 2.1;
     for (let i = 0; i < N; i++) {
       const j = i * 3; let m = 0;
-      if (scanning) { const d = P[j + 1] - sy; m = d < 0 && d > -.03 ? 1 : (d >= 0 && d < .28 ? (1 - d / .28) * .55 : 0); }
+      if (scanning) { const d = P[j + 1] - sy; m = d < 0 && d > -.025 ? 1 : (d >= 0 && d < .25 ? (1 - d / .25) * .5 : 0); }
       disp[j] = C[j] + (sig.r - C[j]) * m; disp[j + 1] = C[j + 1] + (sig.g - C[j + 1]) * m; disp[j + 2] = C[j + 2] + (sig.b - C[j + 2]) * m;
     }
     geo.attributes.position.needsUpdate = true; geo.attributes.color.needsUpdate = true;
-    if (first && Math.abs(P[0] - TP[0]) < .02) first = false;
 
-    // anchor the object to its DOM slot
-    const sel = best.dataset.anchor;
-    if (sel === 'self' || targetKey === 'air') { gPos.set(0, 0, 0); gScale.v += (1 - gScale.v) * clamp(dt * 4); }
-    else {
-      const el = best.querySelector(sel);
-      const r = el.getBoundingClientRect();
-      const w = screenToWorld(r.left + r.width / 2, r.top + r.height / 2);
-      gPos.copy(w);
-      const worldPerPx = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z / innerHeight;
-      const fit = Math.min(r.width * worldPerPx / 3.1, r.height * worldPerPx / 2.1);
-      gScale.v += (fit - gScale.v) * clamp(dt * 4);
-    }
-    group.position.lerp(gPos, reduce ? 1 : clamp(dt * 4));
-    group.scale.setScalar(gScale.v);
+    const r = best.querySelector(best.dataset.anchor).getBoundingClientRect();
+    gPos.copy(screenToWorld(r.left + r.width / 2, r.top + r.height / 2));
+    const wpp = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z / innerHeight;
+    const fit = Math.min(r.width * wpp / (isEquip ? 3.4 : 3), r.height * wpp / (isEquip ? 2.6 : 1.4));
+    gScale += (fit - gScale) * clamp(dt * 4);
+    group.position.lerp(gPos, reduce ? 1 : clamp(dt * 5));
+    group.scale.setScalar(gScale);
 
-    // rotation: turntable in equipment, gentle parallax elsewhere
-    if (!reduce) spin += dt * (best.dataset.scene === 'equip' ? .5 : .12);
-    const ry = (best.dataset.scene === 'equip' ? spin : Math.sin(spin) * .35 - .35) + mx * .35;
+    if (!reduce) spin += dt * (isEquip ? .45 : .12);
+    const ry = (isEquip ? spin : Math.sin(spin) * .3 - .4) + mx * .3;
     group.rotation.y += (ry - group.rotation.y) * clamp(dt * 3);
-    group.rotation.x += ((.18 + my * .15) - group.rotation.x) * clamp(dt * 3);
+    group.rotation.x += ((.2 + my * .12) - group.rotation.x) * clamp(dt * 3);
 
-    // airflow
-    const wantAir = best.dataset.air === '1' ? 1 : 0;
-    airAmt += (wantAir - airAmt) * clamp(dt * 2);
+    airAmt += ((best.dataset.air === '1' ? 1 : 0) - airAmt) * clamp(dt * 2);
     if (airAmt > .01) {
       for (let i = 0; i < A; i++) {
-        const s = aSeed[i];
-        if (!reduce) s.t += dt * s.s; if (s.t > 1) { s.t -= 1; s.x = rnd(-1.2, 1.2); }
-        const t = s.t, j = i * 3;
-        let fade;
+        const s = aSeed[i]; if (!reduce) s.t += dt * s.s; if (s.t > 1) { s.t -= 1; s.x = rnd(-1.2, 1.2); }
+        const tt = s.t, j = i * 3; let f, c;
         if (!s.warm) {
-          aPos[j] = s.x * (1 + t * .5) + Math.sin(t * 7 + s.w) * .07 * t;
-          aPos[j + 1] = -.34 - t * 2.3 + t * t * .5;
-          aPos[j + 2] = .3 + t * 1.9;
-          fade = Math.pow(1 - t, 1.3) * clamp(t * 12);
-          const fc = fade * airAmt; aCol[j] = mist.r + (cold.r - mist.r) * fc; aCol[j + 1] = mist.g + (cold.g - mist.g) * fc; aCol[j + 2] = mist.b + (cold.b - mist.b) * fc;
+          aPos[j] = s.x * (1 + tt * .4) + Math.sin(tt * 7 + s.w) * .06 * tt; aPos[j + 1] = -.34 - tt * 1.9 + tt * tt * .4; aPos[j + 2] = .3 + tt * 1.6;
+          f = Math.pow(1 - tt, 1.4) * clamp(tt * 12); c = cold;
         } else {
-          aPos[j] = s.x * 1.1 + Math.sin(t * 5 + s.w) * .12;
-          aPos[j + 1] = .4 + t * 1.7;
-          aPos[j + 2] = -.3 - t * .9;
-          fade = Math.pow(1 - t, 1.6) * clamp(t * 10) * .7;
-          const fw = fade * airAmt; aCol[j] = mist.r + (warm.r - mist.r) * fw; aCol[j + 1] = mist.g + (warm.g - mist.g) * fw; aCol[j + 2] = mist.b + (warm.b - mist.b) * fw;
+          aPos[j] = s.x * 1.05 + Math.sin(tt * 5 + s.w) * .1; aPos[j + 1] = .4 + tt * 1.4; aPos[j + 2] = -.3 - tt * .8;
+          f = Math.pow(1 - tt, 1.6) * clamp(tt * 10) * .8; c = warm;
         }
+        f *= airAmt;
+        aCol[j] = 1 + (c.r - 1) * f; aCol[j + 1] = 1 + (c.g - 1) * f; aCol[j + 2] = 1 + (c.b - 1) * f;
+        if (f < .04) aPos[j + 2] = -50;
       }
-      aGeo.attributes.position.needsUpdate = true; aGeo.attributes.color.needsUpdate = true;
-      air.visible = true;
+      aGeo.attributes.position.needsUpdate = true; aGeo.attributes.color.needsUpdate = true; air.visible = true;
     } else air.visible = false;
 
     renderer.render(scene, camera);
