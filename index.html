@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Climate Solution Pro — прототипы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Commissioner:wght@300;400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+:root { --bg: #F2F3F3; --fg: #1C252B; --muted: #5B666D; --line: #D7DBDD; --accent: #E5531A; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 400 17px/1.55 "Commissioner", system-ui, sans-serif; }
+main { max-width: 960px; margin: 0 auto; padding: 72px 20px 96px; }
+.mono { font: 400 12px/1.4 "IBM Plex Mono", ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h1 { margin: 12px 0 8px; font-weight: 300; font-size: clamp(36px, 6vw, 64px); line-height: 1.04; letter-spacing: -.035em; }
+p { margin: 0; color: var(--muted); max-width: 56ch; }
+ul { list-style: none; margin: 56px 0 0; padding: 0; border-top: 1px solid var(--line); }
+li a { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 16px; align-items: baseline; padding: 24px 0; border-bottom: 1px solid var(--line); text-decoration: none; color: inherit; }
+li a:hover strong, li a:focus-visible strong { color: var(--accent); }
+li strong { font-weight: 400; font-size: 24px; letter-spacing: -.02em; transition: color .2s; }
+li span.d { display: block; color: var(--muted); font-size: 15px; margin-top: 4px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+footer { margin-top: 40px; }
+</style>
+<main>
+  <span class="mono">Climate Solution Pro · Челябинск · Екатеринбург</span>
+  <h1>Прототипы сайта</h1>
+  <p>Концепции лендинга для подрядчика по кондиционированию, вентиляции и электромонтажу. Цифры и имена в квадратных скобках — заглушки.</p>
+  <ul>
+    <li><a href="v4/"><span class="mono">V4</span><span><strong>Mist</strong><span class="d">Светлая версия: графитовое облако точек и оранжевая линия LiDAR-сканирования.</span></span><span class="mono">→</span></a></li>
+    <li><a href="v3/"><span class="mono">V3</span><span><strong>Scan</strong><span class="d">Тёмная версия: светящийся кондиционер из точек, поток холода и тепла, поворотный стол оборудования.</span></span><span class="mono">→</span></a></li>
+    <li><a href="scroll-3d/"><span class="mono">3D</span><span><strong>Скролл-анимация</strong><span class="d">Две полноэкранные секции «как у Apple»: рендер кондиционера и разборка блока по скроллу.</span></span><span class="mono">→</span></a></li>
+  </ul>
+  <footer class="mono">Прототипы · не публичное предложение</footer>
+</main>
+</html>

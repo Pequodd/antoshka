@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Climate Solution Pro 3D</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: two pinned 100vh stages (hero + exploded view) bridged by a normal-scroll band; single dark brand world matched to the render backgrounds */
+:root {
+  color-scheme: dark;
+  --stage-hero: #021327;      /* sampled from hero render edges */
+  --stage-explode: #0A213B;   /* sampled from exploded render */
+  --navy-950: #0F1A3A;
+  --ink: #F3F6FB;
+  --ink-muted: #A9B4CC;
+  --line: rgba(169, 180, 204, .22);
+  --cyan: #3BB4C1;
+  --coral: #FF6B5A;
+  --coral-hover: #F2543F;
+  --paper: #F5F7FA;
+  --paper-ink: #16244F;
+  --paper-muted: #5F6886;
+  --font: "Onest", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--stage-hero); color: var(--ink); font: 400 17px/1.55 var(--font); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 6px; }
+
+/* header */
+.bar { position: fixed; z-index: 20; top: env(safe-area-inset-top, 0px); left: 0; right: 0;
+  display: flex; align-items: center; gap: 24px; padding: 14px clamp(16px, 4vw, 40px);
+  background: linear-gradient(to bottom, rgba(2,19,39,.85), rgba(2,19,39,0)); }
+.logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 15px; letter-spacing: -.01em; text-decoration: none; }
+.logo-mark { width: 28px; height: 28px; border-radius: 8px; background: var(--navy-950); border: 1px solid var(--line); display: grid; place-items: center; }
+.logo-mark span { width: 12px; height: 12px; border: 3px solid var(--cyan); border-right-color: transparent; border-radius: 50%; }
+.bar nav { display: flex; gap: 22px; margin-left: 16px; font-size: 14px; color: var(--ink-muted); }
+.bar nav a { text-decoration: none; }
+.bar nav a:hover { color: var(--ink); }
+.bar .phone { margin-left: auto; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--ink-muted); user-select: all; }
+.btn { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 22px; border-radius: 999px;
+  font: 600 15px/1 var(--font); text-decoration: none; border: 1px solid transparent; cursor: pointer; transition: background .18s, border-color .18s; }
+.btn-primary { background: var(--coral); color: var(--navy-950); }
+.btn-primary:hover { background: var(--coral-hover); }
+.btn-ghost { border-color: rgba(243,246,251,.45); color: var(--ink); }
+.btn-ghost:hover { border-color: var(--ink); }
+.bar .btn { min-height: 40px; padding: 0 16px; font-size: 14px; }
+
+/* pinned stages */
+.track { position: relative; }
+.track--hero { height: 320vh; background: var(--stage-hero); }
+.track--explode { height: 380vh; background: var(--stage-explode); }
+.stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.stage canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.shade { position: absolute; inset: 0; pointer-events: none; }
+.track--hero .shade { background:
+  linear-gradient(90deg, rgba(2,19,39,.92) 0%, rgba(2,19,39,.7) 34%, rgba(2,19,39,0) 62%),
+  linear-gradient(0deg, rgba(2,19,39,.9) 0%, rgba(2,19,39,0) 30%); }
+.track--explode .shade { background: linear-gradient(90deg, rgba(10,33,59,.96) 0%, rgba(10,33,59,.85) 38%, rgba(10,33,59,0) 60%); }
+
+.copy { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center;
+  padding-inline: clamp(16px, 6vw, 96px); max-width: 720px; gap: 22px; }
+.eyebrow { display: flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-muted); }
+.eyebrow::before { content: ""; width: 8px; height: 8px; background: linear-gradient(135deg, var(--coral) 50%, var(--cyan) 50%); }
+h1, h2 { margin: 0; font-weight: 600; letter-spacing: -.02em; text-wrap: balance; }
+h1 { font-size: clamp(36px, 5.4vw, 72px); line-height: 1.04; max-width: 14ch; }
+h2 { font-size: clamp(30px, 3.6vw, 48px); line-height: 1.08; max-width: 16ch; }
+.lead { margin: 0; font-size: clamp(17px, 1.4vw, 20px); color: var(--ink-muted); max-width: 44ch; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.hero-facts { position: absolute; z-index: 2; left: 0; right: 0; bottom: 0; display: grid; grid-template-columns: repeat(4, 1fr);
+  padding: 0 clamp(16px, 6vw, 96px) 28px; gap: 24px; font-size: 15px; font-weight: 500; }
+.hero-facts div { border-top: 1px solid var(--line); padding-top: 14px; display: flex; gap: 10px; align-items: baseline; }
+.hero-facts b { color: var(--cyan); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.scroll-hint { position: absolute; z-index: 2; right: clamp(16px, 4vw, 40px); bottom: 32px; font-size: 13px; color: var(--ink-muted);
+  display: flex; align-items: center; gap: 8px; transition: opacity .3s; }
+.scroll-hint i { width: 1px; height: 28px; background: linear-gradient(var(--ink-muted), transparent); }
+
+/* exploded view steps */
+.steps { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 4px; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 44px 1fr; gap: 4px 12px; padding: 14px 0; border-top: 1px solid var(--line);
+  color: var(--ink-muted); transition: color .25s; }
+.steps li::before { counter-increment: s; content: "0" counter(s); grid-row: span 2; font-weight: 600; font-variant-numeric: tabular-nums;
+  color: var(--ink-muted); transition: color .25s; }
+.steps strong { font-weight: 600; font-size: 18px; color: inherit; }
+.steps span { font-size: 15px; max-width: 40ch; }
+.steps li.on { color: var(--ink); }
+.steps li.on::before { color: var(--cyan); }
+.progress { position: absolute; z-index: 2; right: clamp(16px, 4vw, 40px); top: 50%; transform: translateY(-50%);
+  display: grid; gap: 10px; }
+.progress i { width: 3px; height: 28px; border-radius: 3px; background: var(--line); transition: background .25s; }
+.progress i.on { background: var(--cyan); }
+
+/* normal-scroll bridge */
+.bridge { background: var(--paper); color: var(--paper-ink); padding-block: clamp(72px, 10vw, 128px); }
+.bridge .in { max-width: 1280px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); display: grid; gap: 40px; }
+.bridge .eyebrow { color: var(--paper-muted); }
+.bridge h2 { max-width: 22ch; }
+.bridge h2 em { font-style: normal; color: var(--paper-muted); }
+.note { font-size: 14px; color: var(--paper-muted); max-width: 60ch; margin: 0; }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid #DCE1EA; }
+.tiles div { padding: 22px 24px 0 0; display: grid; gap: 6px; }
+.tiles div + div { padding-left: 24px; border-left: 1px solid #DCE1EA; }
+.tiles b { font-size: 19px; font-weight: 600; }
+.tiles span { color: var(--paper-muted); font-size: 15px; }
+.tiles small { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.end { background: var(--stage-explode); padding-block: 64px; text-align: left; }
+.end .in { max-width: 1280px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between; color: var(--ink-muted); font-size: 14px; }
+
+.loading { position: absolute; z-index: 3; left: 50%; bottom: 24px; transform: translateX(-50%); font-size: 12px; color: var(--ink-muted); letter-spacing: .08em; }
+
+@media (max-width: 860px) {
+  .bar nav { display: none; }
+  .bar .phone { display: none; }
+  .bar .btn { margin-left: auto; }
+  .track--hero .shade { background: linear-gradient(0deg, rgba(2,19,39,.96) 0%, rgba(2,19,39,.75) 45%, rgba(2,19,39,.1) 75%); }
+  .track--explode .shade { background: linear-gradient(0deg, rgba(10,33,59,.97) 0%, rgba(10,33,59,.85) 50%, rgba(10,33,59,.1) 78%); }
+  .copy { justify-content: flex-end; padding-bottom: 150px; gap: 16px; }
+  .track--explode .copy { padding-bottom: 32px; }
+  .hero-facts { grid-template-columns: 1fr 1fr; gap: 0 16px; font-size: 13px; padding-bottom: 20px; }
+  .hero-facts div { padding-top: 10px; padding-bottom: 8px; }
+  .steps li { padding: 9px 0; }
+  .steps span { display: none; }
+  .steps li.on span { display: block; }
+  .progress { display: none; }
+  .scroll-hint { display: none; }
+  .tiles { grid-template-columns: 1fr; }
+  .tiles div + div { padding-left: 0; border-left: 0; border-top: 1px solid #DCE1EA; padding-top: 18px; margin-top: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+
+<header class="bar">
+  <a class="logo" href="#top"><span class="logo-mark"><span></span></span>Climate Solution Pro</a>
+  <nav aria-label="Разделы">
+    <a href="#services">Услуги</a><a href="#install">Монтаж</a><a href="#services">Для бизнеса</a>
+  </nav>
+  <span class="phone">+7 (351) XXX-XX-XX</span>
+  <a class="btn btn-primary" href="#install">Рассчитать</a>
+</header>
+
+<main id="top">
+  <section class="track track--hero" data-seq="h" data-count="145" aria-label="Кондиционер: тепло и холод">
+    <div class="stage">
+      <canvas aria-hidden="true"></canvas>
+      <div class="shade"></div>
+      <div class="copy">
+        <div class="eyebrow">Климат · Вентиляция · Электрика</div>
+        <h1>Кондиционеры под ключ в Челябинске и Екатеринбурге</h1>
+        <p class="lead">Для квартир и бизнеса. Цену фиксируем до начала работ. Монтаж кондиционера за 1 день.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#install">Рассчитать стоимость ↗</a>
+          <a class="btn btn-ghost" href="#services">Для бизнеса — запросить КП</a>
+        </div>
+      </div>
+      <div class="hero-facts">
+        <div>Фиксированная цена</div>
+        <div>Монтаж за <b>1 день</b></div>
+        <div>Договор и акты</div>
+        <div>Гарантия <b>X года</b></div>
+      </div>
+      <div class="scroll-hint" id="hint"><i></i>Листайте</div>
+      <div class="loading" data-loading>Загрузка кадров…</div>
+    </div>
+  </section>
+
+  <section class="bridge" id="services">
+    <div class="in">
+      <div class="eyebrow">Обычная прокрутка</div>
+      <h2>Между двумя 3D-сценами страница листается как обычно. <em>Закреплены только hero и «Что входит в монтаж».</em></h2>
+      <div class="tiles">
+        <div><b>Монтаж сплит-системы</b><span>Подбор, монтаж, вакуумирование, запуск</span><small>от XX XXX ₽</small></div>
+        <div><b>Вентиляция</b><span>Приток, вытяжка, рекуператоры</span><small>от XX XXX ₽</small></div>
+        <div><b>Электромонтаж</b><span>Проводка, щиты, УЗО, освещение</span><small>от XX XXX ₽</small></div>
+      </div>
+      <p class="note">Прототип анимации. Ролики сгенерированы и служат черновиком: финальные рендеры и цены заменим перед запуском.</p>
+    </div>
+  </section>
+
+  <section class="track track--explode" id="install" data-seq="e" data-count="82" aria-label="Что входит в монтаж">
+    <div class="stage">
+      <canvas aria-hidden="true"></canvas>
+      <div class="shade"></div>
+      <div class="copy">
+        <div class="eyebrow">Что входит в монтаж</div>
+        <h2>Внутри каждого монтажа четыре этапа</h2>
+        <ol class="steps" id="steps">
+          <li class="on"><strong>Кронштейны и уровень</strong><span>Крепим блок строго по уровню, чтобы конденсат уходил в дренаж.</span></li>
+          <li><strong>Трасса: медь и теплоизоляция</strong><span>Медные трубы в изоляции, без заломов и лишних соединений.</span></li>
+          <li><strong>Вакуумирование</strong><span>Убираем воздух и влагу из контура. Без этого компрессор живёт меньше.</span></li>
+          <li><strong>Запуск и проверка давления</strong><span>Проверяем давление и температуру на выходе, показываем управление.</span></li>
+        </ol>
+        <div class="actions"><a class="btn btn-primary" href="#top">Рассчитать стоимость ↗</a></div>
+      </div>
+      <div class="progress" id="progress" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></div>
+      <div class="loading" data-loading>Загрузка кадров…</div>
+    </div>
+  </section>
+</main>
+
+<footer class="end"><div class="in"><span>Climate Solution Pro · прототип 3D-секций</span><span>Челябинская и Свердловская области</span></div></footer>
+
+<script>
+(() => {
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pad = n => String(n).padStart(3, '0');
+
+  const scenes = [...document.querySelectorAll('[data-seq]')].map(track => {
+    const key = track.dataset.seq, count = +track.dataset.count;
+    const canvas = track.querySelector('canvas'), ctx = canvas.getContext('2d');
+    const frames = new Array(count);
+    let loaded = 0, current = -1;
+    const scene = { track, key, count, canvas, ctx, frames, draw, progress: 0 };
+
+    function load(i) {
+      if (frames[i]) return;
+      const img = new Image();
+      img.decoding = 'async';
+      img.onload = () => {
+        loaded++;
+        if (loaded === count) track.querySelector('[data-loading]').hidden = true;
+        if (Math.abs(i - target()) < 3) draw(true);
+      };
+      img.src = `f/${key}/${pad(i + 1)}.webp`;
+      frames[i] = img;
+    }
+    // first and last frames first so the page is complete at rest, then the rest
+    load(0); load(count - 1);
+    for (let i = 1; i < count - 1; i++) load(i);
+
+    function target() { return reduce ? count - 1 : Math.round(scene.progress * (count - 1)); }
+
+    function nearest(t) {
+      for (let d = 0; d < count; d++) {
+        for (const j of [t - d, t + d]) {
+          const img = frames[j];
+          if (img && img.complete && img.naturalWidth) return img;
+        }
+      }
+      return null;
+    }
+
+    function draw(force) {
+      const t = target();
+      if (t === current && !force) return;
+      const img = nearest(t);
+      if (!img) return;
+      current = t;
+      const w = canvas.width, h = canvas.height;
+      const s = Math.max(w / img.naturalWidth, h / img.naturalHeight);
+      // keep the product to the right of the text column on wide screens
+      const wide = w / h > 1.1;
+      const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+      const dx = wide ? (w - dw) / 2 + w * (key === 'h' ? 0.14 : 0.2) : (w - dw) / 2;
+      const dy = wide ? (h - dh) / 2 : (h - dh) / 2 - h * 0.18;
+      ctx.fillStyle = getComputedStyle(track).backgroundColor;
+      ctx.fillRect(0, 0, w, h);
+      ctx.drawImage(img, dx, dy, dw, dh);
+    }
+    return scene;
+  });
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    for (const s of scenes) {
+      const r = s.canvas.getBoundingClientRect();
+      s.canvas.width = Math.round(r.width * dpr);
+      s.canvas.height = Math.round(r.height * dpr);
+      s.draw(true);
+    }
+  }
+
+  const steps = [...document.querySelectorAll('#steps li')];
+  const bars = [...document.querySelectorAll('#progress i')];
+  const hint = document.getElementById('hint');
+
+  function onScroll() {
+    for (const s of scenes) {
+      const r = s.track.getBoundingClientRect();
+      const span = r.height - window.innerHeight;
+      s.progress = Math.min(1, Math.max(0, -r.top / span));
+      s.draw();
+    }
+    const e = scenes.find(s => s.key === 'e');
+    if (e) {
+      const idx = reduce ? 3 : Math.min(3, Math.floor(e.progress * 4.4));
+      steps.forEach((li, i) => li.classList.toggle('on', i === idx));
+      bars.forEach((b, i) => b.classList.toggle('on', i <= idx));
+    }
+    hint.style.opacity = scenes[0].progress > 0.05 ? 0 : 1;
+  }
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { onScroll(); ticking = false; });
+  }, { passive: true });
+  window.addEventListener('resize', () => { resize(); onScroll(); });
+  resize(); onScroll();
+})();
+</script>
+</html>
