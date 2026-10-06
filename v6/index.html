@@ -235,47 +235,53 @@ h1, h2, h3, p { margin: 0; }
 .rcard dl { padding-top: 14px; border-top: 1px solid var(--line); }
 .rcard-end { background: var(--ink); border-color: var(--ink); color: #fff; align-content: center; }
 .rcard-end .mono { color: var(--orange); } .rcard-end h3 { color: #fff; max-width: 14ch; } .rcard-end .btn { justify-self: start; background: #fff; color: var(--ink); }
-/* 2 trust strip: a calm white band, clearly separate from the hero */
-.trust { margin-top: clamp(56px, 9vh, 112px); background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.trust .grid { padding-block: 26px 28px; align-items: center; row-gap: 20px; }
-.trust-names { grid-column: 1 / 6; display: grid; gap: 6px; }
-.logos { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 40px; }
-.logos li { display: flex; align-items: center; height: 60px; }
-.logos img { display: block; width: auto; filter: grayscale(1); opacity: .72; transition: filter .3s ease, opacity .3s ease; }
-.logos li:hover img { filter: none; opacity: 1; }
-.lg-mfc { height: 58px; } .lg-5ka { height: 32px; } .lg-mf { height: 25px; }
-.trust-stats { grid-column: 6 / -1; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.trust-stats div { padding: 2px 0 2px 20px; border-left: 1px solid var(--line); display: grid; gap: 4px; align-content: start; }
-.trust-stats dt { font-weight: 400; font-size: clamp(20px, 1.6vw, 26px); line-height: 1.1; letter-spacing: -.02em; }
-.trust-stats dd { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.35; }
+/* 2 trust: partner tiles + centred statement */
+.trust { position: relative; padding: clamp(72px, 12vh, 140px) 0 clamp(72px, 12vh, 140px); }
+.corner { position: absolute; font: 400 10px/1 var(--mono); letter-spacing: .08em; color: var(--muted); }
+.corner.tl { left: var(--m); top: 24px; } .corner.tr { right: var(--m); top: 24px; } .corner.bl { left: var(--m); bottom: 24px; } .corner.br { right: var(--m); bottom: 24px; }
+.trust-label { margin: 0 0 28px; text-align: center; }
+.trust-tiles { list-style: none; margin: 0 var(--m); padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.trust-tiles li { height: clamp(112px, 11vw, 168px); display: grid; place-items: center; background: #EFF1F2; border-radius: 6px; transition: background .3s ease; }
+.trust-tiles li:hover { background: #E8EBED; }
+.trust-tiles img { display: block; width: auto; filter: grayscale(1) contrast(1.1); opacity: .78; transition: filter .35s ease, opacity .35s ease; }
+.trust-tiles li:hover img { filter: none; opacity: 1; }
+.lg-mfc { height: clamp(52px, 4.6vw, 72px); } .lg-5ka { height: clamp(28px, 2.4vw, 38px); } .lg-mf { height: clamp(22px, 1.9vw, 30px); }
+.trust-say { max-width: 22em; margin: clamp(64px, 10vh, 120px) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
 /* 2 prices */
-.pr-cards { margin-inline: var(--m); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding-top: 16px; }
-.pr-card { position: relative; display: grid; gap: 14px; align-content: start; padding: clamp(24px, 2.4vw, 36px); background: #fff; border: 1px solid var(--line); border-radius: 10px; transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s; }
-.pr-card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -28px rgba(36,54,63,.3); }
-.pr-card.hot { background: var(--ink); border-color: var(--ink); color: #fff; }
-.pr-card.hot .mono, .pr-card.hot p, .pr-card.hot .pr-kw span { color: rgba(255,255,255,.62); }
-.pr-badge { position: absolute; top: 22px; right: 22px; padding: 2px 10px; border-radius: 999px; background: var(--orange); color: #fff !important; line-height: 1.8; }
-.pr-kw { font-weight: 300; font-size: clamp(30px, 2.6vw, 42px); line-height: 1; letter-spacing: -.04em; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.pr-kw span { font-size: 15px; letter-spacing: 0; color: var(--muted); }
-.pr-card p { margin: 0; color: var(--muted); font-size: 15px; min-height: 2.6em; }
-.pr-price { display: grid; gap: 2px; padding-top: 18px; margin-top: 4px; border-top: 1px solid var(--line); }
-.pr-card.hot .pr-price { border-color: rgba(255,255,255,.16); }
-.pr-price b { font-weight: 300; font-size: clamp(44px, 4vw, 64px); line-height: 1; letter-spacing: -.05em; }
-.pr-card .btn { justify-content: space-between; margin-top: 6px; }
-.btn-light { background: #fff; color: var(--ink); } .btn-light:hover { background: #E9ECEE; }
-.pr-inc { margin: 40px var(--m) 0; padding-top: 22px; border-top: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 24px; }
-.pr-inc ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 24px; }
-.pr-inc li { display: flex; gap: 10px; align-items: flex-start; font-size: 16px; }
-.pr-inc svg { width: 20px; height: 20px; flex: none; color: var(--orange); margin-top: 1px; }
-.pr-extra { margin: 32px var(--m) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding-bottom: clamp(48px, 8vh, 96px); }
-.pr-extra { padding-bottom: 0; margin-bottom: clamp(64px, 10vh, 120px); }
-.pr-extra summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 16px; padding: 20px 0; font-weight: 300; font-size: clamp(22px, 2vw, 30px); letter-spacing: -.025em; }
-.pr-extra summary::-webkit-details-marker { display: none; }
-.pr-extra summary::after { content: "+"; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; font: 400 18px/1 var(--mono); }
-.pr-extra[open] summary::after { content: "−"; background: var(--ink); border-color: var(--ink); color: #fff; }
-.pr-table { margin: 0 0 28px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; }
-.pr-table div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px dashed var(--line); }
-.pr-table dt { color: var(--muted); } .pr-table dd { margin: 0; white-space: nowrap; }
+.px { padding-top: 24px; row-gap: 48px; align-items: start; }
+.px-main { grid-column: 1 / 7; display: grid; gap: 18px; align-content: start; }
+.px-main > .mono { color: var(--orange-ink); }
+.px-price { display: flex; align-items: flex-start; gap: .12em; font-weight: 300; line-height: .82; letter-spacing: -.06em; }
+.px-price b { font-weight: 300; font-size: clamp(96px, 11vw, 196px); font-variant-numeric: tabular-nums; transition: opacity .2s ease, transform .35s cubic-bezier(.2,.7,.2,1); }
+.px-price span { font-size: clamp(36px, 3.6vw, 64px); margin-top: .18em; color: var(--muted); letter-spacing: 0; }
+.px.swap .px-price b, .px.swap .px-for { opacity: 0; transform: translateY(10px); }
+.px-for { margin: 6px 0 10px; display: grid; gap: 4px; transition: opacity .2s ease, transform .35s cubic-bezier(.2,.7,.2,1); }
+.px-for span:first-child { font-size: clamp(22px, 1.9vw, 30px); letter-spacing: -.02em; }
+.px-for span:last-child { color: var(--muted); }
+.px-side { grid-column: 8 / -1; display: grid; gap: 14px; align-content: start; }
+.px-index { border-top: 1px solid var(--ink); }
+.px-index button { all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 14px minmax(0, 1fr) auto auto; align-items: baseline; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--line); color: var(--faint); transition: color .25s ease; }
+.px-index button span:not(.mono) { font-size: clamp(22px, 1.9vw, 30px); letter-spacing: -.025em; }
+.px-index button .mono { color: inherit; }
+.px-index button b { font-weight: 400; font-size: 17px; }
+.px-index button i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; align-self: center; opacity: 0; transition: opacity .25s; }
+.px-index button:hover { color: var(--muted); }
+.px-index button[aria-selected="true"] { color: var(--ink); }
+.px-index button[aria-selected="true"] i { opacity: 1; background: var(--orange); }
+.px-index button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.px-inc-label { margin-top: 18px; }
+.px-inc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+.px-inc li { position: relative; padding: 9px 0 9px 18px; border-bottom: 1px dashed var(--line); font-size: 15px; }
+.px-inc li::before { content: ""; position: absolute; left: 0; top: 17px; width: 6px; height: 1px; background: var(--ink); }
+.px-extra { margin-top: clamp(72px, 11vh, 128px); padding-bottom: clamp(72px, 11vh, 128px); row-gap: 24px; align-items: start; }
+.px-extra-head { grid-column: 1 / 5; display: grid; gap: 10px; align-content: start; }
+.px-extra-head h3 { margin: 6px 0 0; font-weight: 300; font-size: clamp(30px, 2.8vw, 44px); line-height: 1; letter-spacing: -.04em; }
+.px-extra-head p { margin: 0; color: var(--muted); max-width: 26ch; }
+.px-table { grid-column: 6 / -1; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 40px; border-top: 1px solid var(--ink); }
+.px-table div { display: flex; align-items: baseline; gap: 10px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.px-table dt { color: var(--muted); }
+.px-table div::after { content: none; }
+.px-table dd { margin: 0 0 0 auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
 /* 6 works */
 .wk-grid { margin-inline: var(--m); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: clamp(220px, 21vw, 340px); gap: 16px; padding-bottom: clamp(64px, 10vh, 120px); }
 .wk { position: relative; margin: 0; overflow: hidden; border-radius: 10px; background: #E9ECEE; }
@@ -444,18 +450,15 @@ h1, h2, h3, p { margin: 0; }
   .equip .info { align-self: end; }
   .rcard { width: 82vw; height: min(62vh, 520px); padding: 24px; }
   .rcard .pv-ic { left: 24px; top: 24px; }
-  .trust-names, .trust-stats { grid-column: 1 / -1; }
-  .trust-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
-  .trust-stats div:nth-child(odd) { border-left: 0; padding-left: 0; }
-  .trust { margin-top: 32px; }
-  .logos { gap: 8px 28px; } .lg-mfc { height: 40px; } .lg-5ka { height: 26px; } .lg-mf { height: 20px; }
-  .pr-cards { grid-template-columns: 1fr; }
-  .pr-card p { min-height: 0; }
-  .pr-inc { grid-template-columns: 1fr; }
-  .pr-inc ul { grid-template-columns: 1fr; }
-  .pr-table { grid-template-columns: 1fr; }
-  .pr-extra summary { grid-template-columns: minmax(0, 1fr) auto; }
-  .pr-extra summary .mono { display: none; }
+  .trust-tiles { gap: 6px; }
+  .trust-tiles li { height: 84px; }
+  .lg-mfc { height: 42px; } .lg-5ka { height: 18px; } .lg-mf { height: 15px; }
+  .corner { display: none; }
+  .px-main, .px-side, .px-extra-head, .px-table { grid-column: 1 / -1; }
+  .px-price b { font-size: 88px; }
+  .px-inc, .px-table { grid-template-columns: 1fr; }
+  .px-index button { grid-template-columns: 10px minmax(0, 1fr) auto; }
+  .px-index button .mono { display: none; }
   .wk-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: 0; padding-inline: var(--m); scroll-padding-inline: var(--m); }
   .wk-grid::-webkit-scrollbar { display: none; }
   .b2b-photo video { aspect-ratio: 4 / 3; }
@@ -518,36 +521,45 @@ h1, h2, h3, p { margin: 0; }
     </div>
   </section>
 
-  <!-- 2 trust strip -->
+  <!-- 2 trust: partner tiles + centred statement (anveril-style) -->
   <section class="sec trust" id="trust" aria-label="Нам доверяют">
-    <div class="grid">
-      <div class="trust-names"><span class="mono dot">Работали на объектах</span><ul class="logos"><li><img src="../assets/logos/mfc.svg" alt="МФЦ «Мои документы»" class="lg-mfc" width="80" height="48"></li><li><img src="../assets/logos/pyaterochka.svg" alt="Пятёрочка" class="lg-5ka" width="143" height="34"></li><li><img src="../assets/logos/megafon.svg" alt="МегаФон" class="lg-mf" width="144" height="26"></li></ul></div>
-      <dl class="trust-stats">
-        <div><dt>8 лет</dt><dd>монтируем климат и электрику</dd></div>
-        <div><dt>1 200+</dt><dd>объектов сдано по акту</dd></div>
-        <div><dt>3 года</dt><dd>гарантия на работы по договору</dd></div>
-        <div><dt>3–4 ч</dt><dd>монтаж сплит-системы в квартире</dd></div>
-      </dl>
-    </div>
+    <div class="corner tl" aria-hidden="true">C</div><div class="corner tr" aria-hidden="true">S</div>
+    <p class="trust-label mono">Работали на объектах</p>
+    <ul class="trust-tiles">
+      <li><img src="../assets/logos/mfc.svg" alt="МФЦ «Мои документы»" class="lg-mfc" width="80" height="48"></li>
+      <li><img src="../assets/logos/pyaterochka.svg" alt="Пятёрочка" class="lg-5ka" width="143" height="34"></li>
+      <li><img src="../assets/logos/megafon.svg" alt="МегаФон" class="lg-mf" width="144" height="26"></li>
+    </ul>
+    <p class="trust-say" data-reveal>8 лет монтируем климат и электрику. 1&nbsp;200+ объектов сдано по акту. Гарантия на работы — 3 года по договору.</p>
+    <div class="corner bl" aria-hidden="true">P</div><div class="corner br" aria-hidden="true">74</div>
   </section>
 
-  <!-- 2 prices -->
+  <!-- 2 prices: one big price + package index (anveril "index list" pattern) -->
   <section class="sec" id="prices">
     <div class="rule"></div>
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">2</span>Цены</h2>
-      <p class="aside">Фиксируем в смете до начала работ — на месте цена не растёт. Кондиционер, купленный не у нас, ставим по тем же ценам.</p></div>
-    <div class="pr-cards">
-      <article class="pr-card"><span class="mono">Пакет S</span><div class="pr-kw">2–3,5 кВт<span>до 35 м²</span></div><p>Спальня, детская, кабинет</p><div class="pr-price"><span class="mono">монтаж под ключ</span><b>14 900 ₽</b></div><a class="btn btn-ink" href="#contact" data-pk="S">Рассчитать мой объект <i>↗</i></a></article>
-      <article class="pr-card hot"><span class="pr-badge mono">Чаще всего</span><span class="mono">Пакет M</span><div class="pr-kw">4–6 кВт<span>до 60 м²</span></div><p>Гостиная, студия, небольшой офис</p><div class="pr-price"><span class="mono">монтаж под ключ</span><b>18 900 ₽</b></div><a class="btn btn-light" href="#contact" data-pk="M">Рассчитать мой объект <i>↗</i></a></article>
-      <article class="pr-card"><span class="mono">Пакет L</span><div class="pr-kw">7–9 кВт<span>до 90 м²</span></div><p>Кухня-гостиная, магазин, open space</p><div class="pr-price"><span class="mono">монтаж под ключ</span><b>24 900 ₽</b></div><a class="btn btn-ink" href="#contact" data-pk="L">Рассчитать мой объект <i>↗</i></a></article>
+      <p class="aside">Цена фиксируется в смете до начала работ и не растёт на месте. Кондиционер, купленный не у нас, ставим по тем же ценам.</p></div>
+    <div class="grid px" id="px" data-k="1">
+      <div class="px-main">
+        <span class="mono" id="pxKicker">монтаж под ключ · пакет M</span>
+        <div class="px-price" aria-live="polite"><b id="pxPrice">18 900</b><span>₽</span></div>
+        <p class="px-for"><span id="pxPower">4–6 кВт · до 60 м²</span><span id="pxUse">Гостиная, студия, небольшой офис</span></p>
+        <div class="row"><a class="btn btn-ink" href="#contact" id="pxCta">Рассчитать мой объект <i>↗</i></a><a class="btn btn-soft" href="tel:+73510000000">Позвонить</a></div>
+      </div>
+      <div class="px-side">
+        <span class="mono">Мощность кондиционера</span>
+        <div class="px-index" role="tablist" aria-label="Пакеты по мощности">
+          <button role="tab" aria-selected="false" tabindex="-1" data-code="S" data-kw="2–3,5 кВт" data-area="до 35 м²" data-price="14 900" data-use="Спальня, детская, кабинет"><i aria-hidden="true"></i><span>2–3,5 кВт</span><span class="mono">до 35 м²</span><b>14 900 ₽</b></button>
+          <button role="tab" aria-selected="true" data-code="M" data-kw="4–6 кВт" data-area="до 60 м²" data-price="18 900" data-use="Гостиная, студия, небольшой офис"><i aria-hidden="true"></i><span>4–6 кВт</span><span class="mono">до 60 м²</span><b>18 900 ₽</b></button>
+          <button role="tab" aria-selected="false" tabindex="-1" data-code="L" data-kw="7–9 кВт" data-area="до 90 м²" data-price="24 900" data-use="Кухня-гостиная, магазин, open space"><i aria-hidden="true"></i><span>7–9 кВт</span><span class="mono">до 90 м²</span><b>24 900 ₽</b></button>
+        </div>
+        <span class="mono px-inc-label">Входит в каждый пакет</span>
+        <ul class="px-inc"><li>Выезд и замер</li><li>Трасса до 3 м, медь в изоляции</li><li>Кронштейны наружного блока</li><li>Отверстие в стене до 50 см</li><li>Дренаж наружу</li><li>Вакуумирование и проверка утечек</li><li>Подключение к готовой розетке</li><li>Запуск и инструктаж</li><li>Уборка после работ</li></ul>
+      </div>
     </div>
-    <div class="pr-inc">
-      <span class="mono dot">Входит в каждый пакет</span>
-      <ul><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Выезд и замер</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Трасса до 3 м — медь в теплоизоляции</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Кронштейны для наружного блока</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Отверстие в стене до 50 см</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Дренаж наружу</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Вакуумирование и проверка утечек</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Подключение к готовой розетке</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Запуск и инструктаж</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Уборка после работ</span></li></ul>
-    </div>
-    <details class="pr-extra">
-      <summary><span>Дополнительные работы</span><span class="mono">прайс · 9 позиций</span></summary>
-      <dl class="pr-table">
+    <div class="grid px-extra">
+      <div class="px-extra-head"><span class="mono dot">Дополнительно</span><h3>Если понадобится</h3><p>Считаем на замере и сразу вносим в смету.</p></div>
+      <dl class="px-table">
         <div><dt>Дополнительный метр трассы</dt><dd>1 900 ₽</dd></div>
         <div><dt>Штроба в стене под трассу, м</dt><dd>1 200 ₽</dd></div>
         <div><dt>Декоративный короб, м</dt><dd>450 ₽</dd></div>
@@ -558,7 +570,7 @@ h1, h2, h3, p { margin: 0; }
         <div><dt>Работа с автовышки или альпиниста</dt><dd>от 6 000 ₽</dd></div>
         <div><dt>Зимний комплект для работы в мороз</dt><dd>6 900 ₽</dd></div>
       </dl>
-    </details>
+    </div>
   </section>
 
 
@@ -928,10 +940,24 @@ h1, h2, h3, p { margin: 0; }
     const b = e.target.closest('button'); if (!b) return;
     g.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); qcSel[g.dataset.q] = b.textContent; qcUpdate();
   }));
-  document.querySelectorAll('[data-pk]').forEach(a => a.addEventListener('click', () => {
-    const i = { S: 0, M: 1, L: 2 }[a.dataset.pk], g = document.querySelector('.qc-chips[data-q="pw"]');
+  /* prices: package index drives the big price */
+  const px = document.getElementById('px'), pxBtns = [...px.querySelectorAll('.px-index button')];
+  let pxT = 0;
+  function pxSet(i) {
+    const b = pxBtns[i]; px.dataset.k = i;
+    pxBtns.forEach((x, j) => { x.setAttribute('aria-selected', j === i); x.tabIndex = j === i ? 0 : -1; });
+    const fill = () => { document.getElementById('pxPrice').textContent = b.dataset.price; document.getElementById('pxPower').textContent = `${b.dataset.kw} · ${b.dataset.area}`;
+      document.getElementById('pxUse').textContent = b.dataset.use; document.getElementById('pxKicker').textContent = `монтаж под ключ · пакет ${b.dataset.code}`; px.classList.remove('swap'); };
+    px.classList.add('swap'); clearTimeout(pxT); pxT = setTimeout(fill, reduce ? 0 : 180);
+  }
+  pxBtns.forEach((b, i) => {
+    b.addEventListener('click', () => pxSet(i));
+    b.addEventListener('keydown', e => { const d = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1 : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0; if (d) { e.preventDefault(); const n = (i + d + 3) % 3; pxBtns[n].focus(); pxSet(n); } });
+  });
+  document.getElementById('pxCta').addEventListener('click', () => {
+    const i = +px.dataset.k, g = document.querySelector('.qc-chips[data-q="pw"]');
     g.querySelectorAll('button').forEach((x, j) => x.setAttribute('aria-pressed', j === i)); qcSel.pw = g.children[i].textContent; qcUpdate();
-  }));
+  });
   /* reviews carousel */
   const rvTrack = document.getElementById('rvTrack'), rvPrev = document.getElementById('rvPrev'), rvNext = document.getElementById('rvNext');
   const rvStep = () => rvTrack.firstElementChild.getBoundingClientRect().width + 16;
