@@ -278,16 +278,6 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .trust-tiles li:hover img { filter: none; opacity: 1; }
 .lg-mfc { height: clamp(52px, 4.6vw, 72px); } .lg-5ka { height: clamp(28px, 2.4vw, 38px); } .lg-mf { height: clamp(22px, 1.9vw, 30px); }
 .trust-say { max-width: 22em; margin: clamp(64px, 10vh, 120px) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
-/* variant switcher (temporary) */
-.vsw-wrap { padding: 8px var(--m) 4px; }
-.vsw { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-.vsw .mono { margin-right: 6px; }
-.vsw button { all: unset; cursor: pointer; font-size: 14px; min-height: 36px; padding: 0 14px; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); transition: all .2s; }
-.vsw button:hover { color: var(--ink); border-color: var(--faint); }
-.vsw button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
-.vsw button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
-.sheet[data-view="plan"] .iso-svg, .sheet[data-view="iso"] #planSvg { display: none; }
-.iso-svg text { font: 400 11px var(--mono); letter-spacing: .06em; fill: #66737A; }
 /* 2 prices: a drawing sheet — plan + slider on the left, title block on the right */
 .sheet { margin: 24px var(--m) 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 380px); grid-template-rows: 1fr auto; border: 1px solid var(--ink); background: #FCFCFC; }
 .sheet-plan { grid-column: 1; grid-row: 1; margin: 0; position: relative; padding: 20px 24px 8px; }
@@ -312,17 +302,18 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .sheet-block b, .sheet-block span[id] { transition: opacity .18s ease; }
 .pb-out.swap .sheet-block b, .pb-out.swap .sheet-block span[id] { opacity: .2; }
 .plan-hint { margin: 0; color: var(--muted); font-size: 13px; }
-.pb-range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 40px; margin: 0; background: transparent; cursor: pointer; }
-.pb-range::-webkit-slider-runnable-track { height: 1px; background: linear-gradient(90deg, var(--ink) var(--p, 25%), var(--line) var(--p, 25%)); }
-.pb-range::-moz-range-track { height: 1px; background: var(--line); } .pb-range::-moz-range-progress { height: 1px; background: var(--ink); }
-.pb-range::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; margin-top: -8.5px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 6px rgba(244,121,32,.16); transition: box-shadow .2s; }
-.pb-range:hover::-webkit-slider-thumb { box-shadow: 0 0 0 9px rgba(244,121,32,.2); }
-.pb-range::-moz-range-thumb { width: 18px; height: 18px; border: 0; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 6px rgba(244,121,32,.16); }
-.pb-range:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.pb-range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 44px; margin: 4px 0 0; background: transparent; cursor: pointer; }
+.pb-range::-webkit-slider-runnable-track { height: 6px; border-radius: 999px; background: linear-gradient(90deg, var(--orange) var(--p, 25%), #E3E7E9 var(--p, 25%)); }
+.pb-range::-moz-range-track { height: 6px; border-radius: 999px; background: #E3E7E9; } .pb-range::-moz-range-progress { height: 6px; border-radius: 999px; background: var(--orange); }
+.pb-range::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; margin-top: -10px; border-radius: 50%; background: #fff; border: 2px solid var(--orange); box-shadow: 0 4px 12px rgba(244,121,32,.35), 0 0 0 6px rgba(244,121,32,.12); transition: box-shadow .2s, transform .2s; }
+.pb-range:hover::-webkit-slider-thumb { box-shadow: 0 4px 14px rgba(244,121,32,.45), 0 0 0 9px rgba(244,121,32,.16); }
+.pb-range:active::-webkit-slider-thumb { transform: scale(1.08); }
+.pb-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 2px solid var(--orange); box-shadow: 0 4px 12px rgba(244,121,32,.35), 0 0 0 6px rgba(244,121,32,.12); }
+.pb-range:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; border-radius: 999px; }
 .pb-zones { display: grid; grid-template-columns: 25fr 25fr 30fr; font: 400 10px/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: rgba(36,54,63,.42); }
 .pb-zones span { padding-top: 4px; transition: color .25s; }
 .pb-zones span:nth-child(2) { text-align: center; } .pb-zones span:last-child { text-align: right; }
-.pb-zones span.on { color: var(--ink); }
+.pb-zones span.on { color: var(--orange-ink); }
 .pb-out.swap .px-row { margin-top: clamp(56px, 9vh, 96px); row-gap: 20px; align-items: start; }
 .px-row { margin-top: clamp(56px, 9vh, 96px); row-gap: 20px; align-items: start; }
 .px-row-head { grid-column: 1 / 5; display: grid; gap: 10px; }
@@ -523,7 +514,6 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   .sheet-block { border-left: 0; border-top: 1px solid var(--ink); }
   .sb-row { padding: 12px 16px; }
   .plan-svg text { font-size: 20px; }
-  .iso-svg text { font-size: 18px; }
   .pb-zones { font-size: 9px; }
   .px-row-head, .px-inc, .px-extra-head, .px-table { grid-column: 1 / -1; }
   .px-inc, .px-table { grid-template-columns: 1fr; }
@@ -638,11 +628,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     <div class="rule"></div>
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">2</span>Цены</h2>
       <p class="aside">Цена фиксируется в смете до начала работ и не растёт на месте. Кондиционер, купленный не у нас, ставим по тем же ценам.</p></div>
-    <div class="grid vsw-wrap"><div class="vsw c1-12" role="tablist" aria-label="Вариант чертежа">
-      <span class="mono">вариант блока:</span>
-      <button role="tab" data-v="plan">A · план сверху</button><button role="tab" data-v="iso">B · изометрия</button>
-    </div></div>
-    <div class="sheet pb-out" id="sheet" data-view="iso">
+    <div class="sheet pb-out" id="sheet">
       <figure class="sheet-plan" aria-hidden="true">
         <svg class="plan-svg" id="planSvg" viewBox="0 0 640 340">
           <defs>
@@ -653,11 +639,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
           <g id="planGrid" mask="url(#planMask)"></g>
           <g id="planRoom"></g>
         </svg>
-        <svg class="plan-svg iso-svg" id="isoSvg" viewBox="0 0 640 340">
-          <defs><pattern id="isoHatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)"><path d="M0 0v7" stroke="#24363F" stroke-opacity=".09" stroke-width="1"/></pattern></defs>
-          <g id="isoRoom"></g>
-        </svg>
-        <figcaption class="mono" id="sheetCap">изометрия · высота потолка 2,7 м</figcaption>
+        <figcaption class="mono">план · вид сверху</figcaption>
       </figure>
       <div class="sheet-ctl">
         <div class="plan-ctl"><label class="mono" for="plRange">Площадь помещения</label><output class="plan-val" id="plArea" for="plRange">30 м²</output></div>
@@ -1126,56 +1108,9 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     document.querySelectorAll('.pb-zones span').forEach((z, j) => z.classList.toggle('on', j === k));
     if (k !== plK) { plK = k; const o = document.querySelector('.pb-out'); o.classList.add('swap'); clearTimeout(plT); plT = setTimeout(() => o.classList.remove('swap'), reduce ? 0 : 140); }
     document.getElementById('plKicker').textContent = `пакет ${P.code}`;
-    isoDraw(a, k);
     document.getElementById('plKw').textContent = P.kw; document.getElementById('plUse').textContent = P.use;
     document.getElementById('plPrice').textContent = P.price; document.getElementById('plCta').dataset.pk = P.code;
   }
-
-  /* B: isometric room drawn from the same area value */
-  function isoDraw(a, k) {
-    const g = document.getElementById('isoRoom'), ink = '#24363F'; g.textContent = '';
-    const wM = Math.sqrt(a * 1.5), dM = a / wM, hM = 2.7, S = 26, C = .866;
-    const cx = 320, cy = 170 + hM * S / 2;
-    const P = (x, y, z = 0) => [cx + (x - y) * C * S, cy + (x + y) * .5 * S - z * S];
-    const pts = arr => arr.map(p => p.map(v => v.toFixed(1)).join(',')).join(' ');
-    const x0 = -wM / 2, x1 = wM / 2, y0 = -dM / 2, y1 = dM / 2;
-    // back walls (x = x0 and y = y0), translucent like an x-ray
-    svgEl('polygon', { points: pts([P(x0, y0), P(x0, y1), P(x0, y1, hM), P(x0, y0, hM)]), fill: 'rgba(36,54,63,.035)', stroke: ink, 'stroke-opacity': .55, 'stroke-width': 1 }, g);
-    svgEl('polygon', { points: pts([P(x0, y0), P(x1, y0), P(x1, y0, hM), P(x0, y0, hM)]), fill: 'rgba(36,54,63,.055)', stroke: ink, 'stroke-opacity': .55, 'stroke-width': 1 }, g);
-    // window on the left wall
-    const wy0 = y0 + dM * .3, wy1 = Math.min(y1 - .4, wy0 + 1.6);
-    svgEl('polygon', { points: pts([P(x0, wy0, .9), P(x0, wy1, .9), P(x0, wy1, 2.2), P(x0, wy0, 2.2)]), fill: 'rgba(214,235,243,.7)', stroke: ink, 'stroke-opacity': .6, 'stroke-width': 1 }, g);
-    // floor
-    svgEl('polygon', { points: pts([P(x0, y0), P(x1, y0), P(x1, y1), P(x0, y1)]), fill: 'url(#isoHatch)', stroke: ink, 'stroke-width': 1.4 }, g);
-    // airflow on the floor: arcs from under the unit, reach grows with power
-    const reach = dM * [.5, .7, .9][k];
-    for (let i = 1; i <= 4; i++) {
-      const r = reach * i / 4, arc = [];
-      for (let t = 0; t <= 1.0001; t += .05) { const th = Math.PI * t, x = Math.cos(th) * r * 1.25, y = y0 + Math.sin(th) * r;
-        if (x > x0 + .1 && x < x1 - .1 && y < y1 - .05) arc.push(P(x, y, .02)); }
-      if (arc.length > 1) svgEl('polyline', { points: pts(arc), fill: 'none', stroke: '#F47920', 'stroke-opacity': .9 - i * .18, 'stroke-width': 1.4 }, g);
-    }
-    // AC unit on the back wall: front face + top
-    const ux0 = -.5, ux1 = .5, uz0 = 2.15, uz1 = 2.45, ud = .22;
-    svgEl('polygon', { points: pts([P(ux0, y0 + ud, uz0), P(ux1, y0 + ud, uz0), P(ux1, y0 + ud, uz1), P(ux0, y0 + ud, uz1)]), fill: '#fff', stroke: ink, 'stroke-width': 1.1 }, g);
-    svgEl('polygon', { points: pts([P(ux0, y0, uz1), P(ux1, y0, uz1), P(ux1, y0 + ud, uz1), P(ux0, y0 + ud, uz1)]), fill: '#EEF1F2', stroke: ink, 'stroke-width': 1.1 }, g);
-    svgEl('polygon', { points: pts([P(ux1, y0, uz0), P(ux1, y0 + ud, uz0), P(ux1, y0 + ud, uz1), P(ux1, y0, uz1)]), fill: '#E3E7E9', stroke: ink, 'stroke-width': 1.1 }, g);
-    // vertical edges of the open corner for depth
-    svgEl('line', { x1: P(x0, y1)[0], y1: P(x0, y1)[1], x2: P(x0, y1, hM)[0], y2: P(x0, y1, hM)[1], stroke: ink, 'stroke-opacity': .35, 'stroke-dasharray': '3 4' }, g);
-    svgEl('line', { x1: P(x1, y0)[0], y1: P(x1, y0)[1], x2: P(x1, y0, hM)[0], y2: P(x1, y0, hM)[1], stroke: ink, 'stroke-opacity': .35, 'stroke-dasharray': '3 4' }, g);
-    // dimension lines along the two front edges
-    const off = .7;
-    const dim = (A, B, label, dx, dy, anchor) => { svgEl('line', { x1: A[0], y1: A[1], x2: B[0], y2: B[1], stroke: ink, 'stroke-opacity': .5 }, g);
-      [A, B].forEach(Q => svgEl('circle', { cx: Q[0], cy: Q[1], r: 1.6, fill: ink, 'fill-opacity': .6 }, g));
-      const tx = svgEl('text', { x: (A[0] + B[0]) / 2 + dx, y: (A[1] + B[1]) / 2 + dy, 'text-anchor': anchor }, g); tx.textContent = label; };
-    dim(P(x0, y1 + off), P(x1, y1 + off), wM.toFixed(1).replace('.', ',') + ' м', -14, 20, 'end');
-    dim(P(x1 + off, y0), P(x1 + off, y1), dM.toFixed(1).replace('.', ',') + ' м', 14, 20, 'start');
-  }
-  const sheet = document.getElementById('sheet'), vswBtns = [...document.querySelectorAll('#prices .vsw button')];
-  function viewSet(v) { sheet.dataset.view = v; vswBtns.forEach(b => b.setAttribute('aria-selected', b.dataset.v === v));
-    document.getElementById('sheetCap').textContent = v === 'iso' ? 'изометрия · высота потолка 2,7 м' : 'план · вид сверху'; try { localStorage.setItem('csp-view', v); } catch (e) {} }
-  vswBtns.forEach(b => b.addEventListener('click', () => viewSet(b.dataset.v)));
-  { let v = new URLSearchParams(location.search).get('view'); try { v = v || localStorage.getItem('csp-view'); } catch (e) {} viewSet(v === 'plan' ? 'plan' : 'iso'); }
   plRange.addEventListener('input', planDraw); planDraw();
   document.querySelectorAll('[data-pk]').forEach(a => a.addEventListener('click', () => {
     const i = { S: 0, M: 1, L: 2 }[a.dataset.pk], g = document.querySelector('.qc-chips[data-q="pw"]');
