@@ -122,7 +122,12 @@ h1, h2, h3, p { margin: 0; }
 .giant span { grid-area: 1 / 1; margin-top: -14vh; font-weight: 300; font-size: clamp(96px, 15vw, 300px); letter-spacing: -.07em; line-height: 1; color: rgba(255,255,255,.92);
   -webkit-text-stroke: 1px rgba(36,54,63,.07); opacity: 0; transform: translateY(40px) scale(.97); transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
 .st-stage[data-k="0"] .giant span:nth-child(1), .st-stage[data-k="1"] .giant span:nth-child(2), .st-stage[data-k="2"] .giant span:nth-child(3), .st-stage[data-k="3"] .giant span:nth-child(4) { opacity: 1; transform: none; }
-.room-anchor { position: absolute; left: 24%; right: 24%; top: 32%; bottom: 12%; }
+.room-anchor { position: absolute; left: 22%; right: 22%; top: 31%; bottom: 19%; }
+.std { border-top: 1px solid var(--line); margin-inline: 0; }
+.st-head { position: absolute; z-index: 3; left: 0; right: 0; top: clamp(76px, 10vh, 104px); align-items: end; }
+.st-head h2 { grid-column: 1 / 8; margin: 0; display: flex; align-items: center; gap: 16px; font-weight: 300; font-size: clamp(44px, 5vw, 80px); line-height: .95; letter-spacing: -.05em; }
+.st-head .pill { grid-column: auto; justify-self: auto; letter-spacing: 0; }
+.st-head .aside { grid-column: 9 / 12; margin: 0; font-size: 16px; color: var(--muted); max-width: 36ch; }
 .chips { position: absolute; inset: 0; z-index: 3; list-style: none; margin: 0; padding: 0; pointer-events: none; }
 .chips li { position: absolute; display: grid; gap: 2px; padding: 12px 16px 14px; background: rgba(255,255,255,.86); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   border: 1px solid rgba(36,54,63,.08); border-radius: 6px; box-shadow: 0 10px 30px rgba(36,54,63,.08); min-width: 220px;
@@ -133,7 +138,7 @@ h1, h2, h3, p { margin: 0; }
 .chips b { font-weight: 400; font-size: 19px; letter-spacing: -.015em; }
 .chips span { font-size: 14px; color: var(--muted); }
 .chips .mono { font-size: 10px; line-height: 1.4; }
-.chips .p0 { left: 6%; top: 20%; } .chips .p1 { right: 6%; top: 26%; } .chips .p2 { left: 9%; top: 48%; }
+.chips .p0 { left: 6%; top: 34%; } .chips .p1 { right: 6%; top: 40%; } .chips .p2 { left: 9%; top: 58%; }
 .st-bar { position: absolute; z-index: 3; left: 0; right: 0; bottom: 28px; align-items: end; row-gap: 20px; }
 .st-offer { grid-column: 1 / 6; display: grid; gap: 10px; }
 .st-offer .lede { font-weight: 300; font-size: clamp(22px, 1.9vw, 30px); line-height: 1.22; letter-spacing: -.025em; max-width: 28ch; }
@@ -279,7 +284,10 @@ h1, h2, h3, p { margin: 0; }
   .hero .anchor { top: 12%; bottom: 58%; }
   .std-track { height: 360vh; }
   .giant span { font-size: 22vw; margin-top: -34vh; }
-  .room-anchor { left: 2%; right: 2%; top: 21%; bottom: 43%; }
+  .room-anchor { left: 2%; right: 2%; top: 26%; bottom: 38%; }
+  .st-head { top: 68px; }
+  .st-head h2 { grid-column: 1 / -1; font-size: 40px; gap: 12px; }
+  .st-head .aside { display: none; }
   .st-stage .chips { display: none; }
   .chips li { position: static; min-width: 0; padding: 8px 10px 9px; }
   .chips li::before, .chips li > span:last-child { display: none; }
@@ -348,16 +356,13 @@ h1, h2, h3, p { margin: 0; }
   </section>
 
   <!-- 3 -->
-  <section class="sec" id="standard">
-    <div class="rule"></div>
-    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">3</span>Монтаж</h2>
-      <p class="aside" data-reveal>Каждый объект начинается со сметы и проекта. После запуска покажем управление и оставим гарантию по договору.</p></div>
-  </section>
-  <section class="std" data-scene="room" data-anchor=".room-anchor" aria-label="Как проходит монтаж">
+  <section class="std" id="standard" data-scene="room" data-anchor=".room-anchor" aria-label="Как проходит монтаж">
     <div class="std-track" id="stdTrack">
       <div class="sticky st-stage" id="stStage" data-k="0">
         <div class="tint t0"></div><div class="tint t1"></div><div class="tint t2"></div><div class="tint t3"></div>
         <div class="giant" aria-hidden="true"><span>Разметка</span><span>Трасса</span><span>Вакуум</span><span>Запуск</span></div>
+        <div class="grid st-head"><h2><span class="pill">3</span>Монтаж</h2>
+          <p class="aside">Каждый объект начинается со сметы и проекта. Листайте — монтажники пройдут все четыре этапа.</p></div>
         <div class="room-anchor" aria-hidden="true"></div>
         <ul class="chips" id="stChips" aria-live="polite"></ul>
         <div class="grid st-bar">
