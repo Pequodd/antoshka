@@ -482,6 +482,47 @@ html[data-hero="b"] .offer h1 { font-size: clamp(44px, 4.6vw, 76px); }
 html[data-hero="b"] .offer h1 em { color: var(--orange-ink); }
 html[data-hero="b"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
 html[data-hero="b"] .offer .btn-ink:hover { background: #FF8A35; }
+/* ---------- hero variant C: full-bleed real photo ---------- */
+.hero-photo, .hero-hud { display: none; }
+html[data-hero="c"] .hero::before, html[data-hero="c"] .hero .word { display: none; }
+html[data-hero="c"] .hero-photo { display: block; position: absolute; inset: 0; z-index: 0; overflow: hidden; background: #2A3940; }
+html[data-hero="c"] .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transform: scale(1.08); animation: heroKen 18s ease-out forwards; }
+html[data-hero="c"] .hero-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18,26,30,.55) 0%, rgba(18,26,30,.05) 30%, rgba(18,26,30,.25) 55%, rgba(18,26,30,.86) 100%); }
+@keyframes heroKen { to { transform: scale(1); } }
+html[data-hero="c"] .hero .foot { color: #fff; padding-bottom: 32px; }
+html[data-hero="c"] .hero .foot::before { border-color: rgba(255,255,255,.22); }
+html[data-hero="c"] .hero .foot .mono, html[data-hero="c"] .offer p { color: rgba(255,255,255,.76); }
+html[data-hero="c"] .offer h1 { font-size: clamp(48px, 5.2vw, 88px); font-weight: 400; }
+html[data-hero="c"] .offer h1 em { font-style: normal; color: #FFB37A; }
+html[data-hero="c"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
+html[data-hero="c"] .offer .btn-soft { background: rgba(255,255,255,.14); color: #fff; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+html[data-hero="c"] .hero .price { padding: 18px 20px; border-radius: 10px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+html[data-hero="c"] .hero .scroll { color: rgba(255,255,255,.8); }
+/* ---------- hero variant D: centred HUD composition ---------- */
+html[data-hero="d"] .hero .word { display: none; }
+html[data-hero="d"] .hero::before { height: calc(100% - 56px); background: radial-gradient(60% 55% at 50% 42%, #E3EBF0 0%, #F2F5F7 55%, #FAFAFA 100%); }
+html[data-hero="d"] .hero .anchor { left: 30%; right: 30%; top: 16%; bottom: 44%; }
+html[data-hero="d"] .hero-hud { display: block; position: absolute; inset: 56px 0 0; z-index: 1; pointer-events: none; color: var(--ink); }
+html[data-hero="d"] .hud-ring { position: absolute; left: 50%; top: 36%; width: min(64vh, 46vw); height: auto; transform: translate(-50%, -50%); }
+html[data-hero="d"] .hud-ring #hudTicks { animation: hudSpin 60s linear infinite; transform-origin: 0 0; }
+@keyframes hudSpin { to { transform: rotate(360deg); } }
+html[data-hero="d"] .hud-c { position: absolute; display: grid; gap: 4px; }
+html[data-hero="d"] .hud-c b { font-weight: 300; font-size: clamp(24px, 2vw, 34px); letter-spacing: -.03em; }
+html[data-hero="d"] .hud-c.tl { left: var(--m); top: 28px; } html[data-hero="d"] .hud-c.tr { right: var(--m); top: 28px; text-align: right; }
+html[data-hero="d"] .hud-c.bl { left: var(--m); top: 46%; } html[data-hero="d"] .hud-c.br { right: var(--m); top: 46%; text-align: right; }
+html[data-hero="d"] .hud-x { position: absolute; width: 14px; height: 14px; }
+html[data-hero="d"] .hud-x::before, html[data-hero="d"] .hud-x::after { content: ""; position: absolute; background: var(--ink); opacity: .35; }
+html[data-hero="d"] .hud-x::before { left: 6.5px; top: 0; width: 1px; height: 14px; } html[data-hero="d"] .hud-x::after { top: 6.5px; left: 0; height: 1px; width: 14px; }
+html[data-hero="d"] .x1 { left: 22%; top: 8%; } html[data-hero="d"] .x2 { right: 22%; top: 8%; } html[data-hero="d"] .x3 { left: 22%; top: 62%; } html[data-hero="d"] .x4 { right: 22%; top: 62%; }
+html[data-hero="d"] .hero .foot { justify-items: center; text-align: center; }
+html[data-hero="d"] .hero .foot::before { display: none; }
+html[data-hero="d"] .offer { grid-column: 3 / 11; justify-items: center; }
+html[data-hero="d"] .offer h1 { font-size: clamp(48px, 5.4vw, 92px); max-width: 16ch; }
+html[data-hero="d"] .offer h1 em { font-style: normal; color: var(--orange-ink); }
+html[data-hero="d"] .offer p { max-width: 52ch; }
+html[data-hero="d"] .offer .row { justify-content: center; }
+html[data-hero="d"] .hero .price, html[data-hero="d"] .hero .scroll { display: none; }
+html[data-hero="d"] .hero .foot { padding-bottom: 40px; }
 /* ============ LAYOUT SYSTEM ============
    12-col grid, side margin --m.
    G1 = column 1 (left edge): section titles and primary content.
@@ -624,6 +665,14 @@ html[data-hero="b"] .offer .btn-ink:hover { background: #FF8A35; }
   html[data-hero="b"] .hero-read { display: none; }
   html[data-hero="b"] .offer h1 { font-size: 38px; }
   .hero-vsw { top: 64px; }
+  html[data-hero="c"] .offer h1 { font-size: 40px; }
+  html[data-hero="c"] .hero .price { justify-items: start; text-align: left; }
+  html[data-hero="d"] .hud-c.bl, html[data-hero="d"] .hud-c.br, html[data-hero="d"] .hud-x { display: none; }
+  html[data-hero="d"] .hud-c.tl, html[data-hero="d"] .hud-c.tr { top: 56px; }
+  html[data-hero="d"] .hud-ring { width: 86vw; top: 30%; }
+  html[data-hero="d"] .hero .anchor { left: 10%; right: 10%; top: 18%; bottom: 52%; }
+  html[data-hero="d"] .offer { grid-column: 1 / -1; }
+  html[data-hero="d"] .offer h1 { font-size: 38px; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -635,6 +684,7 @@ html[data-hero="b"] .offer .btn-ink:hover { background: #FF8A35; }
   .rv-track { grid-auto-columns: 86%; }
 }
 @media (prefers-reduced-motion: reduce) {
+  html[data-hero="c"] .hero-photo img, html[data-hero="d"] .hud-ring #hudTicks { animation: none; }
   html { scroll-behavior: auto; }
   .ring .ticks { animation: none; }
   .w { color: var(--ink); transition: none; }
@@ -688,7 +738,16 @@ html[data-hero="b"] .offer .btn-ink:hover { background: #FF8A35; }
     <div class="word" aria-hidden="true">climate</div>
     <div class="hero-temp" aria-hidden="true"><span id="heroTemp">32</span><sup>°</sup></div>
     <div class="hero-read" aria-hidden="true"><span class="mono">в комнате</span><b><span id="heroRead">32</span> °C</b><span class="mono hero-was">было +32 °C · сейчас прохладно</span></div>
-    <div class="hero-vsw mono" role="group" aria-label="Вариант первого экрана"><span>экран:</span><button type="button" data-h="a">A</button><button type="button" data-h="b">B</button></div>
+    <div class="hero-vsw mono" role="group" aria-label="Вариант первого экрана"><span>экран:</span><button type="button" data-h="a">A</button><button type="button" data-h="b">B</button><button type="button" data-h="c">C</button><button type="button" data-h="d">D</button></div>
+    <div class="hero-photo" aria-hidden="true"><img src="../assets/photos/alpinist-outdoor-unit.webp" alt="" fetchpriority="high"></div>
+    <div class="hero-hud" aria-hidden="true">
+      <svg class="hud-ring" viewBox="-300 -300 600 600"><circle r="292" fill="none" stroke="currentColor" stroke-opacity=".18"/><circle r="246" fill="none" stroke="currentColor" stroke-opacity=".1" stroke-dasharray="2 6"/><g id="hudTicks"></g><path d="M0 -292 A292 292 0 0 1 206 -206" fill="none" stroke="#F47920" stroke-width="2"/></svg>
+      <div class="hud-c tl"><span class="mono">срок монтажа</span><b>3–4 часа</b></div>
+      <div class="hud-c tr"><span class="mono">гарантия по договору</span><b>3 года</b></div>
+      <div class="hud-c bl"><span class="mono">в комнате после запуска</span><b>+22 °C</b></div>
+      <div class="hud-c br"><span class="mono">монтаж под ключ</span><b>от 14 900 ₽</b></div>
+      <i class="hud-x x1"></i><i class="hud-x x2"></i><i class="hud-x x3"></i><i class="hud-x x4"></i>
+    </div>
     <div class="anchor" aria-hidden="true"></div>
     <div class="grid foot">
       <div class="offer c1-6">
@@ -1036,10 +1095,12 @@ html[data-hero="b"] .offer .btn-ink:hover { background: #FF8A35; }
   function heroSet(v) {
     document.documentElement.dataset.hero = v; heroBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.h === v));
     try { localStorage.setItem('csp-hero', v); } catch (e) {}
+    hero.dataset.scene = v === 'c' ? 'off' : 'split';
     if (v === 'b') heroCool(); else { cancelAnimationFrame(heroRun); hero.classList.remove('cooled'); delete hero.dataset.air; }
   }
   heroBtns.forEach(b => b.addEventListener('click', () => heroSet(b.dataset.h)));
-  { let v = new URLSearchParams(location.search).get('hero'); try { v = v || localStorage.getItem('csp-hero'); } catch (e) {} heroSet(v === 'a' ? 'a' : 'b'); }
+  { let v = new URLSearchParams(location.search).get('hero'); try { v = v || localStorage.getItem('csp-hero'); } catch (e) {} heroSet(['a', 'b', 'c', 'd'].includes(v) ? v : 'c'); }
+  { let t = ''; for (let i = 0; i < 72; i++) { const a = i / 72 * Math.PI * 2, r2 = i % 6 ? 278 : 266; t += `<line x1="${(Math.cos(a) * 292).toFixed(1)}" y1="${(Math.sin(a) * 292).toFixed(1)}" x2="${(Math.cos(a) * r2).toFixed(1)}" y2="${(Math.sin(a) * r2).toFixed(1)}" stroke="currentColor" stroke-opacity=".35"/>`; } document.getElementById('hudTicks').innerHTML = t; }
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
@@ -1541,6 +1602,7 @@ html[data-hero="b"] .offer .btn-ink:hover { background: #FF8A35; }
       if (vis > bestVis) { bestVis = vis; best = s; }
     }
     if (!best || bestVis < .02) { requestAnimationFrame(frame); return; }
+    if (best.dataset.scene === 'off') { group.visible = false; room.visible = false; renderer.render(scene, camera); requestAnimationFrame(frame); return; }
     if (best.dataset.scene === 'room') { group.visible = false; room.visible = true; hemi.intensity = .62; key.intensity = .5; rim.intensity = .3; animateRoom(best, dt, now); renderer.render(scene, camera); requestAnimationFrame(frame); return; }
     group.visible = true; room.visible = false; hemi.intensity = 1.05; key.intensity = 1.1; rim.intensity = .45;
     const isEquip = best.dataset.scene === 'equip';
