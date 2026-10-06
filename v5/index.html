@@ -108,40 +108,44 @@ h1, h2, h3, p { margin: 0; }
 .statement figure { grid-column: 8 / -1; margin: 0; display: grid; gap: 10px; }
 .statement figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; display: block; }
 
-/* 3 standard: list · product panel · value (same rhythm as the equipment block) */
+/* 3 standard: full-screen stage — 3D room where the crew installs the unit as you scroll */
 .std { position: relative; }
-.std-track { height: 400vh; }
-.std .sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; display: grid; grid-template-rows: 1fr auto; padding-top: 56px; }
-.std-grid { align-items: center; height: 100%; }
-.std-list { grid-column: 1 / 4; list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); position: relative; z-index: 3; }
-.std-list li { border-bottom: 1px solid var(--line); }
-.std-list button { all: unset; box-sizing: border-box; cursor: pointer; width: 100%; display: grid; grid-template-columns: 40px 1fr; align-items: baseline; padding: 12px 0;
-  font-weight: 300; font-size: clamp(26px, 2.4vw, 38px); letter-spacing: -.03em; line-height: 1.15; color: rgba(36,54,63,.38); transition: color .3s, padding .3s; }
-.std-list button .mono { color: inherit; }
-.std-list button:hover { color: var(--muted); }
-.std-list button[aria-pressed="true"] { color: var(--ink); padding-left: 10px; }
-.std-list button[aria-pressed="true"] .mono { color: var(--orange-ink); }
-.std-list button:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
-.std-panel { grid-column: 4 / 10; position: relative; height: min(66vh, 620px); }
-.std-panel::before { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: 4px; background: var(--panel); }
-.std-panel > .mono { position: absolute; z-index: 3; }
-.std-panel .tl { left: 16px; top: 12px; } .std-panel .tr { right: 16px; top: 12px; }
-.std-panel .bl { left: 16px; bottom: 12px; } .std-panel .br { right: 16px; bottom: 12px; }
-.std-anchor { position: absolute; left: 12%; right: 12%; top: 26%; bottom: 26%; }
-.pin { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; overflow: visible; }
-.pin path { fill: none; stroke: var(--ink); stroke-width: 1; }
-.pin .halo { fill: none; stroke: var(--orange); stroke-width: 1; opacity: .5; transform-box: fill-box; transform-origin: center; animation: halo 1.8s ease-out infinite; }
-.pin .core { fill: var(--orange); }
-.pin text { font: 400 11px var(--mono); letter-spacing: .06em; fill: var(--ink); text-transform: uppercase; }
-.pin rect { fill: var(--white); stroke: var(--line); }
-@keyframes halo { from { transform: scale(.6); opacity: .7; } to { transform: scale(2.2); opacity: 0; } }
-.std-value { grid-column: 10 / -1; display: grid; gap: 12px; align-content: center; position: relative; z-index: 3; }
-.std-value strong { font-weight: 300; font-size: clamp(34px, 3.4vw, 52px); line-height: 1.05; letter-spacing: -.04em; }
-.std-value p { color: var(--muted); font-size: 16px; max-width: 30ch; }
-.std-foot { padding-block: 0 28px; }
-.steps-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-.steps-bar i { height: 2px; background: var(--line); transition: background .3s; }
-.steps-bar i.on { background: var(--ink); }
+.std-track { height: 480vh; }
+.st-stage { overflow: hidden; }
+.tint { position: absolute; inset: 0; z-index: 0; opacity: 0; transition: opacity .8s ease; }
+.tint.t0 { background: radial-gradient(70% 60% at 50% 45%, #E3E8EC 0%, #F2F4F5 55%, #FAFAFA 100%); }
+.tint.t1 { background: radial-gradient(70% 60% at 50% 45%, #F2E4D8 0%, #F7F0EA 55%, #FAFAFA 100%); }
+.tint.t2 { background: radial-gradient(70% 60% at 50% 45%, #DDE4EE 0%, #EEF2F7 55%, #FAFAFA 100%); }
+.tint.t3 { background: radial-gradient(70% 60% at 50% 45%, #D8EBEF 0%, #EDF5F7 55%, #FAFAFA 100%); }
+.st-stage[data-k="0"] .t0, .st-stage[data-k="1"] .t1, .st-stage[data-k="2"] .t2, .st-stage[data-k="3"] .t3 { opacity: 1; }
+.giant { position: absolute; z-index: 0; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.giant span { grid-area: 1 / 1; margin-top: -14vh; font-weight: 300; font-size: clamp(96px, 15vw, 300px); letter-spacing: -.07em; line-height: 1; color: rgba(255,255,255,.92);
+  -webkit-text-stroke: 1px rgba(36,54,63,.07); opacity: 0; transform: translateY(40px) scale(.97); transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
+.st-stage[data-k="0"] .giant span:nth-child(1), .st-stage[data-k="1"] .giant span:nth-child(2), .st-stage[data-k="2"] .giant span:nth-child(3), .st-stage[data-k="3"] .giant span:nth-child(4) { opacity: 1; transform: none; }
+.room-anchor { position: absolute; left: 24%; right: 24%; top: 17%; bottom: 27%; }
+.chips { position: absolute; inset: 0; z-index: 3; list-style: none; margin: 0; padding: 0; pointer-events: none; }
+.chips li { position: absolute; display: grid; gap: 2px; padding: 12px 16px 14px; background: rgba(255,255,255,.86); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(36,54,63,.08); border-radius: 6px; box-shadow: 0 10px 30px rgba(36,54,63,.08); min-width: 220px;
+  opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
+.chips.in li { opacity: 1; transform: none; }
+.chips li::before { content: ""; position: absolute; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; top: 18px; right: -16px; box-shadow: 0 0 0 4px rgba(244,121,32,.18); }
+.chips li.l::before { right: auto; left: -16px; }
+.chips b { font-weight: 400; font-size: 19px; letter-spacing: -.015em; }
+.chips span { font-size: 14px; color: var(--muted); }
+.chips .mono { font-size: 10px; line-height: 1.4; }
+.chips .p0 { left: 6%; top: 20%; } .chips .p1 { right: 6%; top: 26%; } .chips .p2 { left: 9%; top: 48%; }
+.st-bar { position: absolute; z-index: 3; left: 0; right: 0; bottom: 28px; align-items: end; row-gap: 20px; }
+.st-offer { grid-column: 1 / 6; display: grid; gap: 10px; }
+.st-offer .lede { font-weight: 300; font-size: clamp(22px, 1.9vw, 30px); line-height: 1.22; letter-spacing: -.025em; max-width: 28ch; }
+.st-tabs { grid-column: 7 / -1; display: grid; grid-template-columns: repeat(4, auto); justify-content: end; gap: 0 28px; }
+.sttab { all: unset; cursor: pointer; display: grid; gap: 2px; font-weight: 300; font-size: clamp(20px, 1.6vw, 26px); letter-spacing: -.025em; color: rgba(36,54,63,.38); transition: color .25s; }
+.sttab .mono { color: inherit; font-size: 10px; }
+.sttab:hover { color: var(--muted); }
+.sttab[aria-selected="true"] { color: var(--ink); }
+.sttab[aria-selected="true"] .mono { color: var(--orange-ink); }
+.sttab:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; border-radius: 2px; }
+.st-prog { grid-column: 1 / -1; height: 2px; background: rgba(36,54,63,.12); margin-top: 14px; }
+.st-prog i { display: block; height: 100%; width: 0; background: var(--ink); }
 /* (old dial styles below are unused) */
 .dial-track { height: 300vh; }
 .sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
@@ -273,13 +277,18 @@ h1, h2, h3, p { margin: 0; }
   .title .aside { grid-column: 1 / -1; margin-top: 12px; }
   .price { justify-items: start; text-align: left; }
   .hero .anchor { top: 12%; bottom: 58%; }
-  .std-track { height: 300vh; }
-  .std-grid { grid-template-rows: auto auto auto; align-content: center; row-gap: 16px; }
-  .std-panel { grid-row: 1; height: 38vh; }
-  .std-list { grid-row: 2; }
-  .std-list button { font-size: 22px; padding: 6px 0; }
-  .std-value { grid-row: 3; }
-  .std-value strong { font-size: 28px; }
+  .std-track { height: 360vh; }
+  .giant span { font-size: 22vw; margin-top: -34vh; }
+  .room-anchor { left: 2%; right: 2%; top: 14%; bottom: 50%; }
+  .st-stage .chips { display: none; }
+  .chips li { position: static; min-width: 0; padding: 8px 10px 9px; }
+  .chips li::before, .chips li > span:last-child { display: none; }
+  .chips b { font-size: 15px; }
+  .st-tabs { grid-column: 1 / -1; grid-row: 1; justify-content: start; gap: 0 14px; }
+  .sttab { font-size: 16px; }
+  .st-offer { grid-row: 2; }
+  .st-offer .lede { font-size: 19px; }
+  .st-bar { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .svc-visual { grid-row: 1; min-height: 42vh; }
   .svc-left { grid-row: 2; }
   .cells > div { padding: 16px 6px 20px; }
@@ -344,25 +353,23 @@ h1, h2, h3, p { margin: 0; }
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">3</span>Монтаж</h2>
       <p class="aside" data-reveal>Каждый объект начинается со сметы и проекта. После запуска покажем управление и оставим гарантию по договору.</p></div>
   </section>
-  <section class="std" data-scene="split" data-ry="-0.22" data-anchor=".std-anchor" aria-label="Стандарт монтажа">
+  <section class="std" data-scene="room" data-anchor=".room-anchor" aria-label="Как проходит монтаж">
     <div class="std-track" id="stdTrack">
-      <div class="sticky">
-        <div class="grid std-grid">
-          <ol class="std-list" id="stdList" aria-label="Этапы монтажа">
-            <li><button type="button" aria-pressed="true" data-i="0"><span class="mono">01</span>Кронштейн</button></li>
-            <li><button type="button" aria-pressed="false" data-i="1"><span class="mono">02</span>Трасса</button></li>
-            <li><button type="button" aria-pressed="false" data-i="2"><span class="mono">03</span>Вакуум</button></li>
-            <li><button type="button" aria-pressed="false" data-i="3"><span class="mono">04</span>Запуск</button></li>
-          </ol>
-          <div class="std-panel">
-            <span class="mono brk tl">тех</span><span class="mono brk tr" id="stdIdx">01 / 04</span>
-            <div class="std-anchor" aria-hidden="true"></div>
-            <svg class="pin" id="pin" aria-hidden="true"></svg>
-            <span class="mono brk bl">сплит-система</span><span class="mono brk br">стандарт</span>
+      <div class="sticky st-stage" id="stStage" data-k="0">
+        <div class="tint t0"></div><div class="tint t1"></div><div class="tint t2"></div><div class="tint t3"></div>
+        <div class="giant" aria-hidden="true"><span>Разметка</span><span>Трасса</span><span>Вакуум</span><span>Запуск</span></div>
+        <div class="room-anchor" aria-hidden="true"></div>
+        <ul class="chips" id="stChips" aria-live="polite"></ul>
+        <div class="grid st-bar">
+          <div class="st-offer"><span class="mono brk" id="stKicker">шаг 01</span><p class="lede" id="stLede"></p></div>
+          <div class="st-tabs" role="tablist" aria-label="Этапы монтажа">
+            <button class="sttab" role="tab" aria-selected="true" data-i="0"><span class="mono">01</span>Кронштейн</button>
+            <button class="sttab" role="tab" aria-selected="false" tabindex="-1" data-i="1"><span class="mono">02</span>Трасса</button>
+            <button class="sttab" role="tab" aria-selected="false" tabindex="-1" data-i="2"><span class="mono">03</span>Вакуум</button>
+            <button class="sttab" role="tab" aria-selected="false" tabindex="-1" data-i="3"><span class="mono">04</span>Запуск</button>
+            <div class="st-prog"><i id="stProg"></i></div>
           </div>
-          <div class="std-value" aria-live="polite"><strong id="stdVal">По уровню</strong><p id="stdTxt">Блок висит ровно, конденсат уходит в дренаж, а не на обои.</p></div>
         </div>
-        <div class="grid std-foot"><div class="steps-bar c1-12"><i class="on"></i><i></i><i></i><i></i></div></div>
       </div>
     </div>
   </section>
@@ -535,41 +542,31 @@ h1, h2, h3, p { margin: 0; }
     return [...el.querySelectorAll('.w')];
   });
 
-  /* standard: list + pinned point on the unit */
-  const STD = [
-    { v: 'По уровню', t: 'Блок висит ровно, конденсат уходит в дренаж, а не на обои.', p: [.08, .2], label: 'кронштейн', side: -1 },
-    { v: 'до [X] м в цене', t: 'Медь в теплоизоляции, без заломов и лишних соединений.', p: [.96, .32], label: 'трасса', side: 1 },
-    { v: '≤ 500 мкм', t: 'Убираем воздух и влагу из контура перед запуском.', p: [.94, .7], label: 'вакуум', side: 1 },
-    { v: '1 день', t: 'Проверяем давление и температуру на выходе, показываем управление.', p: [.45, .9], label: 'запуск', side: -1 }
+  /* standard: room stage */
+  const STEPS = [
+    { lede: 'Размечаем лазерным уровнем и крепим кронштейн — блок будет висеть ровно.', c: [['Лазерная разметка', 'уровень и уклон'], ['Кронштейн на дюбелях', 'под вес блока'], ['Защита мебели', 'плёнка и пылесос']] },
+    { lede: 'Вешаем блок и прокладываем медную трассу в теплоизоляции к наружному блоку.', c: [['Медь в изоляции', 'без заломов'], ['Отверстие с уклоном', 'наружу, для дренажа'], ['до [X] м в цене', 'базовая трасса']] },
+    { lede: 'Вакуумным насосом убираем воздух и влагу из контура и проверяем герметичность.', c: [['Вакуум ≤ 500 мкм', 'по манометру'], ['Проверка утечек', 'выдержка [X] мин'], ['Без воздуха в контуре', 'компрессор живёт дольше']] },
+    { lede: 'Запускаем, проверяем давление и температуру и показываем, как пользоваться пультом.', c: [['Давление и температура', 'на выходе'], ['Инструктаж', 'пульт и режимы'], ['Акт и гарантия', '[X] года по договору']] }
   ];
-  const stdTrack = document.getElementById('stdTrack'), pin = document.getElementById('pin'), stdAnchor = document.querySelector('.std-anchor');
-  const stdBtns = [...document.querySelectorAll('#stdList button')], bars = [...document.querySelectorAll('.steps-bar i')];
-  const stdIdx = document.getElementById('stdIdx'), stdVal = document.getElementById('stdVal'), stdTxt = document.getElementById('stdTxt');
-  let si = -1;
-  function drawPin() {
-    if (si < 0) return;
-    const s = STD[si], box = pin.getBoundingClientRect(), a = stdAnchor.getBoundingClientRect();
-    const x = a.left - box.left + a.width * s.p[0], y = a.top - box.top + a.height * s.p[1];
-    const up = s.p[1] > .6 ? 1 : -1, ex = x + s.side * 48, ey = y + up * 44, w = s.label.length * 7.4 + 20;
-    let lx = s.side > 0 ? ex : ex - w;
-    lx = Math.max(8, Math.min(box.width - w - 8, lx));
-    pin.setAttribute('viewBox', `0 0 ${box.width} ${box.height}`);
-    pin.innerHTML = `<path d="M${x} ${y}L${ex} ${ey}"/><circle class="halo" cx="${x}" cy="${y}" r="8"/><circle class="core" cx="${x}" cy="${y}" r="4"/>
-      <rect x="${lx}" y="${ey - 11}" width="${w}" height="22" rx="2"/><text x="${lx + 10}" y="${ey + 4}">${s.label}</text>`;
+  const stdTrack = document.getElementById('stdTrack'), stStage = document.getElementById('stStage'), stChips = document.getElementById('stChips');
+  const stLede = document.getElementById('stLede'), stKicker = document.getElementById('stKicker'), stProg = document.getElementById('stProg');
+  const stTabs = [...document.querySelectorAll('.sttab')];
+  let si = -1, stdP = 0;
+  function setStd(k) {
+    if (k === si) return; si = k;
+    stStage.dataset.k = k;
+    stTabs.forEach((x, i) => { const on = i === k; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; });
+    stKicker.textContent = `шаг 0${k + 1} из 04`; stLede.textContent = STEPS[k].lede;
+    stChips.classList.remove('in');
+    stChips.innerHTML = STEPS[k].c.map(([b, t], i) => `<li class="p${i}${i === 1 ? ' l' : ''}" style="--d:${(.15 + i * .08).toFixed(2)}s"><span class="mono">0${i + 1}</span><b>${b.replace('[X]', '<span class="ph">[X]</span>')}</b><span>${t.replace('[X]', '<span class="ph">[X]</span>')}</span></li>`).join('');
+    requestAnimationFrame(() => requestAnimationFrame(() => stChips.classList.add('in')));
   }
-  function setStd(i) {
-    if (i === si) return; si = i;
-    stdBtns.forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
-    bars.forEach((b, j) => b.classList.toggle('on', j <= i));
-    stdIdx.textContent = `0${i + 1} / 04`;
-    stdVal.innerHTML = STD[i].v.replace('[X]', '<span class="ph">[X]</span>'); stdTxt.textContent = STD[i].t;
-    drawPin();
-  }
-  stdBtns.forEach(b => b.addEventListener('click', () => {
-    const i = +b.dataset.i, top = stdTrack.getBoundingClientRect().top + scrollY, span = stdTrack.offsetHeight - innerHeight;
-    scrollTo({ top: top + span * ((i + .5) / 4), behavior: reduce ? 'auto' : 'smooth' }); setStd(i);
-  }));
-  addEventListener('resize', drawPin);
+  stTabs.forEach((x, i) => {
+    const go = () => { const top = stdTrack.getBoundingClientRect().top + scrollY, span = stdTrack.offsetHeight - innerHeight; scrollTo({ top: top + span * ((i + .55) / 4), behavior: reduce ? 'auto' : 'smooth' }); };
+    x.addEventListener('click', go);
+    x.addEventListener('keydown', e => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (d) { const n = stTabs[(i + d + 4) % 4]; n.focus(); n.click(); } });
+  });
 
   /* tabs */
   const tabs = [...document.querySelectorAll('[role="tab"]')];
@@ -636,7 +633,7 @@ h1, h2, h3, p { margin: 0; }
       const n = Math.round(p * words.length * 1.1);
       words.forEach((w, i) => w.classList.toggle('on', i < n));
     }
-    const sp = prog(stdTrack); setStd(reduce ? 3 : Math.min(3, Math.floor(sp * 4)));
+    const sp = prog(stdTrack); stdP = reduce ? 4 : sp * 4; setStd(Math.min(3, Math.floor(reduce ? 3 : sp * 4))); stProg.style.width = (sp * 100).toFixed(1) + '%';
     const ep = prog(equipTrack);
     setEquip(Math.min(4, Math.floor(ep * 5)));
     ringArc.setAttribute('stroke-dasharray', `${(ep * 1483).toFixed(0)} 1483`);
@@ -887,6 +884,8 @@ h1, h2, h3, p { margin: 0; }
       if (vis > bestVis) { bestVis = vis; best = s; }
     }
     if (!best || bestVis < .02) { requestAnimationFrame(frame); return; }
+    if (best.dataset.scene === 'room') { group.visible = false; room.visible = true; animateRoom(best, dt, now); renderer.render(scene, camera); requestAnimationFrame(frame); return; }
+    group.visible = true; room.visible = false;
     const isEquip = best.dataset.scene === 'equip';
     const keyName = isEquip ? EQUIP[Math.max(0, equipIndex)].key : best.dataset.scene;
 
@@ -958,6 +957,144 @@ h1, h2, h3, p { margin: 0; }
     renderer.render(scene, camera);
     requestAnimationFrame(frame);
   }
+
+  /* ---------- 3D room: the crew installs a split system, driven by scroll ---------- */
+  const room = new THREE.Group(); room.visible = false; scene.add(room);
+  const RM = (c, r = .7, m = 0) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m });
+  const RL = new THREE.LineBasicMaterial({ color: '#24363F', transparent: true, opacity: .35 });
+  function radd(parent, geom, mat, x = 0, y = 0, z = 0, edges = false) {
+    const m = new THREE.Mesh(geom, mat); m.position.set(x, y, z); parent.add(m);
+    if (edges) { const l = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 25), RL); l.position.copy(m.position); parent.add(l); }
+    return m;
+  }
+  const WALL = RM('#F3F4F5', .95), FLOOR = RM('#E2E5E7', .9), NAVY = RM('#1F2B45', .8), SKIN = RM('#D8B494', .8), HAIR = RM('#2B2622', .9),
+    STRIPE = RM('#F47920', .6), STEEL = RM('#B8C0C5', .35, .4), DARKR = RM('#2A3940', .7), COPPER = RM('#C27A4A', .35, .5), INSUL = RM('#30383C', .9),
+    WHITE = RM('#FBFCFC', .5), GLASS = new THREE.MeshStandardMaterial({ color: '#CFE3EC', roughness: .1, transparent: true, opacity: .55 }), CARD = RM('#C9A57A', .9),
+    LASER = new THREE.MeshBasicMaterial({ color: '#F47920', transparent: true, opacity: 0 });
+  // shell: floor, back wall, left wall, window, skirting
+  radd(room, new THREE.BoxGeometry(6, .08, 4), FLOOR, 0, -.04, 0, true);
+  radd(room, new THREE.BoxGeometry(6, 3, .1), WALL, 0, 1.5, -2.05, true);
+  radd(room, new THREE.BoxGeometry(.1, 3, 4), WALL, -3.05, 1.5, 0, true);
+  radd(room, new THREE.BoxGeometry(1.1, 1.3, .02), GLASS, 2.05, 1.55, -1.99);
+  radd(room, new THREE.BoxGeometry(1.2, 1.4, .06), WHITE, 2.05, 1.55, -2.02, true);
+  radd(room, new THREE.BoxGeometry(1.3, .05, .22), WHITE, 2.05, .86, -1.9, true);
+  // laser level line + bracket
+  const laser = radd(room, new THREE.BoxGeometry(5.6, .012, .005), LASER, 0, 2.18, -1.995);
+  const bracket = new THREE.Group(); bracket.position.set(-.3, 2.38, -1.985); room.add(bracket); radd(bracket, new THREE.BoxGeometry(1.1, .32, .025), STEEL, 0, 0, 0, true);
+  // indoor unit (with flap) — starts in a carton on the floor
+  const unit = new THREE.Group(); room.add(unit);
+  { const g = new THREE.ExtrudeGeometry(roundRect(.34, .38, .07), { depth: 1.3, bevelEnabled: false, curveSegments: 6 }); g.translate(0, 0, -.65); g.rotateY(-Math.PI / 2);
+    radd(unit, g, WHITE, 0, 0, 0, true); radd(unit, new THREE.BoxGeometry(1.2, .03, .01), DARKR, 0, -.11, .171); radd(unit, new THREE.BoxGeometry(.1, .025, .01), DARKR, .48, .02, .172); }
+  const flap = new THREE.Group(); flap.position.set(0, -.15, .16); unit.add(flap); radd(flap, new THREE.BoxGeometry(1.18, .015, .1), WHITE, 0, 0, .04, true);
+  const carton = new THREE.Group(); carton.position.set(-1.7, .25, -.6); room.add(carton); radd(carton, new THREE.BoxGeometry(1.45, .5, .5), CARD, 0, 0, 0, true);
+  // line set: insulated pipe from the unit along the wall into the hole by the window
+  const route = new THREE.CurvePath();
+  [[.68, 2.34, -1.86], [1.05, 2.34, -1.86], [1.2, 2.25, -1.9], [1.3, 2.25, -2.0]].reduce((a, b) => { route.add(new THREE.LineCurve3(new THREE.Vector3(...a), new THREE.Vector3(...b))); return b; });
+  const pipeGeo = new THREE.TubeGeometry(route, 60, .035, 8, false), pipe = radd(room, pipeGeo, INSUL);
+  const pipeCount = pipeGeo.index.count; pipeGeo.setDrawRange(0, 0);
+  radd(room, new THREE.CylinderGeometry(.06, .06, .02, 20).rotateX(Math.PI / 2), DARKR, 1.3, 2.25, -1.995);
+  // vacuum pump + manifold + hose
+  const pumpG = new THREE.Group(); pumpG.position.set(1.55, 0, -1.25); room.add(pumpG);
+  radd(pumpG, new THREE.BoxGeometry(.44, .3, .26), DARKR, 0, .17, 0, true); radd(pumpG, new THREE.BoxGeometry(.3, .04, .04), STRIPE, 0, .36, 0);
+  radd(pumpG, new THREE.CylinderGeometry(.11, .11, .26, 24).rotateZ(Math.PI / 2), STEEL, -.08, .17, .0);
+  const gauge = new THREE.Group(); gauge.position.set(.05, .62, .02); pumpG.add(gauge);
+  radd(gauge, new THREE.CylinderGeometry(.11, .11, .03, 32).rotateX(Math.PI / 2), WHITE, 0, 0, 0, true);
+  const needle = new THREE.Group(); needle.position.z = .02; gauge.add(needle); radd(needle, new THREE.BoxGeometry(.012, .09, .005), STRIPE, 0, .04, 0);
+  radd(pumpG, new THREE.BoxGeometry(.02, .3, .02), DARKR, .05, .45, 0);
+  const hose = new THREE.CatmullRomCurve3([new THREE.Vector3(1.6, .32, -1.25), new THREE.Vector3(1.5, .9, -1.6), new THREE.Vector3(1.35, 1.8, -1.9), new THREE.Vector3(1.2, 2.2, -1.9)]);
+  const hoseM = radd(room, new THREE.TubeGeometry(hose, 40, .015, 6, false), STRIPE);
+  // ladder
+  const ladder = new THREE.Group(); ladder.position.set(-.3, 0, -1.25); room.add(ladder);
+  [-.22, .22].forEach(x => radd(ladder, new THREE.BoxGeometry(.04, 1.5, .04), STEEL, x, .75, 0));
+  for (let i = 0; i < 4; i++) radd(ladder, new THREE.BoxGeometry(.44, .03, .06), STEEL, 0, .3 + i * .33, 0);
+  // workers in navy uniform with an orange stripe
+  function worker() {
+    const w = new THREE.Group(), hip = new THREE.Group(); hip.position.y = .82; w.add(hip);
+    const legs = [-.1, .1].map(x => { const l = new THREE.Group(); l.position.x = x; hip.add(l); radd(l, new THREE.CylinderGeometry(.075, .07, .82, 10), NAVY, 0, -.41, 0); radd(l, new THREE.BoxGeometry(.12, .07, .22), DARKR, 0, -.8, .04); return l; });
+    radd(w, new THREE.BoxGeometry(.42, .62, .24), NAVY, 0, 1.13, 0); radd(w, new THREE.BoxGeometry(.43, .04, .245), STRIPE, 0, 1.0, 0);
+    radd(w, new THREE.SphereGeometry(.13, 16, 12), SKIN, 0, 1.6, 0); radd(w, new THREE.SphereGeometry(.135, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2), HAIR, 0, 1.62, -.005);
+    const arms = [-.27, .27].map(x => { const a = new THREE.Group(); a.position.set(x, 1.4, 0); w.add(a); radd(a, new THREE.CylinderGeometry(.055, .05, .6, 8), NAVY, 0, -.3, 0); radd(a, new THREE.SphereGeometry(.05, 8, 6), SKIN, 0, -.62, 0); return a; });
+    return { w, legs, arms, hip };
+  }
+  const WA = worker(), WB = worker(); room.add(WA.w); room.add(WB.w);
+  const drill = new THREE.Group(); drill.position.set(0, -.66, .06); WA.arms[1].add(drill);
+  radd(drill, new THREE.BoxGeometry(.07, .16, .2), STRIPE, 0, 0, .05); radd(drill, new THREE.CylinderGeometry(.01, .01, .14, 6).rotateX(Math.PI / 2), STEEL, 0, .03, .21);
+  const remote = new THREE.Group(); remote.position.set(0, -.66, .05); WA.arms[1].add(remote); radd(remote, new THREE.BoxGeometry(.05, .03, .14), WHITE, 0, 0, 0, true);
+  // airflow out of the unit
+  const RA = mobile ? 260 : 520, raPos = new Float32Array(RA * 3), raCol = new Float32Array(RA * 3), raSeed = Array.from({ length: RA }, () => ({ x: rnd(-.55, .55), t: Math.random(), s: rnd(.25, .5) }));
+  const raGeo = new THREE.BufferGeometry(); raGeo.setAttribute('position', new THREE.BufferAttribute(raPos, 3)); raGeo.setAttribute('color', new THREE.BufferAttribute(raCol, 3));
+  const roomAir = new THREE.Points(raGeo, new THREE.PointsMaterial({ size: .045, map: dot, alphaTest: .5, vertexColors: true })); room.add(roomAir);
+  const airC = new THREE.Color('#5FA8C7'), bgC = new THREE.Color('#EDF5F7');
+
+  const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const seg = (s, a, b) => clamp((s - a) / (b - a));
+  let rs = 0, rScale = 1; const rPos = new THREE.Vector3();
+  function pose(o, x, z, ry, y = 0) { o.w.position.set(x, y, z); o.w.rotation.y = ry; }
+  function animateRoom(sec, dt, now) {
+    rs += ((reduce ? 4 : stdP) - rs) * clamp(dt * 4);
+    const s = rs, t = now / 1000;
+    // place the room in its slot
+    const r = sec.querySelector(sec.dataset.anchor).getBoundingClientRect();
+    rPos.copy(screenToWorld(r.left + r.width / 2, r.top + r.height / 2));
+    const wpp = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z / innerHeight;
+    const fit = Math.min(r.width * wpp / 7.4, r.height * wpp / 5.4);
+    rScale += (fit - rScale) * clamp(dt * 4);
+    room.position.lerp(rPos, clamp(dt * 5)); room.scale.setScalar(rScale);
+    room.rotation.y += ((-.5 + mx * .06 + Math.sin(t * .3) * .03) - room.rotation.y) * clamp(dt * 3);
+    room.rotation.x += ((.36 + my * .04) - room.rotation.x) * clamp(dt * 3);
+    room.updateMatrixWorld(true);
+
+    // 1 — marking and bracket
+    LASER.opacity = .9 * seg(s, .05, .3) * (1 - seg(s, 1.1, 1.4));
+    bracket.scale.set(Math.max(.001, ease(seg(s, .3, .8))), 1, 1);
+    // 2 — unit up on the wall, line set grows
+    const lift = ease(seg(s, 1.0, 1.55));
+    unit.position.set(-1.7 + (-.3 + 1.7) * lift, .3 + (2.38 - .3) * lift, -.6 + (-1.82 + .6) * lift);
+    unit.rotation.y = (1 - lift) * .4;
+    carton.visible = s < 1.05; ladder.visible = s > .95 && s < 2.05;
+    pipeGeo.setDrawRange(0, Math.floor(pipeCount * ease(seg(s, 1.45, 1.95)) / 3) * 3);
+    // 3 — vacuum
+    const vac = seg(s, 1.95, 2.15) * (1 - seg(s, 3.05, 3.25));
+    pumpG.visible = hoseM.visible = vac > .01; pumpG.scale.setScalar(Math.max(.001, vac)); hoseM.scale.setScalar(1);
+    needle.rotation.z = 1.2 - 2.4 * ease(seg(s, 2.15, 2.85));
+    // 4 — start-up
+    flap.rotation.x = .7 * ease(seg(s, 3.05, 3.3));
+    remote.visible = s > 3;
+    drill.visible = s < 1.05;
+
+    // crew poses per phase
+    if (s < 1) {          // A drills the wall, B holds the level
+      pose(WA, -.1, -1.35, Math.PI); WA.arms[1].rotation.x = -2.5 + Math.sin(t * 30) * .03; WA.arms[0].rotation.x = -.2;
+      pose(WB, -1.2, -1.15, Math.PI * .9); WB.arms[0].rotation.x = -1.6; WB.arms[1].rotation.x = -1.6;
+      WA.legs.forEach(l => l.rotation.x = 0); WB.legs.forEach(l => l.rotation.x = 0); WB.w.position.y = 0;
+    } else if (s < 2) {   // A on the ladder lifts the unit, B passes it up
+      pose(WA, -.3, -1.05, Math.PI, .66); WA.arms.forEach(a => a.rotation.x = -2.9 + Math.sin(t * 3) * .05);
+      pose(WB, .6, -1.05, Math.PI * 1.15); WB.arms.forEach(a => a.rotation.x = -2.4 + Math.sin(t * 3 + 1) * .05);
+      WA.legs.forEach(l => l.rotation.x = 0);
+    } else if (s < 3) {   // B kneels at the pump, A watches the gauge
+      pose(WB, 1.55, -.75, Math.PI, -.42); WB.legs.forEach((l, i) => l.rotation.x = i ? -1.5 : -.2); WB.arms.forEach(a => a.rotation.x = -1.0);
+      pose(WA, .7, -.55, Math.PI * .85); WA.arms[1].rotation.x = -.9; WA.arms[0].rotation.x = -.2;
+    } else {              // A shows the remote, B steps back
+      pose(WA, .2, .3, Math.PI * .92); WA.arms[1].rotation.x = -1.7; WA.arms[0].rotation.x = -.15;
+      pose(WB, 1.6, .1, Math.PI * 1.2); WB.legs.forEach(l => l.rotation.x = 0); WB.arms.forEach(a => a.rotation.x = -.15);
+    }
+
+    // airflow after start-up
+    const on = ease(seg(s, 3.2, 3.6));
+    roomAir.visible = on > .01;
+    if (roomAir.visible) {
+      for (let i = 0; i < RA; i++) {
+        const q = raSeed[i]; if (!reduce) q.t += dt * q.s; if (q.t > 1) { q.t -= 1; q.x = rnd(-.55, .55); }
+        const tt = q.t, j = i * 3;
+        raPos[j] = unit.position.x + q.x * (1 + tt * .5); raPos[j + 1] = unit.position.y - .2 - tt * 1.5; raPos[j + 2] = unit.position.z + .25 + tt * 2.2;
+        const f = Math.pow(1 - tt, 1.3) * clamp(tt * 10) * on;
+        raCol[j] = bgC.r + (airC.r - bgC.r) * f; raCol[j + 1] = bgC.g + (airC.g - bgC.g) * f; raCol[j + 2] = bgC.b + (airC.b - bgC.b) * f;
+        if (f < .05) raPos[j + 2] = -50;
+      }
+      raGeo.attributes.position.needsUpdate = true; raGeo.attributes.color.needsUpdate = true;
+    }
+  }
+
   requestAnimationFrame(frame);
 })();
 </script>
