@@ -116,14 +116,20 @@ section { position: relative; }
 .equip { z-index: 2; }
 .equip-track { height: 520vh; }
 .equip .sticky > .grid { height: 100%; grid-template-rows: auto 1fr auto; padding-block: 88px 40px; }
-.ring { position: absolute; left: 50%; top: 52%; width: min(64vh, 46vw); aspect-ratio: 1; transform: translate(-50%, -50%); }
+.ring { position: absolute; left: 50%; top: 52%; width: min(60vh, 40vw); aspect-ratio: 1; transform: translate(-50%, -50%); }
 .ring svg { width: 100%; height: 100%; overflow: visible; }
 .ring .ticks { transform-box: fill-box; transform-origin: center; animation: spin 80s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.equip ol { list-style: none; margin: 0; padding: 0; align-self: end; position: relative; z-index: 3; }
-.equip ol button { all: unset; cursor: pointer; display: block; font-weight: 300; font-size: clamp(26px, 2.22vw, 32px); line-height: 1.25; letter-spacing: -.025em; color: var(--faint); transition: color .3s; }
+.equip ol { list-style: none; margin: 0 32px 0 0; padding: 0; align-self: center; position: relative; z-index: 3; counter-reset: eq; border-top: 1px solid var(--line); }
+.equip ol li { border-bottom: 1px solid var(--line); }
+.equip ol button { all: unset; box-sizing: border-box; cursor: pointer; width: 100%; display: grid; grid-template-columns: 44px 1fr 16px; align-items: center; padding: 10px 0;
+  font-weight: 400; font-size: clamp(28px, 3vw, 44px); line-height: 1.15; letter-spacing: -.03em; color: rgba(36,54,63,.38); transition: color .3s, padding .3s; }
+.equip ol button::before { counter-increment: eq; content: "0" counter(eq); font: 400 12px/1 var(--mono); letter-spacing: .02em; color: var(--muted); align-self: start; padding-top: .6em; }
+.equip ol button::after { content: ""; width: 10px; height: 10px; justify-self: end; background: var(--orange); transform: scale(0); transition: transform .3s; }
 .equip ol button:hover { color: var(--muted); }
-.equip ol button[aria-pressed="true"] { color: var(--ink); }
+.equip ol button[aria-pressed="true"] { color: var(--ink); padding-left: 12px; }
+.equip ol button[aria-pressed="true"]::before { color: var(--orange); }
+.equip ol button[aria-pressed="true"]::after { transform: scale(1); }
 .equip ol button:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
 .equip .info { align-self: center; position: relative; z-index: 3; display: grid; gap: 12px; font-size: 15px; color: var(--muted); }
 .equip .info .price { font: 400 13px/1.6 var(--mono); color: var(--ink); text-transform: uppercase; }
@@ -184,7 +190,9 @@ section { position: relative; }
   .tabs { grid-template-columns: 1fr; }
   .dial .sticky { grid-template-rows: 1fr auto; }
   .dial-stage svg { width: 92vw; }
-  .ring { top: 40%; width: min(80vw, 46vh); }
+  .ring { top: 36%; width: min(78vw, 40vh); }
+  .equip ol { align-self: end; margin-right: 0; }
+  .equip ol button { font-size: 26px; padding: 6px 0; grid-template-columns: 36px 1fr 12px; }
   .equip .sticky > .grid { padding-block: 80px 24px; grid-template-rows: auto auto 1fr auto; row-gap: 12px; }
   .equip .info { align-self: end; }
   .stats { grid-template-columns: 1fr 1fr; }
@@ -281,7 +289,7 @@ section { position: relative; }
         <div class="grid">
           <span class="c1-6"><span class="chip"><span>S.04</span><span>Оборудование</span></span></span>
           <span class="c10-12 mono right" id="ringIdx" style="text-align:right">[ Тип 01 / 05 ]</span>
-          <ol class="c1-4" id="equipList">
+          <ol class="c1-4" id="equipList" aria-label="Типы оборудования">
             <li><button type="button" aria-pressed="true" data-i="0">Сплит-система</button></li>
             <li><button type="button" aria-pressed="false" data-i="1">Мультисплит</button></li>
             <li><button type="button" aria-pressed="false" data-i="2">Канальный</button></li>
