@@ -184,8 +184,8 @@ section { position: relative; z-index: 3; background: var(--white); }
 .faq details:first-of-type { border-top: 2px solid var(--ink); }
 .faq summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 24px; padding: 22px 0; font-weight: 600; font-size: clamp(18px, 1.5vw, 22px); letter-spacing: -.01em; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; font: 400 26px/1 var(--sans); color: var(--orange-ink); transition: transform .2s; }
-.faq details[open] summary::after { transform: rotate(45deg); }
+.faq summary::after { content: "+"; font: 400 26px/1 var(--sans); color: var(--orange-ink); width: 1ch; text-align: center; }
+.faq details[open] summary::after { content: "−"; }
 .faq details p { padding: 0 0 22px; color: var(--muted); max-width: 70ch; }
 
 /* 10 contact */
