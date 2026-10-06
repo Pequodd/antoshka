@@ -653,7 +653,7 @@ h1, h2, h3, p { margin: 0; }
   if ('onscrollend' in window) addEventListener('scrollend', () => { clearTimeout(snapT); doSnap(); });
 
   /* tabs */
-  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const tabs = [...document.querySelectorAll('#svc [role="tab"]')];
   const svc = document.getElementById('svc'), svcTag = document.getElementById('svcTag'), svcIdx = document.getElementById('svcIdx');
   const SVC_TAG = { split: 'сплит-система', recup: 'рекуператор', panel: 'электрощит' };
   function select(tab) {

@@ -277,7 +277,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .trust-tiles img { display: block; width: auto; filter: grayscale(1) contrast(1.1); opacity: .78; transition: filter .35s ease, opacity .35s ease; }
 .trust-tiles li:hover img { filter: none; opacity: 1; }
 .lg-mfc { height: clamp(52px, 4.6vw, 72px); } .lg-5ka { height: clamp(28px, 2.4vw, 38px); } .lg-mf { height: clamp(22px, 1.9vw, 30px); }
-.trust-say { max-width: 22em; margin: clamp(64px, 10vh, 120px) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
+.trust-say { max-width: 22em; margin: var(--inner) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
 /* 2 prices: a drawing sheet — plan + slider on the left, title block on the right */
 .sheet { margin: 24px var(--m) 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 380px); grid-template-rows: 1fr auto; border: 1px solid var(--ink); background: #FCFCFC; }
 .sheet-plan { grid-column: 1; grid-row: 1; margin: 0; position: relative; padding: 20px 24px 8px; }
@@ -461,8 +461,16 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
    12-col grid, side margin --m.
    G1 = column 1 (left edge): section titles and primary content.
    G2 = column 7 (half): every title aside and all secondary / right-hand content.
-   Rhythm: --sec-t before each section title, --sec-h title -> content, --sec-b after the content. */
-:root { --sec-t: clamp(112px, 15vh, 184px); --sec-h: clamp(36px, 5vh, 56px); --sec-b: clamp(72px, 10vh, 128px); }
+   Vertical rhythm:
+     --out   190px  outer gap between blocks (end of one block -> start of the next)
+     --sec-t        rule -> section title (inner)
+     --sec-h        section title -> its content (inner)
+     --inner        between sub-blocks inside one section */
+:root { --out: 190px; --sec-t: 40px; --sec-h: 48px; --inner: 96px; --sec-b: 0px; }
+.sec { padding-top: var(--out); }
+.std { margin-top: var(--out); }
+.end .ask { font-size: clamp(32px, 3.4vw, 52px); max-width: 15em; }
+.sec.trust { padding: var(--out) 0 0; }
 .pill { display: none; }
 .title { padding-top: var(--sec-t); padding-bottom: var(--sec-h); align-items: end; row-gap: 16px; }
 .title h2 { grid-column: 1 / 7; font-size: clamp(48px, 6vw, 96px); }
@@ -470,16 +478,16 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .st-head .aside { grid-column: 7 / 12; }
 /* prices */
 .sheet { margin-top: 0; }
-.px-row { margin-top: var(--sec-b); }
+.px-row { margin-top: var(--inner); }
 .px-row-head, .px-extra-head { grid-column: 1 / 7; }
 .px-inc, .px-table { grid-column: 7 / -1; }
 .px-inc { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.px-extra { margin-top: var(--sec-b); padding-bottom: var(--sec-b); }
+.px-extra { margin-top: var(--inner); padding-bottom: 0; margin-bottom: 0; }
 /* services, works, process, business */
 .svc-grid { padding-top: 0; padding-bottom: var(--sec-b); }
 .wk-grid { padding-bottom: var(--sec-b); }
 .b2b-photo { margin-top: 0; }
-.b2b-tags { padding-block: 24px var(--sec-b); }
+.b2b-tags { padding-block: 24px 0; }
 .tags { justify-content: flex-start; }
 /* guarantees: list on G1, document on G2 */
 .gt { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding-top: 0; padding-bottom: var(--sec-b); }
@@ -496,7 +504,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .rv-track, .faq-list { grid-column: 7 / -1; }
 .rv-track { grid-auto-columns: minmax(280px, calc((100% - 16px) / 1.6)); margin-right: calc(var(--m) * -1); padding-right: var(--m); }
 /* contact */
-.end { padding-top: var(--sec-t); }
+.end { padding-top: var(--out); }
 .end .ask { grid-column: 1 / 7; }
 .form { grid-column: 7 / -1; }
 @media (max-width: 900px) {
@@ -588,7 +596,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); background: rgba(250,250,250,.94); border-top: 1px solid var(--line); backdrop-filter: blur(10px); }
   .mbar .btn { justify-content: center; min-height: 46px; }
   /* layout system, mobile */
-  :root { --sec-t: 88px; --sec-h: 28px; --sec-b: 64px; }
+  :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
   .title h2 { font-size: 44px; }
   .title .aside { padding-bottom: 0; }
@@ -1065,7 +1073,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   if ('onscrollend' in window) addEventListener('scrollend', () => { clearTimeout(snapT); doSnap(); });
 
   /* tabs */
-  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const tabs = [...document.querySelectorAll('#svc [role="tab"]')];
   const svc = document.getElementById('svc'), svcTag = document.getElementById('svcTag'), svcIdx = document.getElementById('svcIdx');
   const SVC_TAG = { split: 'сплит-система', recup: 'рекуператор', panel: 'электрощит' };
   function select(tab) {
