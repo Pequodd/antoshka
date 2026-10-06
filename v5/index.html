@@ -277,6 +277,8 @@ h1, h2, h3, p { margin: 0; }
 .paper-stamp { flex: none; width: 76px; height: 76px; border-radius: 50%; border: 2px solid rgba(168,73,13,.55); color: rgba(168,73,13,.75); display: grid; place-items: center; text-align: center; font: 500 9px/1.25 var(--mono); letter-spacing: .1em; transform: rotate(-14deg); box-shadow: inset 0 0 0 4px #fff, inset 0 0 0 5px rgba(168,73,13,.4); }
 
 /* 8 business */
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tags span { display: inline-flex; align-items: center; min-height: 40px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; font-size: 15px; background: #fff; }
 .names { display: flex; flex-wrap: wrap; gap: 0 .6em; font-weight: 300; font-size: clamp(40px, 6vw, 88px); line-height: 1.05; letter-spacing: -.045em; }
 .names span { color: var(--ink); }
 .names span.sep { color: var(--faint); }
