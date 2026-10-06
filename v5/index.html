@@ -1007,19 +1007,62 @@ h1, h2, h3, p { margin: 0; }
   const ladder = new THREE.Group(); ladder.position.set(-.3, 0, -1.25); room.add(ladder);
   [-.22, .22].forEach(x => radd(ladder, new THREE.BoxGeometry(.04, 1.5, .04), STEEL, x, .75, 0));
   for (let i = 0; i < 4; i++) radd(ladder, new THREE.BoxGeometry(.44, .03, .06), STEEL, 0, .3 + i * .33, 0);
-  // workers in navy uniform with an orange stripe
+  // workers: jointed figures in navy workwear with a reflective stripe and a cap
+  const JACKET = RM('#0C1730', .85), PANTS = RM('#0A1426', .9), BOOT = RM('#141414', .6), CAP = RM('#0C1730', .7), REFL = RM('#F47920', .45), GLOVE = RM('#3A3F44', .8);
+  function limb(r1, r2, len, mat) { const g = new THREE.CylinderGeometry(r1, r2, len, 14); g.translate(0, -len / 2, 0); return new THREE.Mesh(g, mat); }
+  function joint(r, mat) { return new THREE.Mesh(new THREE.SphereGeometry(r, 14, 10), mat); }
   function worker() {
-    const w = new THREE.Group(), hip = new THREE.Group(); hip.position.y = .82; w.add(hip);
-    const legs = [-.1, .1].map(x => { const l = new THREE.Group(); l.position.x = x; hip.add(l); radd(l, new THREE.CylinderGeometry(.075, .07, .82, 10), NAVY, 0, -.41, 0); radd(l, new THREE.BoxGeometry(.12, .07, .22), DARKR, 0, -.8, .04); return l; });
-    radd(w, new THREE.BoxGeometry(.42, .62, .24), NAVY, 0, 1.13, 0); radd(w, new THREE.BoxGeometry(.43, .04, .245), STRIPE, 0, 1.0, 0);
-    radd(w, new THREE.SphereGeometry(.13, 16, 12), SKIN, 0, 1.6, 0); radd(w, new THREE.SphereGeometry(.135, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2), HAIR, 0, 1.62, -.005);
-    const arms = [-.27, .27].map(x => { const a = new THREE.Group(); a.position.set(x, 1.4, 0); w.add(a); radd(a, new THREE.CylinderGeometry(.055, .05, .6, 8), NAVY, 0, -.3, 0); radd(a, new THREE.SphereGeometry(.05, 8, 6), SKIN, 0, -.62, 0); return a; });
-    return { w, legs, arms, hip };
+    const w = new THREE.Group(), body = new THREE.Group(); w.add(body);
+    // pelvis + legs (hip → knee → boot)
+    const pelvis = new THREE.Mesh(new THREE.CylinderGeometry(.17, .16, .16, 16), PANTS); pelvis.scale.z = .7; pelvis.position.y = .92; body.add(pelvis);
+    const legs = [-.09, .09].map(x => {
+      const hip = new THREE.Group(); hip.position.set(x, .9, 0); body.add(hip);
+      hip.add(limb(.075, .06, .44, PANTS)); hip.add(joint(.075, PANTS));
+      const knee = new THREE.Group(); knee.position.y = -.44; hip.add(knee);
+      knee.add(joint(.062, PANTS)); knee.add(limb(.06, .05, .42, PANTS));
+      const boot = new THREE.Mesh(new THREE.BoxGeometry(.11, .08, .24), BOOT); boot.position.set(0, -.44, .05); knee.add(boot);
+      return { hip, knee };
+    });
+    // torso: tapered jacket, reflective band, collar
+    const chest = new THREE.Mesh(new THREE.CylinderGeometry(.2, .165, .56, 18), JACKET); chest.scale.z = .62; chest.position.y = 1.27; body.add(chest);
+    const band = new THREE.Mesh(new THREE.CylinderGeometry(.188, .182, .045, 18), REFL); band.scale.z = .63; band.position.y = 1.12; body.add(band);
+    const sh = new THREE.Mesh(new THREE.SphereGeometry(.2, 18, 10, 0, Math.PI * 2, 0, Math.PI / 2), JACKET); sh.scale.set(1, .35, .62); sh.position.y = 1.55; body.add(sh);
+    const collar = new THREE.Mesh(new THREE.CylinderGeometry(.075, .085, .06, 14), JACKET); collar.position.y = 1.6; body.add(collar);
+    // head with neck and work cap
+    const head = new THREE.Group(); head.position.y = 1.62; body.add(head);
+    const neck = new THREE.Mesh(new THREE.CylinderGeometry(.045, .05, .1, 12), SKIN); neck.position.y = .03; head.add(neck);
+    const skull = joint(.105, SKIN); skull.scale.set(.92, 1.08, 1); skull.position.y = .14; head.add(skull);
+    const cap = new THREE.Mesh(new THREE.SphereGeometry(.112, 18, 10, 0, Math.PI * 2, 0, Math.PI / 2), CAP); cap.position.y = .17; cap.scale.set(.95, .8, 1.02); head.add(cap);
+    const brim = new THREE.Mesh(new THREE.CylinderGeometry(.09, .09, .012, 18, 1, false, -Math.PI / 2, Math.PI), CAP); brim.scale.z = 1.25; brim.position.set(0, .175, .07); head.add(brim);
+    // arms (shoulder → elbow → glove)
+    const arms = [-1, 1].map(sd => {
+      const shoulder = new THREE.Group(); shoulder.position.set(sd * .235, 1.5, 0); body.add(shoulder);
+      shoulder.add(joint(.065, JACKET)); shoulder.add(limb(.062, .052, .3, JACKET));
+      const elbow = new THREE.Group(); elbow.position.y = -.3; shoulder.add(elbow);
+      elbow.add(joint(.052, JACKET)); elbow.add(limb(.05, .042, .27, JACKET));
+      const hand = joint(.05, GLOVE); hand.scale.set(.9, 1.2, .8); hand.position.y = -.31; elbow.add(hand);
+      return { shoulder, elbow, sd };
+    });
+    w.traverse(o => { if (o.isMesh) o.castShadow = false; });
+    return { w, body, legs, arms, head, cur: null };
   }
+  // pose = { y, l: [[hipX, kneeX], [hipX, kneeX]], a: [[shX, shZ, elbowX], [shX, shZ, elbowX]], head }
+  function applyPose(o, P, k, t, phase) {
+    if (!o.cur) o.cur = JSON.parse(JSON.stringify(P));
+    const c = o.cur, L = (x, y) => x + (y - x) * k;
+    c.y = L(c.y, P.y); c.head = L(c.head, P.head || 0);
+    for (let i = 0; i < 2; i++) { for (let j = 0; j < 2; j++) c.l[i][j] = L(c.l[i][j], P.l[i][j]); for (let j = 0; j < 3; j++) c.a[i][j] = L(c.a[i][j], P.a[i][j]); }
+    o.body.position.y = c.y + Math.sin(t * 1.6 + phase) * .006;
+    o.legs.forEach((g, i) => { g.hip.rotation.x = c.l[i][0]; g.knee.rotation.x = c.l[i][1]; });
+    o.arms.forEach((g, i) => { g.shoulder.rotation.x = c.a[i][0]; g.shoulder.rotation.z = c.a[i][1] * g.sd; g.elbow.rotation.x = c.a[i][2]; });
+    o.head.rotation.x = c.head;
+  }
+  const STAND = { y: 0, l: [[0, 0], [0, 0]], a: [[.05, .08, -.15], [.05, .08, -.15]], head: 0 };
   const WA = worker(), WB = worker(); room.add(WA.w); room.add(WB.w);
-  const drill = new THREE.Group(); drill.position.set(0, -.66, .06); WA.arms[1].add(drill);
-  radd(drill, new THREE.BoxGeometry(.07, .16, .2), STRIPE, 0, 0, .05); radd(drill, new THREE.CylinderGeometry(.01, .01, .14, 6).rotateX(Math.PI / 2), STEEL, 0, .03, .21);
-  const remote = new THREE.Group(); remote.position.set(0, -.66, .05); WA.arms[1].add(remote); radd(remote, new THREE.BoxGeometry(.05, .03, .14), WHITE, 0, 0, 0, true);
+  const drill = new THREE.Group(); drill.position.set(0, -.36, .05); WA.arms[1].elbow.add(drill);
+  radd(drill, new THREE.BoxGeometry(.07, .17, .07), STRIPE, 0, 0, 0); radd(drill, new THREE.BoxGeometry(.07, .07, .2), STRIPE, 0, .07, .08);
+  radd(drill, new THREE.CylinderGeometry(.008, .008, .14, 6).rotateX(Math.PI / 2), STEEL, 0, .07, .24);
+  const remote = new THREE.Group(); remote.position.set(0, -.36, .03); WA.arms[1].elbow.add(remote); radd(remote, new THREE.BoxGeometry(.045, .14, .025), WHITE, 0, 0, 0, true);
   // airflow out of the unit
   const RA = mobile ? 260 : 520, raPos = new Float32Array(RA * 3), raCol = new Float32Array(RA * 3), raSeed = Array.from({ length: RA }, () => ({ x: rnd(-.55, .55), t: Math.random(), s: rnd(.25, .5) }));
   const raGeo = new THREE.BufferGeometry(); raGeo.setAttribute('position', new THREE.BufferAttribute(raPos, 3)); raGeo.setAttribute('color', new THREE.BufferAttribute(raCol, 3));
@@ -1062,21 +1105,28 @@ h1, h2, h3, p { margin: 0; }
     remote.visible = s > 3;
     drill.visible = s < 1.05;
 
-    // crew poses per phase
-    if (s < 1) {          // A drills the wall, B holds the level
-      pose(WA, -.1, -1.35, Math.PI); WA.arms[1].rotation.x = -2.5 + Math.sin(t * 30) * .03; WA.arms[0].rotation.x = -.2;
-      pose(WB, -1.2, -1.15, Math.PI * .9); WB.arms[0].rotation.x = -1.6; WB.arms[1].rotation.x = -1.6;
-      WA.legs.forEach(l => l.rotation.x = 0); WB.legs.forEach(l => l.rotation.x = 0); WB.w.position.y = 0;
-    } else if (s < 2) {   // A on the ladder lifts the unit, B passes it up
-      pose(WA, -.3, -1.05, Math.PI, .66); WA.arms.forEach(a => a.rotation.x = -2.9 + Math.sin(t * 3) * .05);
-      pose(WB, .6, -1.05, Math.PI * 1.15); WB.arms.forEach(a => a.rotation.x = -2.4 + Math.sin(t * 3 + 1) * .05);
-      WA.legs.forEach(l => l.rotation.x = 0);
-    } else if (s < 3) {   // B kneels at the pump, A watches the gauge
-      pose(WB, 1.55, -.75, Math.PI, -.42); WB.legs.forEach((l, i) => l.rotation.x = i ? -1.5 : -.2); WB.arms.forEach(a => a.rotation.x = -1.0);
-      pose(WA, .7, -.55, Math.PI * .85); WA.arms[1].rotation.x = -.9; WA.arms[0].rotation.x = -.2;
-    } else {              // A shows the remote, B steps back
-      pose(WA, .2, .3, Math.PI * .92); WA.arms[1].rotation.x = -1.7; WA.arms[0].rotation.x = -.15;
-      pose(WB, 1.6, .1, Math.PI * 1.2); WB.legs.forEach(l => l.rotation.x = 0); WB.arms.forEach(a => a.rotation.x = -.15);
+    // crew poses per phase (angles in radians; arms: shoulder pitch, shoulder spread, elbow)
+    const pk = clamp(dt * 5), dr = Math.sin(t * 34) * .015;
+    if (s < 1) {          // A drills the wall at bracket height, B steadies the laser level
+      WA.w.position.set(-.05, 0, -1.3); WA.w.rotation.y = Math.PI;
+      applyPose(WA, { y: 0, l: [[.05, 0], [-.08, 0]], a: [[-.9, .15, -.9], [-2.3 + dr, .05, -.35]], head: -.25 }, pk, t, 0);
+      WB.w.position.set(-1.25, 0, -1.25); WB.w.rotation.y = Math.PI * .92;
+      applyPose(WB, { y: 0, l: [[0, 0], [0, 0]], a: [[-1.25, .2, -.6], [-1.25, .2, -.6]], head: -.2 }, pk, t, 1);
+    } else if (s < 2) {   // A on the ladder lifts the unit, B hands it up
+      WA.w.position.set(-.3, .66, -1.12); WA.w.rotation.y = Math.PI;
+      applyPose(WA, { y: 0, l: [[.15, -.1], [-.05, 0]], a: [[-2.75, .25, -.25], [-2.75, .25, -.25]], head: -.35 }, pk, t, 0);
+      WB.w.position.set(.55, 0, -1.15); WB.w.rotation.y = Math.PI * 1.12;
+      applyPose(WB, { y: 0, l: [[0, 0], [0, 0]], a: [[-2.2, .3, -.5], [-2.2, .3, -.5]], head: -.4 }, pk, t, 1);
+    } else if (s < 3) {   // B kneels at the pump, A checks the gauge
+      WB.w.position.set(1.62, 0, -.82); WB.w.rotation.y = Math.PI;
+      applyPose(WB, { y: -.42, l: [[-1.45, 1.45], [.05, 1.55]], a: [[-.9, .12, -.8], [-.6, .12, -.9]], head: .25 }, pk, t, 1);
+      WA.w.position.set(.75, 0, -.55); WA.w.rotation.y = Math.PI * .82;
+      applyPose(WA, { y: 0, l: [[0, 0], [0, 0]], a: [[.05, .1, -.2], [-.7, .1, -1.1]], head: .2 }, pk, t, 0);
+    } else {              // A points the remote at the unit, B steps back
+      WA.w.position.set(.25, 0, .25); WA.w.rotation.y = Math.PI * .9;
+      applyPose(WA, { y: 0, l: [[0, 0], [0, 0]], a: [[.05, .1, -.2], [-1.75, .05, -.25]], head: -.3 }, pk, t, 0);
+      WB.w.position.set(1.55, 0, .15); WB.w.rotation.y = Math.PI * 1.18;
+      applyPose(WB, { y: 0, l: [[0, 0], [0, 0]], a: [[.05, .08, -.15], [.05, .08, -.15]], head: -.2 }, pk, t, 1);
     }
 
     // airflow after start-up
