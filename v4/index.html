@@ -530,12 +530,17 @@ section { position: relative; }
   }
   const shapes = {}; for (const k in SHAPES) shapes[k] = build(SHAPES[k]);
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: true });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.5 : 2));
   renderer.setClearColor(0x000000, 0);
+  renderer.localClippingEnabled = true;
+  renderer.outputEncoding = THREE.sRGBEncoding;
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(35, 1, .1, 100);
-  camera.position.set(0, 0, 9);
+  const camera = new THREE.PerspectiveCamera(30, 1, .1, 100);
+  camera.position.set(0, 0, 10);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xb9c2c7, 1.05));
+  const key = new THREE.DirectionalLight(0xffffff, 1.1); key.position.set(-3, 5, 6); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xffffff, .45); rim.position.set(4, 1, -4); scene.add(rim);
 
   const dot = (() => {
     const c = document.createElement('canvas'); c.width = c.height = 32;
@@ -544,14 +549,98 @@ section { position: relative; }
   })();
 
   const group = new THREE.Group(); scene.add(group);
-  const cur = { pos: shapes.air.pos.slice(), col: shapes.air.col.slice() };
-  const disp = cur.col.slice();
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(cur.pos, 3));
-  geo.setAttribute('color', new THREE.BufferAttribute(disp, 3));
-  const mat = new THREE.PointsMaterial({ size: mobile ? .04 : .034, map: dot, alphaTest: .5, vertexColors: true, sizeAttenuation: true });
-  group.add(new THREE.Points(geo, mat));
 
+  /* ---- point cloud (used for the scan / morph) ---- */
+  const cur = { pos: shapes.air.pos.slice(), col: shapes.air.col.slice() };
+  const dPos = cur.pos.slice(), dCol = cur.col.slice();
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(dPos, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(dCol, 3));
+  const cloud = new THREE.Points(geo, new THREE.PointsMaterial({ size: mobile ? .04 : .032, map: dot, alphaTest: .5, vertexColors: true }));
+  group.add(cloud);
+
+  /* ---- solid models, revealed by a clipping plane that follows the scan line ---- */
+  const localClip = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  const clip = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  const M = (c, r = .62, m = .05) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m, clippingPlanes: [clip] });
+  const BODY = M('#EEF0F1'), PANEL = M('#FAFBFB', .5), DARK = M('#2A3940', .7), METAL = M('#C9CFD3', .4, .35), GRILLE = M('#3B4A52', .6);
+  const LINE = new THREE.LineBasicMaterial({ color: '#24363F', transparent: true, opacity: .55, clippingPlanes: [clip] });
+
+  function add(g, geom, mat, x = 0, y = 0, z = 0, edges = true) {
+    const m = new THREE.Mesh(geom, mat); m.position.set(x, y, z); g.add(m);
+    if (edges) { const l = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 28), LINE); l.position.copy(m.position); g.add(l); }
+    return m;
+  }
+  const box = (w, h, d) => new THREE.BoxGeometry(w, h, d);
+  function roundRect(w, h, r) {
+    const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+    s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r);
+    s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+    s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s;
+  }
+  // rounded box: rounded in the x/y plane, extruded along z
+  function rbox(w, h, d, r) { const g = new THREE.ExtrudeGeometry(roundRect(w, h, r), { depth: d, bevelEnabled: false, curveSegments: 6 }); g.translate(0, 0, -d / 2); return g; }
+  // profile rounded in y/z (side section), extruded along x
+  function rprofile(len, h, d, r) { const g = new THREE.ExtrudeGeometry(roundRect(d, h, r), { depth: len, bevelEnabled: false, curveSegments: 8 }); g.translate(0, 0, -len / 2); g.rotateY(-Math.PI / 2); return g; }
+  const ring = (r, t) => new THREE.TorusGeometry(r, t, 8, 64);
+  const cyl = (r, l) => { const g = new THREE.CylinderGeometry(r, r, l, 40, 1, true); g.rotateZ(Math.PI / 2); return g; };
+
+  const SOLID = {
+    split() {
+      const g = new THREE.Group();
+      add(g, rprofile(2.7, .74, .56, .16), BODY);
+      add(g, box(2.46, .05, .02), DARK, 0, -.24, .282, false);               // air outlet
+      add(g, box(2.4, .02, .16), PANEL, 0, -.31, .25);                        // louver flap
+      add(g, box(2.62, .006, .01), DARK, 0, .1, .283, false);                 // panel seam
+      add(g, box(.16, .03, .01), DARK, 1.05, .0, .284, false);                // display
+      add(g, box(2.5, .02, .36), METAL, 0, .372, -.04, false);                // top intake
+      return g;
+    },
+    multi() {
+      const g = new THREE.Group();
+      add(g, rbox(2.1, 1.5, .7, .05), BODY);
+      add(g, new THREE.CircleGeometry(.52, 48), DARK, -.42, 0, .352, false);
+      [.52, .42, .32, .22, .12].forEach(r => add(g, ring(r, .012), METAL, -.42, 0, .36, false));
+      add(g, new THREE.CylinderGeometry(.07, .07, .04, 24).rotateX(Math.PI / 2), METAL, -.42, 0, .37, false);
+      for (let i = 0; i < 9; i++) add(g, box(.025, 1.0, .01), GRILLE, .5 + i * .06, 0, .356, false);
+      add(g, box(.18, .08, .9), DARK, -.7, -.79, 0); add(g, box(.18, .08, .9), DARK, .7, -.79, 0);
+      return g;
+    },
+    duct() {
+      const g = new THREE.Group();
+      add(g, box(2.7, .44, 1.3), METAL);
+      add(g, box(2.3, .3, .1), DARK, 0, 0, .7);                               // supply flange
+      add(g, box(2.36, .36, .04), METAL, 0, 0, .66);
+      add(g, box(.8, .3, .32), DARK, -.85, 0, -.8);                           // return spigot
+      [[-1.2, .55], [1.2, .55], [-1.2, -.55], [1.2, -.55]].forEach(([x, z]) => add(g, box(.08, .18, .08), DARK, x, .31, z));
+      add(g, box(.6, .02, .5), PANEL, .7, -.23, -.2);                         // service hatch
+      return g;
+    },
+    cassette() {
+      const g = new THREE.Group();
+      add(g, box(1.6, .38, 1.6), METAL, 0, .16, 0);
+      add(g, rbox(2.05, 2.05, .07, .08).rotateX(Math.PI / 2), PANEL, 0, -.07, 0);
+      [[0, .78, 1.5, .14], [0, -.78, 1.5, .14], [.78, 0, .14, 1.5], [-.78, 0, .14, 1.5]].forEach(([x, z, w, d]) => add(g, box(w, .02, d), DARK, x, -.115, z, false));
+      add(g, box(.95, .02, .95), GRILLE, 0, -.115, 0, false);
+      for (let i = -4; i <= 4; i++) add(g, box(.92, .025, .012), PANEL, 0, -.125, i * .1, false);
+      return g;
+    },
+    recup() {
+      const g = new THREE.Group();
+      add(g, rbox(1.9, .72, 1.15, .04), BODY);
+      [[-1.13, .3], [-1.13, -.3], [1.13, .3], [1.13, -.3]].forEach(([x, z]) => {
+        add(g, cyl(.17, .36), METAL, x, 0, z, false);
+        add(g, ring(.17, .018).rotateY(Math.PI / 2), DARK, x + Math.sign(x) * .18, 0, z, false);
+      });
+      add(g, box(1.2, .44, .01), PANEL, -.1, 0, .58);                         // service door
+      add(g, box(.1, .1, .02), DARK, .62, 0, .585, false);
+      return g;
+    }
+  };
+  const solids = {};
+  for (const k in SOLID) { solids[k] = SOLID[k](); solids[k].visible = false; group.add(solids[k]); }
+
+  /* ---- airflow (hero) ---- */
   const AC = mobile ? 500 : 900, AW = mobile ? 160 : 300, A = AC + AW;
   const aPos = new Float32Array(A * 3), aCol = new Float32Array(A * 3);
   const aSeed = Array.from({ length: A }, (_, i) => ({ x: rnd(-1.2, 1.2), t: Math.random(), s: rnd(.16, .3), w: Math.random() * 6.28, warm: i >= AC }));
@@ -574,8 +663,9 @@ section { position: relative; }
   function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }
   addEventListener('resize', resize); resize();
 
-  let airAmt = 0, spin = 0, scanT = 0, last = performance.now(), first = true;
+  let airAmt = 0, spin = 0, last = performance.now(), shown = null, morphT = 0, reveal = 0;
   const gPos = new THREE.Vector3(); let gScale = 1;
+  const TOP = 1.05, BOT = -1.0;
 
   function frame(now) {
     const dt = Math.min(.05, (now - last) / 1000); last = now;
@@ -587,35 +677,54 @@ section { position: relative; }
     }
     if (!best || bestVis < .02) { requestAnimationFrame(frame); return; }
     const isEquip = best.dataset.scene === 'equip';
-    const key = isEquip ? EQUIP[Math.max(0, equipIndex)].key : best.dataset.scene;
-    const tgt = shapes[key];
-    const k = reduce ? 1 : clamp(dt * (first ? 1.5 : 3.4));
-    const P = cur.pos, C = cur.col, TP = tgt.pos, TC = tgt.col;
-    for (let i = 0; i < P.length; i++) { P[i] += (TP[i] - P[i]) * k; C[i] += (TC[i] - C[i]) * k; }
-    if (first && Math.abs(P[0] - TP[0]) < .02) first = false;
-    if (!reduce) scanT = (scanT + dt * .3) % 1.3;
-    const scanning = !reduce && scanT < 1, sy = 1 - scanT * 2.1;
-    for (let i = 0; i < N; i++) {
-      const j = i * 3; let m = 0;
-      if (scanning) { const d = P[j + 1] - sy; m = d < 0 && d > -.025 ? 1 : (d >= 0 && d < .25 ? (1 - d / .25) * .5 : 0); }
-      disp[j] = C[j] + (sig.r - C[j]) * m; disp[j + 1] = C[j + 1] + (sig.g - C[j + 1]) * m; disp[j + 2] = C[j + 2] + (sig.b - C[j + 2]) * m;
-    }
-    geo.attributes.position.needsUpdate = true; geo.attributes.color.needsUpdate = true;
+    const keyName = isEquip ? EQUIP[Math.max(0, equipIndex)].key : best.dataset.scene;
 
+    // a new device: hide the solid, morph the cloud, then scan the solid in
+    if (keyName !== shown) {
+      if (shown) solids[shown].visible = false;
+      shown = keyName; morphT = 0; reveal = 0; cloud.visible = true;
+    }
+    const tgt = shapes[keyName], P = cur.pos, C = cur.col, TP = tgt.pos, TC = tgt.col;
+    const k = reduce ? 1 : clamp(dt * 4.2);
+    for (let i = 0; i < P.length; i++) { P[i] += (TP[i] - P[i]) * k; C[i] += (TC[i] - C[i]) * k; }
+    morphT += dt;
+    if (morphT > (reduce ? 0 : .55)) { solids[keyName].visible = true; reveal = reduce ? 1 : Math.min(1, reveal + dt * .85); }
+    const sy = TOP - (TOP - BOT) * (morphT > (reduce ? 0 : .55) ? reveal : 0);
+
+    // points: visible below the scan line, orange on it, gone above it
+    if (reveal < 1) {
+      for (let i = 0; i < N; i++) {
+        const j = i * 3, d = P[j + 1] - sy;
+        dPos[j] = P[j]; dPos[j + 2] = P[j + 2];
+        if (d > .03 && reveal > 0) { dPos[j + 1] = 99; continue; }
+        dPos[j + 1] = P[j + 1];
+        const m = reveal > 0 && d > -.03 ? 1 : 0;
+        dCol[j] = C[j] + (sig.r - C[j]) * m; dCol[j + 1] = C[j + 1] + (sig.g - C[j + 1]) * m; dCol[j + 2] = C[j + 2] + (sig.b - C[j + 2]) * m;
+      }
+      geo.attributes.position.needsUpdate = true; geo.attributes.color.needsUpdate = true;
+    } else cloud.visible = false;
+
+    // place the model in its DOM slot
     const r = best.querySelector(best.dataset.anchor).getBoundingClientRect();
     gPos.copy(screenToWorld(r.left + r.width / 2, r.top + r.height / 2));
     const wpp = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z / innerHeight;
-    const fit = Math.min(r.width * wpp / (isEquip ? 3.4 : 3), r.height * wpp / (isEquip ? 2.6 : 1.4));
+    const fit = Math.min(r.width * wpp / (isEquip ? 3.4 : 3), r.height * wpp / (isEquip ? 2.4 : 1.3));
     gScale += (fit - gScale) * clamp(dt * 4);
     group.position.lerp(gPos, reduce ? 1 : clamp(dt * 5));
     group.scale.setScalar(gScale);
 
-    if (!reduce) spin += dt * (isEquip ? .45 : .12);
-    const ry = (isEquip ? spin : Math.sin(spin) * .3 - .4) + mx * .3;
+    // hold a readable 3/4 front view and sway around it
+    if (!reduce) spin += dt * .5;
+    const ry = -.45 + Math.sin(spin) * (isEquip ? .45 : .2) + mx * .25;
+    const rx = (isEquip && keyName === 'cassette' ? -.55 : .22) + my * .1;
     group.rotation.y += (ry - group.rotation.y) * clamp(dt * 3);
-    group.rotation.x += ((.2 + my * .12) - group.rotation.x) * clamp(dt * 3);
+    group.rotation.x += (rx - group.rotation.x) * clamp(dt * 3);
 
-    airAmt += ((best.dataset.air === '1' ? 1 : 0) - airAmt) * clamp(dt * 2);
+    group.updateMatrixWorld(true);
+    localClip.constant = -sy;
+    clip.copy(localClip).applyMatrix4(group.matrixWorld);
+
+    airAmt += ((best.dataset.air === '1' && reveal >= 1 ? 1 : 0) - airAmt) * clamp(dt * 2);
     if (airAmt > .01) {
       for (let i = 0; i < A; i++) {
         const s = aSeed[i]; if (!reduce) s.t += dt * s.s; if (s.t > 1) { s.t -= 1; s.x = rnd(-1.2, 1.2); }
