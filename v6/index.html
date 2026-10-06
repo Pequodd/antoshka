@@ -278,36 +278,31 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .trust-tiles li:hover img { filter: none; opacity: 1; }
 .lg-mfc { height: clamp(52px, 4.6vw, 72px); } .lg-5ka { height: clamp(28px, 2.4vw, 38px); } .lg-mf { height: clamp(22px, 1.9vw, 30px); }
 .trust-say { max-width: 22em; margin: clamp(64px, 10vh, 120px) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
-/* 2 prices: area slider as one horizontal instrument panel */
-.pb { margin: 24px var(--m) 0; border-top: 1px solid var(--ink); }
-.pb-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr); }
-.pb-cell { display: grid; gap: 10px; align-content: start; padding: 22px 24px 26px; border-right: 1px solid var(--line); }
-.pb-cell:first-child { padding-left: 0; } .pb-cell:last-child { border-right: 0; padding-right: 0; }
-.pb-cell-price { justify-items: end; text-align: right; }
-.pb-cell .mono { color: var(--muted); }
-.pb-swap .mono { color: var(--orange-ink); }
-.pb-cell-price.pb-swap .mono { color: var(--muted); }
-.pb-area { font-weight: 300; font-size: clamp(48px, 4.4vw, 72px); line-height: .9; letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
-.pb-area span { font-size: .4em; letter-spacing: 0; margin-left: .18em; color: var(--muted); }
-.pb-kw { font-weight: 300; font-size: clamp(32px, 2.8vw, 46px); line-height: 1; letter-spacing: -.04em; }
-.pb-use { margin: 0; color: var(--muted); }
-.pb-price { font-weight: 300; font-size: clamp(48px, 4.4vw, 72px); line-height: .9; letter-spacing: -.05em; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.pb-swap { transition: opacity .2s ease, transform .3s cubic-bezier(.2,.7,.2,1); }
-.pb-out.swap .pb-swap { opacity: 0; transform: translateY(6px); }
-.pb-track { padding-top: 6px; border-top: 1px solid var(--line); }
-.pb-range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 48px; margin: 0; background: transparent; cursor: pointer; }
-.pb-range::-webkit-slider-runnable-track { height: 2px; background: linear-gradient(90deg, var(--ink) var(--p, 19%), var(--line) var(--p, 19%)); }
-.pb-range::-moz-range-track { height: 2px; background: var(--line); } .pb-range::-moz-range-progress { height: 2px; background: var(--ink); }
-.pb-range::-webkit-slider-thumb { -webkit-appearance: none; width: 30px; height: 30px; margin-top: -14px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); box-shadow: 0 0 0 7px rgba(244,121,32,.18); }
-.pb-range::-moz-range-thumb { width: 26px; height: 26px; border-radius: 50%; background: #fff; border: 2px solid var(--ink); box-shadow: 0 0 0 7px rgba(244,121,32,.18); }
+/* 2 prices: one editorial sentence driven by a thin slider */
+.pb { max-width: 920px; margin: clamp(24px, 5vh, 56px) auto 0; padding-inline: var(--m); display: grid; justify-items: center; text-align: center; }
+.pb-kicker { color: var(--orange-ink); margin-bottom: 18px; }
+.pb-say { margin: 0; font-weight: 300; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.3; letter-spacing: -.03em; color: var(--muted); text-wrap: balance; }
+.pb-say b { font-weight: 400; color: var(--ink); white-space: nowrap; }
+.pb-area { display: inline-block; min-width: 3.6ch; color: var(--orange-ink); font-weight: 400; font-variant-numeric: tabular-nums; border-bottom: 1.5px dashed currentColor; line-height: 1.05; }
+.pb-area span { font-size: 1em; }
+.pb-swap { display: inline-block; transition: opacity .18s ease, transform .3s cubic-bezier(.2,.7,.2,1); }
+.pb-out.swap .pb-swap { opacity: 0; transform: translateY(4px); }
+.pb-track { width: 100%; margin-top: clamp(28px, 4vh, 44px); }
+.pb-range { -webkit-appearance: none; appearance: none; display: block; width: 100%; height: 44px; margin: 0; background: transparent; cursor: pointer; }
+.pb-range::-webkit-slider-runnable-track { height: 1px; background: linear-gradient(90deg, var(--ink) var(--p, 19%), var(--line) var(--p, 19%)); }
+.pb-range::-moz-range-track { height: 1px; background: var(--line); } .pb-range::-moz-range-progress { height: 1px; background: var(--ink); }
+.pb-range::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; margin-top: -8.5px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 6px rgba(244,121,32,.16); transition: box-shadow .2s; }
+.pb-range:hover::-webkit-slider-thumb { box-shadow: 0 0 0 9px rgba(244,121,32,.2); }
+.pb-range::-moz-range-thumb { width: 18px; height: 18px; border: 0; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 6px rgba(244,121,32,.16); }
 .pb-range:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
-.pb-zones { display: grid; grid-template-columns: 25fr 25fr 30fr; }
-.pb-zones span { display: flex; align-items: baseline; gap: 10px; padding: 10px 0 0 12px; border-left: 1px solid var(--line); font: 400 11px/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--faint); transition: color .25s; }
-.pb-zones span:first-child { border-left: 0; padding-left: 0; }
-.pb-zones b { font-family: Onest, system-ui, sans-serif; font-weight: 300; font-size: 22px; line-height: 1; letter-spacing: -.02em; text-transform: none; }
+.pb-zones { display: grid; grid-template-columns: 25fr 25fr 30fr; font: 400 10px/1.6 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: rgba(36,54,63,.42); }
+.pb-say .nw { white-space: nowrap; }
+.pb-zones span { padding-top: 6px; text-align: left; transition: color .25s; }
+.pb-zones span:last-child { text-align: right; }
+.pb-zones span:nth-child(2) { text-align: center; }
 .pb-zones span.on { color: var(--ink); }
-.pb-foot { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
-.pb-hint { margin: 0; color: var(--muted); max-width: 52ch; }
+.pb-hint { margin: 22px 0 0; color: var(--muted); font-size: 15px; max-width: 60ch; }
+.pb-cta { margin-top: 22px; }
 .px-row { margin-top: clamp(56px, 9vh, 96px); row-gap: 20px; align-items: start; }
 .px-row-head { grid-column: 1 / 5; display: grid; gap: 10px; }
 .px-row-head p { margin: 0; color: var(--muted); max-width: 28ch; }
@@ -500,12 +495,8 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   .trust-tiles li { height: 84px; }
   .lg-mfc { height: 42px; } .lg-5ka { height: 18px; } .lg-mf { height: 15px; }
   .corner { display: none; }
-  .pb-row { grid-template-columns: 1fr 1fr; }
-  .pb-cell { padding: 16px 12px 18px; }
-  .pb-cell:nth-child(2) { border-right: 0; padding-right: 0; }
-  .pb-cell-price { grid-column: 1 / -1; padding: 14px 0 16px; border-top: 1px solid var(--line); justify-items: start; text-align: left; }
-  .pb-zones span { gap: 6px; padding-left: 8px; font-size: 9px; }
-  .pb-zones b { font-size: 18px; }
+  .pb-say { font-size: 24px; }
+  .pb-zones { font-size: 9px; }
   .px-row-head, .px-inc, .px-extra-head, .px-table { grid-column: 1 / -1; }
   .px-inc, .px-table { grid-template-columns: 1fr; }
   .wk-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: 0; padding-inline: var(--m); scroll-padding-inline: var(--m); }
@@ -619,20 +610,15 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     <div class="rule"></div>
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">2</span>Цены</h2>
       <p class="aside">Цена фиксируется в смете до начала работ и не растёт на месте. Кондиционер, купленный не у нас, ставим по тем же ценам.</p></div>
-    <div class="pb pb-out" aria-live="polite">
-      <div class="pb-row">
-        <div class="pb-cell"><label class="mono" for="pbRange">Площадь помещения</label><output class="pb-area" id="pbArea" for="pbRange">25<span>м²</span></output></div>
-        <div class="pb-cell pb-swap"><span class="mono" id="pbKicker">подойдёт · пакет S</span><div class="pb-kw" id="pbKw">2–3,5 кВт</div><p class="pb-use" id="pbUse">Спальня, детская, кабинет</p></div>
-        <div class="pb-cell pb-cell-price pb-swap"><span class="mono">монтаж под ключ</span><b class="pb-price" id="pbPrice">14 900 ₽</b></div>
-      </div>
+    <div class="pb pb-out">
+      <span class="mono pb-kicker" id="pbKicker">подбор по площади · пакет S</span>
+      <p class="pb-say" aria-live="polite">Для помещения <output class="pb-area" id="pbArea" for="pbRange">25<span> м²</span></output> подойдёт кондиционер <span class="nw"><b class="pb-swap" id="pbKw">2–3,5 кВт</b>.</span> Монтаж под&nbsp;ключ&nbsp;— <span class="nw"><b class="pb-swap" id="pbPrice">14 900 ₽</b>.</span></p>
       <div class="pb-track">
         <input class="pb-range" id="pbRange" type="range" min="10" max="90" step="1" value="25" aria-describedby="pbHint" aria-label="Площадь помещения, м²">
-        <div class="pb-zones" aria-hidden="true"><span class="on"><b>S</b>до 35 м²</span><span><b>M</b>до 60 м²</span><span><b>L</b>до 90 м²</span></div>
+        <div class="pb-zones" aria-hidden="true"><span class="on">S · до 35 м²</span><span>M · до 60 м²</span><span>L · до 90 м²</span></div>
       </div>
-      <div class="pb-foot">
-        <p class="pb-hint" id="pbHint">Больше 90 м² или несколько комнат — посчитаем мульти-сплит или канальную систему.</p>
-        <a class="btn btn-ink" href="#contact" id="pbCta" data-pk="S">Рассчитать мой объект <i>↗</i></a>
-      </div>
+      <p class="pb-hint" id="pbHint"><span class="pb-swap" id="pbUse">Спальня, детская, кабинет</span>. Больше 90 м² или несколько комнат — посчитаем мульти-сплит.</p>
+      <a class="btn btn-ink pb-cta" href="#contact" id="pbCta" data-pk="S">Рассчитать мой объект <i>↗</i></a>
     </div>
     <div class="grid px-row">
       <div class="px-row-head"><span class="mono dot">Входит в каждый пакет</span><p>Всё, что нужно для стандартного монтажа, уже в цене.</p></div>
@@ -1059,7 +1045,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
     if (k === pbK && pbOut.dataset.ready) return; pbK = k; pbOut.dataset.ready = 1;
     document.querySelectorAll('.pb-zones span').forEach((z, j) => z.classList.toggle('on', j === k));
     pbOut.classList.add('swap'); clearTimeout(pbT);
-    pbT = setTimeout(() => { document.getElementById('pbKicker').textContent = `подойдёт · пакет ${P.code}`; document.getElementById('pbKw').textContent = P.kw;
+    pbT = setTimeout(() => { document.getElementById('pbKicker').textContent = `подбор по площади · пакет ${P.code}`; document.getElementById('pbKw').textContent = P.kw;
       document.getElementById('pbUse').textContent = P.use; document.getElementById('pbPrice').textContent = P.price; document.getElementById('pbCta').dataset.pk = P.code; pbOut.classList.remove('swap'); }, reduce ? 0 : 160);
   }
   pbRange.addEventListener('input', pbSync); pbSync();
