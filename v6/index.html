@@ -46,14 +46,14 @@ h1, h2, h3, p { margin: 0; }
 .mono { font: 400 11px/2 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .dot::before { content: ""; display: inline-block; width: 4px; height: 4px; margin-right: 10px; vertical-align: middle; background: currentColor; }
 .brk::before { content: "[ "; } .brk::after { content: " ]"; }
-.ph { color: var(--orange-ink); }
+.ph { color: inherit; }
 
 /* section scaffold (aevion): giant word + numbered pill, hairline on top */
 .sec { position: relative; z-index: 3; background: var(--bg); }
 .title { padding-top: clamp(64px, 10vh, 120px); padding-bottom: 20px; align-items: start; }
 .title h2 { grid-column: 1 / 9; font-weight: 300; font-size: clamp(52px, 7vw, 112px); line-height: .95; letter-spacing: -.05em; }
 .title .aside { grid-column: 9 / 12; align-self: end; font-size: 16px; color: var(--muted); max-width: 36ch; }
-.pill { grid-column: 12 / -1; justify-self: end; display: inline-grid; place-items: center; min-width: 40px; height: 28px; padding: 0 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--muted); }
+.pill { letter-spacing: 0; grid-column: 12 / -1; justify-self: end; display: inline-grid; place-items: center; min-width: 40px; height: 28px; padding: 0 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; color: var(--muted); }
 .rule { border-top: 1px solid var(--line); margin-inline: var(--m); }
 .split { padding-block: clamp(56px, 9vh, 96px); row-gap: 24px; }
 .split .c7-12 { display: grid; gap: 24px; }
@@ -101,12 +101,6 @@ h1, h2, h3, p { margin: 0; }
 .price b { font-weight: 300; font-size: clamp(30px, 2.6vw, 40px); letter-spacing: -.04em; }
 .hero .scroll { justify-self: start; display: flex; align-items: center; gap: 10px; text-decoration: none; }
 
-/* 2 statement */
-.statement .grid { padding-block: clamp(120px, 20vh, 220px); }
-.statement .grid { align-items: center; }
-.statement p { grid-column: 1 / 7; font-weight: 300; font-size: clamp(32px, 3.6vw, 56px); line-height: 1.12; letter-spacing: -.035em; }
-.statement figure { grid-column: 8 / -1; margin: 0; display: grid; gap: 10px; }
-.statement figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; display: block; }
 
 /* 3 standard: full-screen stage — 3D room where the crew installs the unit as you scroll */
 .std { position: relative; }
@@ -241,6 +235,105 @@ h1, h2, h3, p { margin: 0; }
 .rcard dl { padding-top: 14px; border-top: 1px solid var(--line); }
 .rcard-end { background: var(--ink); border-color: var(--ink); color: #fff; align-content: center; }
 .rcard-end .mono { color: var(--orange); } .rcard-end h3 { color: #fff; max-width: 14ch; } .rcard-end .btn { justify-self: start; background: #fff; color: var(--ink); }
+/* 2 trust strip */
+.trust .grid { padding-block: clamp(48px, 8vh, 88px); align-items: end; row-gap: 32px; }
+.trust-names { grid-column: 1 / 6; display: grid; gap: 10px; }
+.trust-names p { margin: 0; display: flex; flex-wrap: wrap; gap: 0 .5em; font-weight: 300; font-size: clamp(32px, 3.4vw, 54px); line-height: 1.05; letter-spacing: -.045em; }
+.trust-names .sep { color: var(--faint); }
+.trust-stats { grid-column: 7 / -1; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.trust-stats div { padding: 4px 16px 0; border-left: 1px solid var(--line); display: grid; gap: 6px; align-content: start; }
+.trust-stats dt { font-weight: 300; font-size: clamp(30px, 2.6vw, 44px); line-height: 1; letter-spacing: -.04em; }
+.trust-stats dd { margin: 0; font-size: 14px; color: var(--muted); line-height: 1.35; }
+/* 2 prices */
+.pr-cards { margin-inline: var(--m); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; padding-top: 16px; }
+.pr-card { position: relative; display: grid; gap: 14px; align-content: start; padding: clamp(24px, 2.4vw, 36px); background: #fff; border: 1px solid var(--line); border-radius: 10px; transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s; }
+.pr-card:hover { transform: translateY(-4px); box-shadow: 0 24px 50px -28px rgba(36,54,63,.3); }
+.pr-card.hot { background: var(--ink); border-color: var(--ink); color: #fff; }
+.pr-card.hot .mono, .pr-card.hot p, .pr-card.hot .pr-kw span { color: rgba(255,255,255,.62); }
+.pr-badge { position: absolute; top: 22px; right: 22px; padding: 2px 10px; border-radius: 999px; background: var(--orange); color: #fff !important; line-height: 1.8; }
+.pr-kw { font-weight: 300; font-size: clamp(30px, 2.6vw, 42px); line-height: 1; letter-spacing: -.04em; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.pr-kw span { font-size: 15px; letter-spacing: 0; color: var(--muted); }
+.pr-card p { margin: 0; color: var(--muted); font-size: 15px; min-height: 2.6em; }
+.pr-price { display: grid; gap: 2px; padding-top: 18px; margin-top: 4px; border-top: 1px solid var(--line); }
+.pr-card.hot .pr-price { border-color: rgba(255,255,255,.16); }
+.pr-price b { font-weight: 300; font-size: clamp(44px, 4vw, 64px); line-height: 1; letter-spacing: -.05em; }
+.pr-card .btn { justify-content: space-between; margin-top: 6px; }
+.btn-light { background: #fff; color: var(--ink); } .btn-light:hover { background: #E9ECEE; }
+.pr-inc { margin: 40px var(--m) 0; padding-top: 22px; border-top: 1px solid var(--ink); display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 24px; }
+.pr-inc ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px 24px; }
+.pr-inc li { display: flex; gap: 10px; align-items: flex-start; font-size: 16px; }
+.pr-inc svg { width: 20px; height: 20px; flex: none; color: var(--orange); margin-top: 1px; }
+.pr-extra { margin: 32px var(--m) 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding-bottom: clamp(48px, 8vh, 96px); }
+.pr-extra { padding-bottom: 0; margin-bottom: clamp(64px, 10vh, 120px); }
+.pr-extra summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 16px; padding: 20px 0; font-weight: 300; font-size: clamp(22px, 2vw, 30px); letter-spacing: -.025em; }
+.pr-extra summary::-webkit-details-marker { display: none; }
+.pr-extra summary::after { content: "+"; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; font: 400 18px/1 var(--mono); }
+.pr-extra[open] summary::after { content: "−"; background: var(--ink); border-color: var(--ink); color: #fff; }
+.pr-table { margin: 0 0 28px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 48px; }
+.pr-table div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-top: 1px dashed var(--line); }
+.pr-table dt { color: var(--muted); } .pr-table dd { margin: 0; white-space: nowrap; }
+/* 6 works */
+.wk-grid { margin-inline: var(--m); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: clamp(220px, 21vw, 340px); gap: 16px; padding-bottom: clamp(64px, 10vh, 120px); }
+.wk { position: relative; margin: 0; overflow: hidden; border-radius: 10px; background: #E9ECEE; }
+.wk.big { grid-column: span 2; grid-row: span 2; }
+.wk img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.wk-ph { position: absolute; inset: 0; display: grid; place-items: center; color: rgba(36,54,63,.32);
+  background: radial-gradient(120% 90% at 30% 20%, #F4F6F7 0%, #E4E8EB 70%), #E9ECEE; transition: transform .8s cubic-bezier(.2,.7,.2,1); }
+.wk-ph::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(36,54,63,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(36,54,63,.05) 1px, transparent 1px); background-size: 32px 32px; }
+.wk-ic { position: relative; width: 72px; height: 72px; margin-top: -12%; }
+.wk:hover img, .wk:hover .wk-ph { transform: scale(1.04); }
+.wk figcaption { position: absolute; left: 12px; right: 12px; bottom: 12px; display: grid; gap: 2px; padding: 12px 14px 14px; border-radius: 8px; background: rgba(255,255,255,.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.wk figcaption b { font-weight: 400; font-size: 18px; letter-spacing: -.015em; }
+.wk-meta { font-size: 13px; color: var(--muted); }
+.wk.big figcaption { left: 16px; right: auto; bottom: 16px; max-width: 420px; padding: 16px 18px 18px; }
+.wk.big figcaption b { font-size: 24px; }
+/* 10 reviews */
+.rv { margin-inline: var(--m); display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 0 48px; align-items: start; padding: 16px 0 clamp(64px, 10vh, 120px); }
+.rv-sum { display: grid; gap: 12px; justify-items: start; position: sticky; top: 100px; }
+.rv-sum > b { font-weight: 200; font-size: clamp(80px, 8vw, 132px); line-height: .85; letter-spacing: -.06em; }
+.rv-sum > span:not(.stars) { color: var(--muted); font-size: 15px; }
+.stars { display: inline-flex; gap: 2px; color: var(--orange); }
+.stars svg { width: 16px; height: 16px; }
+.rv-sum .stars svg { width: 20px; height: 20px; }
+.rv-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.rv-nav { display: flex; gap: 8px; margin-top: 16px; }
+.rv-nav button { all: unset; cursor: pointer; width: 48px; height: 48px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; font-size: 18px; transition: all .2s; }
+.rv-nav button:hover:not(:disabled) { background: var(--ink); border-color: var(--ink); color: #fff; }
+.rv-nav button:disabled { opacity: .35; cursor: default; }
+.rv-nav button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.rv-track { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(300px, calc((100% - 32px) / 2.4)); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px; }
+.rv-track::-webkit-scrollbar { display: none; }
+.rv-track:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.rv-card { scroll-snap-align: start; display: grid; grid-template-rows: auto 1fr auto; gap: 18px; min-height: 340px; padding: 28px; background: #fff; border: 1px solid var(--line); border-radius: 10px; }
+.rv-top { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.rv-top .mono { line-height: 1.4; }
+.rv-card p { margin: 0; font-size: 17px; line-height: 1.5; }
+.rv-who { display: flex; align-items: center; gap: 12px; padding-top: 16px; border-top: 1px solid var(--line); }
+.rv-who > span:last-child { display: grid; } .rv-who b { font-weight: 500; } .rv-who b + span { font-size: 13px; color: var(--muted); }
+.rv-av { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; background: #ECEEEF; font-size: 14px; font-weight: 500; flex: none; }
+/* 11 faq */
+.faq { margin-inline: var(--m); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 0 48px; align-items: start; padding: 16px 0 clamp(64px, 10vh, 120px); }
+.faq-side { position: sticky; top: 100px; display: grid; gap: 20px; }
+.faq-side p { margin: 0; font-size: 18px; line-height: 1.45; color: var(--muted); max-width: 32ch; }
+.faq-list { border-top: 1px solid var(--ink); }
+.faq-list details { border-bottom: 1px solid var(--line); }
+.faq-list summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 24px; padding: 22px 0; font-weight: 300; font-size: clamp(20px, 1.8vw, 28px); line-height: 1.2; letter-spacing: -.02em; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary::after { content: "+"; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--line); border-radius: 50%; font: 400 18px/1 var(--mono); transition: all .2s; }
+.faq-list details[open] summary::after { content: "−"; background: var(--ink); border-color: var(--ink); color: #fff; }
+.faq-list summary:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.faq-list details p { margin: -4px 0 24px; max-width: 62ch; font-size: 17px; line-height: 1.5; color: var(--muted); }
+/* quick calc */
+.qc { display: grid; gap: 16px; padding-bottom: 8px; }
+.qc-group { display: grid; gap: 8px; }
+.qc-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.qc-chips button { all: unset; cursor: pointer; min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; font-size: 15px; transition: all .2s; }
+.qc-chips button:hover { border-color: var(--faint); }
+.qc-chips button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.qc-chips button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.qc-est { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.qc-est b { font-weight: 300; font-size: clamp(28px, 2.4vw, 36px); letter-spacing: -.04em; white-space: nowrap; }
+.qc-msg { display: grid; gap: 8px; }
 /* 7 guarantees: conditions list on the left, the document where each one is written on the right */
 .gt { margin-inline: var(--m); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 0 clamp(32px, 5vw, 96px); align-items: start; padding-top: clamp(40px, 6vh, 72px); padding-bottom: clamp(64px, 10vh, 120px); }
 .gt-list { margin: 0; padding: 0; border-top: 1px solid var(--ink); }
@@ -316,7 +409,6 @@ h1, h2, h3, p { margin: 0; }
   .hero .anchor { left: 4%; right: 4%; top: 24%; bottom: 42%; }
   .hero .scroll { justify-self: start; }
   .hero .foot { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); row-gap: 8px; }
-  .statement figure { grid-column: 1 / -1; }
   .title .aside { grid-column: 1 / -1; margin-top: 12px; }
   .price { justify-items: start; text-align: left; }
   .hero .anchor { top: 12%; bottom: 58%; }
@@ -345,6 +437,29 @@ h1, h2, h3, p { margin: 0; }
   .equip .info { align-self: end; }
   .rcard { width: 82vw; height: min(62vh, 520px); padding: 24px; }
   .rcard .pv-ic { left: 24px; top: 24px; }
+  .trust-names, .trust-stats { grid-column: 1 / -1; }
+  .trust-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 20px; }
+  .trust-stats div:nth-child(odd) { border-left: 0; padding-left: 0; }
+  .pr-cards { grid-template-columns: 1fr; }
+  .pr-card p { min-height: 0; }
+  .pr-inc { grid-template-columns: 1fr; }
+  .pr-inc ul { grid-template-columns: 1fr; }
+  .pr-table { grid-template-columns: 1fr; }
+  .pr-extra summary { grid-template-columns: minmax(0, 1fr) auto; }
+  .pr-extra summary .mono { display: none; }
+  .wk-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: 0; padding-inline: var(--m); scroll-padding-inline: var(--m); }
+  .wk-grid::-webkit-scrollbar { display: none; }
+  .wk, .wk.big { flex: 0 0 82%; height: 420px; scroll-snap-align: start; }
+  .wk.big figcaption { right: 12px; left: 12px; bottom: 12px; }
+  .rv, .faq { grid-template-columns: 1fr; row-gap: 24px; }
+  .rv-sum, .faq-side { position: static; }
+  .rv-sum { grid-template-columns: auto 1fr; align-items: center; column-gap: 16px; }
+  .rv-sum > b { grid-row: span 2; font-size: 72px; }
+  .rv-links, .rv-nav { grid-column: 1 / -1; }
+  .rv-nav { display: none; }
+  .rv-track { grid-auto-columns: 86%; margin-inline: calc(var(--m) * -1); padding-inline: var(--m); scroll-padding-inline: var(--m); }
+  .rv-card { min-height: 0; }
+  .faq-list summary { font-size: 19px; gap: 16px; }
   .gt { grid-template-columns: 1fr; row-gap: 40px; }
   .gt { row-gap: 20px; }
   .gt-doc { position: sticky; top: 64px; z-index: 2; grid-row: 1; max-width: none; width: 100%; justify-self: stretch; padding: 0 10px 10px 0; }
@@ -384,22 +499,58 @@ h1, h2, h3, p { margin: 0; }
     <div class="grid foot">
       <div class="offer c1-6">
         <span class="mono brk">Челябинск · Екатеринбург</span>
-        <h1>Кондиционер под ключ за&nbsp;1&nbsp;день</h1>
-        <p>Монтаж кондиционеров, вентиляции и электрики. Смета до начала работ, гарантия <span class="ph">[X]</span> года по договору.</p>
+        <h1>Кондиционер под ключ за&nbsp;3–4&nbsp;часа</h1>
+        <p>Монтаж кондиционеров, вентиляции и электрики. Смета до начала работ, гарантия 3 года по договору.</p>
         <div class="row"><a class="btn btn-ink" href="#contact">Рассчитать стоимость <i>↗</i></a><a class="btn btn-soft" href="tel:+73510000000">+7 351 XXX-XX-XX</a></div>
       </div>
-      <a class="scroll mono c7-9" href="#about" style="align-self:end">Листайте <span aria-hidden="true">↓</span></a>
-      <div class="price c10-12"><span class="mono">Монтаж сплит-системы</span><b>от XX XXX ₽</b><span class="mono">Консультация и выезд — бесплатно</span></div>
+      <a class="scroll mono c7-9" href="#trust" style="align-self:end">Листайте <span aria-hidden="true">↓</span></a>
+      <div class="price c10-12"><span class="mono">Монтаж сплит-системы</span><b>от 14 900 ₽</b><span class="mono">Консультация и выезд — бесплатно</span></div>
     </div>
   </section>
 
-  <!-- 2 -->
-  <section class="sec statement" id="about">
+  <!-- 2 trust strip -->
+  <section class="sec trust" id="trust" aria-label="Нам доверяют">
     <div class="grid">
-      <p data-reveal>Подбираем, проектируем, монтируем и обслуживаем климат — до того, как жара или сквозняк станут проблемой.</p>
-      <figure><img src="../assets/hero-poster.jpg" alt="Бригада Climate Solution Pro в форме монтирует кондиционер на объекте" loading="lazy" width="1280" height="720"><figcaption class="mono brk">бригада на объекте · своя форма и инструмент</figcaption></figure>
+      <div class="trust-names"><span class="mono dot">Работали на объектах</span><p><span>МФЦ</span><span class="sep">/</span><span>Пятёрочка</span><span class="sep">/</span><span>МегаФон</span></p></div>
+      <dl class="trust-stats">
+        <div><dt>8 лет</dt><dd>монтируем климат и электрику</dd></div>
+        <div><dt>1 200+</dt><dd>объектов сдано по акту</dd></div>
+        <div><dt>3 года</dt><dd>гарантия на работы по договору</dd></div>
+        <div><dt>3–4 ч</dt><dd>монтаж сплит-системы в квартире</dd></div>
+      </dl>
     </div>
   </section>
+
+  <!-- 2 prices -->
+  <section class="sec" id="prices">
+    <div class="rule"></div>
+    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">2</span>Цены</h2>
+      <p class="aside">Фиксируем в смете до начала работ — на месте цена не растёт. Кондиционер, купленный не у нас, ставим по тем же ценам.</p></div>
+    <div class="pr-cards">
+      <article class="pr-card"><span class="mono">Пакет S</span><div class="pr-kw">2–3,5 кВт<span>до 35 м²</span></div><p>Спальня, детская, кабинет</p><div class="pr-price"><span class="mono">монтаж под ключ</span><b>14 900 ₽</b></div><a class="btn btn-ink" href="#contact" data-pk="S">Рассчитать мой объект <i>↗</i></a></article>
+      <article class="pr-card hot"><span class="pr-badge mono">Чаще всего</span><span class="mono">Пакет M</span><div class="pr-kw">4–6 кВт<span>до 60 м²</span></div><p>Гостиная, студия, небольшой офис</p><div class="pr-price"><span class="mono">монтаж под ключ</span><b>18 900 ₽</b></div><a class="btn btn-light" href="#contact" data-pk="M">Рассчитать мой объект <i>↗</i></a></article>
+      <article class="pr-card"><span class="mono">Пакет L</span><div class="pr-kw">7–9 кВт<span>до 90 м²</span></div><p>Кухня-гостиная, магазин, open space</p><div class="pr-price"><span class="mono">монтаж под ключ</span><b>24 900 ₽</b></div><a class="btn btn-ink" href="#contact" data-pk="L">Рассчитать мой объект <i>↗</i></a></article>
+    </div>
+    <div class="pr-inc">
+      <span class="mono dot">Входит в каждый пакет</span>
+      <ul><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Выезд и замер</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Трасса до 3 м — медь в теплоизоляции</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Кронштейны для наружного блока</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Отверстие в стене до 50 см</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Дренаж наружу</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Вакуумирование и проверка утечек</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Подключение к готовой розетке</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Запуск и инструктаж</span></li><li><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10.5l4 4 8-9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Уборка после работ</span></li></ul>
+    </div>
+    <details class="pr-extra">
+      <summary><span>Дополнительные работы</span><span class="mono">прайс · 9 позиций</span></summary>
+      <dl class="pr-table">
+        <div><dt>Дополнительный метр трассы</dt><dd>1 900 ₽</dd></div>
+        <div><dt>Штроба в стене под трассу, м</dt><dd>1 200 ₽</dd></div>
+        <div><dt>Декоративный короб, м</dt><dd>450 ₽</dd></div>
+        <div><dt>Дренажная помпа</dt><dd>3 500 ₽</dd></div>
+        <div><dt>Отдельная линия питания с автоматом</dt><dd>2 900 ₽</dd></div>
+        <div><dt>Демонтаж старого кондиционера</dt><dd>3 900 ₽</dd></div>
+        <div><dt>Корзина или козырёк на фасад</dt><dd>2 500 ₽</dd></div>
+        <div><dt>Работа с автовышки или альпиниста</dt><dd>от 6 000 ₽</dd></div>
+        <div><dt>Зимний комплект для работы в мороз</dt><dd>6 900 ₽</dd></div>
+      </dl>
+    </details>
+  </section>
+
 
   <!-- 3 -->
   <section class="std" id="standard" data-scene="room" data-anchor=".room-anchor" aria-label="Как проходит монтаж">
@@ -443,7 +594,7 @@ h1, h2, h3, p { margin: 0; }
             <li><b>Мобильные и оконные</b><span>для аренды</span></li>
             <li><b>Обслуживание</b><span>чистка, ремонт</span></li>
           </ul>
-          <div class="svc-cta"><div><span class="mono">Монтаж сплит-системы</span><b>от XX XXX ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
+          <div class="svc-cta"><div><span class="mono">Монтаж сплит-системы</span><b>от 14 900 ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
         </div>
         <div class="panel" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
           <p class="lede">Свежий воздух без сквозняков и шума — считаем воздухообмен под ваше помещение.</p>
@@ -453,7 +604,7 @@ h1, h2, h3, p { margin: 0; }
             <li><b>Рекуператоры</b><span>возврат тепла</span></li>
             <li><b>Обслуживание</b><span>фильтры, чистка</span></li>
           </ul>
-          <div class="svc-cta"><div><span class="mono">Проект вентиляции</span><b>от XX XXX ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
+          <div class="svc-cta"><div><span class="mono">Проект вентиляции</span><b>от 25 000 ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
         </div>
         <div class="panel" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
           <p class="lede">Электрика, к которой не придётся возвращаться: защита в щите и проводка по схеме.</p>
@@ -463,7 +614,7 @@ h1, h2, h3, p { margin: 0; }
             <li><b>Освещение</b><span>LED, точечный свет</span></li>
             <li><b>Розетки и умный дом</b><span>под ключ</span></li>
           </ul>
-          <div class="svc-cta"><div><span class="mono">Сборка электрощита</span><b>от XX XXX ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
+          <div class="svc-cta"><div><span class="mono">Сборка электрощита</span><b>от 12 000 ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
         </div>
       </div>
       <div class="svc-visual">
@@ -504,10 +655,25 @@ h1, h2, h3, p { margin: 0; }
     </div>
   </section>
 
-  <!-- 6 -->
+  <!-- 6 works -->
+  <section class="sec" id="works">
+    <div class="rule"></div>
+    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">6</span>Объекты</h2>
+      <p class="aside">Несколько недавних монтажей. Трасса в коробе или в стене, мебель накрыта, после нас — чисто.</p></div>
+    <div class="wk-grid">
+      <figure class="wk big"><img src="../assets/hero-poster.jpg" alt="Монтажник в форме устанавливает кондиционер" loading="lazy" width="1280" height="720"><figcaption><span class="mono">Офис</span><b>Сплит-системы в офисе на 400 м²</b><span class="wk-meta">Челябинск · 6 блоков · за выходные</span></figcaption></figure>
+      <figure class="wk"><div class="wk-ph"><svg class="wk-ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 18l3-10h26l3 10M8 18h32v22H8zM8 18c0 3 2 5 5 5s5-2 5-5c0 3 2 5 6 5s6-2 6-5c0 3 2 5 5 5s5-2 5-5M20 40V30h8v10"/></svg></div><figcaption><span class="mono">Магазин</span><b>4 кассетных блока в торговом зале</b><span class="wk-meta">Екатеринбург · ночная смена</span></figcaption></figure>
+      <figure class="wk"><div class="wk-ph"><svg class="wk-ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="14" width="36" height="13" rx="3"/><path d="M11 22h26M15 33c0 3 2 4 2 7M24 33c0 3 2 4 2 7M33 33c0 3 2 4 2 7"/></svg></div><figcaption><span class="mono">Квартира</span><b>Сплит 2,5 кВт в спальне</b><span class="wk-meta">Челябинск · трасса 4 м · 3 часа</span></figcaption></figure>
+      <figure class="wk"><div class="wk-ph"><svg class="wk-ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="14" width="36" height="13" rx="3"/><path d="M11 22h26M15 33c0 3 2 4 2 7M24 33c0 3 2 4 2 7M33 33c0 3 2 4 2 7"/></svg></div><figcaption><span class="mono">Квартира</span><b>Мульти-сплит на 3 комнаты</b><span class="wk-meta">Екатеринбург · 1 наружный блок</span></figcaption></figure>
+      <figure class="wk"><div class="wk-ph"><svg class="wk-ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="10" y="6" width="28" height="36" rx="2"/><path d="M15 14h18M15 22h18M15 30h18M18 11v6M24 11v6M30 11v6M18 19v6M24 19v6"/></svg></div><figcaption><span class="mono">Отделение банка</span><b>Электрощит и линии под климат</b><span class="wk-meta">Челябинск · УЗО и заземление</span></figcaption></figure>
+      <figure class="wk"><div class="wk-ph"><svg class="wk-ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="14" width="36" height="13" rx="3"/><path d="M11 22h26M15 33c0 3 2 4 2 7M24 33c0 3 2 4 2 7M33 33c0 3 2 4 2 7"/></svg></div><figcaption><span class="mono">Дом</span><b>Канальный кондиционер в мансарде</b><span class="wk-meta">Сосновка · скрытая трасса</span></figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 7 -->
   <section class="sec" id="process">
     <div class="rule"></div>
-    <div class="grid title"><h2>Процесс</h2><span class="pill">6</span></div>
+    <div class="grid title"><h2>Процесс</h2><span class="pill">7</span></div>
     <div class="grid split">
       <span class="mono dot c1-6">Шесть шагов</span>
       <div class="c7-12"><p class="big" data-reveal>От звонка до работающей системы. Проект и смету согласуем до начала работ, а правки вносим до монтажа, не после.</p></div>
@@ -528,23 +694,23 @@ h1, h2, h3, p { margin: 0; }
     </div>
   </section>
 
-  <!-- 7 -->
+  <!-- 8 -->
   <section class="sec" id="guarantee">
     <div class="rule"></div>
-    <div class="grid title"><h2>Гарантии</h2><span class="pill">7</span>
+    <div class="grid title"><h2>Гарантии</h2><span class="pill">8</span>
       <p class="aside">Мы не обещаем «качество и профессионализм». Каждое условие записано в документ — выберите, чтобы увидеть где.</p></div>
     <div class="gt">
       <div class="gt-list" role="tablist" aria-label="Условия и документы">
-        <button class="gt-row" role="tab" aria-selected="true" data-doc="Договор" data-pt="п. 6" data-clause='Подрядчик гарантирует качество работ в течение <span class="ph">[X]</span> лет с даты подписания акта.'><span class="mono">01</span><b>Гарантия — <span class="ph">[X]</span> года</b><span class="src">Договор</span><span class="desc">На все работы. Если что-то не так — приедем и устраним бесплатно.</span></button>
-        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Договор" data-pt="п. 3" data-clause='Монтаж выполняется <span class="ph">[дата]</span>. Перенос — только по согласованию сторон.'><span class="mono">02</span><b>Дата монтажа — в договоре</b><span class="src">Договор</span><span class="desc">Фиксируем день заранее и приезжаем вовремя.</span></button>
-        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Смета" data-pt="итог" data-clause='Итоговая стоимость работ и материалов: <span class="ph">XX XXX ₽</span>. Изменение — только письменно.'><span class="mono">03</span><b>Цена — не растёт</b><span class="src">Смета</span><span class="desc">Согласована до начала работ и не меняется на месте.</span></button>
-        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Смета" data-pt="поз. 1" data-clause='Сплит-система <span class="ph">[марка, модель]</span>, 1 шт. Гарантия производителя.'><span class="mono">04</span><b>Оборудование — марка и модель</b><span class="src">Смета</span><span class="desc">Проверенные производители, всё названо прямо.</span></button>
-        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Проект" data-pt="щит" data-clause='Ввод через автомат <span class="ph">[X] А</span> и УЗО 30 мА, линия с заземлением.'><span class="mono">05</span><b>Защита — автоматы и УЗО</b><span class="src">Проект</span><span class="desc">Защита и заземление в каждом электрощите.</span></button>
+        <button class="gt-row" role="tab" aria-selected="true" data-doc="Договор" data-pt="п. 6" data-clause='Подрядчик гарантирует качество работ в течение 3 лет с даты подписания акта.'><span class="mono">01</span><b>Гарантия — 3 года</b><span class="src">Договор</span><span class="desc">На все работы. Если что-то не так — приедем и устраним бесплатно.</span></button>
+        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Договор" data-pt="п. 3" data-clause='Монтаж выполняется 12 июня 2026 г. Перенос — только по согласованию сторон.'><span class="mono">02</span><b>Дата монтажа — в договоре</b><span class="src">Договор</span><span class="desc">Фиксируем день заранее и приезжаем вовремя.</span></button>
+        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Смета" data-pt="итог" data-clause='Итоговая стоимость работ и материалов: 18 900 ₽. Изменение — только письменно.'><span class="mono">03</span><b>Цена — не растёт</b><span class="src">Смета</span><span class="desc">Согласована до начала работ и не меняется на месте.</span></button>
+        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Смета" data-pt="поз. 1" data-clause='Сплит-система Daikin FTXF35, 1 шт. Гарантия производителя.'><span class="mono">04</span><b>Оборудование — марка и модель</b><span class="src">Смета</span><span class="desc">Проверенные производители, всё названо прямо.</span></button>
+        <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Проект" data-pt="щит" data-clause='Ввод через автомат 16 А и УЗО 30 мА, линия с заземлением.'><span class="mono">05</span><b>Защита — автоматы и УЗО</b><span class="src">Проект</span><span class="desc">Защита и заземление в каждом электрощите.</span></button>
         <button class="gt-row" role="tab" aria-selected="false" tabindex="-1" data-doc="Акт" data-pt="подпись" data-clause='Заказчик проинструктирован по эксплуатации. Претензий к работам нет.'><span class="mono">06</span><b>Инструктаж — при сдаче</b><span class="src">Акт</span><span class="desc">Показываем управление и уход за системой.</span></button>
       </div>
       <div class="gt-doc" aria-hidden="true"><div class="paper-stack">
         <div class="paper" id="paper">
-          <div class="paper-h"><b id="paperDoc">Договор</b><span>№ <span class="ph">[X]</span> · Челябинск</span></div>
+          <div class="paper-h"><b id="paperDoc">Договор</b><span>№ 2406-17 · Челябинск</span></div>
           <div><span class="paper-t" id="paperT">Договор подряда на монтаж</span></div>
           <div class="paper-body"><i></i><i></i><i></i><i></i><div class="clause" id="paperClause"></div><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
           <div class="paper-f"><span>Подрядчик</span><span class="sign"><svg viewBox="0 0 90 34" fill="none" stroke="#24363F" stroke-width="1.4" stroke-linecap="round"><path d="M3 26c8-14 12-20 15-18s-6 18-2 18 9-16 13-15-3 13 1 13 7-9 11-9 2 7 6 7 10-5 14-7 10-2 14-1"/></svg></span><span class="paper-stamp">climate<br>solution<br>pro</span></div>
@@ -553,22 +719,70 @@ h1, h2, h3, p { margin: 0; }
     </div>
   </section>
 
-  <!-- 8 -->
+  <!-- 9 -->
   <section class="sec" id="b2b">
-    <div class="grid title"><h2>Бизнес</h2><span class="pill">8</span></div>
+    <div class="grid title"><h2>Бизнес</h2><span class="pill">9</span></div>
     <div class="grid split"><span class="mono dot c1-6">Работали на объектах</span>
       <div class="c7-12"><p class="big" data-reveal>Офисы, магазины и отделения: монтаж и обслуживание по договору, ночью и в выходные, без остановки работы.</p></div></div>
-    <div class="grid"><div class="names c1-12"><span>МФЦ</span><span class="sep">/</span><span>Пятёрочка</span><span class="sep">/</span><span>МегаФон</span><span class="sep">/</span><span class="ph">[ещё]</span></div></div>
+    <div class="grid"><div class="names c1-12"><span>МФЦ</span><span class="sep">/</span><span>Пятёрочка</span><span class="sep">/</span><span>МегаФон</span><span class="sep">/</span><span>офисы и ТЦ</span></div></div>
     <div class="grid" style="padding-block: 32px 96px"><div class="tags c1-12" style="justify-content:flex-start"><span>Договор и ТЗ</span><span>Безнал и закрывающие</span><span>Ночные работы</span><span>Регламентное ТО</span><span>Аварийные выезды</span></div></div>
   </section>
 
-  <!-- 9 -->
+  <!-- 10 reviews -->
+  <section class="sec" id="reviews">
+    <div class="rule"></div>
+    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">10</span>Отзывы</h2>
+      <p class="aside">Публикуем отзывы с Яндекс Карт и 2ГИС как есть — без правок.</p></div>
+    <div class="rv">
+      <div class="rv-sum">
+        <b>4,9</b><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span>
+        <span>48 отзывов · Яндекс Карты и 2ГИС</span>
+        <div class="rv-links"><a class="btn btn-soft" href="https://yandex.ru/maps/" target="_blank" rel="noopener">Яндекс Карты <i>↗</i></a><a class="btn btn-soft" href="https://2gis.ru/" target="_blank" rel="noopener">2ГИС <i>↗</i></a></div>
+        <div class="rv-nav"><button type="button" id="rvPrev" aria-label="Предыдущие отзывы">←</button><button type="button" id="rvNext" aria-label="Следующие отзывы">→</button></div>
+      </div>
+      <div class="rv-track" id="rvTrack" tabindex="0" aria-label="Отзывы клиентов">
+        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · май 2026</span></div><p>Приехали в назначенный день к 10 утра, к обеду уже всё работало. Трассу спрятали в короб, мебель накрыли плёнкой, после себя пропылесосили. Цена совпала со сметой до рубля.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">АК</span><span><b>Анна К.</b><span>Квартира, Челябинск · сплит 2,5 кВт</span></span></div></article>
+        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">2ГИС · апрель 2026</span></div><p>Нужно было поставить кондиционеры в офисе без остановки работы. Сделали в выходные, в понедельник сотрудники пришли уже в прохладу. Документы для бухгалтерии — сразу.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">ДС</span><span><b>Дмитрий С.</b><span>Офис, Екатеринбург · 3 блока</span></span></div></article>
+        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · март 2026</span></div><p>Долго выбирали между двумя сплитами и мульти-системой — мастер на замере спокойно объяснил разницу и посчитал оба варианта. Поставили мульти, на фасаде один блок.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">ОМ</span><span><b>Ольга М.</b><span>Квартира, Челябинск · мульти-сплит</span></span></div></article>
+        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">2ГИС · февраль 2026</span></div><p>Монтировали ночью, к открытию зал был чистый. Через полгода приехали на плановое ТО сами — напомнили заранее.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">РТ</span><span><b>Руслан Т.</b><span>Магазин, Екатеринбург · кассетные</span></span></div></article>
+        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · январь 2026</span></div><p>Сделали приточку в доме вместе с электрикой под неё. Один подрядчик на всё — не пришлось стыковать бригады. Показали, как менять фильтры.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">ЕВ</span><span><b>Елена В.</b><span>Дом, Сосновка · вентиляция</span></span></div></article>
+        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · декабрь 2025</span></div><p>Ставили зимой — привезли зимний комплект, всё по технологии, вакуум показали на манометре. Работает и на обогрев.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">ИП</span><span><b>Игорь П.</b><span>Квартира, Екатеринбург · сплит 3,5 кВт</span></span></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 faq -->
+  <section class="sec" id="faq">
+    <div class="rule"></div>
+    <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">11</span>Вопросы</h2></div>
+    <div class="faq">
+      <div class="faq-side"><p>Не нашли ответ? Спросите мастера напрямую — ответим в течение 15 минут в рабочее время.</p><div class="row"><a class="btn btn-ink" href="#contact">Задать вопрос <i>↗</i></a><a class="btn btn-soft" href="tel:+73510000000">Позвонить</a></div></div>
+      <div class="faq-list">
+        <details><summary>Сколько длится монтаж?</summary><p>Сплит-система в квартире — 3–4 часа. Мульти-сплит или канальная система — от одного до трёх дней, точный срок пишем в договоре.</p></details>
+        <details><summary>Что если трасса длиннее 3 метров?</summary><p>Каждый дополнительный метр — 1 900 ₽, медь в теплоизоляции. Длину считаем на замере и сразу вносим в смету, чтобы на месте не было сюрпризов.</p></details>
+        <details><summary>Можно поставить кондиционер, купленный не у вас?</summary><p>Да, по тем же ценам. Перед монтажом проверим комплектацию и совместимость, гарантия на работы — те же 3 года.</p></details>
+        <details><summary>Монтируете зимой?</summary><p>Да, круглый год. При минусовой температуре ставим зимний комплект, чтобы кондиционер работал и на обогрев, и без вреда компрессору.</p></details>
+        <details><summary>Будет ли пыль и грязь?</summary><p>Мебель и пол накрываем плёнкой, сверлим с пылесосом. После работ убираем за собой — это входит в каждый пакет.</p></details>
+        <details><summary>Что входит в гарантию?</summary><p>Все работы по договору — 3 года с даты акта. Если что-то не так с монтажом, приедем и устраним бесплатно. На оборудование действует гарантия производителя.</p></details>
+        <details><summary>Работаете с юрлицами?</summary><p>Да: договор, ТЗ, безнал, закрывающие документы. Можем работать ночью и в выходные, чтобы не останавливать ваш бизнес.</p></details>
+        <details><summary>Нужно ли обслуживание?</summary><p>Раз в год — чистка и проверка давления. Напомним сами, когда подойдёт срок. Регулярное ТО продлевает жизнь компрессору.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 -->
   <section class="end" id="contact">
     <div class="rule"></div>
     <div class="grid" style="padding-top:24px">
       <div class="stamp"><span>[ climate solution pro ]</span><span>[ D:02 · ЧЛБ · ЕКБ ]</span></div>
-      <p class="ask">Нужен расчёт?<br><span>Оставьте номер — перезвоним за 15 минут.</span></p>
+      <p class="ask">Нужен расчёт?<br><span>Ориентир — сразу, точная цена — после фото.</span></p>
       <form class="form" id="leadForm" novalidate>
+        <div class="qc">
+          <div class="qc-group" role="group" aria-label="Объект"><span class="mono">Объект</span><div class="qc-chips" data-q="obj"><button type="button" aria-pressed="true">Квартира</button><button type="button" aria-pressed="false">Дом</button><button type="button" aria-pressed="false">Офис</button><button type="button" aria-pressed="false">Магазин</button></div></div>
+          <div class="qc-group" role="group" aria-label="Мощность"><span class="mono">Мощность</span><div class="qc-chips" data-q="pw"><button type="button" aria-pressed="true" data-p="14 900">2–3,5 кВт</button><button type="button" aria-pressed="false" data-p="18 900">4–6 кВт</button><button type="button" aria-pressed="false" data-p="24 900">7–9 кВт</button><button type="button" aria-pressed="false" data-p="">Не знаю</button></div></div>
+          <div class="qc-est" aria-live="polite"><span class="mono" id="qcNote">монтаж под ключ, трасса до 3 м</span><b id="qcPrice">от 14 900 ₽</b></div>
+          <div class="qc-msg"><span class="mono">Быстрее всего — фото места установки</span><div class="row"><a class="btn btn-soft" href="https://wa.me/73510000000" target="_blank" rel="noopener">WhatsApp <i>↗</i></a><a class="btn btn-soft" href="https://t.me/" target="_blank" rel="noopener">Telegram <i>↗</i></a></div></div>
+        </div>
         <div class="field"><label class="mono" for="fName">Имя</label><input id="fName" autocomplete="given-name" aria-describedby="fErr"></div>
         <div class="field"><label class="mono" for="fPhone">Телефон</label><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7" aria-describedby="fErr"></div>
         <label class="consent"><input type="checkbox" id="fConsent"><span>Согласен на обработку персональных данных</span></label>
@@ -608,9 +822,9 @@ h1, h2, h3, p { margin: 0; }
   /* standard: room stage */
   const STEPS = [
     { lede: 'Размечаем лазерным уровнем и крепим кронштейн — блок будет висеть ровно.', c: [['Лазерная разметка', 'уровень и уклон'], ['Кронштейн на дюбелях', 'под вес блока'], ['Защита мебели', 'плёнка и пылесос']] },
-    { lede: 'Вешаем блок и прокладываем медную трассу в теплоизоляции к наружному блоку.', c: [['Медь в изоляции', 'без заломов'], ['Отверстие с уклоном', 'наружу, для дренажа'], ['до [X] м в цене', 'базовая трасса']] },
-    { lede: 'Вакуумным насосом убираем воздух и влагу из контура и проверяем герметичность.', c: [['Вакуум ≤ 500 мкм', 'по манометру'], ['Проверка утечек', 'выдержка [X] мин'], ['Без воздуха в контуре', 'компрессор живёт дольше']] },
-    { lede: 'Запускаем, проверяем давление и температуру и показываем, как пользоваться пультом.', c: [['Давление и температура', 'на выходе'], ['Инструктаж', 'пульт и режимы'], ['Акт и гарантия', '[X] года по договору']] }
+    { lede: 'Вешаем блок и прокладываем медную трассу в теплоизоляции к наружному блоку.', c: [['Медь в изоляции', 'без заломов'], ['Отверстие с уклоном', 'наружу, для дренажа'], ['до 3 м в цене', 'базовая трасса']] },
+    { lede: 'Вакуумным насосом убираем воздух и влагу из контура и проверяем герметичность.', c: [['Вакуум ≤ 500 мкм', 'по манометру'], ['Проверка утечек', 'выдержка 30 мин'], ['Без воздуха в контуре', 'компрессор живёт дольше']] },
+    { lede: 'Запускаем, проверяем давление и температуру и показываем, как пользоваться пультом.', c: [['Давление и температура', 'на выходе'], ['Инструктаж', 'пульт и режимы'], ['Акт и гарантия', '3 года по договору']] }
   ];
   const stdTrack = document.getElementById('stdTrack'), stStage = document.getElementById('stStage'), stFacts = document.getElementById('stFacts');
   const stLede = document.getElementById('stLede'), stKicker = document.getElementById('stKicker'), stProg = document.getElementById('stProg');
@@ -622,7 +836,7 @@ h1, h2, h3, p { margin: 0; }
     const fill = () => { stKicker.textContent = `шаг 0${k + 1} из 04 · ${ST_NAMES[k]}`; stLede.textContent = STEPS[k].lede; stCall.classList.remove('swap'); };
     if (si0) { stCall.classList.add('swap'); clearTimeout(stSwapT); stSwapT = setTimeout(fill, reduce ? 0 : 220); } else { fill(); si0 = true; }
     stFacts.classList.remove('in');
-    stFacts.innerHTML = STEPS[k].c.map(([b, t], i) => `<li style="--d:${(.15 + i * .08).toFixed(2)}s"><span class="mono">0${i + 1}</span><b>${b.replace('[X]', '<span class="ph">[X]</span>')}</b><span>${t.replace('[X]', '<span class="ph">[X]</span>')}</span></li>`).join('');
+    stFacts.innerHTML = STEPS[k].c.map(([b, t], i) => `<li style="--d:${(.15 + i * .08).toFixed(2)}s"><span class="mono">0${i + 1}</span><b>${b}</b><span>${t}</span></li>`).join('');
     requestAnimationFrame(() => requestAnimationFrame(() => stFacts.classList.add('in')));
   }
   /* snap: when scrolling stops inside the pinned scene, glide to the nearest finished step */
@@ -671,11 +885,11 @@ h1, h2, h3, p { margin: 0; }
   }
   document.getElementById('ringTicks').innerHTML = t;
   const EQUIP = [
-    { key: 'split', text: 'Внутренний и наружный блок. Для квартиры, спальни, небольшого офиса.', price: 'Монтаж от XX XXX ₽' },
-    { key: 'multi', text: 'Один наружный блок на 2–5 комнат. Меньше блоков на фасаде.', price: 'Монтаж от XX XXX ₽' },
-    { key: 'duct', text: 'Прячется за потолком, воздух раздаётся через решётки по всему помещению.', price: 'Монтаж от XX XXX ₽' },
-    { key: 'cassette', text: 'Встраивается в подвесной потолок и раздаёт воздух в четыре стороны. Для офисов и торговых залов.', price: 'Монтаж от XX XXX ₽' },
-    { key: 'recup', text: 'Приточно-вытяжная вентиляция: свежий воздух без сквозняка, тепло уходящего воздуха возвращается.', price: 'Монтаж от XX XXX ₽' }
+    { key: 'split', text: 'Внутренний и наружный блок. Для квартиры, спальни, небольшого офиса.', price: 'Монтаж от 14 900 ₽' },
+    { key: 'multi', text: 'Один наружный блок на 2–5 комнат. Меньше блоков на фасаде.', price: 'Монтаж от 32 000 ₽' },
+    { key: 'duct', text: 'Прячется за потолком, воздух раздаётся через решётки по всему помещению.', price: 'Монтаж от 45 000 ₽' },
+    { key: 'cassette', text: 'Встраивается в подвесной потолок и раздаёт воздух в четыре стороны. Для офисов и торговых залов.', price: 'Монтаж от 38 000 ₽' },
+    { key: 'recup', text: 'Приточно-вытяжная вентиляция: свежий воздух без сквозняка, тепло уходящего воздуха возвращается.', price: 'Монтаж от 60 000 ₽' }
   ];
   const equipBtns = [...document.querySelectorAll('#equipList button')];
   const equipInfo = document.getElementById('equipInfo'), ringArc = document.getElementById('ringArc'), ringIdx = document.getElementById('ringIdx');
@@ -687,6 +901,31 @@ h1, h2, h3, p { margin: 0; }
       prailProg.style.width = (p * 100).toFixed(1) + '%'; let k = 0, bd = 1e9; rcards.slice(0, 6).forEach((c, i) => { const b = c.getBoundingClientRect(), d = Math.abs(b.left + b.width / 2 - innerWidth / 2); if (d < bd) { bd = d; k = i; } });
       prailCount.textContent = `0${k + 1} / 06`; rcards.forEach((c, i) => c.classList.toggle('on', i === k)); }
   }
+  /* quick calc */
+  const qcPrice = document.getElementById('qcPrice'), qcNote = document.getElementById('qcNote'), qcSel = { obj: 'Квартира', pw: '2–3,5 кВт' };
+  function qcUpdate() {
+    const b = document.querySelector('.qc-chips[data-q="pw"] [aria-pressed="true"]'), p = b.dataset.p, biz = qcSel.obj === 'Офис' || qcSel.obj === 'Магазин';
+    qcPrice.textContent = p ? `от ${p} ₽` : 'от 14 900 ₽';
+    qcNote.textContent = !p ? 'подберём мощность на замере' : biz ? 'договор и безнал · трасса до 3 м' : 'монтаж под ключ, трасса до 3 м';
+  }
+  document.querySelectorAll('.qc-chips').forEach(g => g.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    g.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed', x === b)); qcSel[g.dataset.q] = b.textContent; qcUpdate();
+  }));
+  document.querySelectorAll('[data-pk]').forEach(a => a.addEventListener('click', () => {
+    const i = { S: 0, M: 1, L: 2 }[a.dataset.pk], g = document.querySelector('.qc-chips[data-q="pw"]');
+    g.querySelectorAll('button').forEach((x, j) => x.setAttribute('aria-pressed', j === i)); qcSel.pw = g.children[i].textContent; qcUpdate();
+  }));
+  /* reviews carousel */
+  const rvTrack = document.getElementById('rvTrack'), rvPrev = document.getElementById('rvPrev'), rvNext = document.getElementById('rvNext');
+  const rvStep = () => rvTrack.firstElementChild.getBoundingClientRect().width + 16;
+  const rvSync = () => { rvPrev.disabled = rvTrack.scrollLeft < 4; rvNext.disabled = rvTrack.scrollLeft + rvTrack.clientWidth > rvTrack.scrollWidth - 4; };
+  rvPrev.addEventListener('click', () => rvTrack.scrollBy({ left: -rvStep(), behavior: reduce ? 'auto' : 'smooth' }));
+  rvNext.addEventListener('click', () => rvTrack.scrollBy({ left: rvStep(), behavior: reduce ? 'auto' : 'smooth' }));
+  rvTrack.addEventListener('scroll', rvSync, { passive: true }); addEventListener('resize', rvSync); rvSync();
+  /* faq: one open at a time */
+  const faqs = [...document.querySelectorAll('.faq-list details')];
+  faqs.forEach(d => d.addEventListener('toggle', () => { if (d.open) faqs.forEach(x => { if (x !== d) x.open = false; }); }));
   /* guarantees: row ↔ document clause */
   const gtRows = [...document.querySelectorAll('.gt-row')], paper = document.getElementById('paper');
   const DOC_T = { 'Договор': 'Договор подряда на монтаж', 'Смета': 'Смета на работы и оборудование', 'Проект': 'Проект электроснабжения', 'Акт': 'Акт сдачи-приёмки работ' };
