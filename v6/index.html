@@ -250,12 +250,13 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .pv dt, .pv dd { margin: 0; font: 400 11px/1.8 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
 .pv dt { color: var(--muted); }
 .prail-track { height: 420vh; }
-.prail-stage { display: grid; grid-template-rows: auto auto; align-content: center; gap: 32px; padding-top: 56px; }
+.prail-stage { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto auto; align-content: center; gap: 28px; padding-top: 64px; }
+.prail-stage .prail-title { padding-top: 0; padding-bottom: calc(var(--sec-h) - 28px); }
 .prail-head { margin-inline: var(--m); display: flex; align-items: center; gap: 20px; }
 .prail-head .mono { color: var(--muted); min-width: 64px; }
 .prail-prog { flex: 1; height: 1px; background: var(--line); } .prail-prog i { display: block; height: 2px; margin-top: -.5px; width: 0; background: var(--orange); }
 .prail-row { display: flex; gap: 24px; padding-inline: var(--m); align-items: stretch; will-change: transform; }
-.rcard { position: relative; overflow: hidden; flex: none; width: clamp(300px, 34vw, 560px); height: min(64vh, 600px); display: grid; align-content: end; gap: 16px; padding: 36px;
+.rcard { position: relative; overflow: hidden; flex: none; width: clamp(300px, 34vw, 560px); height: min(52vh, 520px); display: grid; align-content: end; gap: 16px; padding: 36px;
   background: #fff; border: 1px solid var(--line); border-radius: 10px; transition: transform .5s cubic-bezier(.2,.7,.2,1), box-shadow .5s; }
 .rcard.on { transform: translateY(-10px); box-shadow: 0 30px 60px -28px rgba(36,54,63,.3); }
 .rcard-n { position: absolute; right: -10px; top: -30px; font-weight: 200; font-size: clamp(180px, 20vw, 340px); line-height: 1; letter-spacing: -.08em; color: rgba(36,54,63,.05); transition: color .5s; }
@@ -457,6 +458,30 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 
 .mbar { display: none; }
 
+/* ---------- hero variant B: warm room cools down (temporary A/B switch) ---------- */
+.hero-cool, .hero-temp, .hero-read { display: none; }
+.offer h1 em { font-style: normal; }
+.hero-vsw { position: absolute; z-index: 5; top: 76px; right: var(--m); display: flex; align-items: center; gap: 4px; padding: 4px 4px 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.75); backdrop-filter: blur(8px); }
+.hero-vsw button { all: unset; cursor: pointer; min-width: 30px; height: 28px; display: grid; place-items: center; border-radius: 999px; font: inherit; color: var(--muted); }
+.hero-vsw button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.hero-vsw button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+html[data-hero="b"] .hero::before { height: calc(100% - 56px); background: linear-gradient(180deg, #F6DCC6 0%, #FBEDE2 55%, #FAFAFA 100%); }
+html[data-hero="b"] .hero-cool { display: block; position: absolute; z-index: 0; left: var(--m); right: var(--m); top: 56px; bottom: 0; background: linear-gradient(180deg, #CFE3EE 0%, #E9F2F7 55%, #FAFAFA 100%); opacity: 0; transition: opacity 3.6s cubic-bezier(.4,0,.2,1) .4s; }
+html[data-hero="b"] .hero.cooled .hero-cool { opacity: 1; }
+html[data-hero="b"] .hero .word { display: none; }
+html[data-hero="b"] .hero-temp { display: block; position: absolute; z-index: 0; left: var(--m); right: var(--m); top: 64px; text-align: center; font-weight: 200; font-size: min(34vw, 62vh); line-height: .82; letter-spacing: -.07em; font-variant-numeric: tabular-nums;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(212,86,26,.55); transition: -webkit-text-stroke-color 3.6s ease .4s; pointer-events: none; }
+html[data-hero="b"] .hero-temp sup { font-size: .42em; vertical-align: .9em; margin-left: .02em; }
+html[data-hero="b"] .hero.cooled .hero-temp { -webkit-text-stroke-color: rgba(36,54,63,.22); }
+html[data-hero="b"] .hero-read { display: grid; position: absolute; z-index: 3; right: var(--m); top: 34%; gap: 4px; justify-items: end; text-align: right; padding: 16px 18px; border-radius: 10px; background: rgba(255,255,255,.72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(36,54,63,.08); }
+html[data-hero="b"] .hero-read b { font-weight: 300; font-size: 44px; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: #A8490D; transition: color 3.6s ease .4s; }
+html[data-hero="b"] .hero.cooled .hero-read b { color: #2E6B86; }
+html[data-hero="b"] .hero-was { opacity: 0; transition: opacity .6s ease 3.6s; }
+html[data-hero="b"] .hero.cooled .hero-was { opacity: 1; }
+html[data-hero="b"] .offer h1 { font-size: clamp(44px, 4.6vw, 76px); }
+html[data-hero="b"] .offer h1 em { color: var(--orange-ink); }
+html[data-hero="b"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
+html[data-hero="b"] .offer .btn-ink:hover { background: #FF8A35; }
 /* ============ LAYOUT SYSTEM ============
    12-col grid, side margin --m.
    G1 = column 1 (left edge): section titles and primary content.
@@ -595,6 +620,10 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   .mbar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; z-index: 50; left: 0; right: 0; bottom: 0;
     padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); background: rgba(250,250,250,.94); border-top: 1px solid var(--line); backdrop-filter: blur(10px); }
   .mbar .btn { justify-content: center; min-height: 46px; }
+  html[data-hero="b"] .hero-temp { top: 70px; font-size: 52vw; }
+  html[data-hero="b"] .hero-read { display: none; }
+  html[data-hero="b"] .offer h1 { font-size: 38px; }
+  .hero-vsw { top: 64px; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -655,12 +684,16 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 <main id="top">
   <!-- 1 -->
   <section class="hero" data-scene="split" data-anchor=".anchor" aria-label="Climate Solution Pro">
+    <div class="hero-cool" aria-hidden="true"></div>
     <div class="word" aria-hidden="true">climate</div>
+    <div class="hero-temp" aria-hidden="true"><span id="heroTemp">32</span><sup>°</sup></div>
+    <div class="hero-read" aria-hidden="true"><span class="mono">в комнате</span><b><span id="heroRead">32</span> °C</b><span class="mono hero-was">было +32 °C · сейчас прохладно</span></div>
+    <div class="hero-vsw mono" role="group" aria-label="Вариант первого экрана"><span>экран:</span><button type="button" data-h="a">A</button><button type="button" data-h="b">B</button></div>
     <div class="anchor" aria-hidden="true"></div>
     <div class="grid foot">
       <div class="offer c1-6">
         <span class="mono brk">Челябинск · Екатеринбург</span>
-        <h1>Кондиционер под ключ за&nbsp;3–4&nbsp;часа</h1>
+        <h1>Кондиционер под ключ <em>за&nbsp;3–4&nbsp;часа</em></h1>
         <p>Монтаж кондиционеров, вентиляции и электрики. Смета до начала работ, гарантия 3 года по договору.</p>
         <div class="row"><a class="btn btn-ink" href="#contact">Рассчитать стоимость <i>↗</i></a><a class="btn btn-soft" href="tel:+73510000000">+7 351 XXX-XX-XX</a></div>
       </div>
@@ -856,10 +889,10 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   <!-- 7 -->
   <section class="sec" id="process">
     <div class="rule"></div>
-    <div class="grid title"><h2>Процесс</h2>
-      <p class="aside">От звонка до работающей системы. Проект и смету согласуем до начала работ, а правки вносим до монтажа, не после.</p></div>
     <div class="pv pv-c">
       <div class="prail-track" id="prailTrack"><div class="sticky prail-stage">
+        <div class="grid title prail-title"><h2>Процесс</h2>
+      <p class="aside">От звонка до работающей системы. Проект и смету согласуем до начала работ, а правки вносим до монтажа, не после.</p></div>
         <div class="prail-head"><span class="mono" id="prailCount">01 / 06</span><div class="prail-prog"><i id="prailProg"></i></div></div>
         <div class="prail-row" id="prailRow">
           <article class="rcard"><div class="rcard-n" aria-hidden="true">01</div><svg class="pv-ic" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 8h8l3 9-5 3a24 24 0 0 0 8 8l3-5 9 3v8a3 3 0 0 1-3 3C21 37 11 27 11 11a3 3 0 0 1 3-3z"/></svg><h3>Консультация</h3><p>По телефону или заявке на сайте. Ответим на вопросы и поможем с выбором.</p><dl><dt>Срок:</dt><dd>в день обращения</dd><dt>Цена:</dt><dd>бесплатно</dd></dl></article>
@@ -987,6 +1020,26 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
   const mobile = matchMedia('(max-width: 900px)').matches;
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
+  /* hero variant B: temperature counts 32 -> 22, room cools, cold airflow starts */
+  const hero = document.querySelector('.hero'), heroBtns = [...hero.querySelectorAll('.hero-vsw button')];
+  let heroRun = 0;
+  function heroCool() {
+    cancelAnimationFrame(heroRun); hero.classList.remove('cooled'); hero.dataset.air = '0';
+    const tEl = document.getElementById('heroTemp'), rEl = document.getElementById('heroRead');
+    const set = v => { tEl.textContent = v; rEl.textContent = v; };
+    if (reduce) { set(22); hero.classList.add('cooled'); hero.dataset.air = '1'; return; }
+    set(32); const t0 = performance.now() + 500, D = 3400;
+    requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('cooled')));
+    const step = now => { const k = clamp((now - t0) / D), e = 1 - Math.pow(1 - k, 3); set(Math.round(32 - 10 * e)); if (k > .15) hero.dataset.air = '1'; if (k < 1) heroRun = requestAnimationFrame(step); };
+    heroRun = requestAnimationFrame(step);
+  }
+  function heroSet(v) {
+    document.documentElement.dataset.hero = v; heroBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.h === v));
+    try { localStorage.setItem('csp-hero', v); } catch (e) {}
+    if (v === 'b') heroCool(); else { cancelAnimationFrame(heroRun); hero.classList.remove('cooled'); delete hero.dataset.air; }
+  }
+  heroBtns.forEach(b => b.addEventListener('click', () => heroSet(b.dataset.h)));
+  { let v = new URLSearchParams(location.search).get('hero'); try { v = v || localStorage.getItem('csp-hero'); } catch (e) {} heroSet(v === 'a' ? 'a' : 'b'); }
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
