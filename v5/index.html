@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Climate Solution Pro Thermo</title>
+<meta name="description" content="Монтаж кондиционеров, вентиляции и электрики в Челябинске и Екатеринбурге.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* V5 "Thermo": an interactive thermostat opens the page; the rest reads like an equipment datasheet.
+   Grid: 12 full-bleed columns, 32px margins, 16px gutter. Equipment block carried over from V4 unchanged. */
+:root {
+  color-scheme: light;
+  --m: 32px;
+  --g: 16px;
+  --white: #FFFFFF;
+  --paper: #F6F7F7;
+  --ink: #24363F;
+  --black: #151515;
+  --muted: #5F6E75;
+  --faint: rgba(36, 54, 63, .24);
+  --line: #E1E5E7;
+  --sage: #E7EBE6;
+  --orange: #F47920;
+  --orange-ink: #B4500F;   /* orange that reads as text on white */
+  --hot: #FFF0E3;
+  --cool: #EAF2F5;
+  --sans: "Onest", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--white); color: var(--ink); font: 400 17px/1.55 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+h1, h2, h3, p { margin: 0; }
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+
+#gl { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+.no-gl #gl { display: none; }
+
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding-inline: var(--m); }
+.c1-3 { grid-column: 1 / 4; } .c1-4 { grid-column: 1 / 5; } .c1-5 { grid-column: 1 / 6; } .c1-6 { grid-column: 1 / 7; } .c1-7 { grid-column: 1 / 8; }
+.c1-8 { grid-column: 1 / 9; } .c1-12 { grid-column: 1 / -1; } .c5-12 { grid-column: 5 / -1; } .c6-12 { grid-column: 6 / -1; }
+.c7-9 { grid-column: 7 / 10; } .c7-12 { grid-column: 7 / -1; } .c8-12 { grid-column: 8 / -1; } .c9-12 { grid-column: 9 / -1; }
+.c10-11 { grid-column: 10 / 12; } .c10-12 { grid-column: 10 / -1; } .c12 { grid-column: 12 / -1; }
+
+.mono { font: 400 12px/2 var(--mono); letter-spacing: .02em; text-transform: uppercase; color: var(--muted); }
+.chip { display: inline-grid; vertical-align: .55em; margin-right: .6em; gap: 2px; font: 400 11px/1 var(--mono); text-transform: uppercase; letter-spacing: 0; }
+.chip span { padding: 3px 5px; border: 1px solid currentColor; border-radius: 3px; }
+.chip span + span { background: var(--black); color: var(--white); border-color: var(--black); }
+.ph { color: var(--orange-ink); }
+.h2 { font-weight: 500; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.04; letter-spacing: -.03em; text-wrap: balance; }
+.lead { font-size: clamp(18px, 1.4vw, 20px); color: var(--muted); max-width: 46ch; }
+
+.btn { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px; border-radius: 4px; border: 1px solid transparent; text-decoration: none; cursor: pointer;
+  font: 500 15px/1 var(--sans); transition: background .2s, border-color .2s; }
+.btn i { font-style: normal; font-family: var(--mono); }
+.btn-black { background: var(--black); color: var(--white); }
+.btn-black:hover { background: #333; }
+.btn-ghost { border-color: rgba(36,54,63,.25); background: transparent; }
+.btn-ghost:hover { border-color: var(--ink); }
+
+/* header */
+.hud { position: fixed; z-index: 40; top: env(safe-area-inset-top, 0px); left: 0; right: 0; align-items: center; height: 64px; font-size: 14px;
+  background: rgba(255,255,255,.8); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(36,54,63,.08); }
+.hud .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; white-space: nowrap; font-weight: 500; }
+.hud .brand i { width: 22px; height: 22px; border: 2px solid var(--ink); border-right-color: transparent; border-radius: 50%; flex: none; }
+.hud nav { display: flex; gap: 28px; }
+.hud nav a { text-decoration: none; color: var(--muted); }
+.hud nav a:hover { color: var(--ink); }
+.hud .c12 { display: flex; justify-content: flex-end; }
+.hud .btn { min-height: 36px; padding: 0 14px; font-size: 14px; }
+
+section { position: relative; z-index: 3; background: var(--white); }
+.pad { padding-block: clamp(96px, 14vh, 150px); }
+.sec-head { row-gap: 24px; align-items: end; }
+
+/* 1 thermostat hero */
+.thermo { --t: 1; min-height: 100vh; min-height: 100svh; display: grid; align-content: end; padding: 96px 0 32px; overflow: hidden;
+  background: rgb(var(--bg-r, 255), var(--bg-g, 240), var(--bg-b, 227)); transition: background-color .2s; }
+.thermo .temp { grid-column: 1 / -1; display: flex; align-items: flex-start; gap: .04em; font-weight: 300; font-size: clamp(130px, 27vw, 400px); line-height: .82;
+  letter-spacing: -.07em; font-variant-numeric: tabular-nums; color: rgb(var(--fg-r, 180), var(--fg-g, 80), var(--fg-b, 15)); margin-left: -.04em; }
+.thermo .temp sup { font-size: .32em; line-height: 1; margin-top: .14em; letter-spacing: 0; }
+.thermo .state { grid-column: 9 / -1; align-self: start; justify-self: end; text-align: right; }
+.thermo .state strong { display: block; font: 500 clamp(22px, 2vw, 28px)/1.2 var(--sans); letter-spacing: -.02em; color: var(--ink); text-transform: none; }
+.dial-row { margin-top: 28px; row-gap: 10px; align-items: center; }
+.slider { grid-column: 1 / -1; position: relative; height: 44px; }
+.slider .ticks { position: absolute; inset: 14px 0 auto 0; height: 16px; background: repeating-linear-gradient(90deg, rgba(36,54,63,.35) 0 1px, transparent 1px calc(100% / 64)); pointer-events: none; }
+.slider input { -webkit-appearance: none; appearance: none; position: absolute; inset: 0; width: 100%; height: 44px; background: transparent; margin: 0; cursor: ew-resize; }
+.slider input::-webkit-slider-runnable-track { height: 44px; background: linear-gradient(rgba(36,54,63,.5), rgba(36,54,63,.5)) center / 100% 1px no-repeat; }
+.slider input::-moz-range-track { height: 1px; background: rgba(36,54,63,.5); }
+.slider input::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 44px; background: var(--black); border-radius: 2px; }
+.slider input::-moz-range-thumb { width: 14px; height: 44px; background: var(--black); border: 0; border-radius: 2px; }
+.slider input:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.scale { grid-column: 1 / -1; display: flex; justify-content: space-between; }
+.hero-copy { margin-top: 44px; row-gap: 24px; align-items: end; }
+.hero-copy h1 { font-weight: 500; font-size: clamp(30px, 3.6vw, 52px); line-height: 1.04; letter-spacing: -.03em; text-wrap: balance; }
+.hero-copy .row { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+
+/* 2 services tabs */
+.tabs { margin-top: 64px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--g); border-bottom: 1px solid var(--line); }
+.tab { all: unset; box-sizing: border-box; cursor: pointer; display: grid; gap: 4px; padding: 18px 0 20px; border-top: 2px solid var(--line); color: rgba(36,54,63,.42); transition: color .25s, border-color .25s; }
+.tab strong { font-weight: 500; font-size: clamp(24px, 2.4vw, 36px); letter-spacing: -.03em; line-height: 1.1; }
+.tab .mono { color: inherit; }
+.tab:hover { color: var(--muted); }
+.tab[aria-selected="true"] { color: var(--ink); border-top-color: var(--orange); }
+.tab:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.panel { padding-inline: 0; }
+.panel[hidden] { display: none !important; }
+.panel .intro { grid-column: 1 / 5; padding-top: 32px; color: var(--muted); max-width: 34ch; }
+.rows { grid-column: 6 / -1; list-style: none; margin: 0; padding: 0; }
+.rows li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: var(--g); padding: 20px 0; border-bottom: 1px solid var(--line); }
+.rows b { font-weight: 500; font-size: 19px; letter-spacing: -.01em; }
+.rows span { color: var(--muted); font-size: 16px; }
+
+/* 3 equipment — carried over from V4 */
+.equip { z-index: 2; background: transparent; }
+.equip-track { height: 520vh; }
+.sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.equip .sticky > .grid { height: 100%; grid-template-rows: auto 1fr auto; padding-block: 88px 40px; }
+.ring { position: absolute; left: 50%; top: 52%; width: min(60vh, 40vw); aspect-ratio: 1; transform: translate(-50%, -50%); }
+.ring svg { width: 100%; height: 100%; overflow: visible; }
+.ring .ticks { transform-box: fill-box; transform-origin: center; animation: spin 80s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.equip ol { list-style: none; margin: 0 32px 0 0; padding: 0; align-self: center; position: relative; z-index: 3; counter-reset: eq; border-top: 1px solid var(--line); }
+.equip ol li { border-bottom: 1px solid var(--line); }
+.equip ol button { all: unset; box-sizing: border-box; cursor: pointer; width: 100%; display: grid; grid-template-columns: 44px 1fr 16px; align-items: center; padding: 10px 0;
+  font-weight: 400; font-size: clamp(28px, 3vw, 44px); line-height: 1.15; letter-spacing: -.03em; color: rgba(36,54,63,.38); transition: color .3s, padding .3s; }
+.equip ol button::before { counter-increment: eq; content: "0" counter(eq); font: 400 12px/1 var(--mono); letter-spacing: .02em; color: var(--muted); align-self: start; padding-top: .6em; }
+.equip ol button::after { content: ""; width: 10px; height: 10px; justify-self: end; background: var(--orange); transform: scale(0); transition: transform .3s; }
+.equip ol button:hover { color: var(--muted); }
+.equip ol button[aria-pressed="true"] { color: var(--ink); padding-left: 12px; }
+.equip ol button[aria-pressed="true"]::before { color: var(--orange); }
+.equip ol button[aria-pressed="true"]::after { transform: scale(1); }
+.equip ol button:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.equip .info { align-self: center; position: relative; z-index: 3; display: grid; gap: 12px; font-size: 15px; color: var(--muted); }
+.equip .info .price { font: 400 13px/1.6 var(--mono); color: var(--ink); text-transform: uppercase; }
+
+/* 4 process, horizontal */
+.process { background: var(--paper); }
+.proc-track { height: 360vh; }
+.proc .sticky { display: grid; grid-template-rows: auto 1fr auto; padding-block: 96px 40px; }
+.strip { display: flex; gap: var(--g); padding-inline: var(--m); align-items: stretch; will-change: transform; margin-top: 48px; }
+.step { flex: 0 0 min(30vw, 440px); background: var(--white); border-radius: 4px; padding: 24px; display: grid; grid-template-rows: auto 1fr auto; gap: 24px; min-height: 340px; }
+.step .num { font-weight: 300; font-size: clamp(72px, 7vw, 112px); line-height: .85; letter-spacing: -.06em; color: var(--faint); transition: color .3s; }
+.step.on .num { color: var(--orange-ink); }
+.step h3 { font-weight: 500; font-size: 24px; letter-spacing: -.02em; }
+.step p { margin-top: 8px; color: var(--muted); font-size: 16px; }
+.bar { margin-inline: var(--m); height: 2px; background: var(--line); position: relative; }
+.bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 0; background: var(--orange); }
+
+/* 5 promises */
+.promises .table { margin-top: 56px; border-top: 1px solid var(--ink); }
+.promises .tr { padding-block: 22px; border-bottom: 1px solid var(--line); align-items: baseline; }
+.promises .tr b { grid-column: 1 / 4; font-weight: 500; font-size: clamp(20px, 1.8vw, 26px); letter-spacing: -.02em; }
+.promises .tr span { grid-column: 4 / 10; color: var(--muted); }
+.promises .tr .mono { grid-column: 10 / -1; text-align: right; color: var(--ink); }
+
+/* 6 b2b */
+.b2b { background: var(--sage); }
+.b2b .clients { margin-top: 48px; display: flex; flex-wrap: wrap; gap: 8px 40px; font-weight: 500; font-size: clamp(28px, 3.6vw, 52px); letter-spacing: -.03em; color: rgba(36,54,63,.5); }
+.b2b .clients span:hover { color: var(--ink); }
+.b2b .list { margin-top: 48px; row-gap: 24px; }
+.b2b .list div { grid-column: span 3; border-top: 1px solid rgba(36,54,63,.2); padding-top: 14px; }
+.b2b .list b { display: block; font-weight: 500; font-size: 19px; }
+.b2b .list span { color: var(--muted); font-size: 15px; }
+
+/* 7 contact */
+.contact { background: var(--black); color: var(--white); }
+.contact .mono { color: rgba(255,255,255,.6); }
+.contact .h2 { color: var(--white); }
+.person { display: grid; grid-template-columns: 72px 1fr; gap: 16px; align-items: center; margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.14); }
+.avatar { width: 72px; height: 72px; border-radius: 50%; background: #2B2B2B; display: grid; place-items: center; font: 500 22px var(--sans); color: rgba(255,255,255,.7); }
+.person b { display: block; font-weight: 500; font-size: 20px; }
+.person a { color: var(--orange); }
+.form { display: grid; gap: 22px; align-content: start; }
+.field { display: grid; gap: 6px; }
+.field input { height: 48px; border: 0; border-bottom: 1px solid rgba(255,255,255,.3); background: transparent; color: var(--white); font: 300 20px var(--sans); padding: 0; border-radius: 0; }
+.field input:focus { outline: none; border-bottom-color: var(--orange); }
+.consent { display: flex; gap: 10px; font-size: 13px; color: rgba(255,255,255,.65); }
+.consent input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--orange); }
+.err { min-height: 1.2em; font-size: 13px; color: #FF9B5C; }
+.btn-orange { background: var(--orange); color: var(--black); justify-self: start; }
+.btn-orange:hover { background: #FF8F45; }
+.done { display: grid; gap: 8px; }
+.done strong { font-weight: 300; font-size: 32px; letter-spacing: -.03em; }
+.foot-row { margin-top: clamp(80px, 12vh, 120px); padding-block: 24px 32px; border-top: 1px solid rgba(255,255,255,.14); row-gap: 8px; }
+.foot-row .c10-12 { text-align: right; }
+
+@media (max-width: 900px) {
+  :root { --m: 16px; --g: 12px; }
+  .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .grid > * { grid-column: 1 / -1; }
+  .hud nav { display: none; }
+  .hud .brand { grid-column: 1 / 4; }
+  .hud .c12 { grid-column: 4 / -1; }
+  .thermo .state { justify-self: start; text-align: left; margin-top: 12px; }
+  .hero-copy .row { justify-content: flex-start; }
+  .tabs { grid-template-columns: 1fr 1fr 1fr; }
+  .tab strong { font-size: 18px; }
+  .tab .mono { display: none; }
+  .panel .intro, .rows { grid-column: 1 / -1; }
+  .rows li { grid-template-columns: 1fr; gap: 4px; }
+  .ring { top: 36%; width: min(78vw, 40vh); }
+  .equip ol { align-self: end; margin-right: 0; }
+  .equip ol button { font-size: 26px; padding: 6px 0; grid-template-columns: 36px 1fr 12px; }
+  .equip .sticky > .grid { padding-block: 80px 24px; grid-template-rows: auto auto 1fr auto; row-gap: 12px; }
+  .equip .info { align-self: end; }
+  .proc-track { height: auto; }
+  .proc .sticky { position: static; height: auto; padding-block: 80px; }
+  .strip { flex-direction: column; transform: none !important; }
+  .step { flex: none; min-height: 0; }
+  .bar { display: none; }
+  .promises .tr b, .promises .tr span, .promises .tr .mono { grid-column: 1 / -1; text-align: left; }
+  .b2b .list div { grid-column: span 2; }
+  .foot-row .c10-12 { text-align: left; }
+}
+@media (max-width: 520px) {
+  .b2b .list div { grid-column: 1 / -1; }
+  .hud .btn { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .ring .ticks { animation: none; }
+}
+</style>
+
+<header class="hud grid">
+  <a class="brand c1-4" href="#top"><i aria-hidden="true"></i>Climate Solution Pro</a>
+  <nav class="c5-12" aria-label="Разделы" style="grid-column: 6 / 12">
+    <a href="#services">Услуги</a><a href="#equip">Оборудование</a><a href="#process">Как работаем</a><a href="#contact">Контакты</a>
+  </nav>
+  <div class="c12"><a class="btn btn-black" href="#contact">Рассчитать</a></div>
+</header>
+
+<canvas id="gl" aria-hidden="true"></canvas>
+
+<main id="top">
+  <!-- 1 thermostat -->
+  <section class="thermo" id="thermo" aria-label="Климат под ключ">
+    <div class="grid">
+      <div class="temp" aria-hidden="true"><span id="tempNum">+32</span><sup>°C</sup></div>
+      <div class="state mono" id="tempState"><span>Сейчас в комнате</span><strong>Жарко</strong></div>
+    </div>
+    <div class="grid dial-row">
+      <div class="slider">
+        <div class="ticks" aria-hidden="true"></div>
+        <input type="range" id="temp" min="16" max="34" step="1" value="32" aria-label="Температура в комнате, градусов" aria-valuetext="+32 градуса">
+      </div>
+      <div class="scale mono" aria-hidden="true"><span>+16°</span><span>+22° комфорт</span><span>+34°</span></div>
+    </div>
+    <div class="grid hero-copy">
+      <div class="c1-7">
+        <span class="mono">Кондиционеры · вентиляция · электрика · Челябинск и Екатеринбург</span>
+        <h1 style="margin-top:10px">Держим +22°, даже когда за окном жара</h1>
+      </div>
+      <div class="c8-12" style="display:grid; gap:20px">
+        <p class="lead">Подберём оборудование под площадь и бюджет, смонтируем по нормам и покажем, как пользоваться. Консультация и расчёт — бесплатно.</p>
+        <div class="row"><a class="btn btn-black" href="#contact">Рассчитать стоимость <i>↗</i></a><a class="btn btn-ghost" href="#b2b">Для бизнеса</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 services -->
+  <section class="pad" id="services">
+    <div class="grid sec-head">
+      <h2 class="h2 c1-8"><span class="chip"><span>S.02</span><span>Услуги</span></span>Климат, свежий воздух и безопасная электрика — один подрядчик на весь объект</h2>
+    </div>
+    <div class="grid">
+      <div class="tabs c1-12" role="tablist" aria-label="Направления">
+        <button class="tab" role="tab" id="t-ac" aria-controls="p-ac" aria-selected="true"><span class="mono">01 · 6 работ</span><strong>Кондиционеры</strong></button>
+        <button class="tab" role="tab" id="t-vent" aria-controls="p-vent" aria-selected="false" tabindex="-1"><span class="mono">02 · 4 работы</span><strong>Вентиляция</strong></button>
+        <button class="tab" role="tab" id="t-el" aria-controls="p-el" aria-selected="false" tabindex="-1"><span class="mono">03 · 6 работ</span><strong>Электрика</strong></button>
+      </div>
+    </div>
+    <div class="grid panel" role="tabpanel" id="p-ac" aria-labelledby="t-ac" style="padding-inline: var(--m)">
+      <p class="intro">Поможем выбрать модель по площади, числу людей и режиму работы. Предложим несколько вариантов, чтобы было из чего выбрать.</p>
+      <ul class="rows">
+        <li><b>Сплит-системы</b><span>Для квартир и офисов. Ставим односплит и мультисплит — один наружный блок на несколько комнат.</span></li>
+        <li><b>Канальные</b><span>Скрыты в потолке, воздух распределяется по всему помещению. Делаем расчёт под объект.</span></li>
+        <li><b>Мобильные и оконные</b><span>Для съёмного жилья и небольших комнат. Подберём модель под задачу.</span></li>
+        <li><b>Монтаж по нормам</b><span>С соблюдением технических требований и правил безопасности.</span></li>
+        <li><b>Запуск и инструктаж</b><span>Проверяем систему, показываем управление и рассказываем об уходе.</span></li>
+        <li><b>Обслуживание и ремонт</b><span>Регулярная чистка и диагностика, чтобы кондиционер работал в любой сезон.</span></li>
+      </ul>
+    </div>
+    <div class="grid panel" role="tabpanel" id="p-vent" aria-labelledby="t-vent" hidden style="padding-inline: var(--m)">
+      <p class="intro">Свежий воздух без сквозняков и шума. Каждый проект считаем под помещение и нужный воздухообмен.</p>
+      <ul class="rows">
+        <li><b>Проектирование</b><span>Расчёт воздухообмена для квартир, домов и коммерческих объектов.</span></li>
+        <li><b>Приток и вытяжка</b><span>Механические и естественные системы, подобранные по уровню шума.</span></li>
+        <li><b>Рекуператоры</b><span>Возвращают тепло уходящего воздуха и снижают расходы на отопление.</span></li>
+        <li><b>Обслуживание и ремонт</b><span>Чистка воздуховодов, замена фильтров, диагностика оборудования.</span></li>
+      </ul>
+    </div>
+    <div class="grid panel" role="tabpanel" id="p-el" aria-labelledby="t-el" hidden style="padding-inline: var(--m)">
+      <p class="intro">Электрика, к которой не придётся возвращаться: защита в щите, проводка по схеме, свет без тёмных углов.</p>
+      <ul class="rows">
+        <li><b>Проект и сети</b><span>Схемы электроснабжения для новых объектов и модернизация старых сетей.</span></li>
+        <li><b>Щиты и защита</b><span>Автоматы, УЗО и заземление — меньше риск замыкания и аварий.</span></li>
+        <li><b>Проводка</b><span>Монтаж и демонтаж сетей в новостройках и при ремонте.</span></li>
+        <li><b>Освещение</b><span>LED, точечные светильники, люстры. Продумаем свет по всему помещению.</span></li>
+        <li><b>Розетки и умный дом</b><span>Розетки, выключатели, системы управления электрооборудованием.</span></li>
+        <li><b>Диагностика</b><span>Плановые проверки, чтобы найти проблему до поломки.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 3 equipment (from V4) -->
+  <section class="equip" id="equip" data-scene="equip" data-anchor=".ring">
+    <div class="equip-track" id="equipTrack">
+      <div class="sticky">
+        <div class="ring" aria-hidden="true">
+          <svg viewBox="-260 -260 520 520">
+            <g class="ticks" id="ringTicks" stroke="rgba(36,54,63,.35)" stroke-width="1"></g>
+            <circle r="236" fill="none" stroke="#F47920" stroke-width="1.2" stroke-dasharray="0 1483" id="ringArc" transform="rotate(-90)"></circle>
+          </svg>
+        </div>
+        <div class="grid">
+          <span class="c1-6"><span class="chip"><span>S.03</span><span>Оборудование</span></span></span>
+          <span class="c10-12 mono" id="ringIdx" style="text-align:right">[ Тип 01 / 05 ]</span>
+          <ol class="c1-4" id="equipList" aria-label="Типы оборудования">
+            <li><button type="button" aria-pressed="true" data-i="0">Сплит-система</button></li>
+            <li><button type="button" aria-pressed="false" data-i="1">Мультисплит</button></li>
+            <li><button type="button" aria-pressed="false" data-i="2">Канальный</button></li>
+            <li><button type="button" aria-pressed="false" data-i="3">Кассетный</button></li>
+            <li><button type="button" aria-pressed="false" data-i="4">Рекуператор</button></li>
+          </ol>
+          <div class="info c10-12" id="equipInfo" aria-live="polite"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 process -->
+  <section class="process proc" id="process">
+    <div class="proc-track" id="procTrack">
+      <div class="sticky">
+        <div class="grid sec-head">
+          <h2 class="h2 c1-7"><span class="chip"><span>S.04</span><span>Как работаем</span></span>Шесть шагов от звонка до работающей системы</h2>
+          <p class="lead c9-12">Проект и смету согласуем до начала работ. Правки вносим до монтажа, а не после.</p>
+        </div>
+        <div class="strip" id="strip">
+          <article class="step on"><span class="num">01</span><div><h3>Консультация</h3><p>По телефону или по заявке на сайте. Ответим на вопросы и поможем с выбором.</p></div><span class="mono">Бесплатно</span></article>
+          <article class="step"><span class="num">02</span><div><h3>Выезд и смета</h3><p>Если нужно, мастер приедет, оценит объём работ и учтёт нюансы объекта.</p></div><span class="mono">Смета до начала работ</span></article>
+          <article class="step"><span class="num">03</span><div><h3>Проект</h3><p>Схемы и описание работ. Вносите изменения, пока монтаж не начался.</p></div><span class="mono">Схема + описание</span></article>
+          <article class="step"><span class="num">04</span><div><h3>Монтаж и настройка</h3><p>По нормам и стандартам, с защитой мебели и уборкой после работ.</p></div><span class="mono">Дата в договоре</span></article>
+          <article class="step"><span class="num">05</span><div><h3>Обучение</h3><p>Покажем, как пользоваться кондиционером, вентиляцией и электрикой.</p></div><span class="mono">При сдаче объекта</span></article>
+          <article class="step"><span class="num">06</span><div><h3>Обслуживание</h3><p>Регулярное ТО, чтобы системы работали без неожиданных поломок.</p></div><span class="mono">По графику</span></article>
+        </div>
+        <div class="bar" aria-hidden="true"><i id="procBar"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 promises -->
+  <section class="pad promises">
+    <div class="grid sec-head">
+      <h2 class="h2 c1-8"><span class="chip"><span>S.05</span><span>Обещания</span></span>Что мы обещаем — и где это записано</h2>
+    </div>
+    <div class="table">
+      <div class="grid tr"><b>Гарантия</b><span>На все виды работ. Если в эксплуатации что-то пойдёт не так, приедем и устраним.</span><span class="mono"><span class="ph">[X] года</span> · в договоре</span></div>
+      <div class="grid tr"><b>Сроки</b><span>Дату монтажа фиксируем заранее и соблюдаем её.</span><span class="mono">В договоре</span></div>
+      <div class="grid tr"><b>Цена</b><span>Смета до начала работ. Проект можно поправить до монтажа.</span><span class="mono">В смете</span></div>
+      <div class="grid tr"><b>Оборудование</b><span>Только проверенные производители. Марка и модель указаны заранее.</span><span class="mono">В смете</span></div>
+      <div class="grid tr"><b>Безопасность</b><span>Автоматы, УЗО и заземление в каждом электрощите.</span><span class="mono">В проекте</span></div>
+      <div class="grid tr"><b>После сдачи</b><span>Инструктаж по эксплуатации и плановое обслуживание.</span><span class="mono">В акте сдачи</span></div>
+    </div>
+  </section>
+
+  <!-- 6 b2b -->
+  <section class="pad b2b" id="b2b">
+    <div class="grid sec-head">
+      <h2 class="h2 c1-8"><span class="chip"><span>S.06</span><span>Для бизнеса</span></span>Офисы, магазины и отделения — по договору и без остановки работы</h2>
+    </div>
+    <div class="grid"><div class="clients c1-12" aria-label="Объекты"><span>МФЦ</span><span>Пятёрочка</span><span>МегаФон</span><span class="ph">[ещё]</span></div></div>
+    <div class="grid list">
+      <div><b>Договор и ТЗ</b><span>Работаем по вашему техзаданию и регламентам.</span></div>
+      <div><b>Безнал и документы</b><span>Счёт, акты, закрывающие документы.</span></div>
+      <div><b>Ночью и в выходные</b><span>Без остановки торговли и приёма посетителей.</span></div>
+      <div><b>Регламентное ТО</b><span>Обслуживание по графику и аварийные выезды.</span></div>
+    </div>
+  </section>
+
+  <!-- 7 contact -->
+  <section class="pad contact" id="contact" style="padding-bottom:0">
+    <div class="grid">
+      <div class="c1-6">
+        <span class="mono">S.07 · Контакты</span>
+        <h2 class="h2" style="margin-top:12px">Запишитесь на монтаж до жары</h2>
+        <p class="lead" style="color:rgba(255,255,255,.65); margin-top:16px">Летом очередь на монтаж растёт. Оставьте номер — перезвоним, ответим на вопросы и бесплатно посчитаем стоимость.</p>
+        <div class="person">
+          <div class="avatar" aria-hidden="true">ТА</div>
+          <div><b>Тимур Антонов</b><span class="mono">Отвечает на заявки · <a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте ↗</a></span></div>
+        </div>
+      </div>
+      <form class="form c8-12" id="leadForm" novalidate>
+        <div class="field"><label class="mono" for="fName">Имя</label><input id="fName" autocomplete="given-name"></div>
+        <div class="field"><label class="mono" for="fPhone">Телефон</label><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7"></div>
+        <label class="consent"><input type="checkbox" id="fConsent"><span>Согласен на обработку персональных данных</span></label>
+        <div class="err" id="fErr" role="alert"></div>
+        <button class="btn btn-orange" type="submit">Перезвоните мне <i>↗</i></button>
+      </form>
+    </div>
+    <footer class="grid foot-row mono">
+      <span class="c1-4">Climate Solution Pro · ИП [ФИО]</span>
+      <span class="c7-9">+7 (351) XXX-XX-XX · +7 (343) XXX-XX-XX</span>
+      <span class="c10-12">Прототип V5</span>
+    </footer>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mobile = matchMedia('(max-width: 900px)').matches;
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  /* ---------- thermostat ---------- */
+  const thermo = document.getElementById('thermo'), range = document.getElementById('temp');
+  const num = document.getElementById('tempNum'), state = document.getElementById('tempState').querySelector('strong');
+  const HOT_BG = [255, 240, 227], COOL_BG = [234, 242, 245], HOT_FG = [180, 80, 15], COOL_FG = [36, 54, 63];
+  function setTemp(v) {
+    const t = clamp((v - 20) / 12);                     // 20° → cool, 32° → hot
+    const bg = HOT_BG.map((h, i) => Math.round(lerp(COOL_BG[i], h, t))), fg = HOT_FG.map((h, i) => Math.round(lerp(COOL_FG[i], h, t)));
+    thermo.style.setProperty('--bg-r', bg[0]); thermo.style.setProperty('--bg-g', bg[1]); thermo.style.setProperty('--bg-b', bg[2]);
+    thermo.style.setProperty('--fg-r', fg[0]); thermo.style.setProperty('--fg-g', fg[1]); thermo.style.setProperty('--fg-b', fg[2]);
+    const r = Math.round(v); num.textContent = (r > 0 ? '+' : '') + r;
+    state.textContent = r >= 27 ? 'Жарко' : r >= 24 ? 'Душно' : r >= 21 ? 'Комфорт' : 'Прохладно';
+    range.setAttribute('aria-valuetext', `+${r} градуса, ${state.textContent.toLowerCase()}`);
+  }
+  let auto = !reduce;
+  range.addEventListener('input', () => { auto = false; setTemp(+range.value); });
+  setTemp(32);
+  if (reduce) { range.value = 22; setTemp(22); }
+  else {
+    const start = performance.now() + 900;
+    (function cool(now) {
+      if (!auto) return;
+      const p = clamp((now - start) / 2600), e = 1 - Math.pow(1 - p, 3), v = lerp(32, 22, e);
+      range.value = Math.round(v); setTemp(v);
+      if (p < 1) requestAnimationFrame(cool);
+    })(performance.now());
+  }
+
+  /* ---------- service tabs ---------- */
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  function select(tab) {
+    tabs.forEach(t => {
+      const on = t === tab; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  }
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', e => {
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (d) { const n = tabs[(i + d + tabs.length) % tabs.length]; select(n); n.focus(); }
+    });
+  });
+
+  /* ---------- equipment (from V4) ---------- */
+  let t = '';
+  for (let i = 0; i < 120; i++) {
+    const a = (i / 120) * Math.PI * 2, long = i % 10 === 0, r2 = long ? 228 : 241;
+    t += `<line x1="${(Math.cos(a) * 250).toFixed(1)}" y1="${(Math.sin(a) * 250).toFixed(1)}" x2="${(Math.cos(a) * r2).toFixed(1)}" y2="${(Math.sin(a) * r2).toFixed(1)}"/>`;
+  }
+  document.getElementById('ringTicks').innerHTML = t;
+  const EQUIP = [
+    { key: 'split', text: 'Внутренний и наружный блок. Для квартиры, спальни, небольшого офиса.', price: 'Монтаж от XX XXX ₽' },
+    { key: 'multi', text: 'Один наружный блок на 2–5 комнат. Меньше блоков на фасаде.', price: 'Монтаж от XX XXX ₽' },
+    { key: 'duct', text: 'Прячется за потолком, воздух раздаётся через решётки по всему помещению.', price: 'Монтаж от XX XXX ₽' },
+    { key: 'cassette', text: 'Встраивается в подвесной потолок и раздаёт воздух в четыре стороны. Для офисов и торговых залов.', price: 'Монтаж от XX XXX ₽' },
+    { key: 'recup', text: 'Приточно-вытяжная вентиляция: свежий воздух без сквозняка, тепло уходящего воздуха возвращается.', price: 'Монтаж от XX XXX ₽' }
+  ];
+  const equipBtns = [...document.querySelectorAll('#equipList button')];
+  const equipInfo = document.getElementById('equipInfo'), ringArc = document.getElementById('ringArc'), ringIdx = document.getElementById('ringIdx');
+  const equipTrack = document.getElementById('equipTrack');
+  let equipIndex = -1;
+  function setEquip(i) {
+    if (i === equipIndex) return;
+    equipIndex = i;
+    equipBtns.forEach((b, j) => b.setAttribute('aria-pressed', String(j === i)));
+    equipInfo.innerHTML = `<span>${EQUIP[i].text}</span><span class="price">${EQUIP[i].price}</span>`;
+    ringIdx.textContent = `[ Тип 0${i + 1} / 05 ]`;
+  }
+  setEquip(0);
+  equipBtns.forEach(b => b.addEventListener('click', () => {
+    const i = +b.dataset.i, top = equipTrack.getBoundingClientRect().top + scrollY, span = equipTrack.offsetHeight - innerHeight;
+    scrollTo({ top: top + span * ((i + .5) / 5), behavior: reduce ? 'auto' : 'smooth' });
+    setEquip(i);
+  }));
+
+  /* ---------- process strip ---------- */
+  const procTrack = document.getElementById('procTrack'), strip = document.getElementById('strip'), procBar = document.getElementById('procBar');
+  const steps = [...strip.children];
+
+  /* ---------- form ---------- */
+  const form = document.getElementById('leadForm');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const fName = document.getElementById('fName'), fPhone = document.getElementById('fPhone'), fConsent = document.getElementById('fConsent'), err = document.getElementById('fErr');
+    if (!fName.value.trim()) { err.textContent = 'Напишите, как к вам обращаться.'; fName.focus(); return; }
+    if (fPhone.value.replace(/\D/g, '').length < 10) { err.textContent = 'Проверьте номер: нужно 10 цифр после +7.'; fPhone.focus(); return; }
+    if (!fConsent.checked) { err.textContent = 'Отметьте согласие на обработку данных.'; fConsent.focus(); return; }
+    form.innerHTML = '<div class="done"><span class="mono">Заявка</span><strong>Заявка принята</strong><span class="mono">Прототип: данные никуда не отправлены</span></div>';
+  });
+
+  const prog = el => { const r = el.getBoundingClientRect(); return clamp(-r.top / (r.height - innerHeight)); };
+  function onScroll() {
+    const ep = prog(equipTrack);
+    setEquip(Math.min(4, Math.floor(ep * 5)));
+    ringArc.setAttribute('stroke-dasharray', `${(ep * 1483).toFixed(0)} 1483`);
+    if (!mobile) {
+      const pp = prog(procTrack), max = strip.scrollWidth - innerWidth + 32;
+      strip.style.transform = `translateX(${(-pp * Math.max(0, max)).toFixed(1)}px)`;
+      procBar.style.width = (pp * 100).toFixed(1) + '%';
+      const on = Math.min(steps.length - 1, Math.floor(pp * steps.length));
+      steps.forEach((s, i) => s.classList.toggle('on', i === on));
+    }
+  }
+  addEventListener('scroll', onScroll, { passive: true });
+  addEventListener('resize', onScroll);
+  onScroll();
+
+  /* ---------- WebGL (from V4) ---------- */
+  const canvas = document.getElementById('gl');
+  let ok = false;
+  try { ok = !!(window.THREE && (canvas.getContext('webgl2') || canvas.getContext('webgl'))); } catch (e) { ok = false; }
+  if (!ok) { document.documentElement.classList.add('no-gl'); return; }
+  const N = mobile ? 4000 : 7000;
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  // samplers return [x, y, z]
+  function boxEdge(w, h, d, cx = 0, cy = 0, cz = 0) {
+    const L = [w, h, d], total = 4 * (w + h + d); let r = Math.random() * total;
+    const s1 = Math.random() < .5 ? -1 : 1, s2 = Math.random() < .5 ? -1 : 1;
+    if ((r -= 4 * w) < 0) return [rnd(-w / 2, w / 2) + cx, s1 * h / 2 + cy, s2 * d / 2 + cz];
+    if ((r -= 4 * h) < 0) return [s1 * w / 2 + cx, rnd(-h / 2, h / 2) + cy, s2 * d / 2 + cz];
+    return [s1 * w / 2 + cx, s2 * h / 2 + cy, rnd(-d / 2, d / 2) + cz];
+  }
+  function boxSurf(w, h, d, cx = 0, cy = 0, cz = 0) {
+    const a = [w * h, w * h, w * d, w * d, h * d, h * d], tot = a.reduce((x, y) => x + y);
+    let r = Math.random() * tot, f = 0; while ((r -= a[f]) > 0) f++;
+    const u = rnd(-.5, .5), v = rnd(-.5, .5);
+    switch (f) {
+      case 0: return [u * w + cx, v * h + cy, d / 2 + cz];
+      case 1: return [u * w + cx, v * h + cy, -d / 2 + cz];
+      case 2: return [u * w + cx, h / 2 + cy, v * d + cz];
+      case 3: return [u * w + cx, -h / 2 + cy, v * d + cz];
+      case 4: return [w / 2 + cx, u * h + cy, v * d + cz];
+      default: return [-w / 2 + cx, u * h + cy, v * d + cz];
+    }
+  }
+  const line = (x1, y1, z1, x2, y2, z2) => { const k = Math.random(); return [x1 + (x2 - x1) * k, y1 + (y2 - y1) * k, z1 + (z2 - z1) * k]; };
+  function ringZ(r, cx, cy, cz) { const a = Math.random() * 6.2832; return [cx + Math.cos(a) * r, cy + Math.sin(a) * r, cz]; }
+  function cylX(r, len, cx, cy, cz) { const a = Math.random() * 6.2832; return [cx + rnd(-len / 2, len / 2), cy + Math.cos(a) * r, cz + Math.sin(a) * r]; }
+  function rectXZ(w, d, cx, cy, cz) { return boxEdge(w, 0, d, cx, cy, cz); }
+
+  // parts: [weight, brightness, sampler]
+  const SHAPES = {
+    split: [
+      [.42, 1, () => boxEdge(2.7, .74, .56)], [.33, .4, () => boxSurf(2.7, .74, .56)],
+      [.08, .9, () => line(-1.2, -.3, .29, 1.2, -.3, .29)], [.06, .9, () => line(-1.2, -.22, .3, 1.2, -.22, .3)],
+      [.05, .7, () => line(-1.3, .14, .285, 1.3, .14, .285)], [.06, 1, () => line(1.02, .02, .3, 1.16, .02, .3)]
+    ],
+    multi: [
+      [.36, 1, () => boxEdge(2.1, 1.5, .7)], [.26, .38, () => boxSurf(2.1, 1.5, .7)],
+      [.1, .95, () => ringZ(.5, -.42, 0, .36)], [.07, .8, () => ringZ(.36, -.42, 0, .36)], [.05, .7, () => ringZ(.2, -.42, 0, .36)],
+      [.05, .8, () => { const a = Math.floor(Math.random() * 6) * 1.047; const k = Math.random() * .5; return [-.42 + Math.cos(a) * k, Math.sin(a) * k, .36]; }],
+      [.11, .7, () => { const x = .62 + Math.floor(Math.random() * 7) * .055; return line(x, -.55, .36, x, .55, .36); }]
+    ],
+    duct: [
+      [.4, 1, () => boxEdge(2.7, .44, 1.3)], [.3, .38, () => boxSurf(2.7, .44, 1.3)],
+      [.15, .95, () => boxEdge(2.3, .32, .14, 0, 0, .72)], [.15, .8, () => boxEdge(.7, .32, .3, -.9, 0, -.8)]
+    ],
+    cassette: [
+      [.3, 1, () => boxEdge(1.7, .4, 1.7, 0, .14, 0)], [.2, .35, () => boxSurf(1.7, .4, 1.7, 0, .14, 0)],
+      [.2, 1, () => boxEdge(2.05, .06, 2.05, 0, -.1, 0)],
+      [.16, .9, () => { const s = Math.floor(Math.random() * 4), k = rnd(-.55, .55); const o = .78; return [[k, -.14, o], [k, -.14, -o], [o, -.14, k], [-o, -.14, k]][s]; }],
+      [.14, .7, () => { const g = Math.random() < .5; const a = rnd(-.45, .45), b = Math.round(rnd(-4, 4)) * .11; return g ? [a, -.14, b] : [b, -.14, a]; }]
+    ],
+    recup: [
+      [.34, 1, () => boxEdge(1.9, .72, 1.15)], [.26, .38, () => boxSurf(1.9, .72, 1.15)],
+      [.1, .95, () => cylX(.17, .38, -1.14, 0, .3)], [.1, .95, () => cylX(.17, .38, -1.14, 0, -.3)],
+      [.1, .95, () => cylX(.17, .38, 1.14, 0, .3)], [.1, .95, () => cylX(.17, .38, 1.14, 0, -.3)]
+    ],
+    air: [[1, .45, () => [rnd(-7, 7), rnd(-4, 4), rnd(-3, 2)]]]
+  };
+
+  const base = new THREE.Color('#24363F'), mist = new THREE.Color('#FFFFFF');
+  function build(parts) {
+    const pos = new Float32Array(N * 3), col = new Float32Array(N * 3);
+    const tot = parts.reduce((s, p) => s + p[0], 0);
+    for (let i = 0; i < N; i++) {
+      let r = Math.random() * tot, k = 0; while ((r -= parts[k][0]) > 0 && k < parts.length - 1) k++;
+      const [x, y, z] = parts[k][2](), b = parts[k][1] * rnd(.75, 1.05);
+      pos[i * 3] = x + rnd(-.003, .003); pos[i * 3 + 1] = y + rnd(-.003, .003); pos[i * 3 + 2] = z + rnd(-.003, .003);
+      const c = mist.clone().lerp(base, Math.min(1, b * .95));
+      col[i * 3] = c.r; col[i * 3 + 1] = c.g; col[i * 3 + 2] = c.b;
+    }
+    return { pos, col };
+  }
+  const shapes = {}; for (const k in SHAPES) shapes[k] = build(SHAPES[k]);
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.5 : 2));
+  renderer.setClearColor(0x000000, 0);
+  renderer.localClippingEnabled = true;
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(30, 1, .1, 100);
+  camera.position.set(0, 0, 10);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xb9c2c7, 1.05));
+  const key = new THREE.DirectionalLight(0xffffff, 1.1); key.position.set(-3, 5, 6); scene.add(key);
+  const rim = new THREE.DirectionalLight(0xffffff, .45); rim.position.set(4, 1, -4); scene.add(rim);
+
+  const dot = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 32;
+    const g = c.getContext('2d'); g.beginPath(); g.arc(16, 16, 14, 0, 6.2832); g.fillStyle = '#fff'; g.fill();
+    return new THREE.CanvasTexture(c);
+  })();
+
+  const group = new THREE.Group(); scene.add(group);
+
+  /* ---- point cloud (used for the scan / morph) ---- */
+  const cur = { pos: shapes.air.pos.slice(), col: shapes.air.col.slice() };
+  const dPos = cur.pos.slice(), dCol = cur.col.slice();
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(dPos, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(dCol, 3));
+  const cloud = new THREE.Points(geo, new THREE.PointsMaterial({ size: mobile ? .04 : .032, map: dot, alphaTest: .5, vertexColors: true }));
+  group.add(cloud);
+
+  /* ---- solid models, revealed by a clipping plane that follows the scan line ---- */
+  const localClip = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  const clip = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  const M = (c, r = .62, m = .05) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m, clippingPlanes: [clip] });
+  const BODY = M('#EEF0F1'), PANEL = M('#FAFBFB', .5), DARK = M('#2A3940', .7), METAL = M('#C9CFD3', .4, .35), GRILLE = M('#3B4A52', .6);
+  const LINE = new THREE.LineBasicMaterial({ color: '#24363F', transparent: true, opacity: .55, clippingPlanes: [clip] });
+
+  function add(g, geom, mat, x = 0, y = 0, z = 0, edges = true) {
+    const m = new THREE.Mesh(geom, mat); m.position.set(x, y, z); g.add(m);
+    if (edges) { const l = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 28), LINE); l.position.copy(m.position); g.add(l); }
+    return m;
+  }
+  const box = (w, h, d) => new THREE.BoxGeometry(w, h, d);
+  function roundRect(w, h, r) {
+    const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+    s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r);
+    s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+    s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s;
+  }
+  // rounded box: rounded in the x/y plane, extruded along z
+  function rbox(w, h, d, r) { const g = new THREE.ExtrudeGeometry(roundRect(w, h, r), { depth: d, bevelEnabled: false, curveSegments: 6 }); g.translate(0, 0, -d / 2); return g; }
+  // profile rounded in y/z (side section), extruded along x
+  function rprofile(len, h, d, r) { const g = new THREE.ExtrudeGeometry(roundRect(d, h, r), { depth: len, bevelEnabled: false, curveSegments: 8 }); g.translate(0, 0, -len / 2); g.rotateY(-Math.PI / 2); return g; }
+  const ring = (r, t) => new THREE.TorusGeometry(r, t, 8, 64);
+  const cyl = (r, l) => { const g = new THREE.CylinderGeometry(r, r, l, 40, 1, true); g.rotateZ(Math.PI / 2); return g; };
+
+  const SOLID = {
+    split() {
+      const g = new THREE.Group();
+      add(g, rprofile(2.7, .74, .56, .16), BODY);
+      add(g, box(2.46, .05, .02), DARK, 0, -.24, .282, false);               // air outlet
+      add(g, box(2.4, .02, .16), PANEL, 0, -.31, .25);                        // louver flap
+      add(g, box(2.62, .006, .01), DARK, 0, .1, .283, false);                 // panel seam
+      add(g, box(.16, .03, .01), DARK, 1.05, .0, .284, false);                // display
+      add(g, box(2.5, .02, .36), METAL, 0, .372, -.04, false);                // top intake
+      return g;
+    },
+    multi() {
+      const g = new THREE.Group();
+      add(g, rbox(2.1, 1.5, .7, .05), BODY);
+      add(g, new THREE.CircleGeometry(.52, 48), DARK, -.42, 0, .352, false);
+      [.52, .42, .32, .22, .12].forEach(r => add(g, ring(r, .012), METAL, -.42, 0, .36, false));
+      add(g, new THREE.CylinderGeometry(.07, .07, .04, 24).rotateX(Math.PI / 2), METAL, -.42, 0, .37, false);
+      for (let i = 0; i < 9; i++) add(g, box(.025, 1.0, .01), GRILLE, .5 + i * .06, 0, .356, false);
+      add(g, box(.18, .08, .9), DARK, -.7, -.79, 0); add(g, box(.18, .08, .9), DARK, .7, -.79, 0);
+      return g;
+    },
+    duct() {
+      const g = new THREE.Group();
+      add(g, box(2.7, .44, 1.3), METAL);
+      add(g, box(2.3, .3, .1), DARK, 0, 0, .7);                               // supply flange
+      add(g, box(2.36, .36, .04), METAL, 0, 0, .66);
+      add(g, box(.8, .3, .32), DARK, -.85, 0, -.8);                           // return spigot
+      [[-1.2, .55], [1.2, .55], [-1.2, -.55], [1.2, -.55]].forEach(([x, z]) => add(g, box(.08, .18, .08), DARK, x, .31, z));
+      add(g, box(.6, .02, .5), PANEL, .7, -.23, -.2);                         // service hatch
+      return g;
+    },
+    cassette() {
+      const g = new THREE.Group();
+      add(g, box(1.6, .38, 1.6), METAL, 0, .16, 0);
+      add(g, rbox(2.05, 2.05, .07, .08).rotateX(Math.PI / 2), PANEL, 0, -.07, 0);
+      [[0, .78, 1.5, .14], [0, -.78, 1.5, .14], [.78, 0, .14, 1.5], [-.78, 0, .14, 1.5]].forEach(([x, z, w, d]) => add(g, box(w, .02, d), DARK, x, -.115, z, false));
+      add(g, box(.95, .02, .95), GRILLE, 0, -.115, 0, false);
+      for (let i = -4; i <= 4; i++) add(g, box(.92, .025, .012), PANEL, 0, -.125, i * .1, false);
+      return g;
+    },
+    recup() {
+      const g = new THREE.Group();
+      add(g, rbox(1.9, .72, 1.15, .04), BODY);
+      [[-1.13, .3], [-1.13, -.3], [1.13, .3], [1.13, -.3]].forEach(([x, z]) => {
+        add(g, cyl(.17, .36), METAL, x, 0, z, false);
+        add(g, ring(.17, .018).rotateY(Math.PI / 2), DARK, x + Math.sign(x) * .18, 0, z, false);
+      });
+      add(g, box(1.2, .44, .01), PANEL, -.1, 0, .58);                         // service door
+      add(g, box(.1, .1, .02), DARK, .62, 0, .585, false);
+      return g;
+    }
+  };
+  const solids = {};
+  for (const k in SOLID) { solids[k] = SOLID[k](); solids[k].visible = false; group.add(solids[k]); }
+
+  /* ---- airflow (hero) ---- */
+  const AC = mobile ? 500 : 900, AW = mobile ? 160 : 300, A = AC + AW;
+  const aPos = new Float32Array(A * 3), aCol = new Float32Array(A * 3);
+  const aSeed = Array.from({ length: A }, (_, i) => ({ x: rnd(-1.2, 1.2), t: Math.random(), s: rnd(.16, .3), w: Math.random() * 6.28, warm: i >= AC }));
+  const aGeo = new THREE.BufferGeometry();
+  aGeo.setAttribute('position', new THREE.BufferAttribute(aPos, 3));
+  aGeo.setAttribute('color', new THREE.BufferAttribute(aCol, 3));
+  const air = new THREE.Points(aGeo, new THREE.PointsMaterial({ size: mobile ? .032 : .024, map: dot, alphaTest: .5, vertexColors: true }));
+  group.add(air);
+  const cold = new THREE.Color('#6E8794'), warm = new THREE.Color('#F47920'), sig = new THREE.Color('#F47920');
+
+  const scenes = [...document.querySelectorAll('[data-scene]')];
+  const tmpV = new THREE.Vector3();
+  function screenToWorld(x, y) {
+    tmpV.set((x / innerWidth) * 2 - 1, -(y / innerHeight) * 2 + 1, .5).unproject(camera);
+    tmpV.sub(camera.position).normalize();
+    return camera.position.clone().add(tmpV.multiplyScalar(-camera.position.z / tmpV.z));
+  }
+  let mx = 0, my = 0;
+  addEventListener('pointermove', e => { mx = e.clientX / innerWidth * 2 - 1; my = e.clientY / innerHeight * 2 - 1; }, { passive: true });
+  function resize() { renderer.setSize(innerWidth, innerHeight, false); camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); }
+  addEventListener('resize', resize); resize();
+
+  let airAmt = 0, spin = 0, last = performance.now(), shown = null, morphT = 0, reveal = 0;
+  const gPos = new THREE.Vector3(); let gScale = 1;
+  const TOP = 1.05, BOT = -1.0;
+
+  function frame(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    let best = null, bestVis = 0;
+    for (const s of scenes) {
+      const r = s.getBoundingClientRect();
+      const vis = clamp((Math.min(r.bottom, innerHeight) - Math.max(r.top, 0)) / innerHeight);
+      if (vis > bestVis) { bestVis = vis; best = s; }
+    }
+    if (!best || bestVis < .02) { requestAnimationFrame(frame); return; }
+    const isEquip = best.dataset.scene === 'equip';
+    const keyName = isEquip ? EQUIP[Math.max(0, equipIndex)].key : best.dataset.scene;
+
+    // a new device: hide the solid, morph the cloud, then scan the solid in
+    if (keyName !== shown) {
+      if (shown) solids[shown].visible = false;
+      shown = keyName; morphT = 0; reveal = 0; cloud.visible = true;
+    }
+    const tgt = shapes[keyName], P = cur.pos, C = cur.col, TP = tgt.pos, TC = tgt.col;
+    const k = reduce ? 1 : clamp(dt * 4.2);
+    for (let i = 0; i < P.length; i++) { P[i] += (TP[i] - P[i]) * k; C[i] += (TC[i] - C[i]) * k; }
+    morphT += dt;
+    if (morphT > (reduce ? 0 : .55)) { solids[keyName].visible = true; reveal = reduce ? 1 : Math.min(1, reveal + dt * .85); }
+    const sy = TOP - (TOP - BOT) * (morphT > (reduce ? 0 : .55) ? reveal : 0);
+
+    // points: visible below the scan line, orange on it, gone above it
+    if (reveal < 1) {
+      for (let i = 0; i < N; i++) {
+        const j = i * 3, d = P[j + 1] - sy;
+        dPos[j] = P[j]; dPos[j + 2] = P[j + 2];
+        if (d > .03 && reveal > 0) { dPos[j + 1] = 99; continue; }
+        dPos[j + 1] = P[j + 1];
+        const m = reveal > 0 && d > -.03 ? 1 : 0;
+        dCol[j] = C[j] + (sig.r - C[j]) * m; dCol[j + 1] = C[j + 1] + (sig.g - C[j + 1]) * m; dCol[j + 2] = C[j + 2] + (sig.b - C[j + 2]) * m;
+      }
+      geo.attributes.position.needsUpdate = true; geo.attributes.color.needsUpdate = true;
+    } else cloud.visible = false;
+
+    // place the model in its DOM slot
+    const r = best.querySelector(best.dataset.anchor).getBoundingClientRect();
+    gPos.copy(screenToWorld(r.left + r.width / 2, r.top + r.height / 2));
+    const wpp = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z / innerHeight;
+    const fit = Math.min(r.width * wpp / (isEquip ? 3.4 : 3), r.height * wpp / (isEquip ? 2.4 : 1.3));
+    gScale += (fit - gScale) * clamp(dt * 4);
+    group.position.lerp(gPos, reduce ? 1 : clamp(dt * 5));
+    group.scale.setScalar(gScale);
+
+    // hold a readable 3/4 front view and sway around it
+    if (!reduce) spin += dt * .5;
+    const ry = -.45 + Math.sin(spin) * (isEquip ? .45 : .2) + mx * .25;
+    const rx = (isEquip && keyName === 'cassette' ? -.55 : .22) + my * .1;
+    group.rotation.y += (ry - group.rotation.y) * clamp(dt * 3);
+    group.rotation.x += (rx - group.rotation.x) * clamp(dt * 3);
+
+    group.updateMatrixWorld(true);
+    localClip.constant = -sy;
+    clip.copy(localClip).applyMatrix4(group.matrixWorld);
+
+    airAmt += ((best.dataset.air === '1' && reveal >= 1 ? 1 : 0) - airAmt) * clamp(dt * 2);
+    if (airAmt > .01) {
+      for (let i = 0; i < A; i++) {
+        const s = aSeed[i]; if (!reduce) s.t += dt * s.s; if (s.t > 1) { s.t -= 1; s.x = rnd(-1.2, 1.2); }
+        const tt = s.t, j = i * 3; let f, c;
+        if (!s.warm) {
+          aPos[j] = s.x * (1 + tt * .4) + Math.sin(tt * 7 + s.w) * .06 * tt; aPos[j + 1] = -.34 - tt * 1.9 + tt * tt * .4; aPos[j + 2] = .3 + tt * 1.6;
+          f = Math.pow(1 - tt, 1.4) * clamp(tt * 12); c = cold;
+        } else {
+          aPos[j] = s.x * 1.05 + Math.sin(tt * 5 + s.w) * .1; aPos[j + 1] = .4 + tt * 1.4; aPos[j + 2] = -.3 - tt * .8;
+          f = Math.pow(1 - tt, 1.6) * clamp(tt * 10) * .8; c = warm;
+        }
+        f *= airAmt;
+        aCol[j] = 1 + (c.r - 1) * f; aCol[j + 1] = 1 + (c.g - 1) * f; aCol[j + 2] = 1 + (c.b - 1) * f;
+        if (f < .04) aPos[j + 2] = -50;
+      }
+      aGeo.attributes.position.needsUpdate = true; aGeo.attributes.color.needsUpdate = true; air.visible = true;
+    } else air.visible = false;
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</html>
