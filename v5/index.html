@@ -158,30 +158,45 @@ h1, h2, h3, p { margin: 0; }
 .cells .mono { color: inherit; }
 .cells .on { color: var(--ink); }
 
-/* 4 services: tabs + short list on the left, one 3D object on the right */
+/* 4 services: full-screen stage — giant word, 3D object, floating work chips, tinted ground */
 .svc { position: relative; }
-.svc-grid { padding-block: 24px clamp(80px, 12vh, 140px); align-items: stretch; }
-.svc-left { grid-column: 1 / 6; position: relative; z-index: 3; display: grid; gap: 28px; align-content: start; }
-.tabs { display: flex; flex-wrap: wrap; gap: 4px 28px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
-.tab { all: unset; cursor: pointer; font-weight: 300; font-size: clamp(24px, 2vw, 32px); letter-spacing: -.03em; line-height: 1.3; color: rgba(36,54,63,.38); border-bottom: 1px solid transparent; transition: color .25s, border-color .25s; }
+.svc-track { height: 360vh; }
+.svc-stage { overflow: hidden; }
+.tint { position: absolute; inset: 0; z-index: 0; opacity: 0; transition: opacity .8s ease; }
+.tint.t0 { background: radial-gradient(70% 60% at 50% 45%, #DCE8EF 0%, #F0F4F6 55%, #FAFAFA 100%); }
+.tint.t1 { background: radial-gradient(70% 60% at 50% 45%, #DCEDE6 0%, #EFF6F2 55%, #FAFAFA 100%); }
+.tint.t2 { background: radial-gradient(70% 60% at 50% 45%, #F3E3D6 0%, #F8F0EA 55%, #FAFAFA 100%); }
+.svc-stage[data-k="0"] .t0, .svc-stage[data-k="1"] .t1, .svc-stage[data-k="2"] .t2 { opacity: 1; }
+.giant { position: absolute; z-index: 0; inset: 0; display: grid; place-items: center; pointer-events: none; }
+.giant span { grid-area: 1 / 1; font-weight: 300; font-size: clamp(110px, 21vw, 400px); letter-spacing: -.07em; line-height: 1; color: rgba(255,255,255,.9);
+  -webkit-text-stroke: 1px rgba(36,54,63,.07); opacity: 0; transform: translateY(40px) scale(.97); transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1); margin-top: -8vh; }
+.svc-stage[data-k="0"] .giant span:nth-child(1), .svc-stage[data-k="1"] .giant span:nth-child(2), .svc-stage[data-k="2"] .giant span:nth-child(3) { opacity: 1; transform: none; }
+.svc-anchor { position: absolute; left: 30%; right: 30%; top: 22%; bottom: 38%; }
+.chips { position: absolute; inset: 0; z-index: 3; list-style: none; margin: 0; padding: 0; pointer-events: none; }
+.chips li { position: absolute; display: grid; gap: 2px; padding: 12px 16px 14px; background: rgba(255,255,255,.86); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(36,54,63,.08); border-radius: 6px; box-shadow: 0 10px 30px rgba(36,54,63,.08); min-width: 210px;
+  opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
+.chips.in li { opacity: 1; transform: none; }
+.chips li::before { content: ""; position: absolute; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; top: 18px; left: -16px; box-shadow: 0 0 0 4px rgba(244,121,32,.18); }
+.chips li.r::before { left: auto; right: -16px; }
+.chips b { font-weight: 400; font-size: 19px; letter-spacing: -.015em; }
+.chips span { font-size: 14px; color: var(--muted); }
+.chips .mono { font-size: 10px; line-height: 1.4; }
+.chips .p0 { left: 9%; top: 22%; } .chips .p1 { right: 9%; top: 18%; } .chips .p2 { left: 13%; top: 52%; } .chips .p3 { right: 12%; top: 50%; }
+.svc-bar { position: absolute; z-index: 3; left: 0; right: 0; bottom: 28px; align-items: end; row-gap: 20px; }
+.svc-offer { grid-column: 1 / 6; display: grid; gap: 16px; }
+.svc-offer .lede { font-weight: 300; font-size: clamp(22px, 1.9vw, 30px); line-height: 1.22; letter-spacing: -.025em; max-width: 26ch; }
+.svc-offer .row { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+.svc-offer b { font-weight: 300; font-size: 32px; letter-spacing: -.035em; }
+.svc-tabs { grid-column: 8 / -1; display: grid; grid-template-columns: repeat(3, auto); justify-content: end; gap: 0 28px; }
+.tab { all: unset; cursor: pointer; display: grid; gap: 2px; font-weight: 300; font-size: clamp(20px, 1.6vw, 26px); letter-spacing: -.025em; color: rgba(36,54,63,.38); transition: color .25s; }
+.tab .mono { color: inherit; font-size: 10px; }
 .tab:hover { color: var(--muted); }
-.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); }
+.tab[aria-selected="true"] .mono { color: var(--orange-ink); }
 .tab:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; border-radius: 2px; }
-.panel { display: grid; gap: 28px; }
-.panel[hidden] { display: none !important; }
-.lede { font-weight: 300; font-size: clamp(22px, 1.9vw, 30px); line-height: 1.25; letter-spacing: -.025em; max-width: 24ch; }
-.works { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-.works li { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
-.works b { font-weight: 400; font-size: 19px; letter-spacing: -.015em; }
-.works span { color: var(--muted); font-size: 15px; text-align: right; }
-.svc-cta { display: flex; justify-content: space-between; align-items: end; gap: 16px; flex-wrap: wrap; }
-.svc-cta b { display: block; font-weight: 300; font-size: 32px; letter-spacing: -.035em; }
-.svc-visual { grid-column: 7 / -1; position: relative; min-height: min(64vh, 600px); }
-.svc-visual::before { content: ""; position: absolute; inset: 0; z-index: 0; border-radius: 4px; background: var(--panel); }
-.svc-visual > .mono { position: absolute; z-index: 3; }
-.svc-visual .tl { left: 16px; top: 12px; } .svc-visual .tr { right: 16px; top: 12px; }
-.svc-visual .bl { left: 16px; bottom: 12px; } .svc-visual .br { right: 16px; bottom: 12px; }
-.svc-anchor { position: absolute; left: 14%; right: 14%; top: 22%; bottom: 22%; }
+.svc-prog { grid-column: 1 / -1; height: 2px; background: rgba(36,54,63,.12); margin-top: 14px; }
+.svc-prog i { display: block; height: 100%; width: 0; background: var(--ink); }
 
 /* 5 equipment — carried over from V4 */
 .equip { z-index: 2; background: transparent; }
@@ -280,8 +295,17 @@ h1, h2, h3, p { margin: 0; }
   .std-list button { font-size: 22px; padding: 6px 0; }
   .std-value { grid-row: 3; }
   .std-value strong { font-size: 28px; }
-  .svc-visual { grid-row: 1; min-height: 42vh; }
-  .svc-left { grid-row: 2; }
+  .svc-track { height: 300vh; }
+  .giant span { font-size: 26vw; margin-top: -30vh; }
+  .svc-anchor { left: 14%; right: 14%; top: 14%; bottom: 60%; }
+  .chips { position: absolute; left: var(--m); right: var(--m); top: 45%; bottom: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .chips li { position: static; min-width: 0; padding: 8px 10px 9px; }
+  .chips li::before, .chips li > span:last-child { display: none; }
+  .chips b { font-size: 15px; line-height: 1.25; }
+  .svc-tabs { grid-column: 1 / -1; grid-row: 1; justify-content: start; gap: 0 14px; }
+  .tab { font-size: 17px; }
+  .svc-offer { grid-row: 2; }
+  .svc-bar { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .cells > div { padding: 16px 6px 20px; }
   .cells .mono { font-size: 9px; }
   .cells strong { font-size: 22px; }
@@ -373,49 +397,22 @@ h1, h2, h3, p { margin: 0; }
     <div class="grid title"><h2><span class="pill" style="margin-right:16px; vertical-align:.9em">4</span>Услуги</h2>
       <p class="aside">Один подрядчик на климат, воздух и электрику: проект, монтаж и обслуживание.</p></div>
   </section>
-  <section class="svc" id="svc" data-scene="split" data-ry="-0.4" data-anchor=".svc-anchor">
-    <div class="grid svc-grid">
-      <div class="svc-left">
-        <div class="tabs" role="tablist" aria-label="Направления">
-          <button class="tab" role="tab" id="t1" aria-controls="p1" aria-selected="true" data-shape="split">Кондиционеры</button>
-          <button class="tab" role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1" data-shape="recup">Вентиляция</button>
-          <button class="tab" role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1" data-shape="panel">Электрика</button>
-        </div>
-        <div class="panel" role="tabpanel" id="p1" aria-labelledby="t1">
-          <p class="lede">Подберём модель по площади и режиму, смонтируем за день и покажем управление.</p>
-          <ul class="works">
-            <li><b>Сплит и мультисплит</b><span>квартиры и офисы</span></li>
-            <li><b>Канальные</b><span>скрыты в потолке</span></li>
-            <li><b>Мобильные и оконные</b><span>для аренды</span></li>
-            <li><b>Обслуживание</b><span>чистка, ремонт</span></li>
-          </ul>
-          <div class="svc-cta"><div><span class="mono">Монтаж сплит-системы</span><b>от XX XXX ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
-        </div>
-        <div class="panel" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
-          <p class="lede">Свежий воздух без сквозняков и шума — считаем воздухообмен под ваше помещение.</p>
-          <ul class="works">
-            <li><b>Проектирование</b><span>расчёт и схема</span></li>
-            <li><b>Приток и вытяжка</b><span>тихие системы</span></li>
-            <li><b>Рекуператоры</b><span>возврат тепла</span></li>
-            <li><b>Обслуживание</b><span>фильтры, чистка</span></li>
-          </ul>
-          <div class="svc-cta"><div><span class="mono">Проект вентиляции</span><b>от XX XXX ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
-        </div>
-        <div class="panel" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
-          <p class="lede">Электрика, к которой не придётся возвращаться: защита в щите и проводка по схеме.</p>
-          <ul class="works">
-            <li><b>Электрощит</b><span>автоматы, УЗО</span></li>
-            <li><b>Проводка</b><span>новостройки, ремонт</span></li>
-            <li><b>Освещение</b><span>LED, точечный свет</span></li>
-            <li><b>Розетки и умный дом</b><span>под ключ</span></li>
-          </ul>
-          <div class="svc-cta"><div><span class="mono">Сборка электрощита</span><b>от XX XXX ₽</b></div><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div>
-        </div>
-      </div>
-      <div class="svc-visual">
-        <span class="mono brk tl" id="svcTag">сплит-система</span><span class="mono brk tr" id="svcIdx">01 / 03</span>
+  <section class="svc" id="svc" data-scene="split" data-anchor=".svc-anchor" aria-label="Три направления">
+    <div class="svc-track" id="svcTrack">
+      <div class="sticky svc-stage" id="svcStage" data-k="0">
+        <div class="tint t0"></div><div class="tint t1"></div><div class="tint t2"></div>
+        <div class="giant" aria-hidden="true"><span>Климат</span><span>Воздух</span><span>Ток</span></div>
         <div class="svc-anchor" aria-hidden="true"></div>
-        <span class="mono brk bl">3D</span><span class="mono brk br">climate solution pro</span>
+        <ul class="chips" id="chips" aria-live="polite"></ul>
+        <div class="grid svc-bar">
+          <div class="svc-offer"><p class="lede" id="svcLede"></p><div class="row"><b id="svcPrice"></b><a class="btn btn-ink" href="#contact">Рассчитать <i>↗</i></a></div></div>
+          <div class="svc-tabs" role="tablist" aria-label="Направления">
+            <button class="tab" role="tab" aria-selected="true" data-i="0"><span class="mono">01</span>Кондиционеры</button>
+            <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-i="1"><span class="mono">02</span>Вентиляция</button>
+            <button class="tab" role="tab" aria-selected="false" tabindex="-1" data-i="2"><span class="mono">03</span>Электрика</button>
+            <div class="svc-prog"><i id="svcProg"></i></div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -571,13 +568,32 @@ h1, h2, h3, p { margin: 0; }
   }));
   addEventListener('resize', drawPin);
 
-  /* tabs */
-  const tabs = [...document.querySelectorAll('[role="tab"]')];
-  const svc = document.getElementById('svc'), svcTag = document.getElementById('svcTag'), svcIdx = document.getElementById('svcIdx');
-  const SVC_TAG = { split: 'сплит-система', recup: 'рекуператор', panel: 'электрощит' };
+  /* services stage */
+  const tabs = [...document.querySelectorAll('.svc-tabs [role="tab"]')];
+  const svc = document.getElementById('svc'), svcStage = document.getElementById('svcStage'), svcTrack = document.getElementById('svcTrack');
+  const chips = document.getElementById('chips'), svcLede = document.getElementById('svcLede'), svcPrice = document.getElementById('svcPrice'), svcProg = document.getElementById('svcProg');
+  const SVC = [
+    { shape: 'split', lede: 'Подберём модель по площади, смонтируем за день и покажем управление.', price: 'от XX XXX ₽',
+      w: [['Сплит и мультисплит', 'квартиры и офисы'], ['Канальные', 'скрыты в потолке'], ['Мобильные и оконные', 'для аренды'], ['Обслуживание', 'чистка и ремонт']] },
+    { shape: 'recup', lede: 'Свежий воздух без сквозняков и шума — считаем воздухообмен под помещение.', price: 'от XX XXX ₽',
+      w: [['Проектирование', 'расчёт и схема'], ['Приток и вытяжка', 'тихие системы'], ['Рекуператоры', 'возврат тепла'], ['Обслуживание', 'фильтры и чистка']] },
+    { shape: 'panel', lede: 'Электрика, к которой не придётся возвращаться: защита в щите и проводка по схеме.', price: 'от XX XXX ₽',
+      w: [['Электрощит', 'автоматы и УЗО'], ['Проводка', 'новостройки и ремонт'], ['Освещение', 'LED и точечный свет'], ['Розетки и умный дом', 'под ключ']] }
+  ];
+  let svcK = -1;
+  function setSvc(k) {
+    if (k === svcK) return; svcK = k;
+    const d = SVC[k];
+    svcStage.dataset.k = k; svc.dataset.scene = d.shape;
+    tabs.forEach((x, i) => { const on = i === k; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; });
+    svcLede.textContent = d.lede; svcPrice.textContent = d.price;
+    chips.classList.remove('in');
+    chips.innerHTML = d.w.map(([b, t], i) => `<li class="p${i}${i % 2 ? '' : ' r'}" style="--d:${(.15 + i * .08).toFixed(2)}s"><span class="mono">0${i + 1}</span><b>${b}</b><span>${t}</span></li>`).join('');
+    requestAnimationFrame(() => requestAnimationFrame(() => chips.classList.add('in')));
+  }
   function select(tab) {
-    tabs.forEach((x, i) => { const on = x === tab; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; document.getElementById(x.getAttribute('aria-controls')).hidden = !on; if (on) svcIdx.textContent = `0${i + 1} / 03`; });
-    svc.dataset.scene = tab.dataset.shape; svcTag.textContent = SVC_TAG[tab.dataset.shape];
+    const i = +tab.dataset.i, top = svcTrack.getBoundingClientRect().top + scrollY, span = svcTrack.offsetHeight - innerHeight;
+    scrollTo({ top: top + span * ((i + .5) / 3), behavior: reduce ? 'auto' : 'smooth' }); setSvc(i);
   }
   tabs.forEach((x, i) => {
     x.addEventListener('click', () => select(x));
@@ -636,6 +652,7 @@ h1, h2, h3, p { margin: 0; }
       const n = Math.round(p * words.length * 1.1);
       words.forEach((w, i) => w.classList.toggle('on', i < n));
     }
+    const vp = prog(svcTrack); setSvc(reduce ? svcK < 0 ? 0 : svcK : Math.min(2, Math.floor(vp * 3))); svcProg.style.width = (vp * 100).toFixed(1) + '%';
     const sp = prog(stdTrack); setStd(reduce ? 3 : Math.min(3, Math.floor(sp * 4)));
     const ep = prog(equipTrack);
     setEquip(Math.min(4, Math.floor(ep * 5)));
@@ -643,7 +660,7 @@ h1, h2, h3, p { margin: 0; }
   }
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
-  setStd(0); onScroll();
+  setStd(0); setSvc(0); onScroll();
 
   /* WebGL (from V4) */
   const canvas = document.getElementById('gl');
