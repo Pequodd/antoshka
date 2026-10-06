@@ -140,9 +140,16 @@ h1, h2, h3, p { margin: 0; }
 .chips .mono { font-size: 10px; line-height: 1.4; }
 .chips .p0 { left: 6%; top: 34%; } .chips .p1 { right: 6%; top: 40%; } .chips .p2 { left: 9%; top: 58%; }
 .st-bar { position: absolute; z-index: 3; left: 0; right: 0; bottom: 28px; align-items: end; row-gap: 20px; }
-.st-offer { grid-column: 1 / 6; display: grid; gap: 10px; }
-.st-offer .lede { font-weight: 300; font-size: clamp(22px, 1.9vw, 30px); line-height: 1.22; letter-spacing: -.025em; max-width: 28ch; }
-.st-tabs { grid-column: 7 / -1; display: grid; grid-template-columns: repeat(4, auto); justify-content: end; gap: 0 28px; }
+.st-offer { grid-column: 1 / 8; justify-self: start; max-width: 100%; position: relative; display: grid; grid-template-columns: auto 1fr; gap: 0 24px; align-items: start; padding: 22px 30px 26px 26px;
+  background: rgba(255,255,255,.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(36,54,63,.08); border-radius: 8px; box-shadow: 0 18px 50px rgba(36,54,63,.10); }
+.st-offer::before { content: ""; position: absolute; left: -1px; top: 22px; bottom: 26px; width: 3px; border-radius: 0 2px 2px 0; background: var(--orange); }
+.st-num { font-weight: 300; font-size: clamp(56px, 5vw, 84px); line-height: .8; letter-spacing: -.06em; color: var(--orange); font-variant-numeric: tabular-nums; }
+.st-txt { display: grid; gap: 10px; }
+.st-txt .mono { color: var(--muted); }
+.st-offer .lede { margin: 0; font-weight: 400; font-size: clamp(22px, 1.95vw, 31px); line-height: 1.2; letter-spacing: -.03em; color: var(--ink); max-width: 30ch; }
+.st-num, .st-txt { transition: opacity .22s ease, transform .35s cubic-bezier(.2,.7,.2,1); }
+.st-offer.swap .st-num, .st-offer.swap .st-txt { opacity: 0; transform: translateY(10px); }
+.st-tabs { grid-column: 8 / -1; display: grid; grid-template-columns: repeat(4, auto); justify-content: end; gap: 0 28px; }
 .sttab { all: unset; cursor: pointer; display: grid; gap: 2px; font-weight: 300; font-size: clamp(20px, 1.6vw, 26px); letter-spacing: -.025em; color: rgba(36,54,63,.38); transition: color .25s; }
 .sttab .mono { color: inherit; font-size: 10px; }
 .sttab:hover { color: var(--muted); }
@@ -294,7 +301,10 @@ h1, h2, h3, p { margin: 0; }
   .chips b { font-size: 15px; }
   .st-tabs { grid-column: 1 / -1; grid-row: 1; justify-content: start; gap: 0 14px; }
   .sttab { font-size: 16px; }
-  .st-offer { grid-row: 2; }
+  .st-offer { grid-row: 2; grid-column: 1 / -1; gap: 0 14px; padding: 14px 16px 16px 16px; }
+  .st-offer::before { top: 14px; bottom: 16px; }
+  .st-num { font-size: 44px; }
+  .st-txt { gap: 6px; }
   .st-offer .lede { font-size: 19px; }
   .st-bar { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .svc-visual { grid-row: 1; min-height: 42vh; }
@@ -366,7 +376,7 @@ h1, h2, h3, p { margin: 0; }
         <div class="room-anchor" aria-hidden="true"></div>
         <ul class="chips" id="stChips" aria-live="polite"></ul>
         <div class="grid st-bar">
-          <div class="st-offer"><span class="mono brk" id="stKicker">шаг 01</span><p class="lede" id="stLede"></p></div>
+          <div class="st-offer" id="stOffer"><div class="st-num" id="stNum">01</div><div class="st-txt"><span class="mono" id="stKicker">шаг 01 из 04</span><p class="lede" id="stLede" aria-live="polite"></p></div></div>
           <div class="st-tabs" role="tablist" aria-label="Этапы монтажа">
             <button class="sttab" role="tab" aria-selected="true" data-i="0"><span class="mono">01</span>Кронштейн</button>
             <button class="sttab" role="tab" aria-selected="false" tabindex="-1" data-i="1"><span class="mono">02</span>Трасса</button>
@@ -557,12 +567,14 @@ h1, h2, h3, p { margin: 0; }
   const stdTrack = document.getElementById('stdTrack'), stStage = document.getElementById('stStage'), stChips = document.getElementById('stChips');
   const stLede = document.getElementById('stLede'), stKicker = document.getElementById('stKicker'), stProg = document.getElementById('stProg');
   const stTabs = [...document.querySelectorAll('.sttab')];
-  let si = -1, stdP = 0;
+  const stOffer = document.getElementById('stOffer'), stNum = document.getElementById('stNum'), ST_NAMES = ['разметка и кронштейн', 'блок и трасса', 'вакуум', 'запуск'];
+  let si = -1, stdP = 0, si0 = false, stSwapT = 0;
   function setStd(k) {
     if (k === si) return; si = k;
     stStage.dataset.k = k;
     stTabs.forEach((x, i) => { const on = i === k; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; });
-    stKicker.textContent = `шаг 0${k + 1} из 04`; stLede.textContent = STEPS[k].lede;
+    const fill = () => { stNum.textContent = `0${k + 1}`; stKicker.textContent = `шаг 0${k + 1} из 04 · ${ST_NAMES[k]}`; stLede.textContent = STEPS[k].lede; stOffer.classList.remove('swap'); };
+    if (si0) { stOffer.classList.add('swap'); clearTimeout(stSwapT); stSwapT = setTimeout(fill, reduce ? 0 : 200); } else { fill(); si0 = true; }
     stChips.classList.remove('in');
     stChips.innerHTML = STEPS[k].c.map(([b, t], i) => `<li class="p${i}${i === 1 ? ' l' : ''}" style="--d:${(.15 + i * .08).toFixed(2)}s"><span class="mono">0${i + 1}</span><b>${b.replace('[X]', '<span class="ph">[X]</span>')}</b><span>${t.replace('[X]', '<span class="ph">[X]</span>')}</span></li>`).join('');
     requestAnimationFrame(() => requestAnimationFrame(() => stChips.classList.add('in')));
