@@ -122,42 +122,37 @@ h1, h2, h3, p { margin: 0; }
 .giant span { grid-area: 1 / 1; margin-top: -14vh; font-weight: 300; font-size: clamp(96px, 15vw, 300px); letter-spacing: -.07em; line-height: 1; color: rgba(255,255,255,.92);
   -webkit-text-stroke: 1px rgba(36,54,63,.13); opacity: 0; transform: translateY(40px) scale(.97); transition: opacity .7s ease, transform .9s cubic-bezier(.2,.7,.2,1); }
 .st-stage[data-k="0"] .giant span:nth-child(1), .st-stage[data-k="1"] .giant span:nth-child(2), .st-stage[data-k="2"] .giant span:nth-child(3), .st-stage[data-k="3"] .giant span:nth-child(4) { opacity: 1; transform: none; }
-.room-anchor { position: absolute; left: 22%; right: 22%; top: 31%; bottom: 19%; }
+.room-anchor { position: absolute; left: 17%; right: 17%; top: 31%; bottom: 9%; }
 .std { border-top: 1px solid var(--line); margin-inline: 0; }
 .st-head { position: absolute; z-index: 3; left: 0; right: 0; top: clamp(76px, 10vh, 104px); align-items: end; }
 .st-head h2 { grid-column: 1 / 8; margin: 0; display: flex; align-items: center; gap: 16px; font-weight: 300; font-size: clamp(44px, 5vw, 80px); line-height: .95; letter-spacing: -.05em; }
 .st-head .pill { grid-column: auto; justify-self: auto; letter-spacing: 0; }
 .st-head .aside { grid-column: 9 / 12; margin: 0; font-size: 16px; color: var(--muted); max-width: 36ch; }
-.chips { position: absolute; inset: 0; z-index: 3; list-style: none; margin: 0; padding: 0; pointer-events: none; }
-.chips li { position: absolute; display: grid; gap: 2px; padding: 12px 16px 14px; background: rgba(255,255,255,.86); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(36,54,63,.08); border-radius: 6px; box-shadow: 0 10px 30px rgba(36,54,63,.08); min-width: 220px;
-  opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .6s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
-.chips.in li { opacity: 1; transform: none; }
-.chips li::before { content: ""; position: absolute; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; top: 18px; right: -16px; box-shadow: 0 0 0 4px rgba(244,121,32,.18); }
-.chips li.l::before { right: auto; left: -16px; }
-.chips b { font-weight: 400; font-size: 19px; letter-spacing: -.015em; }
-.chips span { font-size: 14px; color: var(--muted); }
-.chips .mono { font-size: 10px; line-height: 1.4; }
-.chips .p0 { left: 6%; top: 34%; } .chips .p1 { right: 6%; top: 40%; } .chips .p2 { left: 9%; top: 58%; }
-.st-bar { position: absolute; z-index: 3; left: 0; right: 0; bottom: 28px; align-items: end; row-gap: 20px; }
-.st-offer { grid-column: 1 / 8; justify-self: start; max-width: 100%; position: relative; display: grid; grid-template-columns: auto 1fr; gap: 0 24px; align-items: start; padding: 22px 30px 26px 26px;
-  background: rgba(255,255,255,.9); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(36,54,63,.08); border-radius: 8px; box-shadow: 0 18px 50px rgba(36,54,63,.10); }
-.st-offer::before { content: ""; position: absolute; left: -1px; top: 22px; bottom: 26px; width: 3px; border-radius: 0 2px 2px 0; background: var(--orange); }
-.st-num { font-weight: 300; font-size: clamp(56px, 5vw, 84px); line-height: .8; letter-spacing: -.06em; color: var(--orange); font-variant-numeric: tabular-nums; }
-.st-txt { display: grid; gap: 10px; }
-.st-txt .mono { color: var(--muted); }
-.st-offer .lede { margin: 0; font-weight: 400; font-size: clamp(22px, 1.95vw, 31px); line-height: 1.2; letter-spacing: -.03em; color: var(--ink); max-width: 30ch; }
-.st-num, .st-txt { transition: opacity .22s ease, transform .35s cubic-bezier(.2,.7,.2,1); }
-.st-offer.swap .st-num, .st-offer.swap .st-txt { opacity: 0; transform: translateY(10px); }
-.st-tabs { grid-column: 8 / -1; display: grid; grid-template-columns: repeat(4, auto); justify-content: end; gap: 0 28px; }
-.sttab { all: unset; cursor: pointer; display: grid; gap: 2px; font-weight: 300; font-size: clamp(20px, 1.6vw, 26px); letter-spacing: -.025em; color: rgba(36,54,63,.38); transition: color .25s; }
-.sttab .mono { color: inherit; font-size: 10px; }
-.sttab:hover { color: var(--muted); }
-.sttab[aria-selected="true"] { color: var(--ink); }
-.sttab[aria-selected="true"] .mono { color: var(--orange-ink); }
-.sttab:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; border-radius: 2px; }
-.st-prog { grid-column: 1 / -1; height: 2px; background: rgba(36,54,63,.12); margin-top: 14px; }
-.st-prog i { display: block; height: 100%; width: 0; background: var(--ink); }
+.st-bar { position: absolute; z-index: 3; left: 0; right: 0; bottom: 28px; align-items: end; row-gap: 0; }
+.st-prog { grid-column: 1 / -1; height: 1px; background: var(--line); }
+.st-prog i { display: block; height: 2px; margin-top: -.5px; width: 0; background: var(--orange); }
+.st-facts { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.st-facts li { display: grid; gap: 4px; align-content: start; padding: 18px 24px 0 0; opacity: 0; transform: translateY(10px);
+  transition: opacity .45s ease, transform .55s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
+.st-facts li + li { padding-left: 24px; border-left: 1px solid var(--line); }
+.st-facts.in li { opacity: 1; transform: none; }
+.st-facts .mono { font-size: 10px; color: var(--orange-ink); }
+.st-facts b { font-weight: 400; font-size: clamp(18px, 1.35vw, 22px); letter-spacing: -.02em; }
+.st-facts li > span:last-child { font-size: 14px; color: var(--muted); }
+/* tracked callout: pinned to the 3D object of the current step */
+.st-lead { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; overflow: visible; }
+.st-lead line { stroke: var(--ink); stroke-width: 1; stroke-dasharray: 3 4; opacity: .45; }
+.st-dot { position: absolute; z-index: 3; left: 0; top: 0; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 3px #fff, 0 0 0 9px rgba(244,121,32,.25), 0 2px 8px rgba(36,54,63,.3); pointer-events: none; }
+.st-dot::after { content: ""; position: absolute; inset: -5px; border-radius: 50%; border: 1px solid var(--orange); animation: stPing 1.8s ease-out infinite; }
+@keyframes stPing { from { transform: scale(1); opacity: .9; } to { transform: scale(3.2); opacity: 0; } }
+.st-call { position: absolute; z-index: 3; left: 0; top: 0; width: min(340px, calc(100vw - 32px)); display: grid; gap: 8px; padding: 16px 18px 18px;
+  background: rgba(255,255,255,.93); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(36,54,63,.08); border-radius: 8px;
+  box-shadow: 0 14px 40px rgba(36,54,63,.12); transition: opacity .25s ease; }
+.st-call .mono { color: var(--orange-ink); }
+.st-call p { margin: 0; font-size: 17px; line-height: 1.38; letter-spacing: -.01em; color: var(--ink); }
+.st-call.swap { opacity: 0; }
+.st-call:not(.ready), .st-call:not(.ready) ~ .st-dot, .st-lead:not(.ready) { opacity: 0; }
+.no-gl .st-call { opacity: 1 !important; left: var(--m); top: auto; bottom: 150px; }
 /* (old dial styles below are unused) */
 .dial-track { height: 300vh; }
 .sticky { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
@@ -291,21 +286,16 @@ h1, h2, h3, p { margin: 0; }
   .hero .anchor { top: 12%; bottom: 58%; }
   .std-track { height: 360vh; }
   .giant span { font-size: 22vw; margin-top: -34vh; }
-  .room-anchor { left: 2%; right: 2%; top: 26%; bottom: 38%; }
+  .room-anchor { left: 0; right: 0; top: 23%; bottom: 40%; }
+  .st-facts li { padding: 12px 8px 0 0; }
+  .st-facts li + li { padding-left: 10px; }
+  .st-facts b { font-size: 14px; line-height: 1.2; }
+  .st-facts li > span:last-child { display: none; }
+  .st-call { padding: 12px 14px 14px; gap: 6px; }
+  .st-call p { font-size: 15px; }
   .st-head { top: 68px; }
   .st-head h2 { grid-column: 1 / -1; font-size: 40px; gap: 12px; }
   .st-head .aside { display: none; }
-  .st-stage .chips { display: none; }
-  .chips li { position: static; min-width: 0; padding: 8px 10px 9px; }
-  .chips li::before, .chips li > span:last-child { display: none; }
-  .chips b { font-size: 15px; }
-  .st-tabs { grid-column: 1 / -1; grid-row: 1; justify-content: start; gap: 0 14px; }
-  .sttab { font-size: 16px; }
-  .st-offer { grid-row: 2; grid-column: 1 / -1; gap: 0 14px; padding: 14px 16px 16px 16px; }
-  .st-offer::before { top: 14px; bottom: 16px; }
-  .st-num { font-size: 44px; }
-  .st-txt { gap: 6px; }
-  .st-offer .lede { font-size: 19px; }
   .st-bar { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   .svc-visual { grid-row: 1; min-height: 42vh; }
   .svc-left { grid-row: 2; }
@@ -374,16 +364,12 @@ h1, h2, h3, p { margin: 0; }
         <div class="grid st-head"><h2><span class="pill">3</span>Монтаж</h2>
           <p class="aside">Каждый объект начинается со сметы и проекта. Листайте — монтажники пройдут все четыре этапа.</p></div>
         <div class="room-anchor" aria-hidden="true"></div>
-        <ul class="chips" id="stChips" aria-live="polite"></ul>
+        <svg class="st-lead" id="stLead" aria-hidden="true"><line id="stLine" x1="0" y1="0" x2="0" y2="0"/></svg>
+        <div class="st-call" id="stCall"><span class="mono" id="stKicker">шаг 01 из 04</span><p id="stLede" aria-live="polite"></p></div>
+        <span class="st-dot" id="stDot" aria-hidden="true"></span>
         <div class="grid st-bar">
-          <div class="st-offer" id="stOffer"><div class="st-num" id="stNum">01</div><div class="st-txt"><span class="mono" id="stKicker">шаг 01 из 04</span><p class="lede" id="stLede" aria-live="polite"></p></div></div>
-          <div class="st-tabs" role="tablist" aria-label="Этапы монтажа">
-            <button class="sttab" role="tab" aria-selected="true" data-i="0"><span class="mono">01</span>Кронштейн</button>
-            <button class="sttab" role="tab" aria-selected="false" tabindex="-1" data-i="1"><span class="mono">02</span>Трасса</button>
-            <button class="sttab" role="tab" aria-selected="false" tabindex="-1" data-i="2"><span class="mono">03</span>Вакуум</button>
-            <button class="sttab" role="tab" aria-selected="false" tabindex="-1" data-i="3"><span class="mono">04</span>Запуск</button>
-            <div class="st-prog"><i id="stProg"></i></div>
-          </div>
+          <div class="st-prog"><i id="stProg"></i></div>
+          <ul class="st-facts" id="stFacts"></ul>
         </div>
       </div>
     </div>
@@ -564,20 +550,18 @@ h1, h2, h3, p { margin: 0; }
     { lede: 'Вакуумным насосом убираем воздух и влагу из контура и проверяем герметичность.', c: [['Вакуум ≤ 500 мкм', 'по манометру'], ['Проверка утечек', 'выдержка [X] мин'], ['Без воздуха в контуре', 'компрессор живёт дольше']] },
     { lede: 'Запускаем, проверяем давление и температуру и показываем, как пользоваться пультом.', c: [['Давление и температура', 'на выходе'], ['Инструктаж', 'пульт и режимы'], ['Акт и гарантия', '[X] года по договору']] }
   ];
-  const stdTrack = document.getElementById('stdTrack'), stStage = document.getElementById('stStage'), stChips = document.getElementById('stChips');
+  const stdTrack = document.getElementById('stdTrack'), stStage = document.getElementById('stStage'), stFacts = document.getElementById('stFacts');
   const stLede = document.getElementById('stLede'), stKicker = document.getElementById('stKicker'), stProg = document.getElementById('stProg');
-  const stTabs = [...document.querySelectorAll('.sttab')];
-  const stOffer = document.getElementById('stOffer'), stNum = document.getElementById('stNum'), ST_NAMES = ['разметка и кронштейн', 'блок и трасса', 'вакуум', 'запуск'];
+  const stCall = document.getElementById('stCall'), stDot = document.getElementById('stDot'), stLead = document.getElementById('stLead'), stLine = document.getElementById('stLine'), ST_NAMES = ['разметка и кронштейн', 'блок и трасса', 'вакуум', 'запуск'];
   let si = -1, stdP = 0, si0 = false, stSwapT = 0;
   function setStd(k) {
     if (k === si) return; si = k;
     stStage.dataset.k = k;
-    stTabs.forEach((x, i) => { const on = i === k; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; });
-    const fill = () => { stNum.textContent = `0${k + 1}`; stKicker.textContent = `шаг 0${k + 1} из 04 · ${ST_NAMES[k]}`; stLede.textContent = STEPS[k].lede; stOffer.classList.remove('swap'); };
-    if (si0) { stOffer.classList.add('swap'); clearTimeout(stSwapT); stSwapT = setTimeout(fill, reduce ? 0 : 200); } else { fill(); si0 = true; }
-    stChips.classList.remove('in');
-    stChips.innerHTML = STEPS[k].c.map(([b, t], i) => `<li class="p${i}${i === 1 ? ' l' : ''}" style="--d:${(.15 + i * .08).toFixed(2)}s"><span class="mono">0${i + 1}</span><b>${b.replace('[X]', '<span class="ph">[X]</span>')}</b><span>${t.replace('[X]', '<span class="ph">[X]</span>')}</span></li>`).join('');
-    requestAnimationFrame(() => requestAnimationFrame(() => stChips.classList.add('in')));
+    const fill = () => { stKicker.textContent = `шаг 0${k + 1} из 04 · ${ST_NAMES[k]}`; stLede.textContent = STEPS[k].lede; stCall.classList.remove('swap'); };
+    if (si0) { stCall.classList.add('swap'); clearTimeout(stSwapT); stSwapT = setTimeout(fill, reduce ? 0 : 220); } else { fill(); si0 = true; }
+    stFacts.classList.remove('in');
+    stFacts.innerHTML = STEPS[k].c.map(([b, t], i) => `<li style="--d:${(.15 + i * .08).toFixed(2)}s"><span class="mono">0${i + 1}</span><b>${b.replace('[X]', '<span class="ph">[X]</span>')}</b><span>${t.replace('[X]', '<span class="ph">[X]</span>')}</span></li>`).join('');
+    requestAnimationFrame(() => requestAnimationFrame(() => stFacts.classList.add('in')));
   }
   /* snap: when scrolling stops inside the pinned scene, glide to the nearest finished step */
   const ST_SNAP = [.85, 1.93, 2.88, 3.7];
@@ -602,11 +586,6 @@ h1, h2, h3, p { margin: 0; }
   function queueSnap() { clearTimeout(snapT); snapT = setTimeout(doSnap, 'onscrollend' in window ? 400 : 160); }
   addEventListener('scroll', queueSnap, { passive: true });
   if ('onscrollend' in window) addEventListener('scrollend', () => { clearTimeout(snapT); doSnap(); });
-  stTabs.forEach((x, i) => {
-    const go = () => { const top = stdTrack.getBoundingClientRect().top + scrollY, span = stdTrack.offsetHeight - innerHeight; snapAt = performance.now(); scrollTo({ top: top + span * (ST_SNAP[i] / 4), behavior: reduce ? 'auto' : 'smooth' }); };
-    x.addEventListener('click', go);
-    x.addEventListener('keydown', e => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (d) { const n = stTabs[(i + d + 4) % 4]; n.focus(); n.click(); } });
-  });
 
   /* tabs */
   const tabs = [...document.querySelectorAll('[role="tab"]')];
@@ -1199,6 +1178,29 @@ h1, h2, h3, p { margin: 0; }
       }
       raGeo.attributes.position.needsUpdate = true; raGeo.attributes.color.needsUpdate = true;
     }
+    trackCallout(r);
+  }
+  // callout tracking: project the current step's object to the screen and hang the card beside the room
+  const stTgt = [bracket, unit, needle, unit], stOff = [[.45, 0, .02], [.55, .08, .17], [0, 0, 0], [-.3, -.17, .2]], stSide = [-1, 1, 1, -1], tv = new THREE.Vector3();
+  function trackCallout(r) {
+    const k = Math.max(0, si), sr = stStage.getBoundingClientRect(), W = sr.width, H = sr.height;
+    stTgt[k].localToWorld(tv.fromArray(stOff[k])); tv.project(camera);
+    const px = (tv.x + 1) / 2 * innerWidth - sr.left, py = (1 - tv.y) / 2 * innerHeight - sr.top;
+    const w = stCall.offsetWidth, h = stCall.offsetHeight, ax = r.left - sr.left, ay = r.top - sr.top, narrow = W < 760;
+    let x, y, lx, ly;
+    if (narrow) {
+      x = (W - w) / 2; y = Math.min(ay + r.height - 64, H - h - 190);
+      lx = Math.max(x + 16, Math.min(x + w - 16, px)); ly = y;
+    } else {
+      const side = stSide[k];
+      x = side < 0 ? Math.max(24, ax - 40 - w) : Math.min(W - w - 24, ax + r.width + 40);
+      y = Math.max(200, Math.min(H - h - 170, py - 36));
+      lx = side < 0 ? x + w : x; ly = y + 36;
+    }
+    stCall.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+    stDot.style.transform = `translate(${px.toFixed(1)}px, ${py.toFixed(1)}px)`;
+    stLine.setAttribute('x1', px.toFixed(1)); stLine.setAttribute('y1', py.toFixed(1)); stLine.setAttribute('x2', lx.toFixed(1)); stLine.setAttribute('y2', ly.toFixed(1));
+    if (!stCall.classList.contains('ready')) { stCall.classList.add('ready'); stLead.classList.add('ready'); }
   }
 
   requestAnimationFrame(frame);
