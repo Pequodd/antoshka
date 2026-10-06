@@ -518,9 +518,8 @@ html[data-hero="e"] .hero.open .offer .btn-soft { background: rgba(255,255,255,.
 html[data-hero="e"] .hero .price { transition: background .9s ease .6s, border-color .9s ease .6s; padding: 18px 20px; border-radius: 10px; border: 1px solid transparent; }
 html[data-hero="e"] .hero.open .price { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.2); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
 /* ---------- hero variant F: editorial split — offer on paper, film on the right half ---------- */
-.hero-split, .hero-tri { display: none; }
-html[data-hero="f"] .hero::before, html[data-hero="f"] .hero .word,
-html[data-hero="g"] .hero::before, html[data-hero="g"] .hero .word { display: none; }
+.hero-split { display: none; }
+html[data-hero="f"] .hero::before, html[data-hero="f"] .hero .word { display: none; }
 html[data-hero="f"] .hero-split { display: block; position: absolute; inset: 56px 0 0; z-index: 0; }
 html[data-hero="f"] .sp-media { position: absolute; top: 0; bottom: 0; right: 0; width: 50%; overflow: hidden; background: #1B2A31; clip-path: inset(0 0 100% 0); transition: clip-path 1.3s cubic-bezier(.76,0,.24,1); }
 html[data-hero="f"] .hero.open .sp-media { clip-path: inset(0 0 0 0); }
@@ -538,31 +537,11 @@ html[data-hero="f"] .hero .scroll { display: none; }
 html[data-hero="f"] .hero .price { color: #fff; padding: 18px 20px; border-radius: 10px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); opacity: 0; transition: opacity .6s ease 1.2s; }
 html[data-hero="f"] .hero.open .price { opacity: 1; }
 html[data-hero="f"] .hero .price .mono { color: rgba(255,255,255,.78); }
-/* ---------- hero variant G: three directions as tall photo columns ---------- */
-html[data-hero="g"] .hero { display: flex; flex-direction: column; padding-top: 72px; box-sizing: border-box; }
-html[data-hero="g"] .hero .foot { position: relative; }
-html[data-hero="g"] .hero-tri { display: flex; flex: 1; min-height: 0; gap: 8px; margin: 0 var(--m); position: relative; z-index: 1; }
-html[data-hero="g"] .hero-tri a { position: relative; flex: 1; min-width: 0; overflow: hidden; border-radius: 6px; color: #fff; text-decoration: none; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; padding: 20px;
-  clip-path: inset(100% 0 0 0 round 6px); transition: flex 1s cubic-bezier(.16,1,.3,1), clip-path 1.2s cubic-bezier(.76,0,.24,1) calc(var(--i) * .12s); }
-html[data-hero="g"] .hero.open .hero-tri a { clip-path: inset(0 0 0 0 round 6px); }
-html[data-hero="g"] .hero-tri a:hover, html[data-hero="g"] .hero-tri a:focus-visible { flex: 1.9; }
-html[data-hero="g"] .hero-tri a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
-html[data-hero="g"] .hero-tri img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; transform: scale(1.06); transition: transform 1.2s cubic-bezier(.16,1,.3,1); }
-html[data-hero="g"] .hero-tri a:hover img { transform: scale(1); }
-html[data-hero="g"] .hero-tri a::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(18,26,30,0) 40%, rgba(18,26,30,.72) 100%); }
-html[data-hero="g"] .hero-tri span { color: rgba(255,255,255,.8); }
-html[data-hero="g"] .hero-tri b { font-weight: 300; font-size: clamp(24px, 2.2vw, 36px); letter-spacing: -.03em; white-space: nowrap; }
-html[data-hero="g"] .hero .foot::before { margin-top: 20px; }
-html[data-hero="g"] .offer h1 { font-size: clamp(36px, 3.4vw, 54px); }
-html[data-hero="g"] .offer .offer-tags { display: none; }
-/* ---------- hero variant H: centred statement over a running ribbon of real objects ---------- */
-html[data-hero="f"] .offer h1 em, html[data-hero="g"] .offer h1 em { color: var(--orange-ink); }
-html[data-hero="f"] .offer .btn-ink, html[data-hero="g"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
+html[data-hero="f"] .offer h1 em { color: var(--orange-ink); }
+html[data-hero="f"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
 /* ---------- hero variant H: big Swiss type with a live film pill inside the headline ---------- */
-.h1-pill, .hero-deck, .hero-dark, .hero-kpi { display: none; }
-html[data-hero="h"] .hero::before, html[data-hero="h"] .hero .word,
-html[data-hero="i"] .hero .word,
-html[data-hero="j"] .hero::before, html[data-hero="j"] .hero .word { display: none; }
+.h1-pill { display: none; }
+html[data-hero="h"] .hero::before, html[data-hero="h"] .hero .word { display: none; }
 html[data-hero="h"] .hero .foot { top: 56px; align-content: center; padding-bottom: 0; }
 html[data-hero="h"] .hero .foot::before { display: none; }
 html[data-hero="h"] .offer { grid-column: 1 / -1; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); row-gap: 28px; }
@@ -583,49 +562,81 @@ html[data-hero="h"] .hero.open .h1-pill { width: 2.3em; }
 html[data-hero="h"] .h1-pill video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.3); transition: transform 2s cubic-bezier(.16,1,.3,1) .5s; }
 html[data-hero="h"] .hero.open .h1-pill video { transform: none; }
 html[data-hero="h"] .hero .anchor { display: none; }
-/* ---------- hero variant I: a self-shuffling deck of the three directions ---------- */
-html[data-hero="i"] .hero-deck { display: block; position: absolute; z-index: 2; right: calc(var(--m) + 36px); top: 116px; width: min(40vw, 600px); height: calc(100% - 330px); min-height: 300px; }
-html[data-hero="i"] .dk { position: absolute; inset: 0; overflow: hidden; border-radius: 10px; color: #fff; text-decoration: none; display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; padding: 22px;
-  box-shadow: 0 30px 60px -30px rgba(36,54,63,.45); transition: transform .9s cubic-bezier(.16,1,.3,1), opacity .5s ease, filter .9s ease; }
-html[data-hero="i"] .dk img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; }
-html[data-hero="i"] .dk::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(18,26,30,0) 45%, rgba(18,26,30,.75) 100%); }
-html[data-hero="i"] .dk span { color: rgba(255,255,255,.8); }
-html[data-hero="i"] .dk b { font-weight: 300; font-size: clamp(26px, 2.4vw, 40px); letter-spacing: -.03em; }
-html[data-hero="i"] .dk:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
-html[data-hero="i"] .dk[data-p="0"] { z-index: 3; transform: none; }
-html[data-hero="i"] .dk[data-p="1"] { z-index: 2; transform: translate(18px, -18px) rotate(2.5deg) scale(.96); filter: brightness(.85); }
-html[data-hero="i"] .dk[data-p="2"] { z-index: 1; transform: translate(36px, -36px) rotate(5deg) scale(.92); filter: brightness(.7); }
-html[data-hero="i"] .dk.out { z-index: 4; transform: translate(-70%, 12%) rotate(-12deg); opacity: 0; }
-html[data-hero="i"] .dk-dots { position: absolute; left: 0; bottom: -34px; display: flex; gap: 14px; color: var(--faint); }
-html[data-hero="i"] .dk-dots span.on { color: var(--ink); }
-html[data-hero="i"] .offer h1 em { color: var(--orange-ink); }
-html[data-hero="i"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
-html[data-hero="i"] .hero .price, html[data-hero="i"] .hero .scroll, html[data-hero="i"] .hero .anchor { display: none; }
-html[data-hero="i"] .hero::before { height: calc(100% - 56px); }
-/* ---------- hero variant J: night product stage with key figures ---------- */
-html[data-hero="j"] .hero { background: linear-gradient(var(--bg) 0 56px, #0B233D 56px); }
-html[data-hero="j"] .hero-dark { display: block; position: absolute; top: 56px; right: 0; bottom: 0; width: 72%; z-index: 0; overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 34%); mask-image: linear-gradient(90deg, transparent 0%, #000 34%); opacity: 0; transition: opacity 1.4s ease; }
-html[data-hero="j"] .hero.open .hero-dark { opacity: 1; }
-html[data-hero="j"] .hero-dark video { width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; transform: scale(1.1) translateX(4%); transition: transform 2.6s cubic-bezier(.16,1,.3,1); }
-html[data-hero="j"] .hero.open .hero-dark video { transform: none; }
-html[data-hero="j"] .hero .foot { color: #fff; }
-html[data-hero="j"] .hero .foot::before { border-color: rgba(255,255,255,.16); }
-html[data-hero="j"] .hero .foot .mono, html[data-hero="j"] .offer p { color: rgba(255,255,255,.7); }
-html[data-hero="j"] .offer { grid-column: 1 / 7; }
-html[data-hero="j"] .offer h1 { font-size: clamp(42px, 4.2vw, 68px); }
-html[data-hero="j"] .offer h1 em { color: #FFB37A; }
-html[data-hero="j"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
-html[data-hero="j"] .hero .price, html[data-hero="j"] .hero .scroll, html[data-hero="j"] .hero .anchor { display: none; }
-html[data-hero="j"] .hero-kpi { display: grid; position: absolute; z-index: 2; right: var(--m); bottom: 28px; width: min(26vw, 380px); margin: 0; color: #fff; }
-html[data-hero="j"] .hero-kpi div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 12px 0; border-top: 1px solid rgba(255,255,255,.18);
-  opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .8s cubic-bezier(.16,1,.3,1); }
-html[data-hero="j"] .hero.open .hero-kpi div { opacity: 1; transform: none; }
-html[data-hero="j"] .hero.open .hero-kpi div:nth-child(2) { transition-delay: .1s; } html[data-hero="j"] .hero.open .hero-kpi div:nth-child(3) { transition-delay: .2s; } html[data-hero="j"] .hero.open .hero-kpi div:nth-child(4) { transition-delay: .3s; }
-html[data-hero="j"] .hero-kpi dt { color: rgba(255,255,255,.6); }
-html[data-hero="j"] .hero-kpi dd { margin: 0; font-weight: 300; font-size: clamp(22px, 1.9vw, 30px); letter-spacing: -.03em; }
-html[data-hero="j"] .hero-kpi div:last-child dd { color: #FFB37A; }
-html[data-hero="j"] .hero-vsw { background: rgba(255,255,255,.85); }
+/* ============ HERO ITERATIONS (html[data-iter="2"] layers over the base variant) ============ */
+.hero-dims, .hero-scale, .h1-pic, .h1-dot, .sp-cap { display: none; }
+.offer h1 .hw { display: inline-block; }
+html[data-hero="h"]:not([data-iter="2"]) .h1-pic { display: none; }
+/* A2 — the unit on drawing paper with dimension lines */
+html[data-hero="a"][data-iter="2"] .hero .word { display: none; }
+html[data-hero="a"][data-iter="2"] .hero::before { height: calc(100% - 56px); background:
+  linear-gradient(rgba(36,54,63,.07) 1px, transparent 1px) 0 0 / 24px 24px, linear-gradient(90deg, rgba(36,54,63,.07) 1px, transparent 1px) 0 0 / 24px 24px, #F4F6F7;
+  -webkit-mask-image: radial-gradient(75% 70% at 50% 35%, #000 40%, transparent 100%); mask-image: radial-gradient(75% 70% at 50% 35%, #000 40%, transparent 100%); }
+html[data-hero="a"][data-iter="2"] .hero-dims { display: block; position: absolute; inset: 0; z-index: 1; pointer-events: none; color: var(--ink); }
+.hero-dims .dm { position: absolute; }
+.hero-dims .dm-w { left: 26%; right: 26%; top: 17%; height: 0; border-top: 1px solid var(--ink); transform: scaleX(0); transition: transform 1s cubic-bezier(.65,0,.35,1) .3s; }
+.hero-dims .dm-w::before, .hero-dims .dm-w::after { content: ""; position: absolute; top: -7px; width: 1px; height: 13px; background: var(--ink); }
+.hero-dims .dm-w::before { left: 0; } .hero-dims .dm-w::after { right: 0; }
+.hero-dims .dm-w span { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); white-space: nowrap; background: #F4F6F7; padding: 0 8px; }
+.hero-dims .dm-h { left: 77%; top: 22%; bottom: 52%; width: 0; border-left: 1px solid var(--ink); transform: scaleY(0); transform-origin: 0 0; transition: transform .8s cubic-bezier(.65,0,.35,1) .9s; }
+.hero-dims .dm-h::before, .hero-dims .dm-h::after { content: ""; position: absolute; left: -7px; width: 13px; height: 1px; background: var(--ink); }
+.hero-dims .dm-h::before { top: 0; } .hero-dims .dm-h::after { bottom: 0; }
+.hero-dims .dm-h span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); white-space: nowrap; }
+.hero-dims .dm-n { position: absolute; display: flex; align-items: center; gap: 10px; opacity: 0; transition: opacity .6s ease; }
+.hero-dims .dm-n i { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(244,121,32,.2); }
+.hero-dims .n1 { left: var(--m); top: 24%; transition-delay: 1.4s; } .hero-dims .n2 { left: var(--m); top: 31%; transition-delay: 1.55s; } .hero-dims .n3 { left: var(--m); top: 38%; transition-delay: 1.7s; }
+.hero-dims .dm-n::after { content: ""; width: 9vw; border-top: 1px dashed rgba(36,54,63,.35); order: -1; display: none; }
+html[data-hero="a"][data-iter="2"] .hero.open .dm-w { transform: none; }
+html[data-hero="a"][data-iter="2"] .hero.open .dm-h { transform: none; }
+html[data-hero="a"][data-iter="2"] .hero.open .dm-n { opacity: 1; }
+/* B2 — a thermometer ruler: the marker slides from +32° to +22° */
+html[data-hero="b"][data-iter="2"] .hero-temp, html[data-hero="b"][data-iter="2"] .hero-read { display: none; }
+html[data-hero="b"][data-iter="2"] .hero-scale { display: block; position: absolute; z-index: 3; left: var(--m); right: var(--m); top: 128px; --pos: calc((var(--tc, 32) - 18) / 14 * 100%); }
+.sc-track { position: relative; height: 34px; background: repeating-linear-gradient(90deg, rgba(36,54,63,.35) 0 1px, transparent 1px calc(100% / 28)) bottom / 100% 10px no-repeat,
+  repeating-linear-gradient(90deg, rgba(36,54,63,.6) 0 1px, transparent 1px calc(100% / 7)) bottom / 100% 18px no-repeat; border-bottom: 1px solid var(--ink); }
+.sc-track::before { content: ""; position: absolute; left: var(--pos); right: 0; bottom: -2px; height: 3px; background: linear-gradient(90deg, #2E6B86, #F47920); }
+.sc-mark { position: absolute; left: var(--pos); bottom: -6px; width: 1px; height: 52px; background: var(--ink); }
+.sc-mark::after { content: ""; position: absolute; left: -5px; bottom: 0; width: 11px; height: 11px; border-radius: 50%; background: #A8490D; transition: background 3.4s ease .4s; }
+html[data-hero="b"] .hero.cooled .sc-mark::after { background: #2E6B86; }
+.sc-mark b { position: absolute; bottom: 58px; left: 0; transform: translateX(-50%); font-weight: 300; font-size: clamp(40px, 4vw, 64px); line-height: 1; letter-spacing: -.05em; font-variant-numeric: tabular-nums; color: #A8490D; transition: color 3.4s ease .4s; white-space: nowrap; }
+html[data-hero="b"] .hero.cooled .sc-mark b { color: #2E6B86; }
+.sc-lab { display: flex; justify-content: space-between; margin-top: 10px; color: var(--muted); }
+.sc-lab span:first-child { margin-left: -4px; } .sc-lab span:last-child { margin-right: -4px; }
+.sc-cap { display: flex; justify-content: space-between; margin-top: 4px; color: var(--faint); }
+html[data-hero="b"][data-iter="2"] .hero .anchor { top: 30%; bottom: 40%; }
+/* E2 — the film bursts out of the call-to-action; the offer stays on screen */
+html[data-hero="e"][data-iter="2"] .hero-win { clip-path: circle(0% at var(--cx, 50%) var(--cy, 42%)); transition: clip-path 1.8s cubic-bezier(.7,0,.2,1); }
+html[data-hero="e"][data-iter="2"] .hero.open .hero-win { clip-path: circle(150% at var(--cx, 50%) var(--cy, 42%)); }
+html[data-hero="e"][data-iter="2"] .hero-iris { left: var(--cx, 50%); top: calc(56px + var(--cy, 42%)); }
+html[data-hero="e"][data-iter="2"] .offer > * { opacity: 1; transform: none; transition: none; }
+html[data-hero="e"][data-iter="2"] .offer .btn-ink { animation: ctaPulse 1.1s ease-in-out 2; }
+@keyframes ctaPulse { 50% { box-shadow: 0 0 0 10px rgba(244,121,32,.25); } }
+/* F2 — offer on top, figures at the foot, film in an inset card with a live caption */
+html[data-hero="f"][data-iter="2"] .sp-media { top: 16px; bottom: 24px; right: var(--m); width: calc(50% - var(--m) * 1.5); border-radius: 12px; clip-path: inset(0 0 0 100% round 12px); }
+html[data-hero="f"][data-iter="2"] .hero.open .sp-media { clip-path: inset(0 0 0 0 round 12px); }
+html[data-hero="f"][data-iter="2"] .sp-cap { display: grid; position: absolute; z-index: 1; left: 20px; right: 20px; bottom: 18px; gap: 4px; color: rgba(255,255,255,.85); }
+html[data-hero="f"][data-iter="2"] .sp-cap span + span { color: rgba(255,255,255,.6); }
+html[data-hero="f"][data-iter="2"] .sp-cap i { display: block; height: 2px; margin-top: 10px; background: rgba(255,255,255,.25); position: relative; overflow: hidden; }
+html[data-hero="f"][data-iter="2"] .sp-cap i::after { content: ""; position: absolute; inset: 0; background: var(--orange); transform-origin: 0 0; animation: capRun 6.08s linear infinite; }
+@keyframes capRun { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+html[data-hero="f"][data-iter="2"] .sp-stats { top: auto; bottom: 28px; }
+html[data-hero="f"][data-iter="2"] .hero .foot { top: 96px; bottom: auto; }
+html[data-hero="f"][data-iter="2"] .hero .foot::before, html[data-hero="f"][data-iter="2"] .hero .price { display: none; }
+html[data-hero="f"][data-iter="2"] .offer h1 { font-size: clamp(44px, 4.4vw, 72px); }
+/* H2 — words rise one by one, three different inserts inside the headline */
+html[data-hero="h"][data-iter="2"] .offer h1 .hw { overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+html[data-hero="h"][data-iter="2"] .offer h1 .hw > span { display: inline-block; transform: translateY(105%); transition: transform 1s cubic-bezier(.16,1,.3,1); }
+html[data-hero="h"][data-iter="2"] .hero.open .offer h1 .hw > span { transform: none; }
+html[data-hero="h"][data-iter="2"] .hero.open .offer h1 .hw:nth-of-type(2) > span { transition-delay: .08s; }
+html[data-hero="h"][data-iter="2"] .hero.open .offer h1 .hw:nth-of-type(3) > span { transition-delay: .16s; }
+html[data-hero="h"][data-iter="2"] .hero.open .offer h1 em .hw > span { transition-delay: .24s; }
+html[data-hero="h"][data-iter="2"] .h1-pic { display: inline-block; }
+html[data-hero="h"][data-iter="2"] .h1-pic img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.3); transition: transform 2s cubic-bezier(.16,1,.3,1) .7s; }
+html[data-hero="h"][data-iter="2"] .hero.open .h1-pic { width: 1.5em; transition-delay: .6s; }
+html[data-hero="h"][data-iter="2"] .hero.open .h1-pic img { transform: none; }
+html[data-hero="h"][data-iter="2"] .h1-dot { display: inline-grid; place-items: center; vertical-align: .02em; width: .8em; height: .8em; margin-left: .12em; border-radius: 50%; background: var(--orange); color: var(--ink);
+  font-size: .5em; transform: scale(0) rotate(-90deg); transition: transform .8s cubic-bezier(.3,1.6,.5,1) 1.1s; }
+html[data-hero="h"][data-iter="2"] .hero.open .h1-dot { transform: none; }
+html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px); max-width: none; }
 /* ============ LAYOUT SYSTEM ============
    12-col grid, side margin --m.
    G1 = column 1 (left edge): section titles and primary content.
@@ -768,32 +779,28 @@ html[data-hero="j"] .hero-vsw { background: rgba(255,255,255,.85); }
   html[data-hero="b"] .hero-read { display: none; }
   html[data-hero="b"] .offer h1 { font-size: 38px; }
   .hero-vsw { top: 64px; }
-  html[data-hero="e"] .offer h1, html[data-hero="f"] .offer h1, html[data-hero="g"] .offer h1 { font-size: 34px; }
+  html[data-hero="e"] .offer h1, html[data-hero="f"] .offer h1 { font-size: 34px; }
   .hero .price, .hero .scroll { display: none; }
   html[data-hero="f"] .sp-media { width: 100%; height: 34%; bottom: auto; }
   html[data-hero="f"] .sp-stats { display: none; }
   html[data-hero="f"] .hero .foot::before { width: auto; }
   html[data-hero="f"] .offer { grid-column: 1 / -1; }
-  html[data-hero="g"] .hero-tri { flex-direction: column; gap: 6px; }
-  html[data-hero="g"] .hero-tri a { padding: 10px 14px; flex-direction: row; align-items: flex-end; justify-content: space-between; }
-  html[data-hero="g"] .hero-tri a:hover, html[data-hero="g"] .hero-tri a:focus-visible { flex: 1; }
-  html[data-hero="g"] .hero-tri b { font-size: 20px; }
-  html[data-hero="g"] .offer p { display: none; }
   html[data-hero="e"] .hero .price { justify-items: start; text-align: left; }
   html[data-hero="h"] .offer h1 { font-size: 46px; }
   html[data-hero="h"] .offer p { display: none; }
   html[data-hero="h"] .offer h1 { padding-bottom: 20px; }
   html[data-hero="h"] .offer p, html[data-hero="h"] .offer .offer-tags, html[data-hero="h"] .offer .row { grid-column: 1 / -1; justify-content: flex-start; }
   html[data-hero="h"] .offer { row-gap: 18px; }
-  html[data-hero="i"] .hero-deck { left: var(--m); right: calc(var(--m) + 24px); width: auto; top: 118px; height: 27vh; min-height: 0; }
-  html[data-hero="i"] .dk-dots { display: none; }
-  html[data-hero="i"] .dk { padding: 14px; }
-  html[data-hero="i"] .dk[data-p="1"] { transform: translate(10px, -10px) rotate(2deg) scale(.96); }
-  html[data-hero="i"] .dk[data-p="2"] { transform: translate(20px, -20px) rotate(4deg) scale(.92); }
-  html[data-hero="i"] .offer h1, html[data-hero="j"] .offer h1 { font-size: 34px; }
-  html[data-hero="j"] .hero-dark { width: 100%; height: 36%; bottom: auto; -webkit-mask-image: linear-gradient(180deg, #000 60%, transparent 100%); mask-image: linear-gradient(180deg, #000 60%, transparent 100%); }
-  html[data-hero="j"] .hero-kpi { display: none; }
-  html[data-hero="j"] .offer { grid-column: 1 / -1; }
+  html[data-hero="a"][data-iter="2"] .hero-dims { display: none; }
+  html[data-hero="b"][data-iter="2"] .hero-scale { top: 112px; }
+  html[data-hero="b"][data-iter="2"] .sc-cap span + span, html[data-hero="b"][data-iter="2"] .sc-lab span:nth-child(even) { visibility: hidden; }
+  html[data-hero="b"][data-iter="2"] .sc-mark b { font-size: 34px; }
+  html[data-hero="b"][data-iter="2"] .hero .anchor { top: 30%; bottom: 52%; }
+  html[data-hero="f"][data-iter="2"] .sp-media { top: 12px; bottom: auto; height: 32%; left: var(--m); width: auto; }
+  html[data-hero="f"][data-iter="2"] .sp-cap span + span { display: none; }
+  html[data-hero="f"][data-iter="2"] .hero .foot { top: auto; bottom: 0; }
+  html[data-hero="f"][data-iter="2"] .offer h1 { font-size: 34px; }
+  html[data-hero="h"][data-iter="2"] .offer h1 { font-size: 44px; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -805,9 +812,11 @@ html[data-hero="j"] .hero-vsw { background: rgba(255,255,255,.85); }
   .rv-track { grid-auto-columns: 86%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  html[data-hero="h"] .h1-pill, html[data-hero="h"] .h1-pill video, html[data-hero="i"] .dk, html[data-hero="j"] .hero-dark, html[data-hero="j"] .hero-dark video, html[data-hero="j"] .hero-kpi div { transition: none !important; }
+  .hero-dims *, .hero-dims .dm, .offer h1 .hw > span, .h1-pic, .h1-pic img, .h1-dot { transition: none !important; }
+  html[data-hero="f"][data-iter="2"] .sp-cap i::after, html[data-hero="e"][data-iter="2"] .offer .btn-ink { animation: none; }
+  html[data-hero="h"] .h1-pill, html[data-hero="h"] .h1-pill video { transition: none !important; }
   html[data-hero="e"] .hero-iris { display: none; }
-  html[data-hero="e"] .hero-win, html[data-hero="e"] .hero-win video, html[data-hero="e"] .offer > *, html[data-hero="f"] .sp-media, html[data-hero="f"] .sp-media video, html[data-hero="g"] .hero-tri a { transition: none !important; }
+  html[data-hero="e"] .hero-win, html[data-hero="e"] .hero-win video, html[data-hero="e"] .offer > *, html[data-hero="f"] .sp-media, html[data-hero="f"] .sp-media video { transition: none !important; }
   html { scroll-behavior: auto; }
   .ring .ticks { animation: none; }
   .w { color: var(--ink); transition: none; }
@@ -861,31 +870,30 @@ html[data-hero="j"] .hero-vsw { background: rgba(255,255,255,.85); }
     <div class="word" aria-hidden="true">climate</div>
     <div class="hero-temp" aria-hidden="true"><span id="heroTemp">32</span><sup>°</sup></div>
     <div class="hero-read" aria-hidden="true"><span class="mono">в комнате</span><b><span id="heroRead">32</span> °C</b><span class="mono hero-was">было +32 °C · сейчас прохладно</span></div>
-    <div class="hero-vsw mono" role="group" aria-label="Вариант первого экрана"><span>экран:</span><button type="button" data-h="a">A</button><button type="button" data-h="b">B</button><button type="button" data-h="e">E</button><button type="button" data-h="f">F</button><button type="button" data-h="g">G</button><button type="button" data-h="h">H</button><button type="button" data-h="i">I</button><button type="button" data-h="j">J</button></div>
+    <div class="hero-vsw mono" role="group" aria-label="Вариант первого экрана"><span>экран:</span><button type="button" data-h="a">A</button><button type="button" data-h="a2">A2</button><button type="button" data-h="b">B</button><button type="button" data-h="b2">B2</button><button type="button" data-h="e">E</button><button type="button" data-h="e2">E2</button><button type="button" data-h="f">F</button><button type="button" data-h="f2">F2</button><button type="button" data-h="h">H</button><button type="button" data-h="h2">H2</button></div>
     <div class="hero-win" aria-hidden="true"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></div>
     <i class="hero-iris" aria-hidden="true"></i>
-    <div class="hero-deck" aria-label="Направления">
-      <a href="#svc" class="dk"><img src="../assets/photos/split-bedroom.webp" alt="" loading="lazy"><span class="mono">квартиры и дома</span><b>Кондиционирование</b></a>
-      <a href="#svc" class="dk"><img src="../assets/photos/store-ducts-1.webp" alt="" loading="lazy"><span class="mono">магазины и офисы</span><b>Вентиляция</b></a>
-      <a href="#svc" class="dk"><img src="../assets/photos/garage-ceiling.webp" alt="" loading="lazy"><span class="mono">щиты, линии, свет</span><b>Электрика</b></a>
-      <div class="dk-dots mono" aria-hidden="true"><span>01</span><span>02</span><span>03</span></div>
+    <div class="hero-dims" aria-hidden="true">
+      <div class="dm dm-w"><span class="mono">ширина блока · 800 мм</span></div>
+      <div class="dm dm-h"><span class="mono">290 мм</span></div>
+      <div class="dm-n n1"><i></i><span class="mono">инверторный внутренний блок</span></div>
+      <div class="dm-n n2"><i></i><span class="mono">по уровню · допуск ±1 мм</span></div>
+      <div class="dm-n n3"><i></i><span class="mono">трасса до 5 м — в цене</span></div>
     </div>
-    <div class="hero-dark" aria-hidden="true"><video data-src="../assets/csp-hero-3d.mp4" poster="../assets/hero-3d-poster.jpg" muted loop playsinline preload="none"></video></div>
-    <dl class="hero-kpi"><div><dt class="mono">на рынке</dt><dd>8 лет</dd></div><div><dt class="mono">объектов сдано</dt><dd>1&nbsp;200+</dd></div><div><dt class="mono">гарантия</dt><dd>3 года</dd></div><div><dt class="mono">монтаж под ключ</dt><dd>от 14&nbsp;900&nbsp;₽</dd></div></dl>
+    <div class="hero-scale" aria-hidden="true">
+      <div class="sc-track"><i class="sc-mark"><b><span id="heroScaleV">32</span>°</b></i></div>
+      <div class="sc-lab mono"><span>18°</span><span>20°</span><span>22°</span><span>24°</span><span>26°</span><span>28°</span><span>30°</span><span>32°</span></div>
+      <div class="sc-cap mono"><span>было в комнате</span><span>стало через 3 минуты после запуска</span></div>
+    </div>
     <div class="hero-split" aria-hidden="true">
-      <div class="sp-media"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></div>
+      <div class="sp-media"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video><div class="sp-cap mono"><span>объект · коттедж 180 м², Челябинск</span><span>кондиционеры, вентиляция, щит</span><i></i></div></div>
       <dl class="sp-stats"><div><dt class="mono">лет на рынке</dt><dd>8</dd></div><div><dt class="mono">объектов сдано</dt><dd>1&nbsp;200+</dd></div><div><dt class="mono">гарантия по договору</dt><dd>3 года</dd></div></dl>
     </div>
-    <nav class="hero-tri" aria-label="Направления">
-      <a href="#svc" style="--i:0"><img src="../assets/photos/split-bedroom.webp" alt="" loading="lazy"><span class="mono">квартиры и дома</span><b>Кондиционирование</b></a>
-      <a href="#svc" style="--i:1"><img src="../assets/photos/store-ducts-1.webp" alt="" loading="lazy"><span class="mono">магазины и офисы</span><b>Вентиляция</b></a>
-      <a href="#svc" style="--i:2"><img src="../assets/photos/garage-ceiling.webp" alt="" loading="lazy"><span class="mono">щиты, линии, свет</span><b>Электрика</b></a>
-    </nav>
     <div class="anchor" aria-hidden="true"></div>
     <div class="grid foot">
       <div class="offer c1-6">
         <span class="mono brk">Челябинск · Екатеринбург</span>
-        <h1>Климат <span class="h1-pill" aria-hidden="true"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></span> и&nbsp;инженерные системы <em>под&nbsp;ключ</em></h1>
+        <h1><span class="hw"><span>Климат</span></span> <span class="h1-pill" aria-hidden="true"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></span> <span class="hw"><span>и&nbsp;инженерные</span></span> <span class="h1-pill h1-pic" aria-hidden="true"><img src="../assets/photos/store-ducts-1-sm.webp" alt=""></span> <span class="hw"><span>системы</span></span> <em><span class="hw"><span>под&nbsp;ключ</span></span></em><span class="h1-dot" aria-hidden="true">↗</span></h1>
         <p>Кондиционирование, вентиляция и электрика для домов, квартир и бизнеса. Проектируем, устанавливаем и обслуживаем инженерные системы любой сложности.</p>
         <span class="mono offer-tags">Кондиционирование • вентиляция • электрика</span>
         <div class="row"><a class="btn btn-ink" href="#contact">Рассчитать стоимость <i>↗</i></a></div>
@@ -1219,43 +1227,39 @@ html[data-hero="j"] .hero-vsw { background: rgba(255,255,255,.85); }
   function heroCool() {
     cancelAnimationFrame(heroRun); hero.classList.remove('cooled'); hero.dataset.air = '0';
     const tEl = document.getElementById('heroTemp'), rEl = document.getElementById('heroRead');
-    const set = v => { tEl.textContent = v; rEl.textContent = v; };
+    const sEl = document.getElementById('heroScaleV');
+    const set = (v, f = v) => { tEl.textContent = v; rEl.textContent = v; sEl.textContent = v; hero.style.setProperty('--tc', f); };
     if (reduce) { set(22); hero.classList.add('cooled'); hero.dataset.air = '1'; return; }
     set(32); const t0 = performance.now() + 500, D = 3400;
     requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('cooled')));
-    const step = now => { const k = clamp((now - t0) / D), e = 1 - Math.pow(1 - k, 3); set(Math.round(32 - 10 * e)); if (k > .15) hero.dataset.air = '1'; if (k < 1) heroRun = requestAnimationFrame(step); };
+    const step = now => { const k = clamp((now - t0) / D), e = 1 - Math.pow(1 - k, 3); set(Math.round(32 - 10 * e), (32 - 10 * e).toFixed(2)); if (k > .15) hero.dataset.air = '1'; if (k < 1) heroRun = requestAnimationFrame(step); };
     heroRun = requestAnimationFrame(step);
   }
   /* E: the brand film loads only when the variant is shown, then the window opens to full bleed */
   let heroT = 0;
-  /* I: the deck shuffles every few seconds; hovering or focusing it pauses */
-  const deck = hero.querySelector('.hero-deck'), dks = [...deck.querySelectorAll('.dk')], dkDots = [...deck.querySelectorAll('.dk-dots span')];
-  let dkOrder = [0, 1, 2], dkT = 0, dkHold = false;
-  const dkPaint = () => { dkOrder.forEach((c, pos) => dks[c].dataset.p = pos); dkDots.forEach((d, k) => d.classList.toggle('on', k === dkOrder[0])); };
-  const dkNext = () => { if (dkHold) return; const top = dks[dkOrder[0]]; top.classList.add('out');
-    setTimeout(() => { dkOrder.push(dkOrder.shift()); top.classList.remove('out'); dkPaint(); }, 450); };
-  function deckRun(on) { clearInterval(dkT); dkPaint(); if (on && !reduce) dkT = setInterval(dkNext, 3200); }
-  deck.addEventListener('pointerenter', () => dkHold = true); deck.addEventListener('pointerleave', () => dkHold = false);
-  deck.addEventListener('focusin', () => dkHold = true); deck.addEventListener('focusout', () => dkHold = false);
-  function heroMedia(v) {
+  function heroMedia(v, it) {
     clearTimeout(heroT); hero.classList.remove('open');
-    const own = { e: '.hero-win video', f: '.hero-split video', h: '.h1-pill video', j: '.hero-dark video' };
+    if (v === 'e' && it) { const r = hero.querySelector('.offer .btn-ink').getBoundingClientRect(), h = hero.getBoundingClientRect();
+      hero.style.setProperty('--cx', (r.left + r.width / 2 - h.left) + 'px'); hero.style.setProperty('--cy', (r.top + r.height / 2 - h.top - 56) + 'px'); }
+    const own = { e: '.hero-win video', f: '.hero-split video', h: '.h1-pill video' };
     Object.entries(own).forEach(([k, sel]) => { const vid = hero.querySelector(sel);
       if (k !== v) { vid.pause(); return; }
       if (!vid.src) vid.src = vid.dataset.src;
       if (!reduce) vid.play().catch(() => {}); });
-    if ('efghj'.includes(v)) heroT = setTimeout(() => hero.classList.add('open'), reduce ? 0 : v === 'e' ? 700 : 250);
-    deckRun(v === 'i');
+    if ('efh'.includes(v) || it) heroT = setTimeout(() => hero.classList.add('open'), reduce ? 0 : v === 'e' ? (it ? 1600 : 700) : 250);
   }
-  function heroSet(v) {
-    document.documentElement.dataset.hero = v; heroBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.h === v));
-    try { localStorage.setItem('csp-hero', v); } catch (e) {}
-    hero.dataset.scene = 'efghij'.includes(v) ? 'off' : 'split';
-    heroMedia(v);
+  /* a variant is a base letter plus an optional iteration ("e2" = E, iteration 2) */
+  function heroSet(key) {
+    const v = key[0], it = key.slice(1), root = document.documentElement;
+    root.dataset.hero = v; if (it) root.dataset.iter = it; else delete root.dataset.iter;
+    heroBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.h === key));
+    try { localStorage.setItem('csp-hero', key); } catch (e) {}
+    hero.dataset.scene = 'efh'.includes(v) ? 'off' : 'split';
+    heroMedia(v, it);
     if (v === 'b') heroCool(); else { cancelAnimationFrame(heroRun); hero.classList.remove('cooled'); delete hero.dataset.air; }
   }
   heroBtns.forEach(b => b.addEventListener('click', () => heroSet(b.dataset.h)));
-  { let v = new URLSearchParams(location.search).get('hero'); try { v = v || localStorage.getItem('csp-hero'); } catch (e) {} heroSet(/^[abefghij]$/.test(v || '') ? v : 'e'); }
+  { let v = new URLSearchParams(location.search).get('hero'); try { v = v || localStorage.getItem('csp-hero'); } catch (e) {} heroSet(/^[abefh]2?$/.test(v || '') ? v : 'e'); }
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
