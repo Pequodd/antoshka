@@ -399,7 +399,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .gt-row b { font-weight: 300; font-size: clamp(24px, 2.2vw, 34px); line-height: 1.1; letter-spacing: -.035em; }
 .gt-row .src { font: 400 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding: 7px 10px; border: 1px solid var(--line); border-radius: 999px; white-space: nowrap; transition: all .25s ease; }
 .gt-row .desc { grid-column: 2 / -1; color: var(--muted); font-size: 15px; }
-.gt-row:hover, .gt-row[aria-selected="true"] { padding-left: 14px; background: linear-gradient(90deg, rgba(244,121,32,.07), transparent 70%); }
+.gt-row:hover, .gt-row[aria-selected="true"] { background: linear-gradient(90deg, rgba(244,121,32,.08), transparent 70%); }
 .gt-row[aria-selected="true"] .mono:first-child { color: var(--orange-ink); }
 .gt-row[aria-selected="true"] .src { background: var(--ink); border-color: var(--ink); color: #fff; }
 .gt-row:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
@@ -484,7 +484,12 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 /* guarantees: list on G1, document on G2 */
 .gt { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding-top: 0; padding-bottom: var(--sec-b); }
 .gt-list { grid-column: 1 / 7; }
-.gt-doc { grid-column: 8 / -1; justify-self: stretch; max-width: none; }
+.gt { align-items: stretch; }
+.gt-doc { grid-column: 7 / -1; position: relative; top: 0; justify-self: stretch; max-width: none; padding: 0 14px 0 0; display: grid; }
+.gt-doc .paper-stack { height: 100%; }
+.gt-doc .paper { height: 100%; aspect-ratio: auto; transform: none; padding: clamp(28px, 3vw, 44px); box-shadow: 0 1px 0 rgba(36,54,63,.04), 0 24px 48px -28px rgba(36,54,63,.2); }
+.gt-doc .paper-stack::before { transform: translate(7px, 7px); } .gt-doc .paper-stack::after { transform: translate(14px, 14px); opacity: .6; }
+.gt-doc:hover .paper { transform: none; }
 /* reviews & faq: lead on G1, content on G2 */
 .rv, .faq { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding-top: 0; padding-bottom: var(--sec-b); }
 .rv-sum, .faq-side { grid-column: 1 / 6; }
