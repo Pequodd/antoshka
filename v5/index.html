@@ -565,7 +565,7 @@ h1, h2, h3, p { margin: 0; }
   }
   /* snap: when scrolling stops inside the pinned scene, glide to the nearest finished step */
   const ST_SNAP = [.85, 1.93, 2.88, 3.7];
-  let snapT = 0, snapAt = 0, touching = false, userMoved = false;
+  let snapT = 0, snapAt = 0, touching = false, userMoved = false, lastY = scrollY, dir = 0;
   const KEYS = ['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', ' ', 'Home', 'End'];
   addEventListener('wheel', () => { userMoved = true; }, { passive: true });
   addEventListener('keydown', e => { if (KEYS.includes(e.key)) userMoved = true; });
@@ -577,13 +577,14 @@ h1, h2, h3, p { margin: 0; }
     userMoved = false;
     const s = prog(stdTrack) * 4;
     if (s < .3 || s > 3.85) return;
-    let i = 0; ST_SNAP.forEach((v, j) => { if (Math.abs(v - s) < Math.abs(ST_SNAP[i] - s)) i = j; });
-    if (Math.abs(s - ST_SNAP[i]) > .3) i = Math.max(0, Math.min(3, i + Math.sign(s - ST_SNAP[i])));
+    // only ever continue in the direction the user was scrolling — never pull back against them
+    let i = dir >= 0 ? ST_SNAP.findIndex(v => v >= s - .02) : ST_SNAP.length - 1 - [...ST_SNAP].reverse().findIndex(v => v <= s + .02);
+    if (i < 0 || i >= ST_SNAP.length) return;
     const top = stdTrack.getBoundingClientRect().top + scrollY, span = stdTrack.offsetHeight - innerHeight, y = top + span * ST_SNAP[i] / 4;
     if (Math.abs(y - scrollY) < 12) return;
     snapAt = performance.now(); scrollTo({ top: y, behavior: 'smooth' });
   }
-  function queueSnap() { clearTimeout(snapT); snapT = setTimeout(doSnap, 'onscrollend' in window ? 400 : 160); }
+  function queueSnap() { const y = scrollY; if (y !== lastY && performance.now() - snapAt > 900) dir = Math.sign(y - lastY); lastY = y; clearTimeout(snapT); snapT = setTimeout(doSnap, 'onscrollend' in window ? 400 : 160); }
   addEventListener('scroll', queueSnap, { passive: true });
   if ('onscrollend' in window) addEventListener('scrollend', () => { clearTimeout(snapT); doSnap(); });
 
