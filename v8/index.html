@@ -2177,11 +2177,11 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
       shown = keyName; morphT = 0; reveal = 0; cloud.visible = true;
     }
     const tgt = shapes[keyName], P = cur.pos, C = cur.col, TP = tgt.pos, TC = tgt.col;
-    const k = reduce ? 1 : clamp(dt * 4.2);
+    const k = reduce ? 1 : clamp(dt * 9);
     for (let i = 0; i < P.length; i++) { P[i] += (TP[i] - P[i]) * k; C[i] += (TC[i] - C[i]) * k; }
     morphT += dt;
-    if (morphT > (reduce ? 0 : .55)) { solids[keyName].visible = true; reveal = reduce ? 1 : Math.min(1, reveal + dt * .85); }
-    const sy = TOP - (TOP - BOT) * (morphT > (reduce ? 0 : .55) ? reveal : 0);
+    if (morphT > (reduce ? 0 : .22)) { solids[keyName].visible = true; reveal = reduce ? 1 : Math.min(1, reveal + dt * 2.2); }
+    const sy = TOP - (TOP - BOT) * (morphT > (reduce ? 0 : .22) ? reveal : 0);
 
     // points: visible below the scan line, orange on it, gone above it
     if (reveal < 1) {
