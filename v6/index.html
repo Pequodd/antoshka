@@ -276,12 +276,20 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .corner { position: absolute; font: 400 10px/1 var(--mono); letter-spacing: .08em; color: var(--muted); }
 .corner.tl { left: var(--m); top: 24px; } .corner.tr { right: var(--m); top: 24px; } .corner.bl { left: var(--m); bottom: 24px; } .corner.br { right: var(--m); bottom: 24px; }
 .trust-label { margin: 0 0 28px; text-align: center; }
-.trust-tiles { list-style: none; margin: 0 var(--m); padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-.trust-tiles li { height: clamp(112px, 11vw, 168px); display: grid; place-items: center; background: #EFF1F2; border-radius: 6px; transition: background .3s ease; }
-.trust-tiles li:hover { background: #E8EBED; }
-.trust-tiles img { display: block; width: auto; filter: grayscale(1) contrast(1.1); opacity: .78; transition: filter .35s ease, opacity .35s ease; }
-.trust-tiles li:hover img { filter: none; opacity: 1; }
-.lg-mfc { height: clamp(52px, 4.6vw, 72px); } .lg-5ka { height: clamp(28px, 2.4vw, 38px); } .lg-mf { height: clamp(22px, 1.9vw, 30px); }
+.tr-frame { margin: 0 var(--m); padding: var(--inner) 24px clamp(56px, 8vh, 96px); border-inline: 1px solid var(--line); text-align: center; }
+.tr-frame .trust-label { margin: 0 0 20px; }
+.tr-h { max-width: 18em; margin: 0 auto; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.1; letter-spacing: -.035em; text-wrap: balance; }
+.tr-wrap { position: relative; margin: 0 var(--m); border-top: 1px solid var(--line); }
+.tr-wrap::after { content: ""; position: absolute; left: calc(var(--m) * -1); right: calc(var(--m) * -1); bottom: 0; border-bottom: 1px solid var(--line); }
+.trust-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-left: 1px solid var(--line); }
+.trust-grid li { height: clamp(120px, 10vw, 156px); display: grid; place-items: center; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); transition: background .3s ease; }
+.trust-grid li:hover { background: #F2F4F5; }
+.trust-grid img { display: block; width: auto; filter: grayscale(1) contrast(1.05); opacity: .55; transition: filter .35s ease, opacity .35s ease; }
+.trust-grid li:hover img { filter: none; opacity: 1; }
+.lg-mfc { height: clamp(44px, 3.8vw, 58px); } .lg-pyaterochka { height: clamp(26px, 2.2vw, 34px); } .lg-megafon { height: clamp(20px, 1.7vw, 26px); } .lg-beeline { height: clamp(22px, 1.9vw, 30px); }
+.lg-magnit { height: clamp(20px, 1.7vw, 26px); } .lg-dns { height: clamp(34px, 3vw, 46px); } .lg-rzd { height: clamp(26px, 2.3vw, 36px); } .lg-rostelecom { height: clamp(30px, 2.6vw, 40px); }
+.tr-c { position: absolute; z-index: 1; width: 5px; height: 5px; background: var(--ink); }
+.tr-c.c1 { left: -2px; top: -3px; } .tr-c.c2 { right: -2px; top: -3px; } .tr-c.c3 { left: -2px; bottom: -2px; } .tr-c.c4 { right: -2px; bottom: -2px; }
 .trust-say { max-width: 22em; margin: var(--inner) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
 /* 2 prices: a drawing sheet — plan + slider on the left, title block on the right */
 .sheet { margin: 24px var(--m) 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 380px); grid-template-rows: 1fr auto; border: 1px solid var(--ink); background: #FCFCFC; }
@@ -735,8 +743,9 @@ html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px
   .equip .info { align-self: end; }
   .rcard { width: 82vw; height: min(62vh, 520px); padding: 24px; }
   .rcard .pv-ic { left: 24px; top: 24px; }
-  .trust-tiles { gap: 6px; }
-  .trust-tiles li { height: 84px; }
+  .tr-frame { padding: 56px 16px 40px; }
+  .trust-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trust-grid li { height: 92px; }
   .lg-mfc { height: 42px; } .lg-5ka { height: 18px; } .lg-mf { height: 15px; }
   .corner { display: none; }
   .sheet { grid-template-columns: 1fr; grid-template-rows: auto; }
@@ -908,16 +917,25 @@ html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px
   </section>
 
   <!-- 2 trust: partner tiles + centred statement (anveril-style) -->
-  <section class="sec trust" id="trust" aria-label="Нам доверяют">
-    <div class="corner tl" aria-hidden="true">C</div><div class="corner tr" aria-hidden="true">S</div>
-    <p class="trust-label mono">Работали на объектах</p>
-    <ul class="trust-tiles">
-      <li><img src="../assets/logos/mfc.svg" alt="МФЦ «Мои документы»" class="lg-mfc" width="80" height="48"></li>
-      <li><img src="../assets/logos/pyaterochka.svg" alt="Пятёрочка" class="lg-5ka" width="143" height="34"></li>
-      <li><img src="../assets/logos/megafon.svg" alt="МегаФон" class="lg-mf" width="144" height="26"></li>
-    </ul>
+  <section class="sec trust" id="trust" aria-labelledby="trustH">
+    <div class="tr-frame">
+      <p class="trust-label mono">Работали на объектах</p>
+      <h2 class="tr-h" id="trustH">Нам доверяют сети, операторы связи и&nbsp;госучреждения</h2>
+    </div>
+    <div class="tr-wrap">
+      <ul class="trust-grid">
+        <li><img src="../assets/logos/mfc.svg" alt="МФЦ «Мои документы»" class="lg-mfc" width="80" height="48" loading="lazy"></li>
+        <li><img src="../assets/logos/pyaterochka.svg" alt="Пятёрочка" class="lg-pyaterochka" width="143" height="34" loading="lazy"></li>
+        <li><img src="../assets/logos/megafon.svg" alt="МегаФон" class="lg-megafon" width="144" height="26" loading="lazy"></li>
+        <li><img src="../assets/logos/beeline.svg" alt="билайн" class="lg-beeline" width="152" height="30" loading="lazy"></li>
+        <li><img src="../assets/logos/magnit.svg" alt="Магнит" class="lg-magnit" width="138" height="26" loading="lazy"></li>
+        <li><img src="../assets/logos/dns.svg" alt="DNS" class="lg-dns" width="89" height="46" loading="lazy"></li>
+        <li><img src="../assets/logos/rzd.svg" alt="РЖД" class="lg-rzd" width="81" height="36" loading="lazy"></li>
+        <li><img src="../assets/logos/rostelecom.svg" alt="Ростелеком" class="lg-rostelecom" width="103" height="40" loading="lazy"></li>
+      </ul>
+      <i class="tr-c c1" aria-hidden="true"></i><i class="tr-c c2" aria-hidden="true"></i><i class="tr-c c3" aria-hidden="true"></i><i class="tr-c c4" aria-hidden="true"></i>
+    </div>
     <p class="trust-say" data-reveal>8 лет монтируем климат и электрику. 1&nbsp;200+ объектов сдано по акту. Гарантия на работы — 3 года по договору.</p>
-    <div class="corner bl" aria-hidden="true">P</div><div class="corner br" aria-hidden="true">74</div>
   </section>
 
   <!-- 2 prices: one big price + package index (anveril "index list" pattern) -->
