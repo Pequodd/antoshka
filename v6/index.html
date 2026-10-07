@@ -225,6 +225,8 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .equip { z-index: 2; background: transparent; }
 .equip-track { height: 520vh; }
 .equip .sticky > .grid { height: 100%; grid-template-rows: auto 1fr auto; padding-block: 88px 40px; }
+.eq-h { margin: 0; font-weight: 300; font-size: clamp(48px, 6vw, 96px); line-height: .95; letter-spacing: -.05em; }
+.eq-idx { align-self: end; text-align: right; padding-bottom: .5em; }
 .chip { display: inline-grid; vertical-align: .55em; margin-right: .6em; gap: 2px; font: 400 11px/1 var(--mono); text-transform: uppercase; letter-spacing: 0; }
 .chip span { padding: 3px 5px; border: 1px solid currentColor; border-radius: 3px; }
 .chip span + span { background: var(--black); color: var(--white); border-color: var(--black); }
@@ -801,6 +803,8 @@ html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px
   html[data-hero="f"][data-iter="2"] .hero .foot { top: auto; bottom: 0; }
   html[data-hero="f"][data-iter="2"] .offer h1 { font-size: 34px; }
   html[data-hero="h"][data-iter="2"] .offer h1 { font-size: 44px; }
+  .eq-h { font-size: 44px; grid-column: 1 / -1; }
+  .eq-idx { grid-column: 1 / -1; text-align: left; padding-bottom: 0; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -1044,7 +1048,6 @@ html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px
   <!-- 5 equipment heading + block from V4 -->
   <section class="sec">
     <div class="rule"></div>
-    <div class="grid title"><h2>Техника</h2></div>
   </section>
   <section class="equip" id="equip" data-scene="equip" data-anchor=".ring">
     <div class="equip-track" id="equipTrack">
@@ -1056,8 +1059,8 @@ html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px
           </svg>
         </div>
         <div class="grid">
-          <span class="c1-6"><span class="chip"><span>S.05</span><span>Оборудование</span></span></span>
-          <span class="c10-12 mono" id="ringIdx" style="text-align:right">[ Тип 01 / 05 ]</span>
+          <h2 class="eq-h c1-6">Техника</h2>
+          <span class="c10-12 mono eq-idx" id="ringIdx">[ Тип 01 / 05 ]</span>
           <ol class="c1-4" id="equipList" aria-label="Типы оборудования">
             <li><button type="button" aria-pressed="true" data-i="0">Сплит-система</button></li>
             <li><button type="button" aria-pressed="false" data-i="1">Мультисплит</button></li>
