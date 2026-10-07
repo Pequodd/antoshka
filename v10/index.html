@@ -1392,6 +1392,15 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
 .st-head { row-gap: 18px; }
 .st-head h2 { grid-column: 1 / -1; justify-content: center; text-align: center; }
 .st-head .st-tabs { grid-column: 1 / -1; justify-self: center; margin-top: 0; }
+/* soft in-flow calls to action at the end of long content blocks (home and business) */
+.ctr { position: relative; z-index: 3; margin: clamp(28px, 4vw, 48px) var(--m) 0; display: flex; align-items: center; justify-content: space-between; gap: 14px 24px; flex-wrap: wrap;
+  padding: 18px 18px 18px 24px; border: 1px solid var(--line); border-radius: var(--r); background: rgba(255,255,255,.75); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.ctr .mono { display: block; margin-bottom: 4px; color: var(--air); }
+.ctr b { font-weight: 400; font-size: clamp(18px, 1.5vw, 22px); line-height: 1.25; letter-spacing: -.02em; }
+.ctr-btn { min-height: 50px; background: transparent; color: var(--ink); border: 1px solid var(--ink); transition: background .25s ease, color .25s ease, border-color .25s ease; }
+.ctr-btn:hover { background: var(--air); border-color: var(--air); color: #fff; }
+.ctr-btn i { font-style: normal; }
+.ctr-btn:focus-visible { outline: 2px solid var(--air); outline-offset: 3px; }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
@@ -1684,6 +1693,10 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
   .st-head { row-gap: 12px; }
   .st-tabs button { padding: 9px 13px; font-size: 14px; }
 }
+@media (max-width: 900px) {
+  .ctr { padding: 18px; }
+  .ctr-btn { width: 100%; justify-content: center; }
+}
 </style>
 
 <header class="hud" id="hud">
@@ -1893,6 +1906,7 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
       <article class="ind" style="--i:4"><img class="ind-art" src="../assets/ill/v10/ind-bank.webp" alt="" width="800" height="580" loading="lazy"><h3>Банки и отделения</h3><p>Типовые решения по стандарту сети, работы вне часов приёма, регламентное ТО.</p></article>
       <article class="ind" style="--i:5"><img class="ind-art" src="../assets/ill/v10/ind-med.webp" alt="" width="800" height="580" loading="lazy"><h3>Медицина и образование</h3><p>Воздухообмен по нормам, документация для проверок, работа в каникулы и выходные.</p></article>
     </div>
+      <div class="ctr"><div><span class="mono">ваша отрасль</span><b>Нет вашей отрасли в списке? Обсудим задачу</b></div><a class="btn ctr-btn" href="#b2b-form">Запросить КП <i>↗</i></a></div>
   </section>
 
   <!-- B2B: directions — pinned 3D scene, the scroll walks the three systems -->
@@ -1936,6 +1950,7 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
       <article class="cs" style="--i:2"><div class="cs-img"><img src="../assets/photos/store-ducts-2.webp" alt="Свет и лотки для сети" loading="lazy"><span class="mono">сеть · 4 точки</span></div>
         <h3>Свет и лотки для сети</h3><dl><div><dt>Задача</dt><dd>Освещение витрин и кабельные лотки по единому стандарту</dd></div><div><dt>Срок</dt><dd>4 выходных</dd></div><div><dt>Результат</dt><dd>Одинаковый результат во всех точках сети</dd></div></dl></article>
     </div>
+      <div class="ctr"><div><span class="mono">похожий объект</span><b>Посчитаем ваш объект по тому же стандарту</b></div><a class="btn ctr-btn" href="#b2b-form" data-ktask="Комплексно: климат и электрика">КП по моему объекту <i>↗</i></a></div>
   </section>
 
   <!-- B2B: project plan -->
@@ -1954,6 +1969,7 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
       <div class="gn-row" style="--a:5.7;--b:6.2;--i:5"><span class="gn-name">Сдача: КС-2, КС-3, исполнительная</span><div class="gn-lane"><i class="gn-bar"><span>1 день</span></i></div></div>
       <div class="gn-row" style="--a:6.2;--b:7;--i:6"><span class="gn-name">Регламентное ТО</span><div class="gn-lane"><i class="gn-bar gn-dash"><span>по договору</span></i></div></div>
     </div>
+      <div class="ctr"><div><span class="mono">график</span><b>Составим график под режим работы вашего объекта</b></div><a class="btn ctr-btn" href="#b2b-form">Получить график и КП <i>↗</i></a></div>
   </section>
 
   <!-- B2B 3: contract terms -->
@@ -2062,6 +2078,7 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
         </div>
       </div>
     </div>
+      <div class="ctr"><div><span class="mono">подбор техники</span><b>Не знаете, какая модель подойдёт?</b></div><a class="btn ctr-btn" href="#prices">Подобрать под мою комнату <i>↗</i></a></div>
   </section>
 
   <!-- 6 works -->
@@ -2082,6 +2099,7 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
     </div>
     <div class="grid wk-foot"><div class="wk-prog c1-9"><i id="wkProg"></i></div><div class="wk-nav c10-12"><button type="button" id="wkPrev" aria-label="Предыдущий объект">←</button><button type="button" id="wkNext" aria-label="Следующий объект">→</button></div></div>
     </div></div>
+      <div class="ctr"><div><span class="mono">похожий объект</span><b>Сделаем так же у вас — с той же аккуратностью</b></div><a class="btn ctr-btn" href="#contact">Рассчитать похожий объект <i>↗</i></a></div>
   </section>
 
   <!-- 7 -->
@@ -2145,6 +2163,7 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
       </div>
     </div>
     </div></div>
+      <div class="ctr"><div><span class="mono">ваша очередь</span><b>Хотите так же — без грязи и доплат?</b></div><a class="btn ctr-btn" href="#contact">Оставить заявку <i>↗</i></a></div>
   </section>
 
   <!-- B2B 4: letters of thanks instead of reviews -->
@@ -2166,6 +2185,7 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
         <span class="mono lt-org">Офис IT-компании · ООО «…»</span><h3>Благодарственное письмо</h3><p>Спасибо за монтаж кондиционирования и электрощита за выходные дни — сотрудники вышли на работу без простоя.</p>
         <div class="lt-foot"><span class="lt-sign">Руководитель</span><span class="lt-stamp" aria-hidden="true">печать</span></div></article>
     </div>
+      <div class="ctr"><div><span class="mono">рекомендации</span><b>Покажем оригиналы писем и контакты заказчиков</b></div><a class="btn ctr-btn" href="#b2b-form">Запросить рекомендации <i>↗</i></a></div>
   </section>
 
   <!-- 10b three steps: fanned cards spread on arrival -->
@@ -2515,6 +2535,9 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
     segs.forEach((s, i) => s.addEventListener('click', () => { const r = bdxTrack.getBoundingClientRect(), span = bdxTrack.offsetHeight - innerHeight, y = r.top + scrollY + span * (i + .5) / 3;
       if (window.__lenis) window.__lenis.scrollTo(y, { duration: .9 }); else scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' }); }));
   })();
+  /* soft CTAs: preselect the direction in the lead form / KP form */
+  document.querySelectorAll('[data-pick]').forEach(a => a.addEventListener('click', () => { const b = [...document.querySelectorAll('.qc-chips[data-q="pw"] button')].find(x => x.textContent.trim() === a.dataset.pick); if (b && b.getAttribute('aria-pressed') !== 'true') b.click(); }));
+  document.querySelectorAll('[data-ktask]').forEach(a => a.addEventListener('click', () => { const sel = document.getElementById('kTask'); if (sel) sel.value = a.dataset.ktask; }));
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
