@@ -1450,34 +1450,49 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
 .rv-card { position: relative; }
 .rv-who .rv-src { position: absolute; top: 20px; right: 20px; margin: 0; padding: 6px 10px; font-size: 12px; }
 .rv-who { grid-template-columns: auto minmax(0, 1fr); }
-/* team */
-.tm { margin: 0 var(--m); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); row-gap: 16px; }
-.tm-lead { grid-column: 1 / 7; display: grid; gap: 22px; align-content: start; padding: clamp(24px, 3vw, 40px); border-radius: var(--r); background: #fff; border: 1px solid var(--line); }
-.tm-av { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; background: var(--air); color: #fff; font-size: 30px; letter-spacing: -.02em; }
-.tm-who { display: grid; gap: 6px; }
-.tm-who .mono { color: var(--air); }
-.tm-who b { font-weight: 300; font-size: clamp(32px, 3.4vw, 52px); line-height: 1; letter-spacing: -.045em; }
-.tm-who p { margin: 6px 0 0; color: var(--muted); font-size: 16px; max-width: 46ch; }
-.tm-q { margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); display: grid; gap: 8px; }
-.tm-q p { margin: 0; font-size: 18px; line-height: 1.45; }
-.tm-q cite { font-style: normal; color: var(--muted); }
-.tm-act { display: flex; flex-wrap: wrap; gap: 10px; }
-.tm-btn, .cn-btn { min-height: 50px; background: var(--air); color: #fff; }
-.tm-btn:hover, .cn-btn:hover { filter: brightness(1.08); }
-.tm-lead { grid-row: span 2; }
-.tm-people { grid-column: 7 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.tm-p { display: grid; gap: 14px; align-content: start; padding: 14px 14px 20px; border-radius: var(--r); background: #fff; border: 1px solid var(--line); }
-.tm-ph { position: relative; aspect-ratio: 4 / 3; border-radius: calc(var(--r) - 6px); overflow: hidden; display: grid; place-items: center; background: linear-gradient(160deg, var(--air-soft), #ECEEEF); }
-.tm-ph span { font-size: 40px; font-weight: 300; letter-spacing: -.03em; color: var(--air); }
-.tm-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.tm-p > div:last-child { display: grid; gap: 4px; padding: 0 6px; }
-.tm-p .mono { color: var(--air); }
-.tm-p b { font-weight: 400; font-size: clamp(20px, 1.7vw, 26px); letter-spacing: -.025em; }
-.tm-roles { grid-column: 7 / -1; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.tm-roles li { display: grid; gap: 6px; align-content: start; padding: 16px 18px; border-radius: var(--r); background: #fff; border: 1px solid var(--line); }
-.tm-roles .mono { color: var(--air); }
-.tm-roles b { font-weight: 400; font-size: clamp(19px, 1.6vw, 24px); letter-spacing: -.02em; line-height: 1.15; }
-.tm-roles p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.45; }
+/* team: pinned stage; the frost rises (--f), the cards slide in from the right and come into focus (--c) */
+.tmx { position: relative; }
+.tmx-track { height: 300vh; }
+.tmx-st { display: grid; isolation: isolate; }
+.tmx-bg { position: absolute; inset: 0; z-index: 0; display: grid; place-items: center; pointer-events: none; }
+.tmx-aura { position: absolute; width: min(90vw, 1100px); aspect-ratio: 1; border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--air) 34%, transparent), color-mix(in srgb, var(--air) 10%, transparent) 55%, transparent 100%);
+  transform: scale(calc(.8 + var(--f, 0) * .35)); }
+.tmx-mark { position: relative; height: min(64svh, 560px); width: auto; transform: translateY(calc(var(--f, 0) * -6svh)) scale(calc(1 - var(--f, 0) * .08)) rotate(calc(var(--f, 0) * -8deg)); }
+html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.55); }
+.tmx-head { position: absolute; z-index: 3; left: var(--m); right: var(--m); top: clamp(84px, 13svh, 128px); display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 10px 24px; }
+.tmx-head .mono { grid-column: 1 / -1; }
+.tmx-head .mono { color: var(--air); }
+.tmx-head h2 { margin: 0; font-weight: 300; font-size: clamp(48px, 7vw, 120px); line-height: .9; letter-spacing: -.06em; }
+.tmx-head p { margin: 4px 0 0; max-width: 34ch; color: var(--muted); font-size: 16px; line-height: 1.45; opacity: calc(1 - var(--f, 0) * .2); }
+/* frost: two stacked backdrop blurs with soft top edges give a progressive blur */
+.tmx-frost { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; z-index: 2; pointer-events: none; transform: translateY(calc((1 - var(--f, 0)) * 100%)); }
+.tmx-frost i { position: absolute; inset: 0; }
+.tmx-frost i:nth-child(1) { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); -webkit-mask-image: linear-gradient(transparent, #000 14%); mask-image: linear-gradient(transparent, #000 14%); }
+.tmx-frost i:nth-child(2) { backdrop-filter: blur(34px) saturate(1.15); -webkit-backdrop-filter: blur(34px) saturate(1.15); background: linear-gradient(rgba(250,250,250,0), rgba(250,250,250,.45) 30%, rgba(250,250,250,.7));
+  -webkit-mask-image: linear-gradient(transparent 6%, #000 34%); mask-image: linear-gradient(transparent 6%, #000 34%); }
+.tmx-cards { position: absolute; z-index: 4; left: 0; right: 0; bottom: clamp(56px, 9svh, 96px); padding: 0 var(--m); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--g); align-items: end; }
+.tmx-c { --d: 0; display: grid; grid-template-rows: auto 1fr; gap: 16px; padding: 12px 12px 20px; border-radius: var(--r); background: rgba(255,255,255,.78); border: 1px solid rgba(255,255,255,.9);
+  box-shadow: 0 30px 70px -40px rgba(14,18,21,.35); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  transform: translate3d(calc(var(--d) * 1px), 0, 0); filter: blur(calc(var(--bl, 0) * 1px)); opacity: var(--o, 1); will-change: transform, filter; }
+.tmx-ph { position: relative; aspect-ratio: 16 / 10; border-radius: calc(var(--r) - 6px); overflow: hidden; display: grid; place-items: center; background: linear-gradient(160deg, var(--air-soft), #E6E9EA); }
+.tmx-ph span { font-size: clamp(40px, 4vw, 64px); font-weight: 300; letter-spacing: -.04em; color: var(--air); }
+.tmx-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.tmx-who { display: grid; gap: 6px; align-content: start; padding: 0 8px; }
+.tmx-who .mono { color: var(--air); }
+.tmx-who b { font-weight: 300; font-size: clamp(26px, 2.4vw, 38px); line-height: 1; letter-spacing: -.045em; }
+.tmx-who p { margin: 4px 0 0; color: var(--muted); font-size: 15px; line-height: 1.45; }
+.tmx-act { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 8px; }
+.tmx-btn { min-height: 44px; padding: 0 16px; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; background: var(--air); color: #fff; font-size: 15px; text-decoration: none; transition: filter .2s ease, background .2s ease; }
+.tmx-btn i { font-style: normal; }
+.tmx-btn:hover { filter: brightness(1.1); }
+.tmx-soft { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+.tmx-soft:hover { background: #fff; filter: none; }
+.tmx-btn:focus-visible { outline: 2px solid var(--air); outline-offset: 2px; }
+.tmx-line { position: absolute; z-index: 4; left: var(--m); right: var(--m); bottom: clamp(24px, 4svh, 40px); height: 9px; display: flex; justify-content: space-between; align-items: center; }
+.tmx-line::before { content: ""; position: absolute; left: 0; right: 0; top: 4px; height: 1px; background: var(--line); }
+.tmx-line i { position: absolute; left: 0; top: 4px; height: 1px; width: calc(var(--p, 0) * 100%); background: var(--ink); }
+.tmx-line b { position: relative; width: 5px; height: 5px; border-radius: 50%; background: var(--ink); }
 /* contacts */
 .cn { margin: 0 var(--m); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); row-gap: 20px; padding-bottom: var(--sec-b, 64px); }
 .cn-info { grid-column: 1 / 6; display: grid; gap: 26px; align-content: start; }
@@ -1796,14 +1811,30 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .cm-box, .cm::backdrop { transition: none !important; } }
 @media (max-width: 900px) {
-  .tm-lead, .tm-roles, .tm-people, .cn-info, .cn-map { grid-column: 1 / -1; }
-  .tm-lead { grid-row: auto; }
-  .tm-roles { grid-template-columns: 1fr; }
-  .tm-av { width: 72px; height: 72px; font-size: 24px; }
+  .cn-info, .cn-map { grid-column: 1 / -1; }
   .cn-info dl > div { grid-template-columns: 1fr; gap: 4px; }
   .cn-map, .cn-map iframe { min-height: 320px; }
 }
 @media (min-width: 901px) and (max-width: 1380px) { .hud .tel { display: none; } }
+@media (max-width: 900px) {
+  .tmx-track { height: 380vh; }
+  .tmx-head { top: 84px; grid-template-columns: 1fr; }
+  .tmx-head h2 { font-size: clamp(44px, 13vw, 64px); }
+  .tmx-head p { font-size: 15px; }
+  .tmx-mark { height: 46svh; }
+  .tmx-cards { display: flex; gap: 14px; padding: 0 calc((100vw - min(78vw, 340px)) / 2); bottom: 84px; transform: translate3d(calc(var(--x, 0) * 1px), 0, 0); will-change: transform; }
+  .tmx-c { flex: none; width: min(78vw, 340px); }
+  .tmx-ph { aspect-ratio: 4 / 3; }
+}
+@media (max-width: 900px) and (max-height: 700px) { .tmx-head p { display: none; } .tmx-ph { aspect-ratio: 16 / 9; } }
+@media (prefers-reduced-motion: reduce) {
+  .tmx-track { height: auto; }
+  .tmx-st { position: relative; height: auto; min-height: 100svh; padding: 160px 0 64px; display: grid; align-content: end; gap: 32px; }
+  .tmx-frost { --f: 1; }
+  .tmx-cards { position: relative; bottom: auto; }
+  .tmx-c { transform: none; filter: none; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 900px) { .tmx-cards { display: grid; grid-template-columns: 1fr; padding: 0 var(--m); transform: none; } .tmx-c { width: auto; } }
 </style>
 
 <header class="hud" id="hud">
@@ -2319,28 +2350,31 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
     </div>
   </section>
 
-  <!-- team -->
-  <section class="sec" id="team" aria-labelledby="teamH">
-    <div class="rule"></div>
-    <div class="grid title"><h2 id="teamH">Команда</h2>
-      <p class="aside">Один ответственный на весь объект и инженеры по каждому направлению: климат, вентиляция, электрика.</p></div>
-    <div class="tm">
-      <article class="tm-lead">
-        <span class="tm-av" aria-hidden="true">ТА</span>
-        <div class="tm-who"><span class="mono">руководитель</span><b>Тимур Антонов</b><p>Подбирает решение под объект, считает смету и отвечает за работу от выезда до акта.</p></div>
-        <blockquote class="tm-q"><p>«Тимур Викторович… внимательный, вежливый и отзывчивый руководитель. Подобрал кондиционер по всем параметрам моих пожеланий».</p><cite class="mono">Марина Р., отзыв на Яндекс Картах</cite></blockquote>
-        <div class="tm-act"><a class="btn tm-btn" href="tel:+79514596275">Позвонить Тимуру <i>↗</i></a><a class="btn btn-soft" href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте <i>↗</i></a></div>
-      </article>
-      <div class="tm-people">
-        <article class="tm-p"><div class="tm-ph" data-photo="anton-dikarev"><span aria-hidden="true">АД</span></div><div><span class="mono">в команде</span><b>Антон Дикарев</b></div></article>
-        <article class="tm-p"><div class="tm-ph" data-photo="nikolay-dikarev"><span aria-hidden="true">НД</span></div><div><span class="mono">в команде</span><b>Николай Дикарев</b></div></article>
+  <!-- team: a frosted layer rises over the brand mark, three member cards slide in on it -->
+  <section class="tmx" id="team" data-scene="off" aria-labelledby="teamH">
+    <div class="tmx-track">
+      <div class="sticky tmx-st">
+        <div class="tmx-bg" aria-hidden="true"><i class="tmx-aura"></i><img class="tmx-mark" src="../assets/brand/mark.png" alt="" width="253" height="410"></div>
+        <header class="tmx-head"><span class="mono">команда · 03</span><h2 id="teamH">Команда</h2>
+          <p>Один ответственный на весь объект и инженеры по каждому направлению: климат, вентиляция, электрика.</p></header>
+        <div class="tmx-frost" aria-hidden="true"><i></i><i></i></div>
+        <div class="tmx-cards">
+          <article class="tmx-c">
+            <div class="tmx-ph" data-photo="timur-antonov"><span aria-hidden="true">ТА</span></div>
+            <div class="tmx-who"><span class="mono">руководитель</span><b>Тимур Антонов</b><p>Подбирает решение, считает смету и отвечает за объект от выезда до акта.</p></div>
+            <div class="tmx-act"><a class="tmx-btn" href="tel:+79514596275">Позвонить <i>↗</i></a><a class="tmx-btn tmx-soft" href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте <i>↗</i></a></div>
+          </article>
+          <article class="tmx-c">
+            <div class="tmx-ph" data-photo="anton-dikarev"><span aria-hidden="true">АД</span></div>
+            <div class="tmx-who"><span class="mono">в команде</span><b>Антон Дикарев</b></div>
+          </article>
+          <article class="tmx-c">
+            <div class="tmx-ph" data-photo="nikolay-dikarev"><span aria-hidden="true">НД</span></div>
+            <div class="tmx-who"><span class="mono">в команде</span><b>Николай Дикарев</b></div>
+          </article>
+        </div>
+        <div class="tmx-line" aria-hidden="true"><i></i><b></b><b></b><b></b></div>
       </div>
-      <ul class="tm-roles">
-        <li><span class="mono">01</span><b>Инженер-проектировщик</b><p>Расчёт мощности и воздухообмена, проект, схемы и смета по разделам.</p></li>
-        <li><span class="mono">02</span><b>Монтажная бригада</b><p>Кондиционеры и вентиляция: монтаж, трасса, вакуум и пусконаладка.</p></li>
-        <li><span class="mono">03</span><b>Электромонтажник</b><p>Щиты, кабельные трассы, освещение и замеры с протоколом.</p></li>
-        <li><span class="mono">04</span><b>Сервис</b><p>Регламентное ТО по графику и выезд по заявке.</p></li>
-      </ul>
     </div>
   </section>
 
@@ -2752,6 +2786,36 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
   });
   const CM_BTNS = 'a.btn[href="#contact"], a.btn[href="#b2b-form"], .px3-note a[href="#b2b-form"], .go-alt a[href="#b2b-form"]';
   document.querySelectorAll(CM_BTNS).forEach(b => { if (b.closest('.fx-nav, .mcol')) return; b.addEventListener('click', e => { e.preventDefault(); if (b.closest('.menu') && menu.classList.contains('open')) menuSet(false); cmOpen(b); }); });
+  /* team: the frost rises over the brand mark, then the member cards slide in from the right and come into focus */
+  (() => {
+    const tm = document.getElementById('team'); if (!tm) return;
+    const tr = tm.querySelector('.tmx-track'), st = tm.querySelector('.tmx-st'), wrap = tm.querySelector('.tmx-cards'), cards = [...tm.querySelectorAll('.tmx-c')];
+    const mq = matchMedia('(max-width: 900px)'); let tk = false;
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    function tmUpdate() {
+      tk = false; if (reduce) { st.style.setProperty('--f', 1); return; }
+      const H = innerHeight, r = tr.getBoundingClientRect(); if (r.bottom < -H || r.top > H * 2) return;
+      const p = clamp(-r.top / (r.height - H)), W = st.clientWidth;
+      st.style.setProperty('--f', ease(clamp(p / .3)).toFixed(4)); st.style.setProperty('--p', p.toFixed(4));
+      if (mq.matches) {
+        /* mobile: one track; the card at the centre is sharp, the ones arriving from the side are blurred */
+        const cw = cards[0].offsetWidth + 14, q = -1.5 + (cards.length - .4 + 1.5) * clamp((p - .12) / .86), n = Math.floor(q), sm = t => t * t * (3 - 2 * t);
+        const pos = Math.min(cards.length - 1, n + sm(clamp((q - n) * 1.7 - .7))), x = -pos * cw;
+        wrap.style.setProperty('--x', x.toFixed(1));
+        cards.forEach((c, i) => { const d = Math.abs(i * cw + x) / cw; c.style.setProperty('--d', 0); c.style.setProperty('--bl', Math.min(10, d * 7).toFixed(2)); c.style.setProperty('--o', clamp(1.25 - d * .45).toFixed(3)); });
+      } else {
+        /* desktop: each card travels in from the right, staggered, and settles into the row */
+        wrap.style.removeProperty('--x');
+        cards.forEach((c, i) => { const t = ease(clamp((p - .18 - i * .1) / .42)), d = (1 - t) * W * .75;
+          c.style.setProperty('--d', d.toFixed(1)); c.style.setProperty('--bl', ((1 - t) * 12).toFixed(2)); c.style.setProperty('--o', clamp(t * 1.6).toFixed(3)); });
+      }
+    }
+    const req = () => { if (!tk) { tk = true; requestAnimationFrame(tmUpdate); } };
+    addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); document.addEventListener('audchange', () => setTimeout(req, 80)); req();
+    /* keyboard: a focused card link scrolls the stage to the point where its card is in place */
+    cards.forEach((c, i) => c.addEventListener('focusin', () => { const span = tr.offsetHeight - innerHeight, y = tr.getBoundingClientRect().top + scrollY + span * (mq.matches ? .12 + .86 * (i + 1.5 + .2) / (cards.length + 1.1) : .95);
+      if (window.__lenis) window.__lenis.scrollTo(y, { immediate: true }); else scrollTo(0, y); }));
+  })();
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
