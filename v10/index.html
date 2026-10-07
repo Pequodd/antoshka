@@ -544,7 +544,6 @@ html.lenis, html.lenis body { height: auto; }
   background: repeating-linear-gradient(90deg, rgba(36,54,63,.28) 0 1px, transparent 1px 24px) bottom / 100% 10px no-repeat; }
 .tl-ticks span { position: absolute; top: 0; transform: translateX(-50%); white-space: nowrap; font: 400 11px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
 .tl-ticks span::after { content: ""; position: absolute; left: 50%; top: 22px; width: 1px; height: 18px; background: var(--ink); }
-.tl-graph { position: absolute; left: 0; top: 40px; width: 100%; height: calc(100% - 40px); overflow: visible; }
 .tl-pin { position: absolute; z-index: 3; left: 50%; top: calc(38% - 14px); width: 0; height: 0; margin-left: -6px; border: 6px solid transparent; border-top: 8px solid var(--air); }
 .tl-words { position: absolute; z-index: 2; left: 0; right: 0; top: 50%; display: grid; place-items: center; pointer-events: none; }
 .tl-w { grid-area: 1 / 1; margin: 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(64px, 10vw, 176px); line-height: .95; letter-spacing: -.055em; color: var(--air);
@@ -681,7 +680,7 @@ html[data-aud="biz"] .stat { background: #121619; }
 html[data-aud="biz"] .stat h3 { color: #fff; } html[data-aud="biz"] .stat p { color: rgba(255,255,255,.6); }
 html[data-aud="biz"] .stat > .mono::before { background: var(--orange); box-shadow: none; }
 html[data-aud="biz"] .faq-side { background: #121619; }
-html[data-aud="biz"] .tl-graph path[stroke] { stroke: #121619; } html[data-aud="biz"] .tl-graph circle { fill: #121619; } html[data-aud="biz"] .tl-graph stop { stop-color: #121619; }
+
 html[data-aud="biz"] #ringArc { stroke: #121619; }
 html[data-aud="biz"] .fx-air { filter: blur(60px) grayscale(1) brightness(.55); }
 html[data-aud="biz"] .b2b-form { border-color: #D5DADD; }
@@ -1339,6 +1338,24 @@ html[data-aud="biz"] main { overflow-x: clip; }
 .oa .mono { color: rgba(255,255,255,.8); }
 .oa b { font-size: clamp(30px, 3.4vw, 56px); text-shadow: 0 1px 24px rgba(14,18,21,.25); }
 .oa i { color: #fff; padding: 12px 18px; border-radius: 999px; background: rgba(14,18,21,.85); }
+/* process: a route with six stations; the travelled part is filled, the current station is lit */
+.tl-ruler { height: auto; }
+.tl-ticks { height: 120px; border-bottom: 0; background: none; }
+.tl-rail, .tl-fill { position: absolute; left: 0; top: 50px; height: 2px; margin-top: -1px; }
+.tl-rail { right: 0; background: repeating-linear-gradient(90deg, var(--faint) 0 8px, transparent 8px 16px); }
+.tl-fill { width: 0; background: var(--air); }
+.tl-st { position: absolute; top: 0; transform: translateX(-50%); display: grid; justify-items: center; gap: 0; width: 220px; text-align: center; }
+.tl-st::after { display: none; }
+.tl-st b { height: 36px; font: 400 11px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.tl-st::before { content: attr(data-n); order: 1; width: 30px; height: 30px; margin-top: 0; display: grid; place-items: center; border-radius: 50%; border: 1.5px solid var(--faint); background: var(--bg); font: 500 11px/1 var(--mono); color: var(--muted);
+  transition: background .35s ease, border-color .35s ease, color .35s ease, transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease; }
+.tl-st em { order: 2; margin-top: 12px; font: 400 11px/1.4 var(--mono); font-style: normal; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); opacity: 0; transform: translateY(-6px); transition: opacity .35s ease, transform .5s cubic-bezier(.16,1,.3,1); }
+.tl-st.done::before { background: var(--air); border-color: var(--air); color: #fff; }
+.tl-st.cur::before { transform: scale(1.35); box-shadow: 0 0 0 8px var(--air-soft); }
+.tl-st.cur b { color: var(--ink); }
+.tl-st.cur em { opacity: 1; transform: none; color: var(--air); }
+.tl-pin { display: none; }
+.tl-cap .tl-meta { display: none; }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
@@ -1443,7 +1460,8 @@ html[data-aud="biz"] main { overflow-x: clip; }
   .wk-nav { display: none; }
   .wk-prog { grid-column: 1 / -1; }
   .tl-title .aside { display: none; }
-  .tl-ruler { top: 34%; height: 40%; }
+  .tl-ruler { top: 30%; }
+  .tl-st { width: 160px; }
   .tl-pin { top: calc(34% - 14px); }
   .tl-w { font-size: 13vw; }
   .tl-cap { bottom: 12vh; }
@@ -1614,7 +1632,7 @@ html[data-aud="biz"] main { overflow-x: clip; }
   .fx-air i { animation: none; }
   .go-steps li, .go-steps::before { transition: none !important; } .go-head .mono::before { animation: none; }
   .hc-card, .hc-card video, .hc-dirs a, html[data-hv="b"] .offer > * { transition: none !important; }
-  .stat, .fcard, .tl-w { transition: none !important; }
+  .stat, .fcard, .tl-w, .tl-st::before, .tl-st em { transition: none !important; }
   html { scroll-behavior: auto; }
   .ring .ticks { animation: none; }
   .w { color: var(--ink); transition: none; }
@@ -2030,7 +2048,7 @@ html[data-aud="biz"] main { overflow-x: clip; }
     <div class="tl-track" id="tlTrack"><div class="sticky tl-stage">
       <div class="grid title tl-title"><h2>Процесс</h2>
         <p class="aside">От звонка до работающей системы. Проект и смету согласуем до начала работ, а правки вносим до монтажа, не после.</p></div>
-      <div class="tl-ruler" aria-hidden="true"><div class="tl-belt" id="tlBelt"><div class="tl-ticks" id="tlTicks"></div><svg class="tl-graph" id="tlGraph" preserveAspectRatio="none"></svg></div></div>
+      <div class="tl-ruler" aria-hidden="true"><div class="tl-belt" id="tlBelt"><i class="tl-rail"></i><i class="tl-fill" id="tlFill"></i><div class="tl-ticks" id="tlTicks"></div></div></div>
       <i class="tl-pin" aria-hidden="true"></i>
       <div class="tl-words" aria-live="polite"><h3 class="tl-w on">Консультация</h3><h3 class="tl-w">Выезд и смета</h3><h3 class="tl-w">Проект</h3><h3 class="tl-w">Монтаж</h3><h3 class="tl-w">Обучение</h3><h3 class="tl-w">Обслуживание</h3></div>
       <div class="tl-cap"><span class="mono" id="tlCount">01 / 06 · день 1 · 09:00</span><p id="tlText">По телефону или заявке на сайте. Ответим на вопросы и поможем с выбором.</p><span class="mono tl-meta" id="tlMeta">в день обращения · бесплатно</span></div>
@@ -2576,23 +2594,17 @@ html[data-aud="biz"] main { overflow-x: clip; }
   const TL_HOME = [['Консультация','По телефону или заявке на сайте. Ответим на вопросы и поможем с выбором.','в день обращения · бесплатно','день 1 · 09:00'],['Выезд и смета','Мастер приедет, оценит объём работ и учтёт нюансы объекта.','смета · цена фиксируется','день 1 · 15:00'],['Проект','Схемы и описание работ. Изменения вносите, пока монтаж не начался.','схема + описание · правки до монтажа','день 2 · 11:00'],['Монтаж','По нормам, с защитой мебели и уборкой после работ.','дата в договоре · квартира за 1 день','день 3 · 10:00'],['Обучение','Покажем, как пользоваться кондиционером, вентиляцией и электрикой.','при сдаче · акт сдачи','день 3 · 14:00'],['Обслуживание','Плановое ТО, чтобы системы работали без неожиданных поломок.','по графику · ремонт по заявке','каждый год']];
   const TL_BIZ = [["Запрос и ТЗ", "Пришлите ТЗ или опишите задачу — уточним объём, сроки и режим работы объекта.", "в день обращения · бесплатно", "день 1"], ["Обследование", "Инженер выезжает на объект: замеры, трассы, точки подключения, ограничения.", "выезд бесплатно · 1 день", "день 2"], ["Проект и КП", "Проект по нормам и смета по разделам. Цена фиксируется в договоре.", "КП за 2 дня · по разделам", "день 4"], ["Монтаж", "По графику, ночью и в выходные — без остановки торговли и офиса.", "дата в договоре · бригады в форме", "неделя 2"], ["Сдача", "Пусконаладка, акты, исполнительная документация и протоколы замеров.", "исполнительная · акты", "неделя 3"], ["Регламентное ТО", "Плановое обслуживание по договору и аварийные выезды.", "по регламенту · 24/7", "каждый месяц"]];
   let TL = document.documentElement.dataset.aud === 'biz' ? TL_BIZ : TL_HOME;
-  const tlTrack = document.getElementById('tlTrack'), tlBelt = document.getElementById('tlBelt'), tlTicks = document.getElementById('tlTicks'), tlGraph = document.getElementById('tlGraph');
+  const tlTrack = document.getElementById('tlTrack'), tlBelt = document.getElementById('tlBelt'), tlTicks = document.getElementById('tlTicks'), tlFill = document.getElementById('tlFill'), tlRail = document.querySelector('.tl-rail');
   const tlWords = [...document.querySelectorAll('.tl-w')], tlText = document.getElementById('tlText'), tlMeta = document.getElementById('tlMeta'), tlCount = document.getElementById('tlCount');
   let tlSeg = 0, tlK = -1;
   function tlBuild() {
     tlSeg = Math.max(320, innerWidth * (mobile ? .8 : .42)); const W = tlSeg * (TL.length + 1); tlBelt.style.width = W + 'px';
-    tlTicks.innerHTML = TL.map((s, i) => `<span style="left:${(tlSeg * (i + 1)).toFixed(0)}px">${s[3]}</span>`).join('');
-    const H = tlGraph.getBoundingClientRect().height || 300; tlGraph.setAttribute('viewBox', `0 0 ${W.toFixed(0)} ${H.toFixed(0)}`);
-    // the room cools down from step to step: the curve falls and calms
-    const pts = []; for (let x = 0; x <= W; x += tlSeg / 4) { const k = x / W, base = .25 + k * .5, wob = Math.sin(x / tlSeg * Math.PI * 2) * (.12 - k * .08); pts.push([x, H * (base + wob)]); }
-    let d = `M${pts[0][0]},${pts[0][1].toFixed(1)}`; for (let i = 1; i < pts.length; i++) { const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], cx = (x0 + x1) / 2; d += ` C${cx},${y0.toFixed(1)} ${cx},${y1.toFixed(1)} ${x1},${y1.toFixed(1)}`; }
-    tlGraph.innerHTML = `<defs><linearGradient id="tlFill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E2261C" stop-opacity=".16"/><stop offset="1" stop-color="#E2261C" stop-opacity="0"/></linearGradient></defs>`
-      + `<path d="${d} L${W},${H} L0,${H} Z" fill="url(#tlFill)"/><path d="${d}" fill="none" stroke="#E2261C" stroke-width="1.5" vector-effect="non-scaling-stroke"/>`
-      + pts.map(([x, y]) => `<circle cx="${x}" cy="${y.toFixed(1)}" r="4.5" fill="#E2261C"/>`).join('');
+    tlTicks.innerHTML = TL.map((s, i) => `<span class="tl-st" style="left:${(tlSeg * (i + 1)).toFixed(0)}px" data-n="0${i + 1}"><b>${s[3]}</b><em>${s[2]}</em></span>`).join('');
   }
   function pvUpdate() {
     const p = prog(tlTrack), pos = p * (TL.length - 1);
-    tlBelt.style.transform = `translateX(${(innerWidth / 2 - tlSeg * (pos + 1)).toFixed(1)}px)`;
+    tlBelt.style.transform = `translateX(${(innerWidth / 2 - tlSeg * (pos + 1)).toFixed(1)}px)`; tlFill.style.left = tlRail.style.left = tlSeg.toFixed(0) + 'px'; tlFill.style.width = (tlSeg * pos).toFixed(1) + 'px';
+    tlTicks.querySelectorAll('.tl-st').forEach((st, i) => { st.classList.toggle('done', i < pos + .5); st.classList.toggle('cur', i === Math.min(TL.length - 1, Math.round(pos))); });
     const k = Math.min(TL.length - 1, Math.round(pos));
     if (k !== tlK) { tlK = k; tlWords.forEach((w, i) => w.classList.toggle('on', i === k)); tlText.textContent = TL[k][1]; tlMeta.textContent = TL[k][2]; tlCount.textContent = `0${k + 1} / 0${TL.length} · ${TL[k][3]}`; }
   }
