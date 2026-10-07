@@ -569,7 +569,7 @@ html.lenis, html.lenis body { height: auto; }
 .finale { position: relative; z-index: 0; overflow: hidden; height: 100vh; min-height: 640px; margin-top: var(--out); background: transparent; }
 .fin-h { position: absolute; z-index: 0; left: 0; right: 0; top: 7%; text-align: center; padding-inline: var(--m); font-weight: 400; font-size: clamp(52px, 6.6vw, 120px); line-height: .95; letter-spacing: -.055em; color: var(--air); }
 .fin-anchor { position: absolute; left: 24%; right: 24%; top: 33%; bottom: 31%; }
-.fin-glow { position: absolute; z-index: 0; left: 4%; right: 4%; top: 58%; bottom: -12%; pointer-events: none; background: radial-gradient(closest-side, var(--air) 0%, #4F7BFF 34%, rgba(111,152,255,.55) 60%, rgba(250,250,250,0) 100%); }
+.fin-glow { position: absolute; z-index: 0; left: 4%; right: 4%; top: 52%; bottom: 0; pointer-events: none; background: radial-gradient(closest-side, var(--air) 0%, #4F7BFF 34%, rgba(111,152,255,.55) 60%, rgba(250,250,250,0) 100%); }
 .fin-cta { position: absolute; z-index: 3; left: 0; right: 0; bottom: 8%; display: grid; justify-items: center; gap: 12px; color: #fff; text-align: center; }
 .fin-cta p { margin: 0; font-size: 14px; color: rgba(255,255,255,.85); }
 .fin-btn { background: #fff; color: var(--ink); border-radius: 999px; min-height: 52px; padding: 0 26px; font-size: 16px; }
@@ -940,6 +940,21 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
 .faq-list summary { padding: 20px 0; font-size: clamp(19px, 1.5vw, 24px); }
 .faq-list details p { margin: -4px 0 22px; }
 .faq-list details[hidden] { display: none; }
+/* calc v2: one joined card — the estimate pane on the left, the form pane on the right */
+.calc { column-gap: 0; }
+.est { grid-column: 1 / 6; border-radius: var(--r) 0 0 var(--r); grid-template-rows: auto auto auto auto 1fr; }
+.end .form { grid-column: 6 / -1; border-radius: 0 var(--r) var(--r) 0; border-left: 0; padding: clamp(24px, 3vw, 40px); gap: 26px; }
+.est-list { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+.est-list li { position: relative; padding-left: 22px; font-size: 16px; color: rgba(255,255,255,.92); }
+.est-list li::before { content: ""; position: absolute; left: 0; top: .5em; width: 8px; height: 8px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px rgba(255,255,255,.22); }
+.est-foot { margin-top: 24px; }
+.end .field label { font-size: 14px; color: var(--muted); padding-bottom: 4px; }
+.end .field label span { color: var(--orange-ink); }
+.calc-send { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding-top: 6px; border-top: 1px solid var(--line); padding-top: 22px; }
+.calc-btn { width: auto; min-height: 54px; padding: 0 26px; justify-content: center; gap: 10px; font-size: 16px; }
+.calc-btn:disabled { opacity: .7; cursor: progress; }
+.calc-send p { flex: 1; min-width: 220px; margin: 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
+.end .err:empty { display: none; }
 /* ===================== works: pinned, the ribbon travels sideways while you scroll down ===================== */
 .wk-stage { display: flex; flex-direction: column; justify-content: center; padding-top: 56px; }
 .wk-stage .title { padding-top: 16px; }
@@ -1116,6 +1131,10 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   .mcol-home, .mcol-biz { padding: 16px 16px 6px; }
   .mcol-gen { padding-top: 8px; }
   .faq-list details { padding: 0 18px; }
+  .est { border-radius: var(--r) var(--r) 0 0; }
+  .end .form { border-radius: 0 0 var(--r) var(--r); border-left: 1px solid var(--line); border-top: 0; }
+  .calc { row-gap: 0; }
+  .calc-btn { width: 100%; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -1558,6 +1577,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
         <span class="mono">ориентир по вашему выбору</span>
         <b id="qcPrice">от 14 900 ₽</b>
         <span class="mono est-note" id="qcNote">кондиционер под ключ, трасса до 3 м</span>
+        <ul class="est-list"><li>Выезд и замер — бесплатно</li><li>Смета фиксируется в договоре</li><li>Гарантия на работы — 3 года</li></ul>
         <div class="est-foot"><span class="mono">быстрее всего — фото места установки</span>
           <div class="est-links"><a href="https://wa.me/73510000000" target="_blank" rel="noopener">WhatsApp ↗</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram ↗</a><a href="tel:+73510000000">Позвонить</a></div></div>
       </aside>
@@ -1567,11 +1587,10 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
           <div class="qc-group" role="group" aria-label="Что нужно"><span class="mono"><i>02</i>Что нужно</span><div class="qc-chips" data-q="pw"><button type="button" aria-pressed="true" data-p="14 900" data-n="кондиционер под ключ, трасса до 3 м">Кондиционер</button><button type="button" aria-pressed="false" data-p="25 000" data-n="проект и расчёт воздухообмена">Вентиляция</button><button type="button" aria-pressed="false" data-p="12 000" data-n="щит, проводка или свет — по объёму">Электрика</button><button type="button" aria-pressed="false" data-n="посчитаем на выезде">Комплексно</button></div></div>
         </div>
         <div class="qc-group"><span class="mono"><i>03</i>Контакты</span>
-          <div class="f2"><div class="field"><label class="sr-only" for="fName">Имя</label><input id="fName" autocomplete="given-name" placeholder="Имя" aria-describedby="fErr"></div>
-          <div class="field"><label class="sr-only" for="fPhone">Телефон</label><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Телефон, +7" aria-describedby="fErr"></div></div></div>
-        <label class="consent"><input type="checkbox" id="fConsent"><span>Согласен на обработку персональных данных</span></label>
+          <div class="f2"><div class="field"><label for="fName">Имя <span aria-hidden="true">*</span></label><input id="fName" autocomplete="given-name" placeholder="Как к вам обращаться" required aria-describedby="fErr"></div>
+          <div class="field"><label for="fPhone">Телефон <span aria-hidden="true">*</span></label><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__" required aria-describedby="fErr"></div></div></div>
         <div class="err" id="fErr" role="alert"></div>
-        <button class="btn calc-btn" type="submit">Получить точный расчёт <i>↗</i></button>
+        <div class="calc-send"><button class="btn calc-btn" type="submit">Получить точный расчёт <i>↗</i></button><p>Перезвоним за 15 минут в рабочее время. Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p></div>
       </form>
     </div>
   </section>
@@ -1932,12 +1951,12 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   const form = document.getElementById('leadForm');
   form.addEventListener('submit', e => {
     e.preventDefault();
-    const fName = document.getElementById('fName'), fPhone = document.getElementById('fPhone'), fConsent = document.getElementById('fConsent'), err = document.getElementById('fErr');
+    const fName = document.getElementById('fName'), fPhone = document.getElementById('fPhone'), err = document.getElementById('fErr');
     [fName, fPhone].forEach(f => f.removeAttribute('aria-invalid'));
     if (!fName.value.trim()) { err.textContent = 'Напишите, как к вам обращаться.'; fName.setAttribute('aria-invalid', 'true'); fName.focus(); return; }
     if (fPhone.value.replace(/\D/g, '').length < 10) { err.textContent = 'Проверьте номер: нужно 10 цифр после +7.'; fPhone.setAttribute('aria-invalid', 'true'); fPhone.focus(); return; }
-    if (!fConsent.checked) { err.textContent = 'Отметьте согласие на обработку данных.'; fConsent.focus(); return; }
-    form.innerHTML = '<div class="done"><span class="mono brk">заявка принята</span><strong>Перезвоним в течение 15 минут</strong><span class="mono">Прототип: данные никуда не отправлены</span></div>';
+    const btn = form.querySelector('.calc-btn'); btn.disabled = true; btn.innerHTML = 'Отправляем…';
+    setTimeout(() => { form.innerHTML = '<div class="done"><span class="mono brk">заявка принята</span><strong>Перезвоним в течение 15 минут</strong><span class="mono">Прототип: данные никуда не отправлены</span></div>'; }, 700);
   });
 
   const prog = el => { const r = el.getBoundingClientRect(); return clamp(-r.top / (r.height - innerHeight)); };
