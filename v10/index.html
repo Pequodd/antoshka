@@ -1958,6 +1958,26 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
     </div>
   </section>
 
+  <!-- 3 -->
+  <section class="std" id="standard" data-aud-only="home" data-scene="room" data-anchor=".room-anchor" aria-label="Стандарт работ на объекте">
+    <div class="std-track" id="stdTrack">
+      <div class="sticky st-stage" id="stStage" data-k="0">
+        <div class="tint t0"></div><div class="tint t1"></div><div class="tint t2"></div><div class="tint t3"></div>
+        <div class="giant" id="stGiant" aria-hidden="true"><span>Разметка</span><span>Трасса</span><span>Вакуум</span><span>Запуск</span></div>
+        <div class="grid st-head"><h2>Стандарт работ</h2>
+          <div class="st-tabs" role="tablist" aria-label="Направление"><button type="button" role="tab" aria-selected="true" data-mode="ac">Кондиционер</button><button type="button" role="tab" aria-selected="false" data-mode="el">Электрика</button><button type="button" role="tab" aria-selected="false" data-mode="vent">Вентиляция</button></div></div>
+        <div class="room-anchor" aria-hidden="true"></div>
+        <svg class="st-lead" id="stLead" aria-hidden="true"><line id="stLine" x1="0" y1="0" x2="0" y2="0"/></svg>
+        <div class="st-call" id="stCall"><span class="mono" id="stKicker">шаг 01 из 04</span><p id="stLede" aria-live="polite"></p></div>
+        <span class="st-dot" id="stDot" aria-hidden="true"></span>
+        <div class="grid st-bar">
+          <div class="st-prog"><i id="stProg"></i></div>
+          <ul class="st-facts" id="stFacts"></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- 2 prices: one big price + package index (anveril "index list" pattern) -->
   <section class="sec" id="prices" data-aud-only="home">
     <div class="rule"></div>
@@ -1998,26 +2018,6 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
     <p class="px3-note">Для компаний — цены по договору и ТЗ, с учётом ночных работ и регламентного ТО. <a href="#b2b-form">Запросить КП ↗</a></p>
   </section>
 
-
-  <!-- 3 -->
-  <section class="std" id="standard" data-aud-only="home" data-scene="room" data-anchor=".room-anchor" aria-label="Стандарт работ на объекте">
-    <div class="std-track" id="stdTrack">
-      <div class="sticky st-stage" id="stStage" data-k="0">
-        <div class="tint t0"></div><div class="tint t1"></div><div class="tint t2"></div><div class="tint t3"></div>
-        <div class="giant" id="stGiant" aria-hidden="true"><span>Разметка</span><span>Трасса</span><span>Вакуум</span><span>Запуск</span></div>
-        <div class="grid st-head"><h2>Стандарт работ</h2>
-          <div class="st-tabs" role="tablist" aria-label="Направление"><button type="button" role="tab" aria-selected="true" data-mode="ac">Кондиционер</button><button type="button" role="tab" aria-selected="false" data-mode="el">Электрика</button><button type="button" role="tab" aria-selected="false" data-mode="vent">Вентиляция</button></div></div>
-        <div class="room-anchor" aria-hidden="true"></div>
-        <svg class="st-lead" id="stLead" aria-hidden="true"><line id="stLine" x1="0" y1="0" x2="0" y2="0"/></svg>
-        <div class="st-call" id="stCall"><span class="mono" id="stKicker">шаг 01 из 04</span><p id="stLede" aria-live="polite"></p></div>
-        <span class="st-dot" id="stDot" aria-hidden="true"></span>
-        <div class="grid st-bar">
-          <div class="st-prog"><i id="stProg"></i></div>
-          <ul class="st-facts" id="stFacts"></ul>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- 5 equipment heading + block from V4 -->
   <section class="sec" data-aud-only="home">
