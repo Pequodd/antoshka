@@ -803,6 +803,13 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
 .field input:focus, .b2b-form select:focus { border-bottom-color: var(--air); outline: none; }
 .consent input { accent-color: var(--air); }
 
+/* reviews: pinned like the works — cards slide sideways while you scroll down */
+.rv-stage { display: flex; flex-direction: column; justify-content: center; padding-top: 56px; }
+.rv-stage .title { padding-top: 16px; }
+.rv-stage .rv { padding-bottom: 0; }
+.rv-stage .rv-sum { position: static; }
+.rv-track { overflow: hidden; scroll-snap-type: none; }
+.rv-card { transform: translateX(var(--rx, 0px)); will-change: transform; }
 /* ===================== works: pinned, the ribbon travels sideways while you scroll down ===================== */
 .wk-stage { display: flex; flex-direction: column; justify-content: center; padding-top: 56px; }
 .wk-stage .title { padding-top: 16px; }
@@ -949,6 +956,11 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
   .wk, .wk.big, .wk.tall { height: calc(100svh - 420px); }
   .wk-stage .title { padding-bottom: 16px; }
   .wk-grid { overflow: visible; scroll-snap-type: none; }
+  .rv-track { overflow: hidden; }
+  .rv-stage .rv-links { display: none; }
+  .rv-stage .rv-sum > b { font-size: 56px; }
+  .rv-stage .title { padding-bottom: 12px; }
+  .rv-stage .title .aside { display: none; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -1313,6 +1325,7 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
   <!-- 10 reviews -->
   <section class="sec" id="reviews">
     <div class="rule"></div>
+    <div class="rv-pin" id="rvPin"><div class="sticky rv-stage">
     <div class="grid title"><h2>Отзывы</h2>
       <p class="aside">Публикуем отзывы с Яндекс Карт и 2ГИС как есть — без правок.</p></div>
     <div class="rv">
@@ -1331,6 +1344,7 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
         <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · декабрь 2025</span></div><p>Сеть магазинов: вентиляция и освещение в новом зале по нашему ТЗ, сдали к открытию. Закрывающие и исполнительная — без напоминаний.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">ИП</span><span><b>Игорь П.</b><span>Сеть магазинов, Екатеринбург · вентиляция и свет</span></span></div></article>
       </div>
     </div>
+    </div></div>
   </section>
 
   <!-- 10b three steps: fanned cards spread on arrival -->
@@ -1693,11 +1707,16 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
   }));
   /* reviews carousel */
   const rvTrack = document.getElementById('rvTrack'), rvPrev = document.getElementById('rvPrev'), rvNext = document.getElementById('rvNext');
-  const rvStep = () => rvTrack.firstElementChild.getBoundingClientRect().width + 16;
-  const rvSync = () => { rvPrev.disabled = rvTrack.scrollLeft < 4; rvNext.disabled = rvTrack.scrollLeft + rvTrack.clientWidth > rvTrack.scrollWidth - 4; };
-  rvPrev.addEventListener('click', () => rvTrack.scrollBy({ left: -rvStep(), behavior: reduce ? 'auto' : 'smooth' }));
-  rvNext.addEventListener('click', () => rvTrack.scrollBy({ left: rvStep(), behavior: reduce ? 'auto' : 'smooth' }));
-  rvTrack.addEventListener('scroll', rvSync, { passive: true }); addEventListener('resize', rvSync); rvSync();
+  /* pinned: the vertical scroll moves the cards; arrows move the page to the next card */
+  const rvPin = document.getElementById('rvPin'); let rvMax = 0;
+  const rvP = () => { const r = rvPin.getBoundingClientRect(), span = r.height - innerHeight; return span > 0 ? clamp(-r.top / span) : 0; };
+  function rvUpdate() { const p = rvP(); rvTrack.style.setProperty('--rx', `${(-p * rvMax).toFixed(1)}px`); rvPrev.disabled = p < .01; rvNext.disabled = p > .99 || !rvMax; }
+  function rvLayout() { rvTrack.style.setProperty('--rx', '0px'); rvMax = Math.max(0, rvTrack.scrollWidth - rvTrack.clientWidth); rvPin.style.height = (innerHeight + rvMax * 1.2) + 'px'; rvUpdate(); }
+  const rvGo = d => { if (!rvMax) return; const w = rvTrack.firstElementChild.getBoundingClientRect().width + 16, p = clamp((rvP() * rvMax + d * w) / rvMax);
+    const y = rvPin.getBoundingClientRect().top + scrollY + p * (rvPin.offsetHeight - innerHeight);
+    if (window.__lenis) window.__lenis.scrollTo(y, { duration: .9 }); else scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' }); };
+  rvPrev.addEventListener('click', () => rvGo(-1)); rvNext.addEventListener('click', () => rvGo(1));
+  addEventListener('scroll', rvUpdate, { passive: true }); addEventListener('resize', rvLayout); addEventListener('load', rvLayout); rvLayout();
   /* faq: one open at a time */
   const faqs = [...document.querySelectorAll('.faq-list details')];
   faqs.forEach(d => d.addEventListener('toggle', () => { if (d.open) faqs.forEach(x => { if (x !== d) x.open = false; }); }));
