@@ -470,31 +470,8 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 
 .mbar { display: none; }
 
-/* ---------- hero variant B: warm room cools down (temporary A/B switch) ---------- */
-.hero-cool, .hero-temp, .hero-read { display: none; }
+/* ---------- hero: brand film (E2 — the film bursts out of the call-to-action) ---------- */
 .offer h1 em { font-style: normal; }
-.hero-vsw { position: absolute; z-index: 5; top: 76px; right: var(--m); display: flex; align-items: center; gap: 4px; padding: 4px 4px 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.75); backdrop-filter: blur(8px); }
-.hero-vsw button { all: unset; cursor: pointer; min-width: 30px; height: 28px; display: grid; place-items: center; border-radius: 999px; font: inherit; color: var(--muted); }
-.hero-vsw button[aria-pressed="true"] { background: var(--ink); color: #fff; }
-.hero-vsw button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
-html[data-hero="b"] .hero::before { height: calc(100% - 56px); background: linear-gradient(180deg, #F6DCC6 0%, #FBEDE2 55%, #FAFAFA 100%); }
-html[data-hero="b"] .hero-cool { display: block; position: absolute; z-index: 0; left: var(--m); right: var(--m); top: 56px; bottom: 0; background: linear-gradient(180deg, #CFE3EE 0%, #E9F2F7 55%, #FAFAFA 100%); opacity: 0; transition: opacity 3.6s cubic-bezier(.4,0,.2,1) .4s; }
-html[data-hero="b"] .hero.cooled .hero-cool { opacity: 1; }
-html[data-hero="b"] .hero .word { display: none; }
-html[data-hero="b"] .hero-temp { display: block; position: absolute; z-index: 0; left: var(--m); right: var(--m); top: 64px; text-align: center; font-weight: 200; font-size: min(34vw, 62vh); line-height: .82; letter-spacing: -.07em; font-variant-numeric: tabular-nums;
-  color: transparent; -webkit-text-stroke: 1.5px rgba(212,86,26,.55); transition: -webkit-text-stroke-color 3.6s ease .4s; pointer-events: none; }
-html[data-hero="b"] .hero-temp sup { font-size: .42em; vertical-align: .9em; margin-left: .02em; }
-html[data-hero="b"] .hero.cooled .hero-temp { -webkit-text-stroke-color: rgba(36,54,63,.22); }
-html[data-hero="b"] .hero-read { display: grid; position: absolute; z-index: 3; right: var(--m); top: 34%; gap: 4px; justify-items: end; text-align: right; padding: 16px 18px; border-radius: 10px; background: rgba(255,255,255,.72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(36,54,63,.08); }
-html[data-hero="b"] .hero-read b { font-weight: 300; font-size: 44px; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: #A8490D; transition: color 3.6s ease .4s; }
-html[data-hero="b"] .hero.cooled .hero-read b { color: #2E6B86; }
-html[data-hero="b"] .hero-was { opacity: 0; transition: opacity .6s ease 3.6s; }
-html[data-hero="b"] .hero.cooled .hero-was { opacity: 1; }
-html[data-hero="b"] .offer h1 { font-size: clamp(44px, 4.6vw, 76px); }
-html[data-hero="b"] .offer h1 em { color: var(--orange-ink); }
-html[data-hero="b"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
-html[data-hero="b"] .offer .btn-ink:hover { background: #FF8A35; }
-/* ---------- hero variant E: brand video opens from a window to full bleed ---------- */
 .hero-win { display: none; }
 html[data-hero="e"] .hero::before, html[data-hero="e"] .hero .word { display: none; }
 html[data-hero="e"] .hero-win { display: block; position: absolute; inset: 56px 0 0; z-index: 0; background: #1B2A31; overflow: hidden;
@@ -527,92 +504,6 @@ html[data-hero="e"] .offer .btn-ink { background: var(--orange); color: var(--in
 html[data-hero="e"] .hero.open .offer .btn-soft { background: rgba(255,255,255,.14); color: #fff; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 html[data-hero="e"] .hero .price { transition: background .9s ease .6s, border-color .9s ease .6s; padding: 18px 20px; border-radius: 10px; border: 1px solid transparent; }
 html[data-hero="e"] .hero.open .price { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.2); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-/* ---------- hero variant F: editorial split — offer on paper, film on the right half ---------- */
-.hero-split { display: none; }
-html[data-hero="f"] .hero::before, html[data-hero="f"] .hero .word { display: none; }
-html[data-hero="f"] .hero-split { display: block; position: absolute; inset: 56px 0 0; z-index: 0; }
-html[data-hero="f"] .sp-media { position: absolute; top: 0; bottom: 0; right: 0; width: 50%; overflow: hidden; background: #1B2A31; clip-path: inset(0 0 100% 0); transition: clip-path 1.3s cubic-bezier(.76,0,.24,1); }
-html[data-hero="f"] .hero.open .sp-media { clip-path: inset(0 0 0 0); }
-html[data-hero="f"] .sp-media video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.2); transition: transform 2s cubic-bezier(.16,1,.3,1) .3s; }
-html[data-hero="f"] .hero.open .sp-media video { transform: scale(1); }
-html[data-hero="f"] .sp-media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18,26,30,0) 60%, rgba(18,26,30,.6) 100%); }
-html[data-hero="f"] .sp-stats { position: absolute; left: var(--m); top: 40px; width: calc(50% - var(--m) * 2); margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); }
-html[data-hero="f"] .sp-stats div { padding: 12px 16px 0 0; }
-html[data-hero="f"] .sp-stats dt { color: var(--muted); }
-html[data-hero="f"] .sp-stats dd { margin: 6px 0 0; font-weight: 300; font-size: clamp(28px, 2.6vw, 40px); letter-spacing: -.04em; }
-html[data-hero="f"] .hero .foot::before { width: 50%; }
-html[data-hero="f"] .offer { grid-column: 1 / 6; }
-html[data-hero="f"] .offer h1 { font-size: clamp(40px, 3.8vw, 62px); }
-html[data-hero="f"] .hero .scroll { display: none; }
-html[data-hero="f"] .hero .price { color: #fff; padding: 18px 20px; border-radius: 10px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.22); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); opacity: 0; transition: opacity .6s ease 1.2s; }
-html[data-hero="f"] .hero.open .price { opacity: 1; }
-html[data-hero="f"] .hero .price .mono { color: rgba(255,255,255,.78); }
-html[data-hero="f"] .offer h1 em { color: var(--orange-ink); }
-html[data-hero="f"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
-/* ---------- hero variant H: big Swiss type with a live film pill inside the headline ---------- */
-.h1-pill { display: none; }
-html[data-hero="h"] .hero::before, html[data-hero="h"] .hero .word { display: none; }
-html[data-hero="h"] .hero .foot { top: 56px; align-content: center; padding-bottom: 0; }
-html[data-hero="h"] .hero .foot::before { display: none; }
-html[data-hero="h"] .offer { grid-column: 1 / -1; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); row-gap: 28px; }
-html[data-hero="h"] .offer h1 { padding-bottom: 36px; border-bottom: 1px solid var(--line); }
-html[data-hero="h"] .offer .offer-tags { align-self: start; padding-top: .3em; }
-html[data-hero="h"] .offer .row { align-self: start; }
-html[data-hero="h"] .offer .brk, html[data-hero="h"] .offer h1 { grid-column: 1 / -1; }
-html[data-hero="h"] .offer h1 { font-size: clamp(52px, 7.4vw, 128px); line-height: .98; letter-spacing: -.05em; max-width: 13.5em; text-wrap: initial; }
-html[data-hero="h"] .offer h1 em { color: var(--orange-ink); }
-html[data-hero="h"] .offer p { grid-column: 1 / 6; margin: 0; }
-html[data-hero="h"] .offer .offer-tags { grid-column: 7 / 10; align-self: end; }
-html[data-hero="h"] .offer .row { grid-column: 10 / -1; justify-content: flex-end; align-self: end; }
-html[data-hero="h"] .offer .btn-ink { background: var(--orange); color: var(--ink); }
-html[data-hero="h"] .hero .price, html[data-hero="h"] .hero .scroll { display: none; }
-html[data-hero="h"] .h1-pill { display: inline-block; vertical-align: -.06em; height: .78em; width: 0; border-radius: 999px; overflow: hidden; background: #1B2A31; margin: 0 .04em;
-  transition: width 1.3s cubic-bezier(.76,0,.24,1) .3s; }
-html[data-hero="h"] .hero.open .h1-pill { width: 2.3em; }
-html[data-hero="h"] .h1-pill video { width: 100%; height: 100%; object-fit: cover; transform: scale(1.3); transition: transform 2s cubic-bezier(.16,1,.3,1) .5s; }
-html[data-hero="h"] .hero.open .h1-pill video { transform: none; }
-html[data-hero="h"] .hero .anchor { display: none; }
-/* ============ HERO ITERATIONS (html[data-iter="2"] layers over the base variant) ============ */
-.hero-dims, .hero-scale, .h1-pic, .h1-dot, .sp-cap { display: none; }
-.offer h1 .hw { display: inline-block; }
-html[data-hero="h"]:not([data-iter="2"]) .h1-pic { display: none; }
-/* A2 — the unit on drawing paper with dimension lines */
-html[data-hero="a"][data-iter="2"] .hero .word { display: none; }
-html[data-hero="a"][data-iter="2"] .hero::before { height: calc(100% - 56px); background:
-  linear-gradient(rgba(36,54,63,.07) 1px, transparent 1px) 0 0 / 24px 24px, linear-gradient(90deg, rgba(36,54,63,.07) 1px, transparent 1px) 0 0 / 24px 24px, #F4F6F7;
-  -webkit-mask-image: radial-gradient(75% 70% at 50% 35%, #000 40%, transparent 100%); mask-image: radial-gradient(75% 70% at 50% 35%, #000 40%, transparent 100%); }
-html[data-hero="a"][data-iter="2"] .hero-dims { display: block; position: absolute; inset: 0; z-index: 1; pointer-events: none; color: var(--ink); }
-.hero-dims .dm { position: absolute; }
-.hero-dims .dm-w { left: 26%; right: 26%; top: 17%; height: 0; border-top: 1px solid var(--ink); transform: scaleX(0); transition: transform 1s cubic-bezier(.65,0,.35,1) .3s; }
-.hero-dims .dm-w::before, .hero-dims .dm-w::after { content: ""; position: absolute; top: -7px; width: 1px; height: 13px; background: var(--ink); }
-.hero-dims .dm-w::before { left: 0; } .hero-dims .dm-w::after { right: 0; }
-.hero-dims .dm-w span { position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); white-space: nowrap; background: #F4F6F7; padding: 0 8px; }
-.hero-dims .dm-h { left: 77%; top: 22%; bottom: 52%; width: 0; border-left: 1px solid var(--ink); transform: scaleY(0); transform-origin: 0 0; transition: transform .8s cubic-bezier(.65,0,.35,1) .9s; }
-.hero-dims .dm-h::before, .hero-dims .dm-h::after { content: ""; position: absolute; left: -7px; width: 13px; height: 1px; background: var(--ink); }
-.hero-dims .dm-h::before { top: 0; } .hero-dims .dm-h::after { bottom: 0; }
-.hero-dims .dm-h span { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); white-space: nowrap; }
-.hero-dims .dm-n { position: absolute; display: flex; align-items: center; gap: 10px; opacity: 0; transition: opacity .6s ease; }
-.hero-dims .dm-n i { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(244,121,32,.2); }
-.hero-dims .n1 { left: var(--m); top: 24%; transition-delay: 1.4s; } .hero-dims .n2 { left: var(--m); top: 31%; transition-delay: 1.55s; } .hero-dims .n3 { left: var(--m); top: 38%; transition-delay: 1.7s; }
-.hero-dims .dm-n::after { content: ""; width: 9vw; border-top: 1px dashed rgba(36,54,63,.35); order: -1; display: none; }
-html[data-hero="a"][data-iter="2"] .hero.open .dm-w { transform: none; }
-html[data-hero="a"][data-iter="2"] .hero.open .dm-h { transform: none; }
-html[data-hero="a"][data-iter="2"] .hero.open .dm-n { opacity: 1; }
-/* B2 — a thermometer ruler: the marker slides from +32° to +22° */
-html[data-hero="b"][data-iter="2"] .hero-temp, html[data-hero="b"][data-iter="2"] .hero-read { display: none; }
-html[data-hero="b"][data-iter="2"] .hero-scale { display: block; position: absolute; z-index: 3; left: var(--m); right: var(--m); top: 128px; --pos: calc((var(--tc, 32) - 18) / 14 * 100%); }
-.sc-track { position: relative; height: 34px; background: repeating-linear-gradient(90deg, rgba(36,54,63,.35) 0 1px, transparent 1px calc(100% / 28)) bottom / 100% 10px no-repeat,
-  repeating-linear-gradient(90deg, rgba(36,54,63,.6) 0 1px, transparent 1px calc(100% / 7)) bottom / 100% 18px no-repeat; border-bottom: 1px solid var(--ink); }
-.sc-track::before { content: ""; position: absolute; left: var(--pos); right: 0; bottom: -2px; height: 3px; background: linear-gradient(90deg, #2E6B86, #F47920); }
-.sc-mark { position: absolute; left: var(--pos); bottom: -6px; width: 1px; height: 52px; background: var(--ink); }
-.sc-mark::after { content: ""; position: absolute; left: -5px; bottom: 0; width: 11px; height: 11px; border-radius: 50%; background: #A8490D; transition: background 3.4s ease .4s; }
-html[data-hero="b"] .hero.cooled .sc-mark::after { background: #2E6B86; }
-.sc-mark b { position: absolute; bottom: 58px; left: 0; transform: translateX(-50%); font-weight: 300; font-size: clamp(40px, 4vw, 64px); line-height: 1; letter-spacing: -.05em; font-variant-numeric: tabular-nums; color: #A8490D; transition: color 3.4s ease .4s; white-space: nowrap; }
-html[data-hero="b"] .hero.cooled .sc-mark b { color: #2E6B86; }
-.sc-lab { display: flex; justify-content: space-between; margin-top: 10px; color: var(--muted); }
-.sc-lab span:first-child { margin-left: -4px; } .sc-lab span:last-child { margin-right: -4px; }
-.sc-cap { display: flex; justify-content: space-between; margin-top: 4px; color: var(--faint); }
-html[data-hero="b"][data-iter="2"] .hero .anchor { top: 30%; bottom: 40%; }
 /* E2 — the film bursts out of the call-to-action; the offer stays on screen */
 html[data-hero="e"][data-iter="2"] .hero-win { clip-path: circle(0% at var(--cx, 50%) var(--cy, 42%)); transition: clip-path 1.8s cubic-bezier(.7,0,.2,1); }
 html[data-hero="e"][data-iter="2"] .hero.open .hero-win { clip-path: circle(150% at var(--cx, 50%) var(--cy, 42%)); }
@@ -620,33 +511,6 @@ html[data-hero="e"][data-iter="2"] .hero-iris { left: var(--cx, 50%); top: calc(
 html[data-hero="e"][data-iter="2"] .offer > * { opacity: 1; transform: none; transition: none; }
 html[data-hero="e"][data-iter="2"] .offer .btn-ink { animation: ctaPulse 1.1s ease-in-out 2; }
 @keyframes ctaPulse { 50% { box-shadow: 0 0 0 10px rgba(244,121,32,.25); } }
-/* F2 — offer on top, figures at the foot, film in an inset card with a live caption */
-html[data-hero="f"][data-iter="2"] .sp-media { top: 16px; bottom: 24px; right: var(--m); width: calc(50% - var(--m) * 1.5); border-radius: 12px; clip-path: inset(0 0 0 100% round 12px); }
-html[data-hero="f"][data-iter="2"] .hero.open .sp-media { clip-path: inset(0 0 0 0 round 12px); }
-html[data-hero="f"][data-iter="2"] .sp-cap { display: grid; position: absolute; z-index: 1; left: 20px; right: 20px; bottom: 18px; gap: 4px; color: rgba(255,255,255,.85); }
-html[data-hero="f"][data-iter="2"] .sp-cap span + span { color: rgba(255,255,255,.6); }
-html[data-hero="f"][data-iter="2"] .sp-cap i { display: block; height: 2px; margin-top: 10px; background: rgba(255,255,255,.25); position: relative; overflow: hidden; }
-html[data-hero="f"][data-iter="2"] .sp-cap i::after { content: ""; position: absolute; inset: 0; background: var(--orange); transform-origin: 0 0; animation: capRun 6.08s linear infinite; }
-@keyframes capRun { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-html[data-hero="f"][data-iter="2"] .sp-stats { top: auto; bottom: 28px; }
-html[data-hero="f"][data-iter="2"] .hero .foot { top: 96px; bottom: auto; }
-html[data-hero="f"][data-iter="2"] .hero .foot::before, html[data-hero="f"][data-iter="2"] .hero .price { display: none; }
-html[data-hero="f"][data-iter="2"] .offer h1 { font-size: clamp(44px, 4.4vw, 72px); }
-/* H2 — words rise one by one, three different inserts inside the headline */
-html[data-hero="h"][data-iter="2"] .offer h1 .hw { overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
-html[data-hero="h"][data-iter="2"] .offer h1 .hw > span { display: inline-block; transform: translateY(105%); transition: transform 1s cubic-bezier(.16,1,.3,1); }
-html[data-hero="h"][data-iter="2"] .hero.open .offer h1 .hw > span { transform: none; }
-html[data-hero="h"][data-iter="2"] .hero.open .offer h1 .hw:nth-of-type(2) > span { transition-delay: .08s; }
-html[data-hero="h"][data-iter="2"] .hero.open .offer h1 .hw:nth-of-type(3) > span { transition-delay: .16s; }
-html[data-hero="h"][data-iter="2"] .hero.open .offer h1 em .hw > span { transition-delay: .24s; }
-html[data-hero="h"][data-iter="2"] .h1-pic { display: inline-block; }
-html[data-hero="h"][data-iter="2"] .h1-pic img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.3); transition: transform 2s cubic-bezier(.16,1,.3,1) .7s; }
-html[data-hero="h"][data-iter="2"] .hero.open .h1-pic { width: 1.5em; transition-delay: .6s; }
-html[data-hero="h"][data-iter="2"] .hero.open .h1-pic img { transform: none; }
-html[data-hero="h"][data-iter="2"] .h1-dot { display: inline-grid; place-items: center; vertical-align: .02em; width: .8em; height: .8em; margin-left: .12em; border-radius: 50%; background: var(--orange); color: var(--ink);
-  font-size: .5em; transform: scale(0) rotate(-90deg); transition: transform .8s cubic-bezier(.3,1.6,.5,1) 1.1s; }
-html[data-hero="h"][data-iter="2"] .hero.open .h1-dot { transform: none; }
-html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px); max-width: none; }
 /* ============ LAYOUT SYSTEM ============
    12-col grid, side margin --m.
    G1 = column 1 (left edge): section titles and primary content.
@@ -786,32 +650,9 @@ html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px
   .mbar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: fixed; z-index: 50; left: 0; right: 0; bottom: 0;
     padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px)); background: rgba(250,250,250,.94); border-top: 1px solid var(--line); backdrop-filter: blur(10px); }
   .mbar .btn { justify-content: center; min-height: 46px; }
-  html[data-hero="b"] .hero-temp { top: 70px; font-size: 52vw; }
-  html[data-hero="b"] .hero-read { display: none; }
-  html[data-hero="b"] .offer h1 { font-size: 38px; }
-  .hero-vsw { top: 64px; }
-  html[data-hero="e"] .offer h1, html[data-hero="f"] .offer h1 { font-size: 34px; }
+  html[data-hero="e"] .offer h1 { font-size: 34px; }
   .hero .price, .hero .scroll { display: none; }
-  html[data-hero="f"] .sp-media { width: 100%; height: 34%; bottom: auto; }
-  html[data-hero="f"] .sp-stats { display: none; }
-  html[data-hero="f"] .hero .foot::before { width: auto; }
-  html[data-hero="f"] .offer { grid-column: 1 / -1; }
   html[data-hero="e"] .hero .price { justify-items: start; text-align: left; }
-  html[data-hero="h"] .offer h1 { font-size: 46px; }
-  html[data-hero="h"] .offer p { display: none; }
-  html[data-hero="h"] .offer h1 { padding-bottom: 20px; }
-  html[data-hero="h"] .offer p, html[data-hero="h"] .offer .offer-tags, html[data-hero="h"] .offer .row { grid-column: 1 / -1; justify-content: flex-start; }
-  html[data-hero="h"] .offer { row-gap: 18px; }
-  html[data-hero="a"][data-iter="2"] .hero-dims { display: none; }
-  html[data-hero="b"][data-iter="2"] .hero-scale { top: 112px; }
-  html[data-hero="b"][data-iter="2"] .sc-cap span + span, html[data-hero="b"][data-iter="2"] .sc-lab span:nth-child(even) { visibility: hidden; }
-  html[data-hero="b"][data-iter="2"] .sc-mark b { font-size: 34px; }
-  html[data-hero="b"][data-iter="2"] .hero .anchor { top: 30%; bottom: 52%; }
-  html[data-hero="f"][data-iter="2"] .sp-media { top: 12px; bottom: auto; height: 32%; left: var(--m); width: auto; }
-  html[data-hero="f"][data-iter="2"] .sp-cap span + span { display: none; }
-  html[data-hero="f"][data-iter="2"] .hero .foot { top: auto; bottom: 0; }
-  html[data-hero="f"][data-iter="2"] .offer h1 { font-size: 34px; }
-  html[data-hero="h"][data-iter="2"] .offer h1 { font-size: 44px; }
   .eq-h { font-size: 44px; grid-column: 1 / -1; }
   .eq-idx { grid-column: 1 / -1; text-align: left; padding-bottom: 0; }
   /* layout system, mobile */
@@ -825,11 +666,8 @@ html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px
   .rv-track { grid-auto-columns: 86%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-dims *, .hero-dims .dm, .offer h1 .hw > span, .h1-pic, .h1-pic img, .h1-dot { transition: none !important; }
-  html[data-hero="f"][data-iter="2"] .sp-cap i::after, html[data-hero="e"][data-iter="2"] .offer .btn-ink { animation: none; }
-  html[data-hero="h"] .h1-pill, html[data-hero="h"] .h1-pill video { transition: none !important; }
   html[data-hero="e"] .hero-iris { display: none; }
-  html[data-hero="e"] .hero-win, html[data-hero="e"] .hero-win video, html[data-hero="e"] .offer > *, html[data-hero="f"] .sp-media, html[data-hero="f"] .sp-media video { transition: none !important; }
+  html[data-hero="e"] .hero-win, html[data-hero="e"] .hero-win video, html[data-hero="e"] .offer > * { transition: none !important; }
   html { scroll-behavior: auto; }
   .ring .ticks { animation: none; }
   .w { color: var(--ink); transition: none; }
@@ -878,35 +716,14 @@ html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px
 
 <main id="top">
   <!-- 1 -->
-  <section class="hero" data-scene="split" data-anchor=".anchor" aria-label="Climate Solution Pro">
-    <div class="hero-cool" aria-hidden="true"></div>
-    <div class="word" aria-hidden="true">climate</div>
-    <div class="hero-temp" aria-hidden="true"><span id="heroTemp">32</span><sup>°</sup></div>
-    <div class="hero-read" aria-hidden="true"><span class="mono">в комнате</span><b><span id="heroRead">32</span> °C</b><span class="mono hero-was">было +32 °C · сейчас прохладно</span></div>
-    <div class="hero-vsw mono" role="group" aria-label="Вариант первого экрана"><span>экран:</span><button type="button" data-h="a">A</button><button type="button" data-h="a2">A2</button><button type="button" data-h="b">B</button><button type="button" data-h="b2">B2</button><button type="button" data-h="e">E</button><button type="button" data-h="e2">E2</button><button type="button" data-h="f">F</button><button type="button" data-h="f2">F2</button><button type="button" data-h="h">H</button><button type="button" data-h="h2">H2</button></div>
+  <section class="hero" data-scene="off" data-anchor=".anchor" aria-label="Climate Solution Pro">
     <div class="hero-win" aria-hidden="true"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></div>
     <i class="hero-iris" aria-hidden="true"></i>
-    <div class="hero-dims" aria-hidden="true">
-      <div class="dm dm-w"><span class="mono">ширина блока · 800 мм</span></div>
-      <div class="dm dm-h"><span class="mono">290 мм</span></div>
-      <div class="dm-n n1"><i></i><span class="mono">инверторный внутренний блок</span></div>
-      <div class="dm-n n2"><i></i><span class="mono">по уровню · допуск ±1 мм</span></div>
-      <div class="dm-n n3"><i></i><span class="mono">трасса до 5 м — в цене</span></div>
-    </div>
-    <div class="hero-scale" aria-hidden="true">
-      <div class="sc-track"><i class="sc-mark"><b><span id="heroScaleV">32</span>°</b></i></div>
-      <div class="sc-lab mono"><span>18°</span><span>20°</span><span>22°</span><span>24°</span><span>26°</span><span>28°</span><span>30°</span><span>32°</span></div>
-      <div class="sc-cap mono"><span>было в комнате</span><span>стало через 3 минуты после запуска</span></div>
-    </div>
-    <div class="hero-split" aria-hidden="true">
-      <div class="sp-media"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video><div class="sp-cap mono"><span>объект · коттедж 180 м², Челябинск</span><span>кондиционеры, вентиляция, щит</span><i></i></div></div>
-      <dl class="sp-stats"><div><dt class="mono">лет на рынке</dt><dd>8</dd></div><div><dt class="mono">объектов сдано</dt><dd>1&nbsp;200+</dd></div><div><dt class="mono">гарантия по договору</dt><dd>3 года</dd></div></dl>
-    </div>
     <div class="anchor" aria-hidden="true"></div>
     <div class="grid foot">
       <div class="offer c1-6">
         <span class="mono brk">Челябинск · Екатеринбург</span>
-        <h1><span class="hw"><span>Климат</span></span> <span class="h1-pill" aria-hidden="true"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></span> <span class="hw"><span>и&nbsp;инженерные</span></span> <span class="h1-pill h1-pic" aria-hidden="true"><img src="../assets/photos/store-ducts-1-sm.webp" alt=""></span> <span class="hw"><span>системы</span></span> <em><span class="hw"><span>под&nbsp;ключ</span></span></em><span class="h1-dot" aria-hidden="true">↗</span></h1>
+        <h1>Климат и инженерные системы <em>под&nbsp;ключ</em></h1>
         <p>Кондиционирование, вентиляция и электрика для домов, квартир и бизнеса. Проектируем, устанавливаем и обслуживаем инженерные системы любой сложности.</p>
         <span class="mono offer-tags">Кондиционирование • вентиляция • электрика</span>
         <div class="row"><a class="btn btn-ink" href="#contact">Рассчитать стоимость <i>↗</i></a></div>
@@ -1242,45 +1059,13 @@ html[data-hero="h"][data-iter="2"] .offer h1 { font-size: clamp(52px, 7vw, 120px
   const mobile = matchMedia('(max-width: 900px)').matches;
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 
-  /* hero variant B: temperature counts 32 -> 22, room cools, cold airflow starts */
-  const hero = document.querySelector('.hero'), heroBtns = [...hero.querySelectorAll('.hero-vsw button')];
-  let heroRun = 0;
-  function heroCool() {
-    cancelAnimationFrame(heroRun); hero.classList.remove('cooled'); hero.dataset.air = '0';
-    const tEl = document.getElementById('heroTemp'), rEl = document.getElementById('heroRead');
-    const sEl = document.getElementById('heroScaleV');
-    const set = (v, f = v) => { tEl.textContent = v; rEl.textContent = v; sEl.textContent = v; hero.style.setProperty('--tc', f); };
-    if (reduce) { set(22); hero.classList.add('cooled'); hero.dataset.air = '1'; return; }
-    set(32); const t0 = performance.now() + 500, D = 3400;
-    requestAnimationFrame(() => requestAnimationFrame(() => hero.classList.add('cooled')));
-    const step = now => { const k = clamp((now - t0) / D), e = 1 - Math.pow(1 - k, 3); set(Math.round(32 - 10 * e), (32 - 10 * e).toFixed(2)); if (k > .15) hero.dataset.air = '1'; if (k < 1) heroRun = requestAnimationFrame(step); };
-    heroRun = requestAnimationFrame(step);
-  }
-  /* E: the brand film loads only when the variant is shown, then the window opens to full bleed */
-  let heroT = 0;
-  function heroMedia(v, it) {
-    clearTimeout(heroT); hero.classList.remove('open');
-    if (v === 'e' && it) { const r = hero.querySelector('.offer .btn-ink').getBoundingClientRect(), h = hero.getBoundingClientRect();
-      hero.style.setProperty('--cx', (r.left + r.width / 2 - h.left) + 'px'); hero.style.setProperty('--cy', (r.top + r.height / 2 - h.top - 56) + 'px'); }
-    const own = { e: '.hero-win video', f: '.hero-split video', h: '.h1-pill video' };
-    Object.entries(own).forEach(([k, sel]) => { const vid = hero.querySelector(sel);
-      if (k !== v) { vid.pause(); return; }
-      if (!vid.src) vid.src = vid.dataset.src;
-      if (!reduce) vid.play().catch(() => {}); });
-    if ('efh'.includes(v) || it) heroT = setTimeout(() => hero.classList.add('open'), reduce ? 0 : v === 'e' ? (it ? 1600 : 700) : 250);
-  }
-  /* a variant is a base letter plus an optional iteration ("e2" = E, iteration 2) */
-  function heroSet(key) {
-    const v = key[0], it = key.slice(1), root = document.documentElement;
-    root.dataset.hero = v; if (it) root.dataset.iter = it; else delete root.dataset.iter;
-    heroBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.h === key));
-    try { localStorage.setItem('csp-hero', key); } catch (e) {}
-    hero.dataset.scene = 'efh'.includes(v) ? 'off' : 'split';
-    heroMedia(v, it);
-    if (v === 'b') heroCool(); else { cancelAnimationFrame(heroRun); hero.classList.remove('cooled'); delete hero.dataset.air; }
-  }
-  heroBtns.forEach(b => b.addEventListener('click', () => heroSet(b.dataset.h)));
-  { let v = new URLSearchParams(location.search).get('hero'); try { v = v || localStorage.getItem('csp-hero'); } catch (e) {} heroSet(/^[abefh]2?$/.test(v || '') ? v : 'e'); }
+  /* hero (E2): the offer is on screen, the crew film bursts out of the call-to-action */
+  const hero = document.querySelector('.hero'), heroVid = hero.querySelector('.hero-win video');
+  document.documentElement.dataset.hero = 'e'; document.documentElement.dataset.iter = '2';
+  { const r = hero.querySelector('.offer .btn-ink').getBoundingClientRect(), h = hero.getBoundingClientRect();
+    hero.style.setProperty('--cx', (r.left + r.width / 2 - h.left) + 'px'); hero.style.setProperty('--cy', (r.top + r.height / 2 - h.top - 56) + 'px'); }
+  heroVid.src = heroVid.dataset.src; if (!reduce) heroVid.play().catch(() => {});
+  setTimeout(() => hero.classList.add('open'), reduce ? 0 : 1600);
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
