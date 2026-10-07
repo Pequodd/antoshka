@@ -955,6 +955,36 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
 .calc-btn:disabled { opacity: .7; cursor: progress; }
 .calc-send p { flex: 1; min-width: 220px; margin: 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
 .end .err:empty { display: none; }
+/* on site: pinned photo story (numa-like, own motion: photos stack up from below) */
+.ph { position: relative; z-index: 3; background: var(--bg); margin-top: var(--out); }
+.ph-stage { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding: 76px var(--m) 24px; }
+.ph-left { grid-column: 1 / 5; display: grid; grid-template-rows: auto 1fr auto; min-height: 0; }
+.ph-h { margin: 0; padding-bottom: 22px; border-bottom: 1px solid var(--line); font-weight: 400; font-size: clamp(40px, 4vw, 68px); line-height: 1; letter-spacing: -.05em; color: var(--air); }
+.ph-list { list-style: none; margin: 0; padding: 0; align-self: center; display: grid; gap: 4px; }
+.ph-list button { all: unset; cursor: pointer; display: flex; align-items: center; gap: 12px; padding: 6px 0; font-size: 15px; color: var(--faint); transition: color .3s ease, font-size .3s ease; }
+.ph-list i { width: 14px; height: 14px; border-radius: 50%; border: 1px solid transparent; display: grid; place-items: center; transition: border-color .3s ease; }
+.ph-list i::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--air); transform: scale(0); transition: transform .35s cubic-bezier(.3,1.6,.5,1); }
+.ph-list .on button { color: var(--ink); font-size: 19px; }
+.ph-list .on i { border-color: rgba(47,91,234,.35); background: var(--air-soft); }
+.ph-list .on i::after { transform: scale(1); }
+.ph-list button:hover { color: var(--muted); }
+.ph-list button:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 4px; }
+.ph-text { display: grid; gap: 8px; padding-bottom: 8px; transition: opacity .25s ease, transform .35s ease; }
+.ph-text.swap { opacity: 0; transform: translateY(8px); }
+.ph-text .mono { color: var(--air); }
+.ph-text h3 { margin: 0; font-weight: 400; font-size: clamp(24px, 2.2vw, 34px); letter-spacing: -.03em; }
+.ph-text p { margin: 0; color: var(--muted); font-size: 17px; line-height: 1.45; max-width: 36ch; }
+.ph-card { grid-column: 5 / -1; position: relative; overflow: hidden; border-radius: 24px; background: #DDE2E5; isolation: isolate; }
+.ph-img { position: absolute; inset: 0; margin: 0; z-index: var(--k); clip-path: inset(100% 0 0 0 round 24px); transition: clip-path 1s cubic-bezier(.76,0,.24,1); }
+.ph-img.on, .ph-img.past { clip-path: inset(0 0 0 0 round 24px); }
+.ph-img img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.18); transition: transform 1.6s cubic-bezier(.16,1,.3,1), filter 1s ease; }
+.ph-img.on img { transform: scale(1.02); }
+.ph-img.past img { transform: scale(1); filter: brightness(.85); }
+.ph-card::after { content: ""; position: absolute; inset: 0; z-index: 20; pointer-events: none; background: linear-gradient(180deg, rgba(18,26,30,.28) 0%, rgba(18,26,30,0) 22%, rgba(18,26,30,0) 72%, rgba(18,26,30,.5) 100%); }
+.ph-tag { position: absolute; z-index: 21; right: 18px; top: 18px; padding: 8px 14px; border-radius: 999px; background: rgba(255,255,255,.18); color: #fff; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.ph-bar { position: absolute; z-index: 21; left: 22px; right: 22px; bottom: 20px; display: flex; align-items: center; gap: 16px; color: #fff; }
+.ph-prog { flex: 1; height: 2px; background: rgba(255,255,255,.3); border-radius: 2px; overflow: hidden; }
+.ph-prog i { display: block; height: 100%; width: 0; background: #fff; }
 /* ===================== works: pinned, the ribbon travels sideways while you scroll down ===================== */
 .wk-stage { display: flex; flex-direction: column; justify-content: center; padding-top: 56px; }
 .wk-stage .title { padding-top: 16px; }
@@ -1135,6 +1165,14 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   .end .form { border-radius: 0 0 var(--r) var(--r); border-left: 1px solid var(--line); border-top: 0; }
   .calc { row-gap: 0; }
   .calc-btn { width: 100%; }
+  .ph-stage { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; row-gap: 14px; padding: 68px var(--m) 84px; }
+  .ph-left { display: contents; }
+  .ph-h { font-size: 34px; padding-bottom: 12px; }
+  .ph-list { display: none; }
+  .ph-h { grid-row: 1; }
+  .ph-card { grid-column: 1; grid-row: 2; min-height: 0; border-radius: 18px; }
+  .ph-text { grid-row: 3; }
+  .ph-text p { font-size: 15px; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -1146,6 +1184,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   .rv-track { grid-auto-columns: 86%; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .ph-img, .ph-img img, .ph-text { transition: none !important; }
   .fx-air i { animation: none; }
   .go-steps li, .go-steps::before { transition: none !important; } .go-head .mono::before { animation: none; }
   .hc-card, .hc-card video, .hc-dirs a, html[data-hv="b"] .offer > * { transition: none !important; }
@@ -1264,6 +1303,22 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
           <a class="btn ac-btn" href="#b2b-form" data-set-aud="biz">Запросить КП <i>↗</i></a></div>
       </article>
     </div>
+  </section>
+
+  <!-- 2d on site: pinned photo story — list on the left, stacked photos slide up on the right -->
+  <section class="ph" id="onsite" aria-labelledby="phH">
+    <div class="ph-track" id="phTrack" style="height:560vh"><div class="sticky ph-stage">
+      <div class="ph-left">
+        <h2 class="ph-h" id="phH">Наша работа —<br>вблизи</h2>
+        <ol class="ph-list" aria-label="Объекты"><li class="on"><button type="button" data-k="0"><i aria-hidden="true"></i>Фасад без автовышки</button></li><li><button type="button" data-k="1"><i aria-hidden="true"></i>Круглый год</button></li><li><button type="button" data-k="2"><i aria-hidden="true"></i>Торговые залы</button></li><li><button type="button" data-k="3"><i aria-hidden="true"></i>Свет и лотки</button></li><li><button type="button" data-k="4"><i aria-hidden="true"></i>Чисто дома</button></li><li><button type="button" data-k="5"><i aria-hidden="true"></i>Тихая вытяжка</button></li></ol>
+        <div class="ph-text" aria-live="polite"><span class="mono" id="phDir">Кондиционирование</span><h3 id="phT">Фасад без автовышки</h3><p id="phD">Альпинисты поднимают наружный блок на любой этаж — без автовышки и закрытого двора.</p></div>
+      </div>
+      <div class="ph-card">
+        <figure class="ph-img on" style="--k:0"><img src="../assets/photos/alpinist-outdoor-unit.webp" alt="Фасад без автовышки: Альпинисты поднимают наружный блок на любой этаж — без автовышки и закрытого двора." loading="lazy"></figure><figure class="ph-img" style="--k:1"><img src="../assets/photos/alpinist-drilling-winter.webp" alt="Круглый год: Зимний комплект и работа при −15 °C: трасса в изоляции, кондиционер греет и зимой." loading="lazy"></figure><figure class="ph-img" style="--k:2"><img src="../assets/photos/store-ducts-1.webp" alt="Торговые залы: Вентиляция и кабельные трассы в зале 1 200 м² — ночью, без закрытия магазина." loading="lazy"></figure><figure class="ph-img" style="--k:3"><img src="../assets/photos/store-ducts-2.webp" alt="Свет и лотки: Освещение и кабельные лотки вдоль витрин: схема, автоматы, подписанные линии." loading="lazy"></figure><figure class="ph-img" style="--k:4"><img src="../assets/photos/split-bedroom.webp" alt="Чисто дома: Трасса в коробе, мебель под плёнкой, пылесос при сверлении — за собой убираем." loading="lazy"></figure><figure class="ph-img" style="--k:5"><img src="../assets/photos/bathroom-fan.webp" alt="Тихая вытяжка: Вентилятор в санузле с обратным клапаном и отдельной линией — без шума и запаха." loading="lazy"></figure>
+        <span class="ph-tag mono" id="phTag">Челябинск · 9-й этаж</span>
+        <div class="ph-bar"><span class="mono" id="phN">01 / 06</span><div class="ph-prog"><i id="phProg"></i></div></div>
+      </div>
+    </div></div>
   </section>
 
   <!-- 4 -->
@@ -1685,6 +1740,23 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     faqChips.forEach(x => x.setAttribute('aria-pressed', x === c));
     faqItems.forEach(d => { const show = c.dataset.f === 'all' || (d.dataset.cat || '').split(' ').includes(c.dataset.f); d.hidden = !show; if (!show) d.open = false; });
   }));
+  /* on site: the vertical scroll walks the list; each new photo slides up over the previous one */
+  const PH = [["Фасад без автовышки", "Альпинисты поднимают наружный блок на любой этаж — без автовышки и закрытого двора.", "Челябинск · 9-й этаж", "Кондиционирование"], ["Круглый год", "Зимний комплект и работа при −15 °C: трасса в изоляции, кондиционер греет и зимой.", "Екатеринбург · 12-й этаж", "Кондиционирование"], ["Торговые залы", "Вентиляция и кабельные трассы в зале 1 200 м² — ночью, без закрытия магазина.", "Екатеринбург · магазин", "Вентиляция"], ["Свет и лотки", "Освещение и кабельные лотки вдоль витрин: схема, автоматы, подписанные линии.", "Екатеринбург · сеть магазинов", "Электромонтаж"], ["Чисто дома", "Трасса в коробе, мебель под плёнкой, пылесос при сверлении — за собой убираем.", "Челябинск · квартира", "Кондиционирование"], ["Тихая вытяжка", "Вентилятор в санузле с обратным клапаном и отдельной линией — без шума и запаха.", "Челябинск · квартира", "Вентиляция"]];
+  const phTrack = document.getElementById('phTrack'), phImgs = [...document.querySelectorAll('.ph-img')], phLis = [...document.querySelectorAll('.ph-list li')], phText = document.querySelector('.ph-text');
+  let phK = -1, phSwapT = 0;
+  function phSet(k) {
+    if (k === phK) return; phK = k;
+    phImgs.forEach((f, i) => { f.classList.toggle('on', i === k); f.classList.toggle('past', i < k); });
+    phLis.forEach((l, i) => l.classList.toggle('on', i === k));
+    document.getElementById('phN').textContent = `0${k + 1} / 0${PH.length}`; document.getElementById('phTag').textContent = PH[k][2];
+    clearTimeout(phSwapT); phText.classList.add('swap');
+    phSwapT = setTimeout(() => { document.getElementById('phT').textContent = PH[k][0]; document.getElementById('phD').textContent = PH[k][1]; document.getElementById('phDir').textContent = PH[k][3]; phText.classList.remove('swap'); }, reduce ? 0 : 220);
+  }
+  function phUpdate() { const r = phTrack.getBoundingClientRect(), span = r.height - innerHeight, p = span > 0 ? clamp(-r.top / span) : 0;
+    document.getElementById('phProg').style.width = (p * 100).toFixed(1) + '%'; phSet(Math.min(PH.length - 1, Math.floor(p * PH.length * .999))); }
+  document.querySelectorAll('.ph-list button').forEach(b => b.addEventListener('click', () => { const k = +b.dataset.k, r = phTrack.getBoundingClientRect(), span = phTrack.offsetHeight - innerHeight;
+    const y = r.top + scrollY + span * (k + .5) / PH.length; if (window.__lenis) window.__lenis.scrollTo(y, { duration: .9 }); else scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' }); }));
+  addEventListener('scroll', phUpdate, { passive: true }); addEventListener('resize', phUpdate); phUpdate();
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
