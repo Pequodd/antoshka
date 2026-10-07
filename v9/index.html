@@ -1144,6 +1144,148 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
 .wk-stage .title { padding-top: 16px; }
 .wk-grid { overflow: visible; scroll-snap-type: none; will-change: transform; }
 .wk, .wk.big, .wk.tall { height: clamp(300px, calc(100vh - 400px), 620px); }
+/* ================= V9 · BUSINESS MOTION (numa-like: 3D stage, pinned scenes, stacked cards) ================= */
+/* split headings: words rise out of a mask with a 3D tilt */
+.bsplit .bw { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .1em; margin-bottom: -.1em; }
+.bsplit .bw > span { display: inline-block; transform: perspective(600px) translateY(105%) rotateX(-70deg); transform-origin: 50% 100%; transition: transform 1s cubic-bezier(.16,1,.3,1) calc(var(--w) * 45ms); }
+.bsplit.in .bw > span { transform: none; }
+/* hero: dark stage behind the GL canvas, a device morphs on the right; on leave the stage shrinks into a card */
+.bhero { z-index: auto; background: none; overflow: visible; grid-template-rows: 1fr auto auto; padding-bottom: 20px; }
+.bhero::before { content: ""; position: absolute; inset: 0; z-index: 0; background-color: #0E1215; background-image: linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: calc((100% - var(--m) * 2) / 12) 100%; background-position: var(--m) 0;
+  border-radius: calc(var(--bp, 0) * 40px); }
+.bhero { transform-origin: 50% 100%; transform: scale(calc(1 - var(--bp, 0) * .06)); }
+.bhero > * { position: relative; z-index: 2; }
+.bhero > .bh-grid { opacity: calc(1 - var(--bp, 0) * 1.2); transform: translateY(calc(var(--bp, 0) * -80px)); }
+.bh-grid { align-items: center; }
+.bh-l { grid-column: 1 / 7; }
+.bh-stage { grid-column: 7 / -1; position: relative; align-self: stretch; min-height: 50vh; }
+.bh-anchor { position: absolute; left: 6%; right: 0; top: 4%; bottom: 30%; }
+.bh-dev { position: absolute; left: 6%; right: 0; bottom: 0; display: grid; grid-template-columns: auto 1fr auto; align-items: baseline; gap: 14px 18px; }
+.bh-dev .mono { color: rgba(255,255,255,.5); transition: opacity .25s ease; }
+.bh-dev b { font-weight: 300; font-size: clamp(22px, 2vw, 32px); line-height: 1.1; letter-spacing: -.03em; transition: opacity .25s ease, transform .45s cubic-bezier(.16,1,.3,1); }
+.bh-dev.swap b { opacity: 0; transform: translateY(12px); } .bh-dev.swap #bhDevD { opacity: 0; }
+.bh-dots { grid-column: 1 / -1; list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; }
+.bh-dots li { flex: 1; }
+.bh-dots button { all: unset; cursor: pointer; display: block; position: relative; width: 100%; height: 20px; }
+.bh-dots button::before, .bh-dots button::after { content: ""; position: absolute; left: 0; right: 0; top: 9px; height: 2px; background: rgba(255,255,255,.18); }
+.bh-dots button::after { background: #fff; transform-origin: 0 50%; transform: scaleX(0); }
+.bh-dots .past::after { transform: none; }
+.bh-dots .on::after { animation: bhFill 3.6s linear forwards; }
+.bh-dots button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@keyframes bhFill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.bh-stats { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid rgba(255,255,255,.14); }
+.bh-stats div { display: grid; gap: 6px; padding: 18px 20px; border-left: 1px solid rgba(255,255,255,.1); }
+.bh-stats div:first-child { border-left: 0; padding-left: 0; }
+.bh-stats dd { order: -1; margin: 0; font-weight: 300; font-size: clamp(32px, 3.2vw, 52px); line-height: 1; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
+.bh-stats small { font-size: .42em; letter-spacing: -.01em; color: rgba(255,255,255,.7); }
+.bh-stats dt { font-size: 14px; color: rgba(255,255,255,.6); }
+.bh-logos { border-top: 1px solid rgba(255,255,255,.14); padding-top: 18px; }
+.bh-mq { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.bh-mq-t { display: flex; width: max-content; animation: bhMq 32s linear infinite; }
+.bh-mq:hover .bh-mq-t { animation-play-state: paused; }
+.bh-logos ul { flex-wrap: nowrap; justify-content: flex-start; gap: 72px; padding-right: 72px; }
+@keyframes bhMq { to { transform: translateX(-50%); } }
+/* hero entrance */
+.bh-kick, .bh-p, .bh-cta, .bh-dev, .bh-stats div, .bh-logos { transition: opacity .8s ease, transform 1s cubic-bezier(.16,1,.3,1); }
+.bhero:not(.in) .bh-kick, .bhero:not(.in) .bh-p, .bhero:not(.in) .bh-cta, .bhero:not(.in) .bh-dev, .bhero:not(.in) .bh-stats div, .bhero:not(.in) .bh-logos { opacity: 0; transform: translateY(26px); }
+.bhero.in .bh-p { transition-delay: .35s; } .bhero.in .bh-cta { transition-delay: .5s; } .bhero.in .bh-dev { transition-delay: .7s; }
+.bhero.in .bh-stats div { transition-delay: calc(.6s + var(--i) * .08s); } .bhero.in .bh-logos { transition-delay: .95s; }
+/* pains: the card grows to full bleed; each risk is struck through, the answer swings in */
+html[data-aud="biz"] main { overflow-x: clip; }
+.pains { overflow-x: clip; clip-path: inset(0 calc(var(--m) * (1 - var(--pp, 1))) round calc(40px * (1 - var(--pp, 1)))); }
+.pains .pn { transition: opacity .6s ease, transform .8s cubic-bezier(.16,1,.3,1); }
+.pn-list.in .pn:not(.in) { opacity: 0; transform: translateY(24px); }
+.pn-q { text-decoration: none; }
+.pn-q span { color: #fff; background: linear-gradient(rgba(244,121,32,.85), rgba(244,121,32,.85)) no-repeat 0 60% / 0% 2px; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: background-size .9s cubic-bezier(.65,0,.35,1) .3s, color .6s ease .5s; }
+.pn.in .pn-q span { background-size: 100% 2px; color: rgba(255,255,255,.45); }
+.pn i { opacity: 0; transform: translateX(-18px); transition: opacity .5s ease .6s, transform .7s cubic-bezier(.16,1,.3,1) .6s; }
+.pn.in i { opacity: 1; transform: none; }
+.pn-a { opacity: 0; transform: perspective(900px) translateX(48px) rotateY(-32deg); transform-origin: 0 50%; transition: opacity .7s ease .7s, transform 1.1s cubic-bezier(.16,1,.3,1) .7s; }
+.pn.in .pn-a { opacity: 1; transform: none; }
+/* industries: tiles fold down in 3D, icons draw themselves, a dark fill spreads from the cursor */
+.ind { position: relative; overflow: hidden; isolation: isolate; opacity: 0; transform: perspective(1000px) rotateX(-75deg) translateY(30px); transform-origin: 50% 0;
+  transition: opacity .6s ease calc(var(--d, 0) * 110ms), transform 1.2s cubic-bezier(.16,1,.3,1) calc(var(--d, 0) * 110ms), color .3s ease; }
+.ind.in { opacity: 1; transform: perspective(1000px); }
+.ind.in.done { transform: perspective(1000px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)); transition: transform .5s cubic-bezier(.16,1,.3,1), color .3s ease; }
+.ind:hover { background: #fff; }
+.ind::before { content: ""; position: absolute; inset: 0; z-index: -1; background: #121619; clip-path: circle(0% at var(--mx, 50%) var(--my, 50%)); transition: clip-path .7s cubic-bezier(.16,1,.3,1); }
+.ind:hover::before { clip-path: circle(150% at var(--mx, 50%) var(--my, 50%)); }
+.ind svg * { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s cubic-bezier(.65,0,.35,1) calc(var(--d, 0) * 110ms + .35s); }
+.ind.in svg * { stroke-dashoffset: 0; }
+/* directions: pinned stage, the GL device morphs per system, panes flip in 3D */
+.bdx { position: relative; }
+.bdx-track { height: 300vh; }
+.bdx-stage { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); grid-template-rows: auto 1fr auto; column-gap: var(--g); padding: 88px var(--m) 28px; }
+.bdx-top { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: end; gap: 24px; padding-bottom: 18px; border-bottom: 1px solid #121619; position: relative; z-index: 2; }
+.bdx-top h2 { margin: 0; font-weight: 300; font-size: clamp(36px, 3.6vw, 60px); line-height: 1; letter-spacing: -.045em; }
+.bdx-top .mono { color: var(--muted); white-space: nowrap; }
+.bdx-big { grid-column: 6 / -1; grid-row: 2; align-self: center; justify-self: end; position: relative; z-index: 0; font-weight: 200; font-size: clamp(180px, 26vw, 420px); line-height: .8; letter-spacing: -.08em; color: rgba(18,22,25,.05); }
+.bdx-anchor { grid-column: 6 / -1; grid-row: 2; position: relative; margin: 6% 0 6% 8%; }
+.bdx-panes { grid-column: 1 / 6; grid-row: 2; align-self: center; display: grid; position: relative; z-index: 2; }
+.bdx-p { grid-area: 1 / 1; display: grid; gap: 22px; align-content: center; pointer-events: none; }
+.bdx-p.on { pointer-events: auto; }
+.bdx-p > * { opacity: 0; transform: perspective(900px) translateY(40px) rotateX(-40deg); transform-origin: 50% 100%; transition: opacity .35s ease, transform .6s cubic-bezier(.16,1,.3,1); }
+.bdx-p.out > * { transform: perspective(900px) translateY(-34px) rotateX(35deg); transform-origin: 50% 0; }
+.bdx-p.on > * { opacity: 1; transform: none; transition: opacity .6s ease calc(var(--j) * 80ms + .18s), transform 1s cubic-bezier(.16,1,.3,1) calc(var(--j) * 80ms + .18s); }
+.bdx-p > .mono { color: var(--muted); }
+.bdx-p h3 { margin: 0; font-weight: 300; font-size: clamp(44px, 4.6vw, 80px); line-height: .95; letter-spacing: -.055em; hyphens: manual; }
+.bdx-p dl { margin: 0; border-top: 1px solid #D5DADD; }
+.bdx-p dl div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 12px 0; border-bottom: 1px solid #D5DADD; }
+.bdx-p dt { font: 400 11px/1.7 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.bdx-p dd { margin: 0; font-size: 16px; line-height: 1.45; }
+.bdx-p dl div:last-child dd { font-size: 20px; letter-spacing: -.015em; }
+.bdx-prog { grid-column: 1 / -1; grid-row: 3; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; position: relative; z-index: 2; }
+.bdx-prog button { all: unset; cursor: pointer; position: relative; padding: 14px 0 4px; font: 400 11px/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); transition: color .3s ease; }
+.bdx-prog button::before, .bdx-prog button::after { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 2px; background: #D5DADD; }
+.bdx-prog button::after { background: #121619; transform-origin: 0 50%; transform: scaleX(var(--f, 0)); }
+.bdx-prog button.on { color: #121619; }
+.bdx-prog button:focus-visible { outline: 2px solid #121619; outline-offset: 4px; }
+/* roles: full cards that stick and stack, the one underneath sinks back */
+.role-grid { grid-template-columns: 1fr; gap: 24px; }
+.role { position: sticky; top: calc(96px + var(--i) * 22px); grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); row-gap: 14px; align-content: start; min-height: min(56vh, 500px); padding: clamp(28px, 3vw, 48px); border: 1px solid #D5DADD; border-radius: 24px; background: #fff;
+  transform-origin: 50% 0; transform: scale(calc(1 - var(--sp, 0) * .05)); box-shadow: 0 -24px 60px -44px rgba(18,22,25,.4); }
+.role::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; background: #0E1215; opacity: calc(var(--sp, 0) * .22); pointer-events: none; }
+.role:nth-child(even) { background: #121619; border-color: #121619; color: #fff; }
+.role:nth-child(even) .mono { color: rgba(255,255,255,.55); }
+.role:nth-child(even) li { border-bottom-color: rgba(255,255,255,.14); }
+.role:nth-child(even) li::before { background: #fff; }
+.role-n { grid-column: 1 / 4; grid-row: 1 / 3; font-weight: 200; font-size: clamp(88px, 10vw, 170px); line-height: .8; letter-spacing: -.07em; }
+.role > .mono { grid-column: 4 / 9; }
+.role h3 { grid-column: 4 / 9; font-weight: 300; font-size: clamp(30px, 3.2vw, 54px); line-height: 1.02; letter-spacing: -.045em; }
+.role ul { grid-column: 9 / -1; grid-row: 1 / 3; margin: 0; align-self: end; }
+.role li { font-size: 16px; }
+/* cases: cards rise in 3D, photos open with a wipe and drift (parallax), tilt follows the cursor */
+.cs { opacity: 0; transform: perspective(1200px) translateY(70px) rotateX(-14deg); transform-origin: 50% 0; transition: opacity .7s ease calc(var(--i) * .12s), transform 1.2s cubic-bezier(.16,1,.3,1) calc(var(--i) * .12s), box-shadow .4s ease; }
+.cs.in { opacity: 1; transform: perspective(1200px); }
+.cs.in.done { transform: perspective(1200px) rotateX(var(--tx, 0deg)) rotateY(var(--ty, 0deg)); transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .4s ease; }
+.cs:hover { box-shadow: 0 40px 70px -40px rgba(18,22,25,.45); }
+.cs-img { clip-path: inset(100% 0 0 0 round 10px); transition: clip-path 1.2s cubic-bezier(.76,0,.24,1) calc(var(--i) * .12s + .2s); }
+.cs.in .cs-img { clip-path: inset(0 0 0 0 round 10px); }
+.cs-img img { transform: translateY(var(--py, 0px)) scale(1.3); transition: filter .5s ease, transform 1.4s cubic-bezier(.16,1,.3,1); }
+.cs.in .cs-img img { transform: translateY(var(--py, 0px)) scale(1.1); }
+.cs.in:hover .cs-img img { transform: translateY(var(--py, 0px)) scale(1.16); }
+/* gantt: scroll scrubs a week cursor, bars fill as it passes */
+.gn-chart { position: relative; --nw: 25%; }
+.gn-chart .gn-row { grid-template-columns: 25% 75%; }
+.gn-chart .gn-bar, .gn-chart .gn-bar.gn-dash { background: #DDE2E5; transform: none; transition: none; }
+.gn-bar::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background: #121619; transform-origin: 0 50%; transform: scaleX(var(--f, 0)); }
+.gn-dash::before { background: repeating-linear-gradient(90deg, #121619 0 10px, #5E6C73 10px 14px); }
+.gn-bar span { position: relative; z-index: 1; color: #fff; mix-blend-mode: difference; }
+.gn-cur { position: absolute; top: 0; bottom: 0; left: calc(var(--nw) + (100% - var(--nw)) * var(--t, 0) / 7); z-index: 2; border-left: 1px solid var(--orange); pointer-events: none; opacity: var(--co, 0); transition: opacity .3s ease; }
+.gn-cur span { position: absolute; top: 8px; left: 0; transform: translateX(-50%); padding: 5px 9px; border-radius: 999px; background: var(--orange); color: #fff; font-size: 10px; white-space: nowrap; }
+/* terms: rows slide in one by one */
+.terms-list > div dt { opacity: 0; transform: translateX(-24px); transition: opacity .6s ease, transform .8s cubic-bezier(.16,1,.3,1); }
+.terms-list > div dd { opacity: 0; transform: perspective(800px) translateY(28px) rotateX(-30deg); transform-origin: 50% 0; transition: opacity .7s ease .1s, transform 1s cubic-bezier(.16,1,.3,1) .1s; }
+.terms-list > div.in dt, .terms-list > div.in dd { opacity: 1; transform: none; }
+/* letters: a stacked pile fans out across the row */
+.lt-grid { perspective: 1800px; }
+.lt { opacity: 0; transform: translateX(calc((1.5 - var(--i)) * 104%)) translateY(50px) rotate(calc((var(--i) - 1.5) * 8deg)) rotateX(28deg); transition: opacity .5s ease, transform 1.3s cubic-bezier(.16,1,.3,1) calc(var(--i) * .08s), box-shadow .4s ease; }
+.lt-grid.in .lt { opacity: 1; transform: rotate(calc((var(--i) - 1.5) * .6deg)); }
+.lt-grid.in .lt:hover { transform: translateY(-10px) rotateX(8deg); transition-delay: 0s; }
+/* business FAQ: rows rise, the rule under each draws */
+.bq { position: relative; border-bottom-color: transparent; opacity: 0; transform: translateY(26px); transition: opacity .6s ease, transform .9s cubic-bezier(.16,1,.3,1); }
+.bq::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: #D5DADD; transform-origin: 0 50%; transform: scaleX(0); transition: transform 1s cubic-bezier(.65,0,.35,1) .2s; }
+.bq.in { opacity: 1; transform: none; } .bq.in::after { transform: none; }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
@@ -1369,7 +1511,49 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   .rv, .faq, .gt { row-gap: 24px; }
   .rv-track { grid-auto-columns: 86%; }
 }
+@media (max-width: 900px) {
+  .bhero { padding: 64px var(--m) 84px; min-height: 0; grid-template-rows: auto; }
+  .bhero::before { background-size: 25% 100%; }
+  .bh-grid { padding: 28px 0 20px; row-gap: 8px; }
+  .bh-l, .bh-stage { grid-column: 1 / -1; }
+  .bh-stage { min-height: 0; height: 330px; }
+  .bh-anchor { left: 0; top: 2%; bottom: 92px; }
+  .bh-dev { left: 0; grid-template-columns: auto 1fr; }
+  .bh-dev #bhDevD { display: none; }
+  .bh-stats { grid-template-columns: 1fr 1fr; }
+  .bh-stats div, .bh-stats div:first-child { padding: 14px 0; border-left: 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .bh-stats div:nth-child(even) { padding-left: 14px; border-left: 1px solid rgba(255,255,255,.1); }
+  .bh-stats dd { font-size: 34px; }
+  .bh-logos { grid-template-columns: 1fr; gap: 12px; }
+  .bh-logos ul { gap: 44px; padding-right: 44px; }
+  .ind { --d: 0 !important; }
+  .bdx-track { height: 280vh; }
+  .bdx-stage { grid-template-columns: 1fr; grid-template-rows: auto 34svh 1fr auto; padding: 66px var(--m) 84px; row-gap: 10px; }
+  .bdx-top h2 { font-size: 28px; }
+  .bdx-big { display: none; }
+  .bdx-anchor { grid-column: 1; grid-row: 2; margin: 0; }
+  .bdx-panes { grid-column: 1; grid-row: 3; align-self: start; }
+  .bdx-p { gap: 12px; }
+  .bdx-p h3 { font-size: 38px; }
+  .bdx-p dl div { grid-template-columns: 1fr; gap: 2px; padding: 8px 0; }
+  .bdx-p dd, .bdx-p dl div:last-child dd { font-size: 14px; }
+  .bdx-prog { grid-row: 4; gap: 6px; }
+  .bdx-prog button { font-size: 9px; }
+  .role { grid-template-columns: 1fr; top: calc(64px + var(--i) * 12px); min-height: 0; padding: 24px; border-radius: 18px; }
+  .role-n, .role > .mono, .role h3, .role ul { grid-column: 1 / -1; grid-row: auto; }
+  .role-n { font-size: 64px; }
+  .role h3 { font-size: 28px; }
+  .gn-chart { --nw: 0%; }
+  .gn-chart .gn-row { grid-template-columns: 1fr; }
+  .lt { transform: translateY(50px) rotate(calc((var(--i) - 1.5) * 4deg)); }
+  .lt.in { opacity: 1; transform: none; }
+  .lt-grid.in .lt:not(.in) { opacity: 0; transform: translateY(50px); }
+}
 @media (prefers-reduced-motion: reduce) {
+  .bsplit .bw > span, .ind, .ind svg *, .cs, .cs-img, .cs-img img, .lt, .bq, .bq::after, .terms-list > div dt, .terms-list > div dd, .pn-a, .pn i, .pn-q span, .bdx-p > *, .bh-kick, .bh-p, .bh-cta, .bh-dev, .bh-stats div, .bh-logos { transition: none !important; }
+  .bhero { transform: none; } .bhero::before { border-radius: 0; } .bhero > .bh-grid { opacity: 1; transform: none; }
+  .pains { clip-path: none; } .role { transform: none; } .role::after { opacity: 0; }
+  .bh-mq-t, .bh-dots .on::after { animation: none; } .bh-dots .on::after { transform: none; }
   .gn-bar { transition: none !important; transform: none; }
   .pn { transition: none !important; opacity: 1; transform: none; }
   .ph-img, .ph-img img, .ph-text { transition: none !important; }
@@ -1442,7 +1626,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   </section>
 
   <!-- B2B hero -->
-  <section class="bhero" id="bhero" data-aud-only="biz" aria-labelledby="bhH">
+  <section class="bhero" id="bhero" data-aud-only="biz" data-scene="cassette" data-anchor=".bh-anchor" data-dark="1" aria-labelledby="bhH">
     <div class="bh-grid">
       <div class="bh-l">
         <span class="mono bh-kick">для бизнеса · Челябинск · Екатеринбург</span>
@@ -1450,13 +1634,14 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
         <p class="bh-p">Климат, вентиляция и электромонтаж для офисов, магазинов, общепита и сетей. Смета по разделам, монтаж ночью, полный пакет документов.</p>
         <div class="bh-cta"><a class="btn bh-btn" href="#b2b-form">Запросить КП <i>↗</i></a><a class="btn bh-ghost" href="#cases">Смотреть кейсы</a></div>
       </div>
-      <aside class="bh-spec" aria-label="Паспорт подрядчика">
-        <div class="bh-spec-h"><span class="mono">паспорт подрядчика</span><span class="mono">CSP · 2026</span></div>
-        <dl><div><dt>Объектов сдано</dt><dd>1 200+</dd></div><div><dt>КП по вашему ТЗ</dt><dd>2 дня</dd></div><div><dt>Аварийный выезд</dt><dd>4 часа</dd></div><div><dt>Гарантия на работы</dt><dd>3 года</dd></div><div><dt>Работы на объекте</dt><dd>ночью и в выходные</dd></div><div><dt>Документы</dt><dd>КС-2, КС-3, исполнительная</dd></div></dl>
-        <a class="bh-spec-f" href="#terms">Условия договора <i>↗</i></a>
-      </aside>
+      <div class="bh-stage">
+        <div class="bh-anchor" aria-hidden="true"></div>
+        <div class="bh-dev"><span class="mono" id="bhDevN">01 / 05</span><b id="bhDevT">Кассетный кондиционер</b><span class="mono" id="bhDevD">кондиционирование</span>
+          <ol class="bh-dots" aria-label="Оборудование"><li><button type="button" aria-label="Кассетный кондиционер" class="on"></button></li><li><button type="button" aria-label="Мульти- и VRF-системы"></button></li><li><button type="button" aria-label="Канальная система"></button></li><li><button type="button" aria-label="Приточная установка"></button></li><li><button type="button" aria-label="Электрощит и учёт"></button></li></ol></div>
+      </div>
     </div>
-    <div class="bh-logos"><span class="mono">работали на объектах</span><ul><li><img src="../assets/logos/mfc.svg" alt="МФЦ" loading="lazy"></li><li><img src="../assets/logos/pyaterochka.svg" alt="Пятёрочка" loading="lazy"></li><li><img src="../assets/logos/megafon.svg" alt="МегаФон" loading="lazy"></li><li><img src="../assets/logos/beeline.svg" alt="билайн" loading="lazy"></li><li><img src="../assets/logos/magnit.svg" alt="Магнит" loading="lazy"></li><li><img src="../assets/logos/dns.svg" alt="DNS" loading="lazy"></li><li><img src="../assets/logos/rzd.svg" alt="РЖД" loading="lazy"></li><li><img src="../assets/logos/rostelecom.svg" alt="Ростелеком" loading="lazy"></li></ul></div>
+    <dl class="bh-stats"><div style="--i:0"><dt>Объектов сдано</dt><dd><span data-count="1200">1 200</span>+</dd></div><div style="--i:1"><dt>КП по вашему ТЗ</dt><dd><span data-count="2">2</span><small> дня</small></dd></div><div style="--i:2"><dt>Аварийный выезд</dt><dd><span data-count="4">4</span><small> часа</small></dd></div><div style="--i:3"><dt>Гарантия на работы</dt><dd><span data-count="3">3</span><small> года</small></dd></div></dl>
+    <div class="bh-logos"><span class="mono">работали на объектах</span><div class="bh-mq"><div class="bh-mq-t"><ul><li><img src="../assets/logos/mfc.svg" alt="МФЦ" loading="lazy"></li><li><img src="../assets/logos/pyaterochka.svg" alt="Пятёрочка" loading="lazy"></li><li><img src="../assets/logos/megafon.svg" alt="МегаФон" loading="lazy"></li><li><img src="../assets/logos/beeline.svg" alt="билайн" loading="lazy"></li><li><img src="../assets/logos/magnit.svg" alt="Магнит" loading="lazy"></li><li><img src="../assets/logos/dns.svg" alt="DNS" loading="lazy"></li><li><img src="../assets/logos/rzd.svg" alt="РЖД" loading="lazy"></li><li><img src="../assets/logos/rostelecom.svg" alt="Ростелеком" loading="lazy"></li></ul><ul aria-hidden="true"><li><img src="../assets/logos/mfc.svg" alt="МФЦ" loading="lazy"></li><li><img src="../assets/logos/pyaterochka.svg" alt="Пятёрочка" loading="lazy"></li><li><img src="../assets/logos/megafon.svg" alt="МегаФон" loading="lazy"></li><li><img src="../assets/logos/beeline.svg" alt="билайн" loading="lazy"></li><li><img src="../assets/logos/magnit.svg" alt="Магнит" loading="lazy"></li><li><img src="../assets/logos/dns.svg" alt="DNS" loading="lazy"></li><li><img src="../assets/logos/rzd.svg" alt="РЖД" loading="lazy"></li><li><img src="../assets/logos/rostelecom.svg" alt="Ростелеком" loading="lazy"></li></ul></div></div></div>
   </section>
 
   <!-- 2 trust: partner tiles + centred statement (anveril-style) -->
@@ -1502,12 +1687,12 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     <div class="grid title"><h2>Что мешает бизнесу</h2>
       <p class="aside">Типичные риски монтажа на работающем объекте — и как мы снимаем их договором, а не обещаниями.</p></div>
     <ol class="pn-list">
-      <li class="pn" style="--i:0"><span class="mono">01</span><p class="pn-q">Монтаж остановит торговлю или офис</p><i aria-hidden="true">→</i><div class="pn-a"><b>Работаем ночью и в выходные</b><p>График согласуем с управляющим объекта — к открытию зал чистый.</p></div></li>
-      <li class="pn" style="--i:1"><span class="mono">02</span><p class="pn-q">Сорвём дату открытия</p><i aria-hidden="true">→</i><div class="pn-a"><b>Срок и неустойка в договоре</b><p>График по этапам с ответственными, еженедельный отчёт с фото.</p></div></li>
-      <li class="pn" style="--i:2"><span class="mono">03</span><p class="pn-q">Смета вырастет по ходу работ</p><i aria-hidden="true">→</i><div class="pn-a"><b>Фиксированная смета по разделам</b><p>Дополнительные работы — только по письменному согласованию.</p></div></li>
-      <li class="pn" style="--i:3"><span class="mono">04</span><p class="pn-q">Нет документов для бухгалтерии и арендодателя</p><i aria-hidden="true">→</i><div class="pn-a"><b>Полный пакет документов</b><p>Договор, КС-2, КС-3, исполнительная схема, протоколы замеров.</p></div></li>
-      <li class="pn" style="--i:4"><span class="mono">05</span><p class="pn-q">Три подрядчика — никто не отвечает за стыки</p><i aria-hidden="true">→</i><div class="pn-a"><b>Один подрядчик на три системы</b><p>Климат, вентиляция и электрика в одном договоре и одной смете.</p></div></li>
-      <li class="pn" style="--i:5"><span class="mono">06</span><p class="pn-q">Летом встал кондиционер в зале</p><i aria-hidden="true">→</i><div class="pn-a"><b>Регламентное ТО и аварийный выезд</b><p>Обслуживание по графику, выезд по аварии в течение 4 часов.</p></div></li>
+      <li class="pn" style="--i:0"><span class="mono">01</span><p class="pn-q"><span>Монтаж остановит торговлю или офис</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Работаем ночью и в выходные</b><p>График согласуем с управляющим объекта — к открытию зал чистый.</p></div></li>
+      <li class="pn" style="--i:1"><span class="mono">02</span><p class="pn-q"><span>Сорвём дату открытия</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Срок и неустойка в договоре</b><p>График по этапам с ответственными, еженедельный отчёт с фото.</p></div></li>
+      <li class="pn" style="--i:2"><span class="mono">03</span><p class="pn-q"><span>Смета вырастет по ходу работ</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Фиксированная смета по разделам</b><p>Дополнительные работы — только по письменному согласованию.</p></div></li>
+      <li class="pn" style="--i:3"><span class="mono">04</span><p class="pn-q"><span>Нет документов для бухгалтерии и арендодателя</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Полный пакет документов</b><p>Договор, КС-2, КС-3, исполнительная схема, протоколы замеров.</p></div></li>
+      <li class="pn" style="--i:4"><span class="mono">05</span><p class="pn-q"><span>Три подрядчика — никто не отвечает за стыки</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Один подрядчик на три системы</b><p>Климат, вентиляция и электрика в одном договоре и одной смете.</p></div></li>
+      <li class="pn" style="--i:5"><span class="mono">06</span><p class="pn-q"><span>Летом встал кондиционер в зале</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Регламентное ТО и аварийный выезд</b><p>Обслуживание по графику, выезд по аварии в течение 4 часов.</p></div></li>
     </ol>
   </section>
 
@@ -1589,12 +1774,19 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     </div>
   </section>
 
-  <!-- B2B: directions matrix -->
-  <section class="sec" id="bdirs" data-aud-only="biz">
-    <div class="rule"></div>
-    <div class="grid title"><h2>Направления</h2>
-      <p class="aside">Три системы в одном договоре: что делаем, на каких объектах и какие документы передаём.</p></div>
-    <div class="mx" role="table" aria-label="Направления работ"><div class="mx-h"><span></span><div><span class="mono">01</span><b>Кондиционирование</b></div><div><span class="mono">02</span><b>Вентиляция</b></div><div><span class="mono">03</span><b>Электромонтаж</b></div></div><div class="mx-r"><span class="mono">Работы</span><div data-col="Кондиционирование">Кассетные, канальные, мульти и VRF<br>Серверные, регламентное ТО</div><div data-col="Вентиляция">Проект по нормам и ТЗ<br>Приточно-вытяжные установки, кухни</div><div data-col="Электромонтаж">Щиты и учёт, освещение залов<br>Кабельные трассы и лотки</div></div><div class="mx-r"><span class="mono">Объекты</span><div data-col="Кондиционирование">Залы, офисы, серверные</div><div data-col="Вентиляция">Залы, кухни, склады</div><div data-col="Электромонтаж">Залы, витрины, склады</div></div><div class="mx-r"><span class="mono">Документы</span><div data-col="Кондиционирование">Спецификация, акты ПНР</div><div data-col="Вентиляция">Проект, паспорт системы</div><div data-col="Электромонтаж">Исполнительная, протоколы замеров</div></div><div class="mx-r"><span class="mono">Ориентир</span><div data-col="Кондиционирование">от 38 000 ₽ за блок</div><div data-col="Вентиляция">проект от 25 000 ₽</div><div data-col="Электромонтаж">по ТЗ, от 450 ₽ / точка</div></div></div>
+  <!-- B2B: directions — pinned 3D scene, the scroll walks the three systems -->
+  <section class="bdx" id="bdirs" data-aud-only="biz" data-scene="multi" data-anchor=".bdx-anchor" aria-labelledby="bdxH">
+    <div class="bdx-track"><div class="sticky bdx-stage">
+      <div class="bdx-top"><h2 id="bdxH">Три направления — один договор</h2><span class="mono" id="bdxN">01 / 03</span></div>
+      <span class="bdx-big" id="bdxBig" aria-hidden="true">01</span>
+      <div class="bdx-anchor" aria-hidden="true"></div>
+      <div class="bdx-panes">
+        <article class="bdx-p on"><span class="mono" style="--j:0">01 · климат</span><h3 style="--j:1">Кондицио&shy;нирование</h3><dl style="--j:2"><div><dt>Работы</dt><dd>Кассетные, канальные, мульти и VRF; серверные, регламентное ТО</dd></div><div><dt>Объекты</dt><dd>Залы, офисы, серверные</dd></div><div><dt>Документы</dt><dd>Спецификация, акты ПНР</dd></div><div><dt>Ориентир</dt><dd>от 38 000 ₽ за блок</dd></div></dl></article>
+        <article class="bdx-p"><span class="mono" style="--j:0">02 · воздух</span><h3 style="--j:1">Вентиляция</h3><dl style="--j:2"><div><dt>Работы</dt><dd>Проект по нормам и ТЗ, приточно-вытяжные установки, кухни</dd></div><div><dt>Объекты</dt><dd>Залы, кухни, склады</dd></div><div><dt>Документы</dt><dd>Проект, паспорт системы</dd></div><div><dt>Ориентир</dt><dd>проект от 25 000 ₽</dd></div></dl></article>
+        <article class="bdx-p"><span class="mono" style="--j:0">03 · энергия</span><h3 style="--j:1">Электро&shy;монтаж</h3><dl style="--j:2"><div><dt>Работы</dt><dd>Щиты и учёт, освещение залов, кабельные трассы и лотки</dd></div><div><dt>Объекты</dt><dd>Залы, витрины, склады</dd></div><div><dt>Документы</dt><dd>Исполнительная, протоколы замеров</dd></div><div><dt>Ориентир</dt><dd>по ТЗ, от 450 ₽ / точка</dd></div></dl></article>
+      </div>
+      <div class="bdx-prog" role="group" aria-label="Направления"><button type="button" class="on" aria-pressed="true">01 · Кондиционирование</button><button type="button" aria-pressed="false">02 · Вентиляция</button><button type="button" aria-pressed="false">03 · Электромонтаж</button></div>
+    </div></div>
   </section>
 
   <!-- B2B: roles -->
@@ -1603,10 +1795,10 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     <div class="grid title"><h2>Кому в компании это важно</h2>
       <p class="aside">У каждого, кто участвует в проекте, свой вопрос к подрядчику. Ответы — в договоре.</p></div>
     <div class="role-grid">
-      <article class="role" style="--i:0"><span class="mono">собственнику и директору</span><h3>Бюджет и срок под контролем</h3><ul><li>Смета по разделам, без роста по ходу</li><li>Срок и неустойка в договоре</li><li>Один ответственный за все системы</li></ul></article>
-      <article class="role" style="--i:1"><span class="mono">управляющему объектом</span><h3>Объект работает, пока мы работаем</h3><ul><li>Монтаж ночью и в выходные</li><li>Регламентное ТО по графику</li><li>Аварийный выезд за 4 часа</li></ul></article>
-      <article class="role" style="--i:2"><span class="mono">бухгалтерии и юристам</span><h3>Документы без напоминаний</h3><ul><li>Договор и спецификация</li><li>КС-2, КС-3, закрывающие</li><li>Безнал, оплата по этапам</li></ul></article>
-      <article class="role" style="--i:3"><span class="mono">инженеру и техзаказчику</span><h3>Сделано по проекту и нормам</h3><ul><li>Проект и расчёты до монтажа</li><li>Исполнительная схема</li><li>Протоколы замеров и ПНР</li></ul></article>
+      <article class="role" style="--i:0"><b class="role-n" aria-hidden="true">01</b><span class="mono">собственнику и директору</span><h3>Бюджет и срок под контролем</h3><ul><li>Смета по разделам, без роста по ходу</li><li>Срок и неустойка в договоре</li><li>Один ответственный за все системы</li></ul></article>
+      <article class="role" style="--i:1"><b class="role-n" aria-hidden="true">02</b><span class="mono">управляющему объектом</span><h3>Объект работает, пока мы работаем</h3><ul><li>Монтаж ночью и в выходные</li><li>Регламентное ТО по графику</li><li>Аварийный выезд за 4 часа</li></ul></article>
+      <article class="role" style="--i:2"><b class="role-n" aria-hidden="true">03</b><span class="mono">бухгалтерии и юристам</span><h3>Документы без напоминаний</h3><ul><li>Договор и спецификация</li><li>КС-2, КС-3, закрывающие</li><li>Безнал, оплата по этапам</li></ul></article>
+      <article class="role" style="--i:3"><b class="role-n" aria-hidden="true">04</b><span class="mono">инженеру и техзаказчику</span><h3>Сделано по проекту и нормам</h3><ul><li>Проект и расчёты до монтажа</li><li>Исполнительная схема</li><li>Протоколы замеров и ПНР</li></ul></article>
     </div>
   </section>
 
@@ -1631,14 +1823,15 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     <div class="grid title"><h2>Как идёт проект</h2>
       <p class="aside">Типичный объект 300–1 000 м²: от запроса до сдачи — около шести недель. Точный график — в договоре.</p></div>
     <div class="gn-chart" aria-label="План проекта по неделям">
+      <div class="gn-cur" aria-hidden="true"><span class="mono" id="gnCur">неделя 1</span></div>
       <div class="gn-row gn-weeks" aria-hidden="true"><span class="gn-name"></span><div class="gn-lane"><span>н1</span><span>н2</span><span>н3</span><span>н4</span><span>н5</span><span>н6</span><span>далее</span></div></div>
       <div class="gn-row" style="--a:0;--b:1;--i:0"><span class="gn-name">Обследование и ТЗ</span><div class="gn-lane"><i class="gn-bar"><span>1 нед.</span></i></div></div>
       <div class="gn-row" style="--a:0.7;--b:2;--i:1"><span class="gn-name">Проект и смета</span><div class="gn-lane"><i class="gn-bar"><span>1–2 нед.</span></i></div></div>
       <div class="gn-row" style="--a:1.8;--b:3.6;--i:2"><span class="gn-name">Закупка оборудования</span><div class="gn-lane"><i class="gn-bar"><span>по графику поставки</span></i></div></div>
       <div class="gn-row" style="--a:2.8;--b:5.4;--i:3"><span class="gn-name">Монтаж ночью</span><div class="gn-lane"><i class="gn-bar"><span>2–3 нед.</span></i></div></div>
-      <div class="gn-row" style="--a:5;--b:5.8;--i:4"><span class="gn-name">Пусконаладка</span><div class="gn-lane"><i class="gn-bar"><span>3 дня</span></i></div></div>
-      <div class="gn-row" style="--a:5.8;--b:6.4;--i:5"><span class="gn-name">Сдача: КС-2, КС-3, исполнительная</span><div class="gn-lane"><i class="gn-bar"><span>1 день</span></i></div></div>
-      <div class="gn-row" style="--a:6.4;--b:7;--i:6"><span class="gn-name">Регламентное ТО</span><div class="gn-lane"><i class="gn-bar gn-dash"><span>по договору</span></i></div></div>
+      <div class="gn-row" style="--a:5;--b:5.7;--i:4"><span class="gn-name">Пусконаладка</span><div class="gn-lane"><i class="gn-bar"><span>3 дня</span></i></div></div>
+      <div class="gn-row" style="--a:5.7;--b:6.2;--i:5"><span class="gn-name">Сдача: КС-2, КС-3, исполнительная</span><div class="gn-lane"><i class="gn-bar"><span>1 день</span></i></div></div>
+      <div class="gn-row" style="--a:6.2;--b:7;--i:6"><span class="gn-name">Регламентное ТО</span><div class="gn-lane"><i class="gn-bar gn-dash"><span>по договору</span></i></div></div>
     </div>
   </section>
 
@@ -2114,6 +2307,84 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   document.querySelectorAll('.ph-list button').forEach(b => b.addEventListener('click', () => { const k = +b.dataset.k, r = phTrack.getBoundingClientRect(), span = phTrack.offsetHeight - innerHeight;
     const y = r.top + scrollY + span * (k + .5) / PH.length; if (window.__lenis) window.__lenis.scrollTo(y, { duration: .9 }); else scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' }); }));
   addEventListener('scroll', phUpdate, { passive: true }); addEventListener('resize', phUpdate); phUpdate();
+  /* ================= v9 business motion ================= */
+  (() => {
+    const bh = document.getElementById('bhero'); if (!bh) return;
+    const isBiz = () => document.documentElement.dataset.aud === 'biz';
+    const fine = matchMedia('(pointer: fine)').matches;
+    const show = (el, th, after) => { const go = () => { el.classList.add('in'); if (after) setTimeout(() => el.classList.add('done'), reduce ? 0 : after); };
+      if (reduce) return go(); new IntersectionObserver(([e], o) => { if (e.isIntersecting) { go(); o.disconnect(); } }, { threshold: th }).observe(el); };
+    /* headings: wrap words so they can rise out of a mask */
+    [bh.querySelector('.bh-h'), ...document.querySelectorAll('main [data-aud-only="biz"] h2')].forEach(h => {
+      let w = 0;
+      const walk = n => [...n.childNodes].forEach(c => {
+        if (c.nodeType === 1) return walk(c);
+        if (c.nodeType !== 3) return;
+        const f = document.createDocumentFragment();
+        c.textContent.split(/([ \n\t]+)/).forEach(t => { if (!t) return; if (!t.trim()) return f.append(t);
+          const o = document.createElement('span'), i = document.createElement('span'); o.className = 'bw'; i.textContent = t; i.style.setProperty('--w', w++); o.append(i); f.append(o); });
+        c.replaceWith(f);
+      });
+      walk(h); h.classList.add('bsplit'); show(h, .3);
+    });
+    /* hero: the GL device cycles through the three directions */
+    const DEV = [['cassette', 'Кассетный кондиционер', 'кондиционирование'], ['multi', 'Мульти- и VRF-системы', 'кондиционирование'], ['duct', 'Канальная система', 'вентиляция'], ['recup', 'Приточная установка', 'вентиляция'], ['panel', 'Электрощит и учёт', 'электромонтаж']];
+    const dev = bh.querySelector('.bh-dev'), dots = [...bh.querySelectorAll('.bh-dots button')];
+    let dk = 0, dT = 0, dSwap = 0, bhVis = false, counted = false;
+    function devSet(k) {
+      dk = (k + DEV.length) % DEV.length; bh.dataset.scene = DEV[dk][0];
+      dots.forEach((d, i) => { d.classList.toggle('on', i === dk); d.classList.toggle('past', i < dk); d.setAttribute('aria-pressed', i === dk); });
+      clearTimeout(dSwap); dev.classList.add('swap');
+      dSwap = setTimeout(() => { document.getElementById('bhDevN').textContent = `0${dk + 1} / 0${DEV.length}`; document.getElementById('bhDevT').textContent = DEV[dk][1]; document.getElementById('bhDevD').textContent = DEV[dk][2]; dev.classList.remove('swap'); }, reduce ? 0 : 240);
+      clearInterval(dT); if (!reduce && bhVis) dT = setInterval(() => devSet(dk + 1), 3600);
+    }
+    dots.forEach((d, i) => d.addEventListener('click', () => devSet(i)));
+    function countUp() { if (counted) return; counted = true;
+      bh.querySelectorAll('[data-count]').forEach(el => { const n = +el.dataset.count, t0 = performance.now(), D = reduce ? 0 : 1500;
+        const step = now => { const p = D ? Math.min(1, (now - t0) / D) : 1; el.textContent = Math.round(n * (1 - Math.pow(1 - p, 3))).toLocaleString('ru-RU'); if (p < 1) requestAnimationFrame(step); }; step(t0); }); }
+    new IntersectionObserver(([e]) => { bhVis = e.isIntersecting; if (bhVis) { bh.classList.add('in'); countUp(); devSet(dk); } else clearInterval(dT); }, { threshold: .2 }).observe(bh);
+    /* reveals */
+    document.querySelectorAll('.ind').forEach((c, i) => { c.style.setProperty('--d', i % 3); show(c, .3, 1500); });
+    document.querySelectorAll('.ind svg path, .ind svg rect').forEach(p => p.setAttribute('pathLength', '1'));
+    document.querySelectorAll('.cs').forEach(c => show(c, .2, 1500));
+    document.querySelectorAll('.pn, .terms-list > div, .bq, .lt').forEach(el => show(el, .35));
+    show(document.querySelector('.lt-grid'), .25);
+    /* tilt toward the cursor; the industry fill spreads from it */
+    if (!reduce && fine) document.querySelectorAll('.ind, .cs').forEach(c => {
+      c.addEventListener('pointermove', e => { const r = c.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+        c.style.setProperty('--mx', (x * 100).toFixed(1) + '%'); c.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+        c.style.setProperty('--ty', ((x - .5) * 10).toFixed(2) + 'deg'); c.style.setProperty('--tx', ((.5 - y) * 8).toFixed(2) + 'deg'); });
+      c.addEventListener('pointerleave', () => { c.style.setProperty('--tx', '0deg'); c.style.setProperty('--ty', '0deg'); });
+    });
+    /* scroll-driven pieces */
+    const pains = document.getElementById('pains'), bdx = document.getElementById('bdirs'), bdxTrack = bdx.querySelector('.bdx-track');
+    const panes = [...bdx.querySelectorAll('.bdx-p')], segs = [...bdx.querySelectorAll('.bdx-prog button')], BDX = ['multi', 'recup', 'panel'];
+    const roles = [...document.querySelectorAll('.role')], gn = document.querySelector('.gn-chart'), gnRows = [...gn.querySelectorAll('.gn-row:not(.gn-weeks)')], gnCur = document.getElementById('gnCur');
+    const csImgs = [...document.querySelectorAll('.cs-img')];
+    let bk = 0, ticking = false;
+    function bdxSet(k) { if (k === bk) return; const prev = bk; bk = k; bdx.dataset.scene = BDX[k];
+      panes.forEach((p, i) => { p.classList.toggle('on', i === k); p.classList.toggle('out', i === prev); });
+      segs.forEach((s, i) => { s.classList.toggle('on', i === k); s.setAttribute('aria-pressed', i === k); });
+      document.getElementById('bdxN').textContent = `0${k + 1} / 03`; document.getElementById('bdxBig').textContent = `0${k + 1}`; }
+    function bxUpdate() {
+      ticking = false; if (!isBiz()) return; const H = innerHeight;
+      const hr = bh.getBoundingClientRect(); bh.style.setProperty('--bp', reduce ? 0 : clamp(-hr.top / hr.height).toFixed(3));
+      const pr = pains.getBoundingClientRect(); pains.style.setProperty('--pp', reduce ? 1 : clamp((H - pr.top) / (H * .8)).toFixed(3));
+      const tr = bdxTrack.getBoundingClientRect(), span = tr.height - H, p = span > 0 ? clamp(-tr.top / span) : 0;
+      bdxSet(Math.min(2, Math.floor(p * 3 * .999))); segs.forEach((s, i) => s.style.setProperty('--f', clamp(p * 3 - i).toFixed(3)));
+      for (let i = 0; i < roles.length - 1; i++) { const nt = roles[i + 1].getBoundingClientRect().top, st = parseFloat(getComputedStyle(roles[i + 1]).top) || 0;
+        roles[i].style.setProperty('--sp', reduce ? 0 : clamp((H - nt) / Math.max(1, H - st)).toFixed(3)); }
+      const gr = gn.getBoundingClientRect(), t = clamp((H * .85 - gr.top) / (H * .1 + gr.height)) * 7;
+      gn.style.setProperty('--t', t.toFixed(3)); gn.style.setProperty('--co', t > .02 ? 1 : 0);
+      gnRows.forEach(r => { const a = +r.style.getPropertyValue('--a'), b = +r.style.getPropertyValue('--b'); r.style.setProperty('--f', clamp((t - a) / (b - a)).toFixed(3)); });
+      gnCur.textContent = t >= 6 ? 'далее' : 'неделя ' + (Math.floor(t) + 1);
+      if (!reduce) csImgs.forEach(c => { const r = c.getBoundingClientRect(); if (r.bottom > 0 && r.top < H) c.style.setProperty('--py', (((r.top + r.height / 2) / H - .5) * -28).toFixed(1) + 'px'); });
+    }
+    const req = () => { if (!ticking) { ticking = true; requestAnimationFrame(bxUpdate); } };
+    addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); document.addEventListener('audchange', () => setTimeout(req, 80)); req();
+    segs.forEach((s, i) => s.addEventListener('click', () => { const r = bdxTrack.getBoundingClientRect(), span = bdxTrack.offsetHeight - innerHeight, y = r.top + scrollY + span * (i + .5) / 3;
+      if (window.__lenis) window.__lenis.scrollTo(y, { duration: .9 }); else scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' }); }));
+  })();
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
@@ -2492,6 +2763,8 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     [.18, .8, () => boxEdge(1.1, 1.6, .02, 0, 0, .18)]
   ];
   const shapes = {}; for (const k in SHAPES) shapes[k] = build(SHAPES[k]);
+  // dark stages (business hero): the same devices as light points
+  const shapesD = {}; { const b0 = base.clone(), m0 = mist.clone(); base.set('#E6EBED'); mist.set('#0E1215'); for (const k of ['cassette', 'multi', 'duct', 'recup', 'panel']) shapesD[k] = build(SHAPES[k]); base.copy(b0); mist.copy(m0); }
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, mobile ? 1.5 : 2));
   renderer.setClearColor(0x000000, 0);
@@ -2663,7 +2936,8 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
       if (shown) solids[shown].visible = false;
       shown = keyName; morphT = 0; reveal = 0; cloud.visible = true;
     }
-    const tgt = shapes[keyName], P = cur.pos, C = cur.col, TP = tgt.pos, TC = tgt.col;
+    const dark = best.dataset.dark === '1';
+    const tgt = (dark && shapesD[keyName] ? shapesD : shapes)[keyName], P = cur.pos, C = cur.col, TP = tgt.pos, TC = tgt.col;
     const k = reduce ? 1 : clamp(dt * 9);
     for (let i = 0; i < P.length; i++) { P[i] += (TP[i] - P[i]) * k; C[i] += (TC[i] - C[i]) * k; }
     morphT += dt;
@@ -2696,7 +2970,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     if (!reduce) spin += dt * .5;
     const fixed = best.dataset.ry !== undefined, base = fixed ? +best.dataset.ry : -.45;
     const ry = base + Math.sin(spin) * (isEquip ? .45 : fixed ? .04 : .2) + mx * (fixed ? .04 : .25);
-    const rx = (isEquip && keyName === 'cassette' ? -.55 : .22) + my * .1;
+    const rx = ((isEquip || dark) && keyName === 'cassette' ? -.55 : .22) + my * .1;
     group.rotation.y += (ry - group.rotation.y) * clamp(dt * 3);
     group.rotation.x += (rx - group.rotation.x) * clamp(dt * 3);
 
