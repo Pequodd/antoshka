@@ -923,11 +923,8 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
 .st-facts .mono, .st-call .mono { color: var(--air); }
 .st-call { border-radius: 14px; width: min(300px, 22vw); }
 @media (min-width: 901px) {
-  .st-call { width: min(980px, 76vw); text-align: center; justify-items: center; padding: 12px 22px 14px; background: transparent; box-shadow: none; border: 0; }
-  .st-call p { font-size: 18px; }
-  .st-lead { display: none; }
+  .st-call { width: min(300px, 21vw); }
   .room-anchor { top: 37%; bottom: 7.5%; }
-  .st-call { padding: 6px 22px 8px; gap: 4px; }
   .st-bar { bottom: 18px; }
   .st-facts li { display: flex; align-items: baseline; gap: 10px; padding: 12px 20px 0 0; }
   .st-facts li + li { padding-left: 20px; }
@@ -3424,7 +3421,7 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
   const ST_TGT = { ac: [[bracket, [.45, 0, .02]], [unit, [.55, .08, .17]], [needle, [0, 0, 0]], [unit, [-.3, -.17, .2]]],
     el: [[elMarks, [0, 2.62, -1.99]], [socket, [0, .1, .02]], [elPanel, [.2, .2, .08]], [lamp, [0, 0, .08]]],
     vent: [[core, [0, 0, 0]], [ahu, [.4, 0, .35]], [grilles[1], [0, 0, 0]], [grilles[0], [0, -.05, 0]]] };
-  const stSide = [-1, 1, 1, -1], tv = new THREE.Vector3();
+  const stSide = [-1, 1, -1, 1], tv = new THREE.Vector3(), cv = new THREE.Vector3();
   function trackCallout(r) {
     const k = Math.max(0, si), sr = stStage.getBoundingClientRect(), W = sr.width, H = sr.height;
     const [tObj, tOff] = ST_TGT[stMode][k]; tObj.localToWorld(tv.fromArray(tOff)); tv.project(camera);
@@ -3436,8 +3433,13 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
       lx = Math.max(x + 16, Math.min(x + w - 16, px)); ly = y;
     } else {
       // one vertical axis: title → tabs → this step's caption → scene; the dot marks the action
-      const bar = document.querySelector('.st-bar').getBoundingClientRect();
-      x = (W - w) / 2; y = bar.top - sr.top - h - 10; lx = px; ly = py;
+      // hug the drawn room (not the screen edge), alternate sides step by step, level with the action
+      let minX = 1e9, maxX = -1e9;
+      for (const cx of [-3, 3]) for (const cy of [0, 3]) for (const cz of [-2, 2]) { room.localToWorld(cv.set(cx, cy, cz)).project(camera); const sx = (cv.x + 1) / 2 * innerWidth - sr.left; minX = Math.min(minX, sx); maxX = Math.max(maxX, sx); }
+      const side = stSide[k], tb = document.querySelector('.st-tabs').getBoundingClientRect(), bar = document.querySelector('.st-bar').getBoundingClientRect();
+      x = side < 0 ? minX - 18 - w : maxX + 18; x = Math.max(16, Math.min(W - w - 16, x));
+      y = Math.max(tb.bottom - sr.top + 16, Math.min(bar.top - sr.top - h - 16, py - 40));
+      lx = side < 0 ? x + w : x; ly = Math.max(y + 18, Math.min(y + h - 18, py));
     }
     stCall.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
     stDot.style.transform = `translate(${px.toFixed(1)}px, ${py.toFixed(1)}px)`;
