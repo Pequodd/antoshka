@@ -1436,6 +1436,43 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
 .cm-done { display: grid; gap: 10px; justify-items: start; padding: 8px 0 4px; }
 .cm-done b { font-weight: 300; font-size: clamp(28px, 3vw, 38px); letter-spacing: -.04em; line-height: 1.05; }
 .cm-done p { margin: 0; color: var(--muted); }
+.rv-who .rv-src { margin-left: auto; align-self: center; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--line); font-size: 13px; color: var(--muted); text-decoration: none; white-space: nowrap; transition: border-color .2s ease, color .2s ease; }
+.rv-who .rv-src:hover { border-color: var(--air); color: var(--air); }
+.rv-who .rv-src i { font-style: normal; }
+/* team */
+.tm { margin: 0 var(--m); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); row-gap: 16px; }
+.tm-lead { grid-column: 1 / 7; display: grid; gap: 22px; align-content: start; padding: clamp(24px, 3vw, 40px); border-radius: var(--r); background: #fff; border: 1px solid var(--line); }
+.tm-av { width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; background: var(--air); color: #fff; font-size: 30px; letter-spacing: -.02em; }
+.tm-who { display: grid; gap: 6px; }
+.tm-who .mono { color: var(--air); }
+.tm-who b { font-weight: 300; font-size: clamp(32px, 3.4vw, 52px); line-height: 1; letter-spacing: -.045em; }
+.tm-who p { margin: 6px 0 0; color: var(--muted); font-size: 16px; max-width: 46ch; }
+.tm-q { margin: 0; padding: 18px 0 0; border-top: 1px solid var(--line); display: grid; gap: 8px; }
+.tm-q p { margin: 0; font-size: 18px; line-height: 1.45; }
+.tm-q cite { font-style: normal; color: var(--muted); }
+.tm-act { display: flex; flex-wrap: wrap; gap: 10px; }
+.tm-btn, .cn-btn { min-height: 50px; background: var(--air); color: #fff; }
+.tm-btn:hover, .cn-btn:hover { filter: brightness(1.08); }
+.tm-roles { grid-column: 7 / -1; list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.tm-roles li { display: grid; gap: 8px; align-content: start; padding: 22px; border-radius: var(--r); background: #fff; border: 1px solid var(--line); }
+.tm-roles .mono { color: var(--air); }
+.tm-roles b { font-weight: 400; font-size: clamp(19px, 1.6vw, 24px); letter-spacing: -.02em; line-height: 1.15; }
+.tm-roles p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.45; }
+/* contacts */
+.cn { margin: 0 var(--m); display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); row-gap: 20px; padding-bottom: var(--sec-b, 64px); }
+.cn-info { grid-column: 1 / 6; display: grid; gap: 26px; align-content: start; }
+.cn-tel { font-weight: 300; font-size: clamp(34px, 3.6vw, 60px); line-height: 1; letter-spacing: -.045em; color: var(--ink); text-decoration: none; white-space: nowrap; }
+.cn-tel:hover { color: var(--air); }
+.cn-info dl { margin: 0; border-top: 1px solid var(--line); }
+.cn-info dl > div { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.cn-info dt { color: var(--muted); padding-top: 3px; }
+.cn-info dd { margin: 0; font-size: 17px; }
+.cn-info dd a { color: var(--ink); text-decoration: none; }
+.cn-info dd a:hover { color: var(--air); }
+.cn-msg { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+.cn-act { display: flex; flex-wrap: wrap; gap: 10px; }
+.cn-map { grid-column: 6 / -1; min-height: 440px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: #ECEEEF; }
+.cn-map iframe { display: block; width: 100%; height: 100%; min-height: 440px; border: 0; filter: grayscale(.35) contrast(1.02); }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
@@ -1738,13 +1775,20 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
   .cm-f2, .cm-biz { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) { .cm-box, .cm::backdrop { transition: none !important; } }
+@media (max-width: 900px) {
+  .tm-lead, .tm-roles, .cn-info, .cn-map { grid-column: 1 / -1; }
+  .tm-roles { grid-template-columns: 1fr; }
+  .tm-av { width: 72px; height: 72px; font-size: 24px; }
+  .cn-info dl > div { grid-template-columns: 1fr; gap: 4px; }
+  .cn-map, .cn-map iframe { min-height: 320px; }
+}
 </style>
 
 <header class="hud" id="hud">
   <a class="brand" href="#top" aria-label="Climate Solutions — наверх"><img src="../assets/brand/mark.png" alt="" width="253" height="410"><b>climate solutions<small>for home &amp; business</small></b></a>
   <nav class="hud-nav" aria-label="Разделы"><div class="aud hud-aud" role="group" aria-label="Для кого"><button type="button" data-aud="home" aria-pressed="true">Дом</button><button type="button" data-aud="biz" aria-pressed="false">Бизнес</button></div><i class="hud-sep" aria-hidden="true"></i><span class="hud-links"><span class="hud-ind" id="hudInd" aria-hidden="true"></span><a href="#services" data-aud-only="home">Услуги</a><a href="#industries" data-aud-only="biz">Отрасли</a><a href="#bdirs" data-aud-only="biz">Направления</a><a href="#cases" data-aud-only="biz">Кейсы</a><a href="#terms" data-aud-only="biz">Условия</a><a href="#prices" data-aud-only="home">Цены</a><a href="#works" data-aud-only="home">Объекты</a><a href="#process" data-aud-only="home">Процесс</a><a href="#letters" data-aud-only="biz">Письма</a><a href="#faq" data-aud-only="home">Вопросы</a><a href="#bfaq" data-aud-only="biz">Вопросы</a></span></nav>
   <div class="hud-end">
-    <a class="tel" href="tel:+73510000000">+7 351 XXX-XX-XX</a>
+    <a class="tel" href="tel:+79514596275">+7 951 459-62-75</a>
     <a class="btn btn-ink hud-cta" href="#contact" data-aud-only="home">Заявка</a><a class="btn hud-cta hud-kp" href="#b2b-form" data-aud-only="biz">Запросить КП</a>
     <button class="hud-menu" id="menuOpen" type="button" aria-haspopup="dialog" aria-controls="menu" aria-expanded="false"><span>Меню</span><svg class="dots" viewBox="0 0 16 16" aria-hidden="true"><circle cx="3" cy="3" r="1.4"/><circle cx="8" cy="3" r="1.4"/><circle cx="13" cy="3" r="1.4"/><circle cx="3" cy="8" r="1.4"/><circle cx="8" cy="8" r="1.4"/><circle cx="13" cy="8" r="1.4"/><circle cx="3" cy="13" r="1.4"/><circle cx="8" cy="13" r="1.4"/><circle cx="13" cy="13" r="1.4"/></svg></button>
   </div>
@@ -1761,10 +1805,10 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
     <div class="mcol mcol-gen"><span class="mono mcol-h">о компании</span><a href="#standard" style="--i:11">Монтаж</a><a href="#process" style="--i:12">Процесс</a><a href="#guarantee" style="--i:13">Гарантии</a><a href="#reviews" style="--i:14">Отзывы</a><a href="#faq" style="--i:15">Вопросы</a></div>
   </nav>
   <aside class="menu-side">
-    <div><span class="mono">Челябинск</span><a href="tel:+73510000000">+7 (351) XXX-XX-XX</a></div>
-    <div><span class="mono">Екатеринбург</span><a href="tel:+73430000000">+7 (343) XXX-XX-XX</a></div>
+    <div><span class="mono">Челябинск</span><a href="tel:+79514596275">+7 (951) 459-62-75</a></div>
+    <div><span class="mono">Второй номер</span><a href="tel:+79000800838">+7 (900) 080-08-38</a></div>
     <div><span class="mono">Время</span><span id="clock">GMT+5 --:--</span><span class="menu-note">Выезды ежедневно, 8:00–21:00</span></div>
-    <div><span class="mono">Мессенджеры</span><a href="https://wa.me/73510000000" target="_blank" rel="noopener">WhatsApp ↗</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram ↗</a><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте ↗</a></div>
+    <div><span class="mono">Мессенджеры</span><a href="https://wa.me/79514596275" target="_blank" rel="noopener">WhatsApp ↗</a><a href="https://t.me/+79514596275" target="_blank" rel="noopener">Telegram ↗</a><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте ↗</a></div>
     <a class="btn btn-ink menu-cta" href="#contact">Рассчитать стоимость <i>↗</i></a>
   </aside>
   <div class="menu-foot mono" aria-hidden="true"><span>[ climate solutions ]</span><span>[ ЧЛБ · ЕКБ ]</span></div>
@@ -2195,10 +2239,10 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
         <div class="rv-nav"><button type="button" id="rvPrev" aria-label="Предыдущие отзывы">←</button><button type="button" id="rvNext" aria-label="Следующие отзывы">→</button></div>
       </div>
       <div class="rv-track" id="rvTrack" tabindex="0" aria-label="Отзывы клиентов">
-        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · июль 2024</span></div><p>Тимур Викторович, огромное вам спасибо. Вы самые лучшие!<br>1. Внимательный, вежливый и отзывчивый руководитель.<br>2. Подобрал кондиционер по всем параметрам моих пожеланий.<br>3. Отличный, слаженный коллектив.<br>4. Установку провели быстро и качественно.<br>5. Очень довольны: осень-весна — на тепло; лето — холод. Все функции на 100%.<br>Рекомендую эту компанию.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">МР</span><span><b>Марина Р.</b><span>отзыв на Яндекс Картах</span></span></div></article>
-        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · июнь 2022</span></div><p>Понравилось особо вежливое общение с Тимуром по телефону при обращении! Смета по выполнении работ не возросла! Установка прошла быстро, качественно. Всем спасибо, так держать!)</p><div class="rv-who"><span class="rv-av" aria-hidden="true">ZZ</span><span><b>Zab Zoog</b><span>отзыв на Яндекс Картах</span></span></div></article>
-        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · май 2022</span></div><p>Хорошие мастера, сделали всё быстро, всё объяснили, показали, учли все мои пожелания.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">НБ</span><span><b>Николай Б.</b><span>отзыв на Яндекс Картах</span></span></div></article>
-        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · апрель 2022</span></div><p>Быстро и аккуратно установили кондиционер.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">ИТ</span><span><b>Ильдар Т.</b><span>отзыв на Яндекс Картах</span></span></div></article>
+        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · июль 2024</span></div><p>Тимур Викторович, огромное вам спасибо. Вы самые лучшие!<br>1. Внимательный, вежливый и отзывчивый руководитель.<br>2. Подобрал кондиционер по всем параметрам моих пожеланий.<br>3. Отличный, слаженный коллектив.<br>4. Установку провели быстро и качественно.<br>5. Очень довольны: осень-весна — на тепло; лето — холод. Все функции на 100%.<br>Рекомендую эту компанию.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">МР</span><span><b>Марина Р.</b><span>отзыв на Яндекс Картах</span></span><a class="rv-src" href="https://yandex.ru/maps/org/climate_solutions/89687502787/reviews/?reviews%5BpublicId%5D=GWY7PGqs4gR8l2Q-euQ1iQwS1H2OqaZ&amp;utm_source=review" target="_blank" rel="noopener" aria-label="Оригинал отзыва: Марина Р., Яндекс Карты">Оригинал <i>↗</i></a></div></article>
+        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · июнь 2022</span></div><p>Понравилось особо вежливое общение с Тимуром по телефону при обращении! Смета по выполнении работ не возросла! Установка прошла быстро, качественно. Всем спасибо, так держать!)</p><div class="rv-who"><span class="rv-av" aria-hidden="true">ZZ</span><span><b>Zab Zoog</b><span>отзыв на Яндекс Картах</span></span><a class="rv-src" href="https://yandex.ru/maps/org/climate_solutions/89687502787/reviews/?reviews%5BpublicId%5D=OWemK3mmFVYA_yHRaFU3NZCGdz8pGLv&amp;utm_source=review" target="_blank" rel="noopener" aria-label="Оригинал отзыва: Zab Zoog, Яндекс Карты">Оригинал <i>↗</i></a></div></article>
+        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · май 2022</span></div><p>Хорошие мастера, сделали всё быстро, всё объяснили, показали, учли все мои пожелания.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">НБ</span><span><b>Николай Б.</b><span>отзыв на Яндекс Картах</span></span><a class="rv-src" href="https://yandex.ru/maps/org/climate_solutions/89687502787/reviews/?reviews%5BpublicId%5D=M3r7GeejMm3CKm_PuFPJ3xLw7V5Xwb&amp;utm_source=review" target="_blank" rel="noopener" aria-label="Оригинал отзыва: Николай Б., Яндекс Карты">Оригинал <i>↗</i></a></div></article>
+        <article class="rv-card"><div class="rv-top"><span class="stars" aria-label="5 из 5"><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg><svg viewBox="0 0 20 20"><path d="M10 1.8l2.5 5.2 5.7.8-4.1 4 1 5.6L10 14.7l-5.1 2.7 1-5.6-4.1-4 5.7-.8z" fill="currentColor"/></svg></span><span class="mono">Яндекс Карты · апрель 2022</span></div><p>Быстро и аккуратно установили кондиционер.</p><div class="rv-who"><span class="rv-av" aria-hidden="true">ИТ</span><span><b>Ильдар Т.</b><span>отзыв на Яндекс Картах</span></span><a class="rv-src" href="https://yandex.ru/maps/org/climate_solutions/89687502787/reviews/?reviews%5BpublicId%5D=7UnbFmmSZUmc0A4iWmoKg_5-9UheY8W&amp;utm_source=review" target="_blank" rel="noopener" aria-label="Оригинал отзыва: Ильдар Т., Яндекс Карты">Оригинал <i>↗</i></a></div></article>
       </div>
     </div>
     </div></div>
@@ -2236,7 +2280,7 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
       <div class="go-head"><span class="mono" data-aud-only="home">перезваниваем за 15 минут</span><span class="mono" data-aud-only="biz">КП за 2 рабочих дня</span><h3 data-aud-only="home">Оставьте телефон — <br>мастер перезвонит и&nbsp;посчитает</h3><h3 data-aud-only="biz">Оставьте телефон — <br>инженер свяжется и&nbsp;запросит ТЗ</h3></div>
       <form class="go-form" id="goForm" novalidate>
         <div class="go-row"><label class="sr-only" for="goPhone">Телефон</label><input id="goPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__"><button class="btn go-btn" type="submit"><span data-aud-only="home">Перезвоните мне</span><span data-aud-only="biz">Запросить КП</span> <i>↗</i></button></div>
-        <div class="go-alt"><a class="mono" href="https://wa.me/73510000000" target="_blank" rel="noopener">WhatsApp ↗</a><a class="mono" href="tel:+73510000000">+7 351 XXX-XX-XX</a><a class="mono" href="#b2b-form" data-aud-only="biz">Запросить КП ↗</a></div>
+        <div class="go-alt"><a class="mono" href="https://wa.me/79514596275" target="_blank" rel="noopener">WhatsApp ↗</a><a class="mono" href="tel:+79514596275">+7 951 459-62-75</a><a class="mono" href="#b2b-form" data-aud-only="biz">Запросить КП ↗</a></div>
         <p class="go-legal">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
         <div class="err" id="goErr" role="alert"></div>
       </form>
@@ -2253,6 +2297,27 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
     </div>
   </section>
 
+  <!-- team -->
+  <section class="sec" id="team" aria-labelledby="teamH">
+    <div class="rule"></div>
+    <div class="grid title"><h2 id="teamH">Команда</h2>
+      <p class="aside">Один ответственный на весь объект и инженеры по каждому направлению: климат, вентиляция, электрика.</p></div>
+    <div class="tm">
+      <article class="tm-lead">
+        <span class="tm-av" aria-hidden="true">ТА</span>
+        <div class="tm-who"><span class="mono">руководитель</span><b>Тимур Антонов</b><p>Подбирает решение под объект, считает смету и отвечает за работу от выезда до акта.</p></div>
+        <blockquote class="tm-q"><p>«Тимур Викторович… внимательный, вежливый и отзывчивый руководитель. Подобрал кондиционер по всем параметрам моих пожеланий».</p><cite class="mono">Марина Р., отзыв на Яндекс Картах</cite></blockquote>
+        <div class="tm-act"><a class="btn tm-btn" href="tel:+79514596275">Позвонить Тимуру <i>↗</i></a><a class="btn btn-soft" href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте <i>↗</i></a></div>
+      </article>
+      <ul class="tm-roles">
+        <li><span class="mono">01</span><b>Инженер-проектировщик</b><p>Расчёт мощности и воздухообмена, проект, схемы и смета по разделам.</p></li>
+        <li><span class="mono">02</span><b>Монтажная бригада</b><p>Кондиционеры и вентиляция: монтаж, трасса, вакуум и пусконаладка.</p></li>
+        <li><span class="mono">03</span><b>Электромонтажник</b><p>Щиты, кабельные трассы, освещение и замеры с протоколом.</p></li>
+        <li><span class="mono">04</span><b>Сервис</b><p>Регламентное ТО по графику и выезд по заявке.</p></li>
+      </ul>
+    </div>
+  </section>
+
   <!-- 11 faq -->
   <section class="sec" id="faq" data-aud-only="home">
     <div class="rule"></div>
@@ -2264,7 +2329,7 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
         <span class="mono">не нашли ответ?</span>
         <h3>Спросите мастера или инженера напрямую</h3>
         <p>Ответим в течение 15 минут в рабочее время — про кондиционеры, вентиляцию, электрику и работу с компаниями.</p>
-        <div class="faq-cta"><a class="btn faq-btn" href="#contact">Задать вопрос <i>↗</i></a><a class="faq-wa" href="https://wa.me/73510000000" target="_blank" rel="noopener">WhatsApp ↗</a></div>
+        <div class="faq-cta"><a class="btn faq-btn" href="#contact">Задать вопрос <i>↗</i></a><a class="faq-wa" href="https://wa.me/79514596275" target="_blank" rel="noopener">WhatsApp ↗</a></div>
       </aside>
       <div class="faq-list">
         <details data-cat="el"><summary>Делаете электрику без кондиционера?</summary><p>Да. Проводка, щит, освещение и розетки — отдельным заказом, для квартир, домов и коммерческих помещений.</p></details>
@@ -2347,7 +2412,7 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
         <span class="mono est-note" id="qcNote">кондиционер под ключ, трасса до 3 м</span>
         <ul class="est-list"><li>Выезд и замер — бесплатно</li><li>Смета фиксируется в договоре</li><li>Гарантия на работы — 3 года</li></ul>
         <div class="est-foot"><span class="mono">быстрее всего — фото места установки</span>
-          <div class="est-links"><a href="https://wa.me/73510000000" target="_blank" rel="noopener">WhatsApp ↗</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram ↗</a><a href="tel:+73510000000">Позвонить</a></div></div>
+          <div class="est-links"><a href="https://wa.me/79514596275" target="_blank" rel="noopener">WhatsApp ↗</a><a href="https://t.me/+79514596275" target="_blank" rel="noopener">Telegram ↗</a><a href="tel:+79514596275">Позвонить</a></div></div>
       </aside>
       <form class="form" id="leadForm" novalidate>
         <div class="qc">
@@ -2362,16 +2427,37 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
       </form>
     </div>
   </section>
+
+  <!-- contacts -->
+  <section class="sec" id="contacts" aria-labelledby="conH">
+    <div class="rule"></div>
+    <div class="grid title"><h2 id="conH">Контакты</h2>
+      <p class="aside">Челябинск и область, по договору — по всей России. Звоните, пишите в мессенджер или приезжайте в офис.</p></div>
+    <div class="cn">
+      <div class="cn-info">
+        <a class="cn-tel" href="tel:+79514596275">+7 (951) 459-62-75</a>
+        <dl>
+          <div><dt class="mono">второй номер</dt><dd><a href="tel:+79000800838">+7 (900) 080-08-38</a></dd></div>
+          <div><dt class="mono">адрес</dt><dd>Челябинск, ул. 5 Декабря, 32</dd></div>
+          <div><dt class="mono">мессенджеры</dt><dd class="cn-msg"><a href="https://wa.me/79514596275" target="_blank" rel="noopener">WhatsApp ↗</a><a href="https://t.me/+79514596275" target="_blank" rel="noopener">Telegram ↗</a><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте ↗</a></dd></div>
+          <div data-aud-only="biz"><dt class="mono">для компаний</dt><dd>Реквизиты, допуски и образец договора отправим вместе с КП.</dd></div>
+        </dl>
+        <div class="cn-act"><a class="btn cn-btn" href="tel:+79514596275">Позвонить <i>↗</i></a><a class="btn btn-soft" href="https://yandex.ru/maps/org/climate_solutions/89687502787/" target="_blank" rel="noopener">Маршрут в Яндекс Картах <i>↗</i></a></div>
+      </div>
+      <div class="cn-map"><iframe title="Climate Solutions на Яндекс Картах" src="https://yandex.ru/map-widget/v1/?oid=89687502787&amp;z=16" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+    </div>
+  </section>
+
 </main>
 
 <footer class="foot-x" id="footer">
   <div class="fx-air" aria-hidden="true"><i></i><i></i><i></i></div>
-  <div class="fx-top"><nav class="fx-social" aria-label="Мессенджеры"><a href="https://wa.me/73510000000" target="_blank" rel="noopener">WhatsApp</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram</a><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте</a></nav><a class="fx-mail" href="mailto:hello@climate-solution.pro">hello@climate-solution.pro</a></div>
+  <div class="fx-top"><nav class="fx-social" aria-label="Мессенджеры"><a href="https://wa.me/79514596275" target="_blank" rel="noopener">WhatsApp</a><a href="https://t.me/+79514596275" target="_blank" rel="noopener">Telegram</a><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте</a></nav><a class="fx-mail" href="#contacts">Челябинск, ул. 5 Декабря, 32</a></div>
   <div class="fx-mid">
     <a class="fx-brand" href="#top" aria-label="Climate Solutions — наверх"><img src="../assets/brand/mark-light.png" alt="" width="253" height="410"><b>climate solutions<small>for home &amp; business</small></b></a>
-    <nav class="fx-nav" aria-label="Разделы"><a href="#services" data-aud-only="home">Услуги</a><a href="#b2b" data-aud-only="home">Бизнесу</a><a href="#prices" data-aud-only="home">Цены</a><a href="#works" data-aud-only="home">Объекты</a><a href="#faq" data-aud-only="home">Вопросы</a><a href="#contact" data-aud-only="home">Расчёт</a><a href="#industries" data-aud-only="biz">Отрасли</a><a href="#cases" data-aud-only="biz">Кейсы</a><a href="#terms" data-aud-only="biz">Условия</a><a href="#bfaq" data-aud-only="biz">Вопросы</a><a href="#b2b-form" data-aud-only="biz">Запросить КП</a></nav>
+    <nav class="fx-nav" aria-label="Разделы"><a href="#services" data-aud-only="home">Услуги</a><a href="#b2b" data-aud-only="home">Бизнесу</a><a href="#prices" data-aud-only="home">Цены</a><a href="#works" data-aud-only="home">Объекты</a><a href="#faq" data-aud-only="home">Вопросы</a><a href="#contact" data-aud-only="home">Расчёт</a><a href="#industries" data-aud-only="biz">Отрасли</a><a href="#cases" data-aud-only="biz">Кейсы</a><a href="#terms" data-aud-only="biz">Условия</a><a href="#bfaq" data-aud-only="biz">Вопросы</a><a href="#b2b-form" data-aud-only="biz">Запросить КП</a><a href="#contacts">Контакты</a></nav>
     <div class="fx-info"><p>Кондиционирование, вентиляция и электромонтаж — для квартир, домов и бизнеса.</p>
-      <dl><div><dt>Челябинск</dt><dd><a href="tel:+73510000000">+7 (351) XXX-XX-XX</a></dd></div><div><dt>Екатеринбург</dt><dd><a href="tel:+73430000000">+7 (343) XXX-XX-XX</a></dd></div><div><dt>Заявки</dt><dd><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">Тимур Антонов ↗</a></dd></div></dl></div>
+      <dl><div><dt>Челябинск</dt><dd><a href="tel:+79514596275">+7 (951) 459-62-75</a></dd></div><div><dt>Второй номер</dt><dd><a href="tel:+79000800838">+7 (900) 080-08-38</a></dd></div><div><dt>Заявки</dt><dd><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">Тимур Антонов ↗</a></dd></div></dl></div>
   </div>
   <div class="fx-bot"><span>Climate Solutions © 2026 · ИП [ФИО] · ИНН [—]</span><span>Челябинск <b id="fxClock">--:--:--</b></span></div>
 </footer>
@@ -2399,7 +2485,7 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
     <p class="cm-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
   </form>
 </dialog>
-<nav class="mbar" aria-label="Быстрая связь"><a class="btn btn-soft" href="tel:+73510000000">Позвонить</a><a class="btn btn-ink" href="#contact" data-aud-only="home">Заявка</a><a class="btn btn-ink" href="#b2b-form" data-aud-only="biz">КП</a></nav>
+<nav class="mbar" aria-label="Быстрая связь"><a class="btn btn-soft" href="tel:+79514596275">Позвонить</a><a class="btn btn-ink" href="#contact" data-aud-only="home">Заявка</a><a class="btn btn-ink" href="#b2b-form" data-aud-only="biz">КП</a></nav>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
