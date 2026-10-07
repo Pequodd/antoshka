@@ -1403,6 +1403,39 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
 .ctr-btn:focus-visible { outline: 2px solid var(--air); outline-offset: 3px; }
 .stars .star-dim { opacity: .28; display: contents; }
 .stars .star-dim svg { opacity: .28; }
+/* in-block CTA popup */
+.cm { padding: 0; border: 0; background: transparent; max-width: none; max-height: none; width: 100%; height: 100%; margin: 0; display: grid; place-items: center; }
+.cm:not([open]) { display: none; }
+.cm::backdrop { background: rgba(14,18,21,.5); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); opacity: 0; transition: opacity .3s ease; }
+.cm.on::backdrop { opacity: 1; }
+.cm-box { position: relative; width: min(520px, calc(100% - 32px)); max-height: calc(100svh - 32px); overflow: auto; display: grid; gap: 16px; padding: 34px 32px 26px; border-radius: 22px; background: #fff; color: var(--ink);
+  box-shadow: 0 40px 100px -40px rgba(14,18,21,.55); opacity: 0; transform: translateY(24px) scale(.97); transition: opacity .3s ease, transform .5s cubic-bezier(.16,1,.3,1); }
+.cm.on .cm-box { opacity: 1; transform: none; }
+.cm-x { all: unset; cursor: pointer; position: absolute; right: 14px; top: 14px; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; font-size: 24px; line-height: 1; color: var(--muted); transition: background .2s ease, color .2s ease; }
+.cm-x:hover { background: #F0F2F3; color: var(--ink); }
+.cm-x:focus-visible { outline: 2px solid var(--air); outline-offset: 2px; }
+.cm-kick { color: var(--air); }
+.cm-t { margin: -6px 0 0; padding-right: 36px; font-weight: 300; font-size: clamp(28px, 3vw, 38px); line-height: 1.05; letter-spacing: -.04em; }
+.cm-sub { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.45; }
+.cm-lab { display: block; margin-bottom: 8px; color: var(--muted); }
+.cm-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.cm-chips button { all: unset; cursor: pointer; min-height: 42px; padding: 0 16px; display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 999px; font-size: 15px; transition: background .2s ease, color .2s ease, border-color .2s ease; }
+.cm-chips button:hover { border-color: var(--faint); }
+.cm-chips button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.cm-chips button:focus-visible { outline: 2px solid var(--air); outline-offset: 2px; }
+.cm-f2, .cm-biz { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+.cm .field label { font-size: 13px; color: var(--muted); }
+.cm .field input, .cm .field select { height: 46px; width: 100%; border: 0; border-bottom: 1px solid #C8CDD0; background: transparent; color: var(--ink); font: 300 19px var(--sans); padding: 0; border-radius: 0; }
+.cm .field input:focus, .cm .field select:focus { outline: none; border-bottom-color: var(--ink); }
+.cm .field input[aria-invalid="true"] { border-bottom-color: #B42318; }
+html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
+.cm-go { justify-self: stretch; justify-content: center; min-height: 54px; background: var(--air); color: #fff; font-size: 16px; }
+.cm-go:hover { filter: brightness(1.08); }
+.cm-go:disabled { opacity: .6; cursor: default; }
+.cm-note { margin: -4px 0 0; font-size: 12px; color: var(--muted); text-align: center; }
+.cm-done { display: grid; gap: 10px; justify-items: start; padding: 8px 0 4px; }
+.cm-done b { font-weight: 300; font-size: clamp(28px, 3vw, 38px); letter-spacing: -.04em; line-height: 1.05; }
+.cm-done p { margin: 0; color: var(--muted); }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
@@ -1699,6 +1732,12 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
   .ctr { padding: 18px; }
   .ctr-btn { width: 100%; justify-content: center; }
 }
+@media (max-width: 900px) {
+  .cm { place-items: end center; }
+  .cm-box { width: 100%; max-height: 92svh; padding: 28px 18px calc(18px + env(safe-area-inset-bottom, 0px)); border-radius: 22px 22px 0 0; transform: translateY(40px); }
+  .cm-f2, .cm-biz { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) { .cm-box, .cm::backdrop { transition: none !important; } }
 </style>
 
 <header class="hud" id="hud">
@@ -2080,7 +2119,7 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
         </div>
       </div>
     </div>
-      <div class="ctr"><div><span class="mono">подбор техники</span><b>Не знаете, какая модель подойдёт?</b></div><a class="btn ctr-btn" href="#prices">Подобрать под мою комнату <i>↗</i></a></div>
+      <div class="ctr"><div><span class="mono">подбор техники</span><b>Не знаете, какая модель подойдёт?</b></div><a class="btn ctr-btn" href="#prices" data-pick="Кондиционер">Подобрать под мою комнату <i>↗</i></a></div>
   </section>
 
   <!-- 6 works -->
@@ -2337,6 +2376,29 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
   <div class="fx-bot"><span>Climate Solutions © 2026 · ИП [ФИО] · ИНН [—]</span><span>Челябинск <b id="fxClock">--:--:--</b></span></div>
 </footer>
 
+<dialog class="cm" id="ctaModal" aria-labelledby="cmTitle">
+  <form class="cm-box" id="cmForm" method="dialog" novalidate>
+    <button class="cm-x" type="button" id="cmClose" aria-label="Закрыть">×</button>
+    <span class="mono cm-kick" id="cmKick">заявка</span>
+    <h3 class="cm-t" id="cmTitle">Оставить заявку</h3>
+    <p class="cm-sub" id="cmSub">Оставьте телефон — инженер перезвонит в течение 15 минут.</p>
+    <div class="cm-home">
+      <span class="mono cm-lab">Что нужно</span>
+      <div class="cm-chips" role="group" aria-label="Что нужно"><button type="button" aria-pressed="true">Кондиционер</button><button type="button" aria-pressed="false">Вентиляция</button><button type="button" aria-pressed="false">Электрика</button><button type="button" aria-pressed="false">Комплексно</button></div>
+    </div>
+    <div class="cm-biz">
+      <div class="field"><label for="cmCo">Компания</label><input id="cmCo" autocomplete="organization"></div>
+      <div class="field"><label for="cmTask">Задача</label><select id="cmTask"><option>Кондиционирование</option><option>Вентиляция</option><option>Электромонтаж</option><option>Комплексно: климат и электрика</option><option>Регламентное ТО</option></select></div>
+    </div>
+    <div class="cm-f2">
+      <div class="field"><label for="cmName">Имя <span aria-hidden="true">*</span></label><input id="cmName" autocomplete="name" placeholder="Как к вам обращаться" required aria-describedby="cmErr"></div>
+      <div class="field"><label for="cmPhone">Телефон <span aria-hidden="true">*</span></label><input id="cmPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__" required aria-describedby="cmErr"></div>
+    </div>
+    <div class="err" id="cmErr" role="alert"></div>
+    <button class="btn cm-go" type="submit">Отправить <i>↗</i></button>
+    <p class="cm-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+  </form>
+</dialog>
 <nav class="mbar" aria-label="Быстрая связь"><a class="btn btn-soft" href="tel:+73510000000">Позвонить</a><a class="btn btn-ink" href="#contact" data-aud-only="home">Заявка</a><a class="btn btn-ink" href="#b2b-form" data-aud-only="biz">КП</a></nav>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -2538,6 +2600,44 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
   /* soft CTAs: preselect the direction in the lead form / KP form */
   document.querySelectorAll('[data-pick]').forEach(a => a.addEventListener('click', () => { const b = [...document.querySelectorAll('.qc-chips[data-q="pw"] button')].find(x => x.textContent.trim() === a.dataset.pick); if (b && b.getAttribute('aria-pressed') !== 'true') b.click(); }));
   document.querySelectorAll('[data-ktask]').forEach(a => a.addEventListener('click', () => { const sel = document.getElementById('kTask'); if (sel) sel.value = a.dataset.ktask; }));
+  /* in-block CTA popup: opens from the soft CTAs, title and direction come from the button */
+  const cm = document.getElementById('ctaModal'), cmForm = document.getElementById('cmForm'), cmChips = [...cm.querySelectorAll('.cm-chips button')];
+  const cmFresh = cmForm.innerHTML; let cmBack = null;
+  const cmPick = v => cmChips.forEach(b => b.setAttribute('aria-pressed', b.textContent.trim() === v));
+  cm.addEventListener('click', e => { if (e.target === cm) cmCloseIt(); const ch = e.target.closest('.cm-chips button'); if (ch) cmPick(ch.textContent.trim()); });
+  function cmOpen(btn) {
+    if (!cmForm.querySelector('#cmName')) { cmForm.innerHTML = cmFresh; cmChips.splice(0, cmChips.length, ...cm.querySelectorAll('.cm-chips button')); cmBind(); }
+    const row = btn.closest('.ctr'), biz = document.documentElement.dataset.aud === 'biz';
+    document.getElementById('cmKick').textContent = row ? row.querySelector('.mono').textContent : 'заявка';
+    document.getElementById('cmTitle').textContent = btn.textContent.replace('↗', '').trim();
+    document.getElementById('cmSub').textContent = biz ? 'Оставьте контакты — инженер свяжется в течение рабочего дня, КП подготовим за 2 дня.' : 'Оставьте телефон — инженер перезвонит в течение 15 минут и ответит на вопросы.';
+    cmPick(btn.dataset.pick || 'Кондиционер'); if (btn.dataset.ktask) document.getElementById('cmTask').value = btn.dataset.ktask;
+    document.getElementById('cmErr').textContent = '';
+    cmBack = btn; cm.showModal(); if (window.__lenis) window.__lenis.stop(); document.documentElement.style.overflow = 'hidden';
+    requestAnimationFrame(() => cm.classList.add('on')); setTimeout(() => { const f = cm.querySelector(biz ? '#cmCo' : '#cmName'); if (f) f.focus(); }, 60);
+  }
+  function cmCloseIt() { cm.classList.remove('on'); setTimeout(() => { if (cm.open) cm.close(); }, reduce ? 0 : 260); }
+  cm.addEventListener('close', () => { cm.classList.remove('on'); if (window.__lenis) window.__lenis.start(); document.documentElement.style.overflow = ''; if (cmBack) cmBack.focus(); });
+  cm.addEventListener('cancel', e => { e.preventDefault(); cmCloseIt(); });
+  function cmBind() {
+    document.getElementById('cmClose').addEventListener('click', cmCloseIt);
+    const ph = document.getElementById('cmPhone');
+    ph.addEventListener('input', () => { let d = ph.value.replace(/\D/g, ''); if (d.startsWith('8') || d.startsWith('7')) d = d.slice(1); d = d.slice(0, 10);
+      ph.value = d ? '+7 ' + d.slice(0, 3) + (d.length > 3 ? ' ' + d.slice(3, 6) : '') + (d.length > 6 ? '-' + d.slice(6, 8) : '') + (d.length > 8 ? '-' + d.slice(8, 10) : '') : ''; });
+  }
+  cmBind();
+  cmForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const n = document.getElementById('cmName'), ph = document.getElementById('cmPhone'), err = document.getElementById('cmErr');
+    [n, ph].forEach(f => f.removeAttribute('aria-invalid'));
+    if (!n.value.trim()) { err.textContent = 'Напишите, как к вам обращаться.'; n.setAttribute('aria-invalid', 'true'); n.focus(); return; }
+    if (ph.value.replace(/\D/g, '').length < 11) { err.textContent = 'Проверьте номер: нужно 10 цифр после +7.'; ph.setAttribute('aria-invalid', 'true'); ph.focus(); return; }
+    const go = cmForm.querySelector('.cm-go'); go.disabled = true; go.textContent = 'Отправляем…';
+    setTimeout(() => { const biz = document.documentElement.dataset.aud === 'biz';
+      cmForm.innerHTML = `<button class="cm-x" type="button" aria-label="Закрыть">×</button><div class="cm-done"><span class="mono cm-kick">заявка принята</span><b>${biz ? 'Свяжемся в течение рабочего дня' : 'Перезвоним в течение 15 минут'}</b><p>Прототип: данные никуда не отправляются.</p><button class="btn cm-go" type="button">Хорошо</button></div>`;
+      cmForm.querySelectorAll('.cm-x, .cm-go').forEach(b => b.addEventListener('click', cmCloseIt)); cmForm.querySelector('.cm-go').focus(); }, reduce ? 0 : 700);
+  });
+  document.querySelectorAll('.ctr-btn').forEach(b => b.addEventListener('click', e => { e.preventDefault(); cmOpen(b); }));
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
