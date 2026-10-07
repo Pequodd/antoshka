@@ -507,6 +507,8 @@ html.lenis, html.lenis body { height: auto; }
 #svc #t1 { order: 1; } #svc #p1 { order: 2; } #svc #t2 { order: 3; } #svc #p2 { order: 4; } #svc #t3 { order: 5; } #svc #p3 { order: 6; }
 #svc .tab { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding: 20px 24px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; color: var(--ink);
   font-size: clamp(24px, 2vw, 32px); transition: background .35s ease, color .35s ease, border-radius .35s ease; }
+#svc .tab:focus-visible { outline: 2px solid var(--air); outline-offset: 3px; border-radius: var(--r); }
+#svc .tab[aria-selected="true"]:focus-visible { border-radius: var(--r) var(--r) 0 0; }
 #svc .tab::after { content: "+"; font: 300 28px/1 var(--sans); color: var(--muted); transition: transform .35s ease; }
 #svc .tab:hover { background: var(--air-soft); }
 #svc .tab[aria-selected="true"] { background: var(--air); border-color: var(--air); color: #fff; border-radius: var(--r) var(--r) 0 0; }
@@ -1855,7 +1857,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     svc.dataset.scene = tab.dataset.shape; svcTag.textContent = SVC_TAG[tab.dataset.shape];
   }
   tabs.forEach((x, i) => {
-    x.addEventListener('click', () => select(x));
+    x.addEventListener('click', () => { if (x.getAttribute('aria-selected') === 'true') { x.setAttribute('aria-selected', 'false'); document.getElementById(x.getAttribute('aria-controls')).hidden = true; } else select(x); });
     x.addEventListener('keydown', e => { const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (d) { const n = tabs[(i + d + tabs.length) % tabs.length]; select(n); n.focus(); } });
   });
 
