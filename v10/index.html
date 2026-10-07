@@ -1355,6 +1355,8 @@ html[data-aud="biz"] main { overflow-x: clip; }
 .tl-st.cur b { color: var(--ink); }
 .tl-st.cur em { opacity: 1; transform: none; color: var(--air); }
 .tl-pin { display: none; }
+/* hero film: a fine grain over the video hides the softness of the generated footage */
+.hc-card::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background-image: var(--grain); background-size: 180px; mix-blend-mode: soft-light; opacity: .22; }
 /* no section heading here: the step word is the headline (title kept for screen readers only) */
 .tl-stage .tl-title { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 .tl-ruler { top: 24%; }
