@@ -1372,6 +1372,12 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
 .tl-ruler { top: 24%; }
 .tl-words { top: 46%; }
 .tl-cap .tl-meta { display: none; }
+/* installation: direction tabs (AC / wiring / ventilation) */
+.st-tabs { grid-column: 9 / -1; justify-self: end; align-self: start; margin-top: 8px; display: inline-flex; gap: 4px; padding: 4px; border-radius: 999px; background: rgba(255,255,255,.9); border: 1px solid var(--line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.st-tabs button { all: unset; cursor: pointer; padding: 10px 18px; border-radius: 999px; font-size: 15px; color: var(--muted); transition: background .3s ease, color .3s ease; }
+.st-tabs button:hover { color: var(--ink); }
+.st-tabs button[aria-selected="true"] { background: var(--air); color: #fff; }
+.st-tabs button:focus-visible { outline: 2px solid var(--air); outline-offset: 2px; }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
@@ -1658,6 +1664,10 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
   .bhero::before { background-size: 100% 100%, 25% 100%; background-position: 0 0, var(--m) 0;
     background-image: radial-gradient(ellipse 90% 34% at 50% 74%, rgba(31,59,245,.55) 0%, rgba(33,66,230,.32) 34%, rgba(173,194,224,.14) 58%, rgba(232,50,43,.22) 76%, rgba(232,50,43,0) 100%), linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); }
   .oa { padding: 26px 22px; min-height: 0; }
+}
+@media (max-width: 900px) {
+  .st-tabs { grid-column: 1 / -1; justify-self: start; margin-top: 14px; }
+  .st-tabs button { padding: 9px 13px; font-size: 14px; }
 }
 </style>
 
@@ -1990,13 +2000,13 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
 
 
   <!-- 3 -->
-  <section class="std" id="standard" data-aud-only="home" data-scene="room" data-anchor=".room-anchor" aria-label="Как проходит монтаж">
+  <section class="std" id="standard" data-aud-only="home" data-scene="room" data-anchor=".room-anchor" aria-label="Стандарт работ на объекте">
     <div class="std-track" id="stdTrack">
       <div class="sticky st-stage" id="stStage" data-k="0">
         <div class="tint t0"></div><div class="tint t1"></div><div class="tint t2"></div><div class="tint t3"></div>
-        <div class="giant" aria-hidden="true"><span>Разметка</span><span>Трасса</span><span>Вакуум</span><span>Запуск</span></div>
-        <div class="grid st-head"><h2>Монтаж</h2>
-          <p class="aside">Показываем на примере кондиционера. Электрика и вентиляция — по тому же стандарту: смета, защита мебели, уборка, акт.</p></div>
+        <div class="giant" id="stGiant" aria-hidden="true"><span>Разметка</span><span>Трасса</span><span>Вакуум</span><span>Запуск</span></div>
+        <div class="grid st-head"><h2>Стандарт работ</h2>
+          <div class="st-tabs" role="tablist" aria-label="Направление"><button type="button" role="tab" aria-selected="true" data-mode="ac">Кондиционер</button><button type="button" role="tab" aria-selected="false" data-mode="el">Электрика</button><button type="button" role="tab" aria-selected="false" data-mode="vent">Вентиляция</button></div></div>
         <div class="room-anchor" aria-hidden="true"></div>
         <svg class="st-lead" id="stLead" aria-hidden="true"><line id="stLine" x1="0" y1="0" x2="0" y2="0"/></svg>
         <div class="st-call" id="stCall"><span class="mono" id="stKicker">шаг 01 из 04</span><p id="stLede" aria-live="polite"></p></div>
@@ -2533,25 +2543,48 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
   });
 
   /* standard: room stage */
-  const STEPS = [
-    { lede: 'Размечаем лазерным уровнем и крепим кронштейн — блок будет висеть ровно.', c: [['Лазерная разметка', 'уровень и уклон'], ['Кронштейн на дюбелях', 'под вес блока'], ['Защита мебели', 'плёнка и пылесос']] },
-    { lede: 'Вешаем блок и прокладываем медную трассу в теплоизоляции к наружному блоку.', c: [['Медь в изоляции', 'без заломов'], ['Отверстие с уклоном', 'наружу, для дренажа'], ['до 3 м в цене', 'базовая трасса']] },
-    { lede: 'Вакуумным насосом убираем воздух и влагу из контура и проверяем герметичность.', c: [['Вакуум ≤ 500 мкм', 'по манометру'], ['Проверка утечек', 'выдержка 30 мин'], ['Без воздуха в контуре', 'компрессор живёт дольше']] },
-    { lede: 'Запускаем, проверяем давление и температуру и показываем, как пользоваться пультом.', c: [['Давление и температура', 'на выходе'], ['Инструктаж', 'пульт и режимы'], ['Акт и гарантия', '3 года по договору']] }
-  ];
+  const ST_DATA = {
+    ac: { names: ['разметка и кронштейн', 'блок и трасса', 'вакуум', 'запуск'], giant: ['Разметка', 'Трасса', 'Вакуум', 'Запуск'], steps: [
+      { lede: 'Размечаем лазерным уровнем и крепим кронштейн — блок будет висеть ровно.', c: [['Лазерная разметка', 'уровень и уклон'], ['Кронштейн на дюбелях', 'под вес блока'], ['Защита мебели', 'плёнка и пылесос']] },
+      { lede: 'Вешаем блок и прокладываем медную трассу в теплоизоляции к наружному блоку.', c: [['Медь в изоляции', 'без заломов'], ['Отверстие с уклоном', 'наружу, для дренажа'], ['до 3 м в цене', 'базовая трасса']] },
+      { lede: 'Вакуумным насосом убираем воздух и влагу из контура и проверяем герметичность.', c: [['Вакуум ≤ 500 мкм', 'по манометру'], ['Проверка утечек', 'выдержка 30 мин'], ['Без воздуха в контуре', 'компрессор живёт дольше']] },
+      { lede: 'Запускаем, проверяем давление и температуру и показываем, как пользоваться пультом.', c: [['Давление и температура', 'на выходе'], ['Инструктаж', 'пульт и режимы'], ['Акт и гарантия', '3 года по договору']] }] },
+    el: { names: ['разметка', 'кабель', 'щит', 'проверка'], giant: ['Разметка', 'Кабель', 'Щит', 'Проверка'], steps: [
+      { lede: 'Размечаем трассы и точки по проекту: розетки, выключатели и свет согласованы заранее.', c: [['Разметка по проекту', 'высоты и привязки'], ['Штробы без пыли', 'пылесос на инструменте'], ['Защита мебели', 'плёнка и пылесос']] },
+      { lede: 'Прокладываем медный кабель от щита к каждой точке — только по прямым линиям.', c: [['Медь ВВГнг-LS', 'сечение по нагрузке'], ['Прямые трассы', 'без диагоналей'], ['Схема трасс', 'остаётся у вас']] },
+      { lede: 'Собираем щит: автомат на каждую группу, УЗО на мокрые зоны, все линии подписаны.', c: [['Автомат на группу', 'кухня, свет, розетки'], ['УЗО и дифавтоматы', 'защита от утечки'], ['Маркировка', 'подписана каждая линия']] },
+      { lede: 'Меряем изоляцию, включаем линии под нагрузкой и сдаём с протоколом замеров.', c: [['Замеры мегаомметром', 'сопротивление изоляции'], ['Проверка под нагрузкой', 'каждая группа'], ['Акт и гарантия', '3 года по договору']] }] },
+    vent: { names: ['разметка и отверстие', 'воздуховод', 'решётки', 'запуск'], giant: ['Разметка', 'Воздуховод', 'Решётки', 'Запуск'], steps: [
+      { lede: 'Размечаем трассу воздуховода и сверлим отверстие в стене алмазной коронкой.', c: [['Расчёт воздухообмена', 'по площади и людям'], ['Алмазное бурение', 'без ударов и пыли'], ['Защита мебели', 'плёнка и пылесос']] },
+      { lede: 'Подвешиваем установку и воздуховод под потолком — на виброгасящих подвесах.', c: [['Шумоизоляция', 'тише 30 дБ в комнате'], ['Подвесы и хомуты', 'без вибрации'], ['Доступ к фильтрам', 'для обслуживания']] },
+      { lede: 'Ставим приточные решётки и настраиваем расход воздуха в каждой комнате.', c: [['Баланс расходов', 'по анемометру'], ['Клапан и фильтр', 'чистый воздух с улицы'], ['Без сквозняков', 'скорость до 1,5 м/с']] },
+      { lede: 'Запускаем, проверяем расход и шум и показываем, как менять фильтр.', c: [['Паспорт системы', 'расходы и режимы'], ['Инструктаж', 'фильтры и пульт'], ['Акт и гарантия', '3 года по договору']] }] }
+  };
+  let stMode = 'ac', STEPS = ST_DATA.ac.steps;
   const stdTrack = document.getElementById('stdTrack'), stStage = document.getElementById('stStage'), stFacts = document.getElementById('stFacts');
   const stLede = document.getElementById('stLede'), stKicker = document.getElementById('stKicker'), stProg = document.getElementById('stProg');
-  const stCall = document.getElementById('stCall'), stDot = document.getElementById('stDot'), stLead = document.getElementById('stLead'), stLine = document.getElementById('stLine'), ST_NAMES = ['разметка и кронштейн', 'блок и трасса', 'вакуум', 'запуск'];
+  const stCall = document.getElementById('stCall'), stDot = document.getElementById('stDot'), stLead = document.getElementById('stLead'), stLine = document.getElementById('stLine');
   let si = -1, stdP = 0, si0 = false, stSwapT = 0;
   function setStd(k) {
     if (k === si) return; si = k;
     stStage.dataset.k = k;
-    const fill = () => { stKicker.textContent = `шаг 0${k + 1} из 04 · ${ST_NAMES[k]}`; stLede.textContent = STEPS[k].lede; stCall.classList.remove('swap'); };
+    const fill = () => { stKicker.textContent = `шаг 0${k + 1} из 04 · ${ST_DATA[stMode].names[k]}`; stLede.textContent = STEPS[k].lede; stCall.classList.remove('swap'); };
     if (si0) { stCall.classList.add('swap'); clearTimeout(stSwapT); stSwapT = setTimeout(fill, reduce ? 0 : 220); } else { fill(); si0 = true; }
     stFacts.classList.remove('in');
     stFacts.innerHTML = STEPS[k].c.map(([b, t], i) => `<li style="--d:${(.15 + i * .08).toFixed(2)}s"><span class="mono">0${i + 1}</span><b>${b}</b><span>${t}</span></li>`).join('');
     requestAnimationFrame(() => requestAnimationFrame(() => stFacts.classList.add('in')));
   }
+  /* direction tabs: the same room, the crew installs AC, wiring or ventilation */
+  const stTabs = [...document.querySelectorAll('.st-tabs [data-mode]')], stGiant = [...document.querySelectorAll('#stGiant span')];
+  stTabs.forEach(tb => tb.addEventListener('click', () => {
+    if (tb.dataset.mode === stMode) return;
+    stMode = tb.dataset.mode; STEPS = ST_DATA[stMode].steps; stStage.dataset.mode = stMode;
+    stTabs.forEach(x => { const on = x === tb; x.setAttribute('aria-selected', on); x.tabIndex = on ? 0 : -1; });
+    stGiant.forEach((g, i) => g.textContent = ST_DATA[stMode].giant[i]);
+    const k = Math.max(0, si); si = -1; setStd(k);
+  }));
+  document.querySelector('.st-tabs').addEventListener('keydown', e => { const i = stTabs.findIndex(x => x.dataset.mode === stMode), d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+    if (!d) return; e.preventDefault(); const n = stTabs[(i + d + stTabs.length) % stTabs.length]; n.click(); n.focus(); });
   /* snap: when scrolling stops inside the pinned scene, glide to the nearest finished step */
   const ST_SNAP = [.85, 1.93, 2.88, 3.7];
   let snapT = 0, snapAt = 0, touching = false, userMoved = false, lastY = scrollY, dir = 0;
@@ -3219,6 +3252,34 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
   radd(drill, new THREE.CylinderGeometry(.008, .008, .14, 6).rotateX(Math.PI / 2), STEEL, 0, .07, .24);
   const remote = new THREE.Group(); remote.position.set(0, -.36, .03); WA.arms[1].elbow.add(remote); radd(remote, new THREE.BoxGeometry(.045, .14, .025), WHITE, 0, 0, 0, true);
   [carton, ladder, pumpG, bracket].forEach(g => g.traverse(o => { if (o.isMesh) o.castShadow = true; }));
+  // ---- wiring: panel on the back wall, cables to a socket and a wall light ----
+  const EL = new THREE.Group(); room.add(EL);
+  const elPanel = new THREE.Group(); elPanel.position.set(-2.25, 1.45, -1.96); EL.add(elPanel);
+  radd(elPanel, new THREE.BoxGeometry(.56, .74, .12), WHITE, 0, 0, 0, true);
+  radd(elPanel, new THREE.BoxGeometry(.46, .02, .02), STEEL, 0, .12, .07); radd(elPanel, new THREE.BoxGeometry(.46, .02, .02), STEEL, 0, -.14, .07);
+  const breakers = []; for (let r = 0; r < 2; r++) for (let i = 0; i < 6; i++) { const b = radd(elPanel, new THREE.BoxGeometry(.055, .16, .06), i === 5 && r === 0 ? STRIPE : (i % 3 === 0 ? DARKR : WHITE), -.18 + i * .072, .2 - r * .27, .08, true); b.scale.setScalar(.001); breakers.push(b); }
+  const elDoor = new THREE.Group(); elDoor.position.set(-.28, 0, .07); elPanel.add(elDoor); radd(elDoor, new THREE.BoxGeometry(.56, .74, .015), WHITE, .28, 0, 0, true);
+  const cab = (pts, r = .02) => { const cp = new THREE.CurvePath(); pts.reduce((a, b) => { cp.add(new THREE.LineCurve3(new THREE.Vector3(...a), new THREE.Vector3(...b))); return b; }); const g = new THREE.TubeGeometry(cp, 120, r, 6, false); const m = radd(EL, g, DARKR); g.setDrawRange(0, 0); return { g, n: g.index.count, pts }; };
+  const cab1 = cab([[-2.25, 1.82, -1.97], [-2.25, 2.62, -1.97], [1.0, 2.62, -1.97], [1.0, .42, -1.97]]), cab2 = cab([[-.6, 2.62, -1.97], [-.6, 2.02, -1.97]]);
+  const elMarks = new THREE.Group(); EL.add(elMarks); [cab1, cab2].forEach(c => c.pts.reduce((a, b) => { const len = Math.hypot(b[0] - a[0], b[1] - a[1]) || .01, horiz = Math.abs(b[1] - a[1]) < .01;
+    radd(elMarks, new THREE.BoxGeometry(horiz ? len : .012, horiz ? .012 : len, .005), LASER, (a[0] + b[0]) / 2, (a[1] + b[1]) / 2, -1.994); return b; }));
+  const socket = radd(EL, new THREE.BoxGeometry(.16, .16, .03), WHITE, 1.0, .35, -1.975, true); radd(EL, new THREE.CylinderGeometry(.045, .045, .01, 16).rotateX(Math.PI / 2), DARKR, 1.0, .35, -1.958);
+  const LAMP = new THREE.MeshStandardMaterial({ color: '#FFFFFF', emissive: '#FFE3A8', emissiveIntensity: 0, roughness: .4 });
+  const lamp = radd(EL, new THREE.CylinderGeometry(.12, .16, .14, 20).rotateX(Math.PI / 2), LAMP, -.6, 1.95, -1.93, true);
+  const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: dot, color: '#FFD98A', transparent: true, opacity: 0, depthWrite: false })); glow.position.set(-.6, 1.95, -1.8); glow.scale.setScalar(.9); EL.add(glow);
+  EL.traverse(o => { if (o.isMesh) o.castShadow = true; });
+  // ---- ventilation: core hole, air handling unit + duct under the ceiling, two supply grilles ----
+  const VE = new THREE.Group(); room.add(VE);
+  const core = radd(VE, new THREE.CylinderGeometry(.13, .13, .02, 28).rotateX(Math.PI / 2), DARKR, 1.55, 2.62, -1.99);
+  const coreRing = radd(VE, new THREE.TorusGeometry(.15, .012, 8, 36), STRIPE, 1.55, 2.62, -1.985);
+  const ahu = new THREE.Group(); ahu.position.set(-2.35, 2.62, -1.25); VE.add(ahu);
+  radd(ahu, new THREE.BoxGeometry(.8, .34, .7), WHITE, 0, 0, 0, true); radd(ahu, new THREE.BoxGeometry(.5, .2, .01), DARKR, 0, 0, .356);
+  const ductG = new THREE.Group(); ductG.position.set(-1.95, 2.62, -1.25); VE.add(ductG);
+  radd(ductG, new THREE.BoxGeometry(1, .24, .34), STEEL, .5, 0, 0, true); ductG.scale.x = .001;
+  const ductUp = new THREE.Group(); ductUp.position.set(1.55, 2.62, -1.25); VE.add(ductUp); radd(ductUp, new THREE.BoxGeometry(.3, .24, .74), STEEL, 0, 0, -.37, true); ductUp.scale.z = .001;
+  const grilles = [-.9, .55].map(x => { const g = new THREE.Group(); g.position.set(x, 2.47, -1.25); VE.add(g); radd(g, new THREE.BoxGeometry(.42, .03, .3), WHITE, 0, 0, 0, true);
+    for (let i = 0; i < 5; i++) radd(g, new THREE.BoxGeometry(.36, .012, .02), DARKR, 0, -.02, -.1 + i * .05); g.scale.setScalar(.001); return g; });
+  VE.traverse(o => { if (o.isMesh) o.castShadow = true; });
   // airflow out of the unit
   const RA = mobile ? 260 : 520, raPos = new Float32Array(RA * 3), raCol = new Float32Array(RA * 3), raSeed = Array.from({ length: RA }, () => ({ x: rnd(-.55, .55), t: Math.random(), s: rnd(.25, .5) }));
   const raGeo = new THREE.BufferGeometry(); raGeo.setAttribute('position', new THREE.BufferAttribute(raPos, 3)); raGeo.setAttribute('color', new THREE.BufferAttribute(raCol, 3));
@@ -3262,9 +3323,45 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
     remote.visible = s > 3;
     drill.visible = s < 1.05;
 
+    // which direction is on stage
+    const md = stMode, isAC = md === 'ac';
+    [bracket, unit, carton, pipe, pumpG, hoseM].forEach(o => { if (!isAC) o.visible = false; }); unit.visible = isAC; bracket.visible = isAC; pipe.visible = isAC;
+    EL.visible = md === 'el'; VE.visible = md === 'vent'; laser.visible = md !== 'el';
+    if (!isAC) { drill.visible = s < 1.05; remote.visible = s > 3; flap.rotation.x = 0; }
+    if (md === 'el') {
+      LASER.opacity = .9 * seg(s, .05, .3) * (1 - seg(s, 1.0, 1.4));
+      cab1.g.setDrawRange(0, Math.floor(cab1.n * ease(seg(s, 1.0, 1.75)) / 3) * 3); cab2.g.setDrawRange(0, Math.floor(cab2.n * ease(seg(s, 1.45, 1.9)) / 3) * 3);
+      elDoor.rotation.y = -1.9 * ease(seg(s, 2.0, 2.25)) * (1 - ease(seg(s, 3.1, 3.35)));
+      breakers.forEach((b, i) => b.scale.setScalar(Math.max(.001, ease(seg(s, 2.15 + i * .05, 2.4 + i * .05)))));
+      const lit = ease(seg(s, 3.25, 3.5)); LAMP.emissiveIntensity = 1.4 * lit; glow.material.opacity = .85 * lit;
+      ladder.visible = s > .95 && s < 2.05; ladder.position.x = -.3;
+    } else if (md === 'vent') {
+      LASER.opacity = .9 * seg(s, .05, .3) * (1 - seg(s, 1.0, 1.4));
+      const cr = ease(seg(s, .35, .8)); core.scale.setScalar(Math.max(.001, cr)); coreRing.scale.setScalar(Math.max(.001, cr));
+      ahu.scale.setScalar(Math.max(.001, ease(seg(s, 1.0, 1.3))));
+      ductG.scale.x = Math.max(.001, ease(seg(s, 1.2, 1.8)) * 3.5); ductUp.scale.z = Math.max(.001, ease(seg(s, 1.7, 1.95)));
+      grilles.forEach((g, i) => g.scale.setScalar(Math.max(.001, ease(seg(s, 2.1 + i * .25, 2.45 + i * .25)))));
+      ladder.visible = s > .95 && s < 3.05; ladder.position.x = s < 2 ? -.3 : .55;
+    } else ladder.position.x = -.3;
+
     // crew poses per phase (angles in radians; arms: shoulder pitch, shoulder spread, elbow)
     const pk = clamp(dt * 5), dr = Math.sin(t * 34) * .015;
-    if (s < 1) {          // A drills the wall at bracket height, B steadies the laser level
+    if (md === 'el' && s >= 2 && s < 3) {   // A works in the open panel, B kneels at the socket
+      WA.w.position.set(-1.95, 0, -1.3); WA.w.rotation.y = Math.PI * 1.08;
+      applyPose(WA, { y: 0, l: [[0, 0], [0, 0]], a: [[-1.45, .12, -.5], [-1.6, .12, -.35]], head: -.05 }, pk, t, 0);
+      WB.w.position.set(1.0, 0, -1.48); WB.w.rotation.y = Math.PI;
+      applyPose(WB, { y: -.42, l: [[-1.45, 1.45], [.05, 1.55]], a: [[-.9, .12, -.8], [-.6, .12, -.9]], head: .25 }, pk, t, 1);
+    } else if (md === 'vent' && s < 1) {   // A drills the core hole high on the wall, B steadies the laser
+      WA.w.position.set(1.5, 0, -1.3); WA.w.rotation.y = Math.PI;
+      applyPose(WA, { y: 0, l: [[.05, 0], [-.08, 0]], a: [[-.9, .15, -.9], [-2.6 + dr, .05, -.2]], head: -.4 }, pk, t, 0);
+      WB.w.position.set(.2, 0, -1.25); WB.w.rotation.y = Math.PI * .92;
+      applyPose(WB, { y: 0, l: [[0, 0], [0, 0]], a: [[-1.25, .2, -.6], [-1.25, .2, -.6]], head: -.2 }, pk, t, 1);
+    } else if (md === 'vent' && s >= 2 && s < 3) {   // A on the ladder fixes a grille, B checks the flow
+      WA.w.position.set(.55, .66, -1.12); WA.w.rotation.y = Math.PI;
+      applyPose(WA, { y: 0, l: [[.15, -.1], [-.05, 0]], a: [[-2.75, .25, -.25], [-2.75, .25, -.25]], head: -.45 }, pk, t, 0);
+      WB.w.position.set(-.9, 0, -.7); WB.w.rotation.y = Math.PI * 1.05;
+      applyPose(WB, { y: 0, l: [[0, 0], [0, 0]], a: [[.05, .1, -.2], [-2.4, .1, -.3]], head: -.5 }, pk, t, 1);
+    } else if (s < 1) {          // A drills the wall at bracket height, B steadies the laser level
       WA.w.position.set(-.05, 0, -1.3); WA.w.rotation.y = Math.PI;
       applyPose(WA, { y: 0, l: [[.05, 0], [-.08, 0]], a: [[-.9, .15, -.9], [-2.3 + dr, .05, -.35]], head: -.25 }, pk, t, 0);
       WB.w.position.set(-1.25, 0, -1.25); WB.w.rotation.y = Math.PI * .92;
@@ -3287,13 +3384,14 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
     }
 
     // airflow after start-up
-    const on = ease(seg(s, 3.2, 3.6));
+    const on = md === 'el' ? 0 : ease(seg(s, 3.2, 3.6));
     roomAir.visible = on > .01;
     if (roomAir.visible) {
       for (let i = 0; i < RA; i++) {
         const q = raSeed[i]; if (!reduce) q.t += dt * q.s; if (q.t > 1) { q.t -= 1; q.x = rnd(-.55, .55); }
         const tt = q.t, j = i * 3;
-        raPos[j] = unit.position.x + q.x * (1 + tt * .5); raPos[j + 1] = unit.position.y - .2 - tt * 1.5; raPos[j + 2] = unit.position.z + .25 + tt * 2.2;
+        if (md === 'vent') { const gx = i % 2 ? .55 : -.9; raPos[j] = gx + q.x * .35 * (1 + tt); raPos[j + 1] = 2.44 - tt * 1.9; raPos[j + 2] = -1.25 + q.x * .3 + tt * .5; }
+        else { raPos[j] = unit.position.x + q.x * (1 + tt * .5); raPos[j + 1] = unit.position.y - .2 - tt * 1.5; raPos[j + 2] = unit.position.z + .25 + tt * 2.2; }
         const f = Math.pow(1 - tt, 1.3) * clamp(tt * 10) * on;
         raCol[j] = bgC.r + (airC.r - bgC.r) * f; raCol[j + 1] = bgC.g + (airC.g - bgC.g) * f; raCol[j + 2] = bgC.b + (airC.b - bgC.b) * f;
         if (f < .05) raPos[j + 2] = -50;
@@ -3303,10 +3401,13 @@ html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closes
     trackCallout(r);
   }
   // callout tracking: project the current step's object to the screen and hang the card beside the room
-  const stTgt = [bracket, unit, needle, unit], stOff = [[.45, 0, .02], [.55, .08, .17], [0, 0, 0], [-.3, -.17, .2]], stSide = [-1, 1, 1, -1], tv = new THREE.Vector3();
+  const ST_TGT = { ac: [[bracket, [.45, 0, .02]], [unit, [.55, .08, .17]], [needle, [0, 0, 0]], [unit, [-.3, -.17, .2]]],
+    el: [[elMarks, [0, 2.62, -1.99]], [socket, [0, .1, .02]], [elPanel, [.2, .2, .08]], [lamp, [0, 0, .08]]],
+    vent: [[core, [0, 0, 0]], [ahu, [.4, 0, .35]], [grilles[1], [0, 0, 0]], [grilles[0], [0, -.05, 0]]] };
+  const stSide = [-1, 1, 1, -1], tv = new THREE.Vector3();
   function trackCallout(r) {
     const k = Math.max(0, si), sr = stStage.getBoundingClientRect(), W = sr.width, H = sr.height;
-    stTgt[k].localToWorld(tv.fromArray(stOff[k])); tv.project(camera);
+    const [tObj, tOff] = ST_TGT[stMode][k]; tObj.localToWorld(tv.fromArray(tOff)); tv.project(camera);
     const px = (tv.x + 1) / 2 * innerWidth - sr.left, py = (1 - tv.y) / 2 * innerHeight - sr.top;
     const w = stCall.offsetWidth, h = stCall.offsetHeight, ax = r.left - sr.left, ay = r.top - sr.top, narrow = W < 760;
     let x, y, lx, ly;
