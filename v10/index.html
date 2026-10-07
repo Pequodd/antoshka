@@ -968,7 +968,7 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
 .go-head .mono::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 4px rgba(232,50,43,.3); animation: goPulse 1.8s ease-in-out infinite; }
 @keyframes goPulse { 50% { box-shadow: 0 0 0 8px rgba(232,50,43,0); } }
 .go-head h3 { margin: 0; font-weight: 300; font-size: clamp(34px, 3.6vw, 58px); line-height: 1.04; letter-spacing: -.045em; }
-.go-form { grid-column: 8 / -1; align-self: end; display: grid; gap: 12px; }
+.go-form { grid-column: 8 / -1; align-self: end; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; min-width: 0; }
 .go-row { display: flex; gap: 8px; padding: 6px; border-radius: 999px; background: #fff; }
 .go-row input { flex: 1; min-width: 0; border: 0; background: transparent; padding: 0 18px; font: 300 20px var(--sans); color: var(--ink); }
 .go-row input:focus { outline: none; }
@@ -1505,6 +1505,34 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
 .cn-act { display: flex; flex-wrap: wrap; gap: 10px; }
 .cn-map { grid-column: 6 / -1; min-height: 440px; border-radius: var(--r); overflow: hidden; border: 1px solid var(--line); background: #ECEEEF; }
 .cn-map iframe { display: block; width: 100%; height: 100%; min-height: 440px; border: 0; filter: grayscale(.35) contrast(1.02); }
+/* personal-data consent: custom box, unchecked by default */
+.pd { min-width: 0; max-width: 100%; display: flex; gap: 12px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: var(--muted); cursor: pointer; }
+.pd a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.pd a:hover { color: var(--ink); }
+.pd-box { -webkit-appearance: none; appearance: none; flex: none; width: 20px; height: 20px; margin: 0; border: 1.5px solid #B9C0C4; border-radius: 6px; background: #fff; display: grid; place-items: center; cursor: pointer; transition: background .2s ease, border-color .2s ease; }
+.pd-box::after { content: ""; width: 10px; height: 6px; border: solid #fff; border-width: 0 0 2px 2px; transform: translateY(-1px) rotate(-45deg) scale(0); transition: transform .2s cubic-bezier(.2,.7,.2,1); }
+.pd-box:checked { background: var(--air); border-color: var(--air); }
+.pd-box:checked::after { transform: translateY(-1px) rotate(-45deg) scale(1); }
+.pd-box:focus-visible { outline: 2px solid var(--air); outline-offset: 2px; }
+.pd-box[aria-invalid="true"] { border-color: #B42318; box-shadow: 0 0 0 3px rgba(180,35,24,.12); }
+.pd-dark { color: rgba(255,255,255,.7); }
+.pd-dark a:hover { color: #fff; }
+.pd-dark .pd-box { background: transparent; border-color: rgba(255,255,255,.5); }
+.pd-dark .pd-box:checked { background: #fff; border-color: #fff; }
+.pd-dark .pd-box::after { border-color: var(--ink); }
+.fx-pp { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.fx-pp:hover { color: #fff; }
+/* cookie notice: a small card at the bottom, out of the way */
+.ck { position: fixed; z-index: 60; left: 16px; bottom: 16px; width: min(440px, calc(100% - 32px)); display: flex; align-items: center; gap: 16px; padding: 14px 14px 14px 18px; border-radius: 14px;
+  background: rgba(255,255,255,.92); border: 1px solid var(--line); box-shadow: 0 20px 50px -24px rgba(14,18,21,.35); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  opacity: 0; transform: translateY(16px); transition: opacity .35s ease, transform .5s cubic-bezier(.16,1,.3,1); }
+.ck.on { opacity: 1; transform: none; }
+.ck[hidden] { display: none; }
+.ck p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
+.ck a { color: var(--ink); text-underline-offset: 2px; }
+.ck-ok { all: unset; flex: none; cursor: pointer; min-height: 40px; padding: 0 16px; display: inline-flex; align-items: center; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; transition: background .2s ease; }
+.ck-ok:hover { background: var(--air); }
+.ck-ok:focus-visible { outline: 2px solid var(--air); outline-offset: 2px; }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
@@ -1834,6 +1862,11 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
 }
 @media (hover: none) and (min-width: 901px) { .tmx-ph img { filter: none; } }
 @media (prefers-reduced-motion: reduce) and (max-width: 900px) { .tmx-cards { display: grid; grid-template-columns: 1fr; padding: 0 var(--m); transform: none; } .tmx-c { width: auto; } }
+@media (max-width: 900px) {
+  .ck { left: 12px; right: 12px; width: auto; bottom: calc(78px + env(safe-area-inset-bottom, 0px)); padding: 12px 12px 12px 14px; gap: 12px; }
+  .ck p { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .ck { transition: none; } }
 </style>
 
 <header class="hud" id="hud">
@@ -2333,7 +2366,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
       <form class="go-form" id="goForm" novalidate>
         <div class="go-row"><label class="sr-only" for="goPhone">Телефон</label><input id="goPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__"><button class="btn go-btn" type="submit"><span data-aud-only="home">Перезвоните мне</span><span data-aud-only="biz">Запросить КП</span> <i>↗</i></button></div>
         <div class="go-alt"><a class="mono" href="https://wa.me/79514596275" target="_blank" rel="noopener">WhatsApp ↗</a><a class="mono" href="tel:+79514596275">+7 951 459-62-75</a><a class="mono" href="#b2b-form" data-aud-only="biz">Запросить КП ↗</a></div>
-        <p class="go-legal">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+        <label class="pd pd-dark"><input type="checkbox" id="goPd" class="pd-box" aria-describedby="goErr"><span>Согласен на обработку персональных данных и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>
         <div class="err" id="goErr" role="alert"></div>
       </form>
       <ol class="go-steps" data-aud-only="home">
@@ -2436,7 +2469,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
         <div class="field"><label class="mono" for="kPhone">Телефон</label><input id="kPhone" type="tel" inputmode="tel" placeholder="+7" autocomplete="tel"></div>
         <div class="field"><label class="mono" for="kMail">E-mail</label><input id="kMail" type="email" autocomplete="email"></div>
         <div class="field"><label class="mono" for="kFile">ТЗ · файл</label><input id="kFile" type="file"></div>
-        <label class="consent wide"><input type="checkbox" id="kConsent"><span>Согласен на обработку персональных данных</span></label>
+        <label class="pd wide"><input type="checkbox" id="kConsent" class="pd-box" aria-describedby="kErr"><span>Согласен на обработку персональных данных и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>
         <div class="err wide" id="kErr" role="alert"></div>
         <button class="btn btn-ink" type="submit">Отправить запрос <i>↗</i></button>
       </form>
@@ -2480,8 +2513,9 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
         <div class="qc-group"><span class="mono"><i>03</i>Контакты</span>
           <div class="f2"><div class="field"><label for="fName">Имя <span aria-hidden="true">*</span></label><input id="fName" autocomplete="given-name" placeholder="Как к вам обращаться" required aria-describedby="fErr"></div>
           <div class="field"><label for="fPhone">Телефон <span aria-hidden="true">*</span></label><input id="fPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__" required aria-describedby="fErr"></div></div></div>
+        <label class="pd"><input type="checkbox" id="fPd" class="pd-box" aria-describedby="fErr"><span>Согласен на обработку персональных данных и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>
         <div class="err" id="fErr" role="alert"></div>
-        <div class="calc-send"><button class="btn calc-btn" type="submit">Получить точный расчёт <i>↗</i></button><p>Перезвоним за 15 минут в рабочее время. Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p></div>
+        <div class="calc-send"><button class="btn calc-btn" type="submit">Получить точный расчёт <i>↗</i></button><p>Перезвоним за 15 минут в рабочее время.</p></div>
       </form>
     </div>
   </section>
@@ -2517,7 +2551,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
     <div class="fx-info"><p>Кондиционирование, вентиляция и электромонтаж — для квартир, домов и бизнеса.</p>
       <dl><div><dt>Челябинск</dt><dd><a href="tel:+79514596275">+7 (951) 459-62-75</a></dd></div><div><dt>Второй номер</dt><dd><a href="tel:+79000800838">+7 (900) 080-08-38</a></dd></div><div><dt>Заявки</dt><dd><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">Тимур Антонов ↗</a></dd></div></dl></div>
   </div>
-  <div class="fx-bot"><span>Climate Solutions © 2026 · ИП [ФИО] · ИНН [—]</span><span>Челябинск <b id="fxClock">--:--:--</b></span></div>
+  <div class="fx-bot"><span>Climate Solutions © 2026 · ИП [ФИО] · ИНН [—] · <a class="fx-pp" href="privacy.html">Политика конфиденциальности</a></span><span>Челябинск <b id="fxClock">--:--:--</b></span></div>
 </footer>
 
 <dialog class="cm" id="ctaModal" aria-labelledby="cmTitle">
@@ -2538,11 +2572,15 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
       <div class="field"><label for="cmName">Имя <span aria-hidden="true">*</span></label><input id="cmName" autocomplete="name" placeholder="Как к вам обращаться" required aria-describedby="cmErr"></div>
       <div class="field"><label for="cmPhone">Телефон <span aria-hidden="true">*</span></label><input id="cmPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__" required aria-describedby="cmErr"></div>
     </div>
+    <label class="pd"><input type="checkbox" id="cmPd" class="pd-box" aria-describedby="cmErr"><span>Согласен на обработку персональных данных и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>
     <div class="err" id="cmErr" role="alert"></div>
     <button class="btn cm-go" type="submit">Отправить <i>↗</i></button>
-    <p class="cm-note">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
   </form>
 </dialog>
+<div class="ck" id="ck" role="region" aria-label="Уведомление о cookie" hidden>
+  <p>Мы используем cookie, чтобы сайт работал корректно и чтобы понимать, что в нём улучшить. Подробнее — в <a href="privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.</p>
+  <button class="ck-ok" type="button" id="ckOk">Хорошо</button>
+</div>
 <nav class="mbar" aria-label="Быстрая связь"><a class="btn btn-soft" href="tel:+79514596275">Позвонить</a><a class="btn btn-ink" href="#contact" data-title="Оставить заявку" data-aud-only="home">Заявка</a><a class="btn btn-ink" href="#b2b-form" data-title="Запросить КП" data-aud-only="biz">КП</a></nav>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -2609,12 +2647,15 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
     dispatchEvent(new Event('resize'));
   }));
   /* business: КП request (prototype — nothing is sent) */
+  /* consent: every form needs the (unchecked by default) personal-data box ticked */
+  const pdOk = (id, err) => { const b = document.getElementById(id); if (b.checked) { b.removeAttribute('aria-invalid'); return true; } err.textContent = 'Подтвердите согласие на обработку персональных данных.'; b.setAttribute('aria-invalid', 'true'); b.focus(); return false; };
+  document.addEventListener('change', e => { if (e.target.classList && e.target.classList.contains('pd-box') && e.target.checked) { e.target.removeAttribute('aria-invalid'); const er = e.target.closest('form').querySelector('.err'); if (er) er.textContent = ''; } });
   const kp = document.getElementById('kpForm');
   kp.addEventListener('submit', e => {
     e.preventDefault(); const err = document.getElementById('kErr'); err.textContent = '';
     if (!document.getElementById('kCo').value.trim()) { err.textContent = 'Укажите компанию.'; document.getElementById('kCo').focus(); return; }
     if (document.getElementById('kPhone').value.replace(/\D/g, '').length < 10) { err.textContent = 'Проверьте телефон: нужно 10–11 цифр.'; document.getElementById('kPhone').focus(); return; }
-    if (!document.getElementById('kConsent').checked) { err.textContent = 'Отметьте согласие на обработку данных.'; return; }
+    if (!pdOk('kConsent', err)) return;
     kp.innerHTML = '<div class="b2b-done"><span class="mono">запрос получен</span><strong>Подготовим КП и свяжемся в течение рабочего дня.</strong><span class="mono">Прототип: данные никуда не отправлены</span></div>';
   });
   /* finale: the unit morphs through the three directions while on screen */
@@ -2627,6 +2668,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
   goForm.addEventListener('submit', e => {
     e.preventDefault(); const ph = document.getElementById('goPhone'), err = document.getElementById('goErr');
     if (ph.value.replace(/\D/g, '').length < 10) { err.textContent = 'Проверьте номер: нужно 10–11 цифр.'; ph.setAttribute('aria-invalid', 'true'); ph.focus(); return; }
+    if (!pdOk('goPd', err)) return;
     goForm.innerHTML = '<div class="go-done"><span class="mono">заявка принята</span><strong>Перезвоним в течение 15 минут</strong><span class="mono">Прототип: данные никуда не отправлены</span></div>';
   });
   /* faq: topic filter (the audience picks the default) */
@@ -2777,6 +2819,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
     [n, ph].forEach(f => f.removeAttribute('aria-invalid'));
     if (!n.value.trim()) { err.textContent = 'Напишите, как к вам обращаться.'; n.setAttribute('aria-invalid', 'true'); n.focus(); return; }
     if (ph.value.replace(/\D/g, '').length < 11) { err.textContent = 'Проверьте номер: нужно 10 цифр после +7.'; ph.setAttribute('aria-invalid', 'true'); ph.focus(); return; }
+    if (!pdOk('cmPd', err)) return;
     const go = cmForm.querySelector('.cm-go'); go.disabled = true; go.textContent = 'Отправляем…';
     setTimeout(() => { const biz = document.documentElement.dataset.aud === 'biz';
       cmForm.innerHTML = `<button class="cm-x" type="button" aria-label="Закрыть">×</button><div class="cm-done"><span class="mono cm-kick">заявка принята</span><b>${biz ? 'Свяжемся в течение рабочего дня' : 'Перезвоним в течение 15 минут'}</b><p>Прототип: данные никуда не отправляются.</p><button class="btn cm-go" type="button">Хорошо</button></div>`;
@@ -2814,6 +2857,10 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
     cards.forEach((c, i) => c.addEventListener('focusin', () => { const span = tr.offsetHeight - innerHeight, y = tr.getBoundingClientRect().top + scrollY + span * (mq.matches ? .12 + .86 * (i + 1.5 + .2) / (cards.length + 1.1) : .95);
       if (window.__lenis) window.__lenis.scrollTo(y, { immediate: true }); else scrollTo(0, y); }));
   })();
+  /* cookie notice: shown once, remembered on this device */
+  (() => { const ck = document.getElementById('ck'); let seen = false; try { seen = localStorage.getItem('cs-cookie') === '1'; } catch (e) {}
+    if (seen) return; ck.hidden = false; setTimeout(() => ck.classList.add('on'), reduce ? 0 : 1200);
+    document.getElementById('ckOk').addEventListener('click', () => { try { localStorage.setItem('cs-cookie', '1'); } catch (e) {} ck.classList.remove('on'); setTimeout(() => { ck.hidden = true; }, reduce ? 0 : 400); }); })();
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
@@ -3106,6 +3153,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
     [fName, fPhone].forEach(f => f.removeAttribute('aria-invalid'));
     if (!fName.value.trim()) { err.textContent = 'Напишите, как к вам обращаться.'; fName.setAttribute('aria-invalid', 'true'); fName.focus(); return; }
     if (fPhone.value.replace(/\D/g, '').length < 10) { err.textContent = 'Проверьте номер: нужно 10 цифр после +7.'; fPhone.setAttribute('aria-invalid', 'true'); fPhone.focus(); return; }
+    if (!pdOk('fPd', err)) return;
     const btn = form.querySelector('.calc-btn'); btn.disabled = true; btn.innerHTML = 'Отправляем…';
     setTimeout(() => { form.innerHTML = '<div class="done"><span class="mono brk">заявка принята</span><strong>Перезвоним в течение 15 минут</strong><span class="mono">Прототип: данные никуда не отправлены</span></div>'; }, 700);
   });
