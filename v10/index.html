@@ -1460,11 +1460,11 @@ html[data-aud="home"] .cm-biz, html[data-aud="biz"] .cm-home { display: none; }
   transform: scale(calc(.8 + var(--f, 0) * .35)); }
 .tmx-mark { position: relative; height: min(64svh, 560px); width: auto; transform: translateY(calc(var(--f, 0) * -6svh)) scale(calc(1 - var(--f, 0) * .08)) rotate(calc(var(--f, 0) * -8deg)); }
 html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.55); }
-.tmx-head { position: absolute; z-index: 3; left: var(--m); right: var(--m); top: clamp(84px, 13svh, 128px); display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 10px 24px; }
+.tmx-head { position: absolute; z-index: 3; left: var(--m); right: var(--m); top: clamp(84px, 13svh, 128px); display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px 24px; }
 .tmx-head .mono { grid-column: 1 / -1; }
 .tmx-head .mono { color: var(--air); }
 .tmx-head h2 { margin: 0; font-weight: 300; font-size: clamp(48px, 7vw, 120px); line-height: .9; letter-spacing: -.06em; }
-.tmx-head p { margin: 4px 0 0; max-width: 34ch; color: var(--muted); font-size: 16px; line-height: 1.45; opacity: calc(1 - var(--f, 0) * .2); }
+.tmx-head p { margin: 0; max-width: 34ch; color: var(--muted); font-size: 16px; line-height: 1.45; opacity: calc(1 - var(--f, 0) * .2); }
 /* frost: two stacked backdrop blurs with soft top edges give a progressive blur */
 .tmx-frost { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; z-index: 2; pointer-events: none; transform: translateY(calc((1 - var(--f, 0)) * 100%)); }
 .tmx-frost i { position: absolute; inset: 0; }
@@ -1477,7 +1477,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
   transform: translate3d(calc(var(--d) * 1px), 0, 0); filter: blur(calc(var(--bl, 0) * 1px)); opacity: var(--o, 1); will-change: transform, filter; }
 .tmx-ph { position: relative; aspect-ratio: 16 / 10; border-radius: calc(var(--r) - 6px); overflow: hidden; display: grid; place-items: center; background: linear-gradient(160deg, var(--air-soft), #E6E9EA); }
 .tmx-ph span { font-size: clamp(40px, 4vw, 64px); font-weight: 300; letter-spacing: -.04em; color: var(--air); }
-.tmx-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.tmx-ph img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 4%; mix-blend-mode: multiply; }
 .tmx-who { display: grid; gap: 6px; align-content: start; padding: 0 8px; }
 .tmx-who .mono { color: var(--air); }
 .tmx-who b { font-weight: 300; font-size: clamp(26px, 2.4vw, 38px); line-height: 1; letter-spacing: -.045em; }
@@ -2356,7 +2356,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
         <div class="tmx-frost" aria-hidden="true"><i></i><i></i></div>
         <div class="tmx-cards">
           <article class="tmx-c">
-            <div class="tmx-ph" data-photo="timur-antonov"><span aria-hidden="true">ТА</span></div>
+            <div class="tmx-ph" data-photo="timur-antonov"><img src="../assets/team/timur-antonov.webp" alt="Тимур Антонов" width="1000" height="914" loading="lazy" decoding="async"></div>
             <div class="tmx-who"><span class="mono">руководитель</span><b>Тимур Антонов</b><p>Подбирает решение, считает смету и отвечает за объект от выезда до акта.</p></div>
             <div class="tmx-act"><a class="tmx-btn" href="tel:+79514596275">Позвонить <i>↗</i></a><a class="tmx-btn tmx-soft" href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте <i>↗</i></a></div>
           </article>
