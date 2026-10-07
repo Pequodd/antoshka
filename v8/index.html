@@ -569,8 +569,8 @@ html.lenis, html.lenis body { height: auto; }
 .finale { position: relative; z-index: 2; overflow: hidden; height: 100vh; min-height: 640px; margin-top: var(--out); background: transparent; }
 .fin-h { position: absolute; z-index: 0; left: 0; right: 0; top: 12%; text-align: center; padding-inline: var(--m); font-weight: 400; font-size: clamp(64px, 9.4vw, 168px); line-height: .95; letter-spacing: -.055em; color: var(--air); }
 .fin-anchor { position: absolute; left: 26%; right: 26%; top: 30%; bottom: 30%; }
-.fin-glow { position: absolute; z-index: 0; left: -10%; right: -10%; bottom: -48%; height: 80%; border-radius: 50%; background: radial-gradient(50% 50% at 50% 50%, var(--air) 0%, #5B83FF 40%, rgba(127,166,255,.45) 62%, rgba(250,250,250,0) 78%); filter: blur(10px); }
-.fin-cta { position: absolute; z-index: 3; left: 0; right: 0; bottom: 8vh; display: grid; justify-items: center; gap: 12px; color: #fff; text-align: center; }
+.fin-glow { position: absolute; z-index: 0; left: 4%; right: 4%; top: 46%; bottom: 0; pointer-events: none; background: radial-gradient(closest-side, var(--air) 0%, #4F7BFF 34%, rgba(111,152,255,.55) 60%, rgba(250,250,250,0) 100%); }
+.fin-cta { position: absolute; z-index: 3; left: 0; right: 0; bottom: 18%; display: grid; justify-items: center; gap: 12px; color: #fff; text-align: center; }
 .fin-cta p { margin: 0; font-size: 14px; color: rgba(255,255,255,.85); }
 .fin-btn { background: #fff; color: var(--ink); border-radius: 999px; min-height: 52px; padding: 0 26px; font-size: 16px; }
 .fin-btn:hover { background: var(--air-soft); }
@@ -874,7 +874,7 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
 .fx-social a, .fx-mail { color: rgba(255,255,255,.85); text-decoration: none; font-size: 15px; transition: color .2s; }
 .fx-mail { color: rgba(255,255,255,.5); }
 .fx-social a:hover, .fx-mail:hover { color: #fff; }
-.fx-mid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding: 48px 0 clamp(64px, 12vh, 140px); border-bottom: 1px solid rgba(255,255,255,.1); }
+.fx-mid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); padding: 48px 0 clamp(120px, 22vh, 240px); }
 .fx-brand { grid-column: 1 / 4; align-self: start; display: inline-flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; }
 .fx-brand svg { width: 22px; height: 22px; }
 .fx-brand b { font-weight: 500; font-size: 17px; letter-spacing: -.01em; }
@@ -889,7 +889,7 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
 .fx-big { display: flex; justify-content: space-between; align-items: flex-start; gap: .06em; padding: clamp(32px, 6vh, 72px) 0 clamp(24px, 4vh, 48px); color: #fff; text-decoration: none; font-weight: 400; font-size: clamp(96px, 25.5vw, 520px); line-height: .86; letter-spacing: -.065em; white-space: nowrap; }
 .fx-big span { font: 300 .22em/1 var(--mono); color: var(--orange); margin-top: .3em; transition: transform .35s ease; }
 .fx-big:hover span { transform: translate(6px, -6px); }
-.fx-bot { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: rgba(255,255,255,.55); }
+.fx-bot { padding-top: 22px; border-top: 1px solid rgba(255,255,255,.12); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: 14px; color: rgba(255,255,255,.55); }
 .fx-bot b { font-weight: 400; color: #fff; font-variant-numeric: tabular-nums; }
 /* header: home / business switch lives in the nav pill */
 .hud-nav { align-items: center; }
@@ -920,6 +920,26 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
 .menu-links .mcol-gen a { font-size: clamp(18px, 1.4vw, 22px); }
 .mcol-gen { padding-top: 22px; }
 html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shadow: 0 24px 60px -36px rgba(36,54,63,.45); }
+/* faq: card accordion with a topic filter, the side is an air-blue card */
+.faq-filter { padding-bottom: 20px; }
+.faq { align-items: start; }
+.faq-side { display: grid; gap: 14px; padding: clamp(24px, 2.6vw, 36px); border-radius: var(--r); color: #fff;
+  background: radial-gradient(70% 60% at 100% 0%, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 60%), linear-gradient(165deg, var(--air) 0%, #3F6CF5 60%, #5683FA 100%); }
+.faq-side .mono { color: rgba(255,255,255,.8); }
+.faq-side h3 { margin: 0; font-weight: 300; font-size: clamp(26px, 2.2vw, 36px); line-height: 1.08; letter-spacing: -.035em; }
+.faq-side p { margin: 0; color: rgba(255,255,255,.85); font-size: 16px; max-width: none; }
+.faq-cta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.faq-btn { background: #fff; color: var(--ink); }
+.faq-btn:hover { background: var(--air-soft); }
+.faq-wa { min-height: 44px; padding: 0 18px; display: inline-flex; align-items: center; border-radius: 999px; background: rgba(255,255,255,.16); color: #fff; text-decoration: none; }
+.faq-wa:hover { background: rgba(255,255,255,.28); }
+.faq-list { border-top: 0; display: grid; gap: 8px; }
+.faq-list details { border: 1px solid var(--line); border-radius: var(--r); background: #fff; padding: 0 24px; transition: border-color .25s ease, box-shadow .25s ease; }
+.faq-list details:hover { border-color: var(--faint); }
+.faq-list details[open] { border-color: var(--air); box-shadow: 0 20px 50px -34px rgba(47,91,234,.5); }
+.faq-list summary { padding: 20px 0; font-size: clamp(19px, 1.5vw, 24px); }
+.faq-list details p { margin: -4px 0 22px; }
+.faq-list details[hidden] { display: none; }
 /* ===================== works: pinned, the ribbon travels sideways while you scroll down ===================== */
 .wk-stage { display: flex; flex-direction: column; justify-content: center; padding-top: 56px; }
 .wk-stage .title { padding-top: 16px; }
@@ -1037,7 +1057,8 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   .fcard, .fan.in .fcard { transform: none; }
   .fin-h { top: 14%; font-size: 15vw; }
   .fin-anchor { left: 6%; right: 6%; top: 34%; bottom: 34%; }
-  .fin-cta { bottom: 12vh; }
+  .fin-cta { bottom: 20%; }
+  .fin-glow { left: -30%; right: -30%; top: 50%; }
   /* v8, mobile */
   .dir-price { display: none; }
   .aud-cards, .px3 { grid-template-columns: 1fr; }
@@ -1093,6 +1114,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   .menu-links { grid-column: 1 / -1; grid-template-columns: 1fr; row-gap: 12px; }
   .mcol-home, .mcol-biz { padding: 16px 16px 6px; }
   .mcol-gen { padding-top: 8px; }
+  .faq-list details { padding: 0 18px; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -1490,20 +1512,28 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   <!-- 11 faq -->
   <section class="sec" id="faq">
     <div class="rule"></div>
-    <div class="grid title"><h2>Вопросы</h2></div>
+    <div class="grid title"><h2>Вопросы</h2>
+      <p class="aside">Частые вопросы по трём направлениям и работе с компаниями.</p></div>
+    <div class="grid faq-filter"><div class="chips c1-12" role="group" aria-label="Тема вопросов"><button type="button" aria-pressed="true" data-f="all">Все</button><button type="button" aria-pressed="false" data-f="ac">Кондиционирование</button><button type="button" aria-pressed="false" data-f="ve">Вентиляция</button><button type="button" aria-pressed="false" data-f="el">Электрика</button><button type="button" aria-pressed="false" data-f="biz">Для бизнеса</button></div></div>
     <div class="faq">
-      <div class="faq-side"><p>Не нашли ответ? Спросите мастера напрямую — ответим в течение 15 минут в рабочее время.</p><div class="row"><a class="btn btn-ink" href="#contact">Задать вопрос <i>↗</i></a><a class="btn btn-soft" href="tel:+73510000000">Позвонить</a></div></div>
+      <aside class="faq-side">
+        <span class="mono">не нашли ответ?</span>
+        <h3>Спросите мастера или инженера напрямую</h3>
+        <p>Ответим в течение 15 минут в рабочее время — про кондиционеры, вентиляцию, электрику и работу с компаниями.</p>
+        <div class="faq-cta"><a class="btn faq-btn" href="#contact">Задать вопрос <i>↗</i></a><a class="faq-wa" href="https://wa.me/73510000000" target="_blank" rel="noopener">WhatsApp ↗</a></div>
+      </aside>
       <div class="faq-list">
-        <details><summary>Делаете электрику без кондиционера?</summary><p>Да. Проводка, щит, освещение и розетки — отдельным заказом, для квартир, домов и коммерческих помещений.</p></details>
-        <details><summary>Нужен ли проект вентиляции для квартиры?</summary><p>Для вытяжки в санузле — нет. Для приточной системы или рекуператора — да: считаем воздухообмен и показываем схему до монтажа.</p></details>
-        <details><summary>Сколько длится монтаж?</summary><p>Сплит-система в квартире — 3–4 часа. Мульти-сплит или канальная система — от одного до трёх дней, точный срок пишем в договоре.</p></details>
-        <details><summary>Что если трасса длиннее 3 метров?</summary><p>Каждый дополнительный метр — 1 900 ₽, медь в теплоизоляции. Длину считаем на замере и сразу вносим в смету, чтобы на месте не было сюрпризов.</p></details>
-        <details><summary>Можно поставить кондиционер, купленный не у вас?</summary><p>Да, по тем же ценам. Перед монтажом проверим комплектацию и совместимость, гарантия на работы — те же 3 года.</p></details>
-        <details><summary>Монтируете зимой?</summary><p>Да, круглый год. При минусовой температуре ставим зимний комплект, чтобы кондиционер работал и на обогрев, и без вреда компрессору.</p></details>
-        <details><summary>Будет ли пыль и грязь?</summary><p>Мебель и пол накрываем плёнкой, сверлим с пылесосом. После работ убираем за собой — это входит в каждый пакет.</p></details>
-        <details><summary>Что входит в гарантию?</summary><p>Все работы по договору — 3 года с даты акта. Если что-то не так с монтажом, приедем и устраним бесплатно. На оборудование действует гарантия производителя.</p></details>
-        <details><summary>Работаете с юрлицами?</summary><p>Да: договор, ТЗ, безнал, закрывающие документы. Можем работать ночью и в выходные, чтобы не останавливать ваш бизнес.</p></details>
-        <details><summary>Нужно ли обслуживание?</summary><p>Раз в год — чистка и проверка давления. Напомним сами, когда подойдёт срок. Регулярное ТО продлевает жизнь компрессору.</p></details>
+        <details data-cat="el"><summary>Делаете электрику без кондиционера?</summary><p>Да. Проводка, щит, освещение и розетки — отдельным заказом, для квартир, домов и коммерческих помещений.</p></details>
+        <details data-cat="ve"><summary>Нужен ли проект вентиляции для квартиры?</summary><p>Для вытяжки в санузле — нет. Для приточной системы или рекуператора — да: считаем воздухообмен и показываем схему до монтажа.</p></details>
+        <details data-cat="ac"><summary>Сколько длится монтаж?</summary><p>Сплит-система в квартире — 3–4 часа. Мульти-сплит или канальная система — от одного до трёх дней, точный срок пишем в договоре.</p></details>
+        <details data-cat="ac"><summary>Что если трасса длиннее 3 метров?</summary><p>Каждый дополнительный метр — 1 900 ₽, медь в теплоизоляции. Длину считаем на замере и сразу вносим в смету, чтобы на месте не было сюрпризов.</p></details>
+        <details data-cat="ac"><summary>Можно поставить кондиционер, купленный не у вас?</summary><p>Да, по тем же ценам. Перед монтажом проверим комплектацию и совместимость, гарантия на работы — те же 3 года.</p></details>
+        <details data-cat="ac"><summary>Монтируете зимой?</summary><p>Да, круглый год. При минусовой температуре ставим зимний комплект, чтобы кондиционер работал и на обогрев, и без вреда компрессору.</p></details>
+        <details data-cat="gen"><summary>Будет ли пыль и грязь?</summary><p>Мебель и пол накрываем плёнкой, сверлим с пылесосом. После работ убираем за собой — это входит в каждый пакет.</p></details>
+        <details data-cat="gen"><summary>Что входит в гарантию?</summary><p>Все работы по договору — 3 года с даты акта. Если что-то не так с монтажом, приедем и устраним бесплатно. На оборудование действует гарантия производителя.</p></details>
+        <details data-cat="biz el ve"><summary>Делаете проект и исполнительную документацию?</summary><p>Да. Для вентиляции и электрики готовим проект до монтажа, после — исполнительную схему и акты. Для сетей — по вашему ТЗ и регламентам.</p></details>
+        <details data-cat="biz"><summary>Работаете с юрлицами?</summary><p>Да: договор, ТЗ, безнал, закрывающие документы. Можем работать ночью и в выходные, чтобы не останавливать ваш бизнес.</p></details>
+        <details data-cat="gen"><summary>Нужно ли обслуживание?</summary><p>Раз в год — чистка и проверка давления. Напомним сами, когда подойдёт срок. Регулярное ТО продлевает жизнь компрессору.</p></details>
       </div>
     </div>
   </section>
@@ -1555,7 +1585,6 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     <div class="fx-info"><p>Кондиционирование, вентиляция и электромонтаж — для квартир, домов и бизнеса.</p>
       <dl><div><dt>Челябинск</dt><dd><a href="tel:+73510000000">+7 (351) XXX-XX-XX</a></dd></div><div><dt>Екатеринбург</dt><dd><a href="tel:+73430000000">+7 (343) XXX-XX-XX</a></dd></div><div><dt>Заявки</dt><dd><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">Тимур Антонов ↗</a></dd></div></dl></div>
   </div>
-  <a class="fx-big" href="#contact">На&nbsp;связи<span aria-hidden="true">↗</span></a>
   <div class="fx-bot"><span>Climate Solution Pro © 2026 · ИП [ФИО] · ИНН [—]</span><span>Челябинск <b id="fxClock">--:--:--</b></span></div>
 </footer>
 
@@ -1630,6 +1659,12 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     if (ph.value.replace(/\D/g, '').length < 10) { err.textContent = 'Проверьте номер: нужно 10–11 цифр.'; ph.setAttribute('aria-invalid', 'true'); ph.focus(); return; }
     goForm.innerHTML = '<div class="go-done"><span class="mono">заявка принята</span><strong>Перезвоним в течение 15 минут</strong><span class="mono">Прототип: данные никуда не отправлены</span></div>';
   });
+  /* faq: topic filter */
+  const faqChips = [...document.querySelectorAll('.faq-filter button')], faqItems = [...document.querySelectorAll('.faq-list details')];
+  faqChips.forEach(c => c.addEventListener('click', () => {
+    faqChips.forEach(x => x.setAttribute('aria-pressed', x === c));
+    faqItems.forEach(d => { const show = c.dataset.f === 'all' || (d.dataset.cat || '').split(' ').includes(c.dataset.f); d.hidden = !show; if (!show) d.open = false; });
+  }));
   /* header: scrolled state, section scrollspy with sliding pill, fullscreen menu */
   const hud = document.getElementById('hud'), hudInd = document.getElementById('hudInd'), hudLinks = [...hud.querySelectorAll('.hud-nav a')];
   const hudSecs = hudLinks.map(a => document.querySelector(a.getAttribute('href')));
