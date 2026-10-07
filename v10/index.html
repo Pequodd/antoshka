@@ -1326,7 +1326,13 @@ html[data-aud="biz"] main { overflow-x: clip; }
 .pains > * { position: relative; z-index: 2; }
 /* footer: black, the moving air glows become blue + red, plus grain */
 .foot-x { background-color: #0D161B !important; }
-.fx-air i:nth-child(1) { background: radial-gradient(closest-side, rgba(31,59,245,.85), rgba(31,59,245,0)); }
+/* footer glows follow the audience: warm red for home, quiet graphite with a red spark for business */
+html[data-aud="home"] .fx-air i:nth-child(1) { background: radial-gradient(closest-side, rgba(226,38,28,.7), rgba(226,38,28,0)); }
+html[data-aud="home"] .fx-air i:nth-child(2) { background: radial-gradient(closest-side, rgba(255,170,160,.35), rgba(255,170,160,0)); }
+html[data-aud="home"] .fx-air i:nth-child(3) { background: radial-gradient(closest-side, rgba(150,20,14,.55), rgba(150,20,14,0)); }
+html[data-aud="biz"] .fx-air i:nth-child(1) { background: radial-gradient(closest-side, rgba(120,132,140,.32), rgba(120,132,140,0)); }
+html[data-aud="biz"] .fx-air i:nth-child(2) { background: radial-gradient(closest-side, rgba(255,255,255,.1), rgba(255,255,255,0)); }
+html[data-aud="biz"] .fx-air i:nth-child(3) { background: radial-gradient(closest-side, rgba(232,50,43,.28), rgba(232,50,43,0)); }
 .foot-x::after { z-index: 0; }
 /* home hero: the blue accent word and pills follow the new blue */
 .hero .accent, .hero em { color: var(--air-2); }
