@@ -546,7 +546,7 @@ html.lenis, html.lenis body { height: auto; }
 .tl-ticks span::after { content: ""; position: absolute; left: 50%; top: 22px; width: 1px; height: 18px; background: var(--ink); }
 .tl-pin { position: absolute; z-index: 3; left: 50%; top: calc(38% - 14px); width: 0; height: 0; margin-left: -6px; border: 6px solid transparent; border-top: 8px solid var(--air); }
 .tl-words { position: absolute; z-index: 2; left: 0; right: 0; top: 50%; display: grid; place-items: center; pointer-events: none; }
-.tl-w { grid-area: 1 / 1; margin: 0; padding-inline: var(--m); text-align: center; font-weight: 300; font-size: clamp(36px, 4vw, 64px); line-height: 1; letter-spacing: -.04em; color: var(--ink);
+.tl-w { grid-area: 1 / 1; margin: 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(64px, 10vw, 176px); line-height: .95; letter-spacing: -.055em; color: var(--air);
   opacity: 0; transform: translateY(40px); filter: blur(8px); transition: opacity .5s ease, transform .7s cubic-bezier(.16,1,.3,1), filter .6s ease; }
 .tl-w.on { opacity: 1; transform: none; filter: none; }
 .tl-cap { position: absolute; z-index: 2; left: 50%; bottom: 6vh; transform: translateX(-50%); width: min(520px, calc(100% - var(--m) * 2)); display: grid; gap: 8px; justify-items: center; text-align: center; }
@@ -1356,10 +1356,6 @@ html[data-aud="biz"] main { overflow-x: clip; }
 .tl-st.cur em { opacity: 1; transform: none; color: var(--air); }
 .tl-pin { display: none; }
 .tl-cap .tl-meta { display: none; }
-.tl-ruler { top: 36%; }
-.tl-words { top: 58%; }
-.tl-cap { top: calc(58% + 72px); bottom: auto; }
-#tlCount { display: none; }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
@@ -1467,9 +1463,8 @@ html[data-aud="biz"] main { overflow-x: clip; }
   .tl-ruler { top: 30%; }
   .tl-st { width: 160px; }
   .tl-pin { top: calc(34% - 14px); }
-  .tl-w { font-size: 9vw; }
-  .tl-words { top: 52%; }
-  .tl-cap { top: calc(52% + 52px); bottom: auto; }
+  .tl-w { font-size: 13vw; }
+  .tl-cap { bottom: 12vh; }
   .fan { grid-template-columns: 1fr; max-width: 420px; margin-inline: auto; padding-inline: var(--m); }
   .fcard, .fan.in .fcard { transform: none; }
   .fin-h { top: 10%; font-size: 12vw; }
