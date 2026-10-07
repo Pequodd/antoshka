@@ -662,6 +662,32 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
 .wk[hidden] { display: none; }
 /* finale caption under the morphing unit */
 .fin-tag { position: absolute; z-index: 3; left: 0; right: 0; top: 70%; text-align: center; color: var(--air); }
+/* ---------- hero variant B: one 3D unit morphs through the three directions (A/B switch, temporary) ---------- */
+.hv-sw { position: absolute; z-index: 6; top: 76px; right: var(--m); display: flex; align-items: center; gap: 4px; padding: 4px 4px 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.8); backdrop-filter: blur(8px); }
+.hv-sw button { all: unset; cursor: pointer; min-width: 30px; height: 28px; display: grid; place-items: center; border-radius: 999px; color: var(--muted); }
+.hv-sw button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.hv-sw button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.hb-glow, .hb-anchor, .hb-dirs { display: none; }
+html[data-hv="b"] .caps { display: none; }
+html[data-hv="b"] .hb-anchor { display: block; position: absolute; left: 46%; right: 6%; top: 17%; bottom: 47%; }
+html[data-hv="b"] .hero .dir-price { display: none; }
+html[data-hv="b"] .hb-glow { display: block; position: absolute; z-index: 0; left: 38%; right: -6%; top: -10%; height: 90%; border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%, rgba(47,91,234,.22) 0%, rgba(127,166,255,.14) 40%, rgba(250,250,250,0) 72%); pointer-events: none; }
+html[data-hv="b"] .hb-dirs { display: block; position: absolute; z-index: 4; left: var(--m); top: 96px; width: min(34vw, 460px); list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.hb-dirs li { border-bottom: 1px solid var(--line); }
+.hb-dirs button { all: unset; box-sizing: border-box; cursor: pointer; position: relative; width: 100%; display: grid; grid-template-columns: 36px 1fr; column-gap: 8px; row-gap: 2px; padding: 14px 0 16px; }
+.hb-dirs .mono { grid-row: 1 / 3; color: var(--muted); padding-top: .55em; }
+.hb-dirs b { font-weight: 300; font-size: clamp(24px, 2.2vw, 34px); letter-spacing: -.035em; line-height: 1.1; color: rgba(36,54,63,.4); transition: color .3s ease; }
+.hb-dirs small { font-size: 13px; color: var(--muted); max-height: 0; opacity: 0; overflow: hidden; transition: max-height .4s ease, opacity .4s ease; }
+.hb-dirs i { position: absolute; left: 0; bottom: -1px; height: 2px; width: 0; background: var(--air); }
+.hb-dirs .on b { color: var(--ink); }
+.hb-dirs .on .mono { color: var(--air); }
+.hb-dirs .on small { max-height: 3em; opacity: 1; }
+.hb-dirs .on i { animation: hbRun var(--hb-t, 3.6s) linear forwards; }
+.hb-dirs.hold .on i { animation-play-state: paused; }
+.hb-dirs button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+@keyframes hbRun { to { width: 100%; } }
+html[data-hv="b"] .hero .foot::before { border-color: var(--line); }
 /* ============ LAYOUT SYSTEM ============
    12-col grid, side margin --m.
    G1 = column 1 (left edge): section titles and primary content.
@@ -837,6 +863,15 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
   .b2b-ask, .b2b-form { grid-column: 1 / -1; }
   .b2b-form { grid-template-columns: 1fr; }
   .fin-h { font-size: 13vw; }
+  .hv-sw { top: 64px; }
+  html[data-hv="b"] .hb-anchor { left: 14%; right: 14%; top: 21%; bottom: 66%; }
+  html[data-hv="b"] .offer p, html[data-hv="b"] .offer .offer-tags { display: none; }
+  html[data-hv="b"] .hb-glow { left: -20%; right: -20%; top: 4%; height: 46%; }
+  html[data-hv="b"] .hb-dirs { top: 112px; width: auto; right: var(--m); display: flex; border-top: 0; gap: 6px; }
+  html[data-hv="b"] .hb-dirs li { flex: 1; border-bottom: 0; }
+  html[data-hv="b"] .hb-dirs button { display: block; padding: 8px 0 10px; text-align: center; border-bottom: 1px solid var(--line); }
+  html[data-hv="b"] .hb-dirs .mono, html[data-hv="b"] .hb-dirs small { display: none; }
+  html[data-hv="b"] .hb-dirs b { font-size: 13px; letter-spacing: 0; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -848,6 +883,7 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
   .rv-track { grid-auto-columns: 86%; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .hb-dirs .on i { animation: none; width: 100%; }
   .cap, .stat, .fcard, .tl-w { transition: none !important; }
   html { scroll-behavior: auto; }
   .ring .ticks { animation: none; }
@@ -898,7 +934,15 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
 
 <main id="top">
   <!-- 1 -->
-<section class="hero" data-scene="off" aria-label="Climate Solution Pro">
+<section class="hero" data-scene="off" data-anchor=".hb-anchor" aria-label="Climate Solution Pro">
+    <div class="hv-sw mono" role="group" aria-label="Вариант первого экрана"><span>экран:</span><button type="button" data-hv="a">A</button><button type="button" data-hv="b">B</button></div>
+    <div class="hb-glow" aria-hidden="true"></div>
+    <div class="hb-anchor" aria-hidden="true"></div>
+    <ol class="hb-dirs" aria-label="Направления">
+      <li><button type="button" data-k="0" data-shape="split"><span class="mono">01</span><b>Кондиционирование</b><small>сплит, мульти, канальные · от 14 900 ₽</small><i></i></button></li>
+      <li><button type="button" data-k="1" data-shape="recup"><span class="mono">02</span><b>Вентиляция</b><small>проект, приток и вытяжка, рекуператоры · от 25 000 ₽</small><i></i></button></li>
+      <li><button type="button" data-k="2" data-shape="panel"><span class="mono">03</span><b>Электромонтаж</b><small>щит, проводка, освещение · от 12 000 ₽</small><i></i></button></li>
+    </ol>
     <div class="caps" id="caps" aria-hidden="true">
       <div class="cap-row r1"><span class="cap" style="--i:0"><img src="../assets/photos/alpinist-outdoor-unit-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:1"><img src="../assets/photos/store-ducts-2-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:2"><img src="../assets/photos/split-bedroom-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:3"><img src="../assets/photos/garage-ceiling-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:4"><img src="../assets/photos/bathroom-fan-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:5"><img src="../assets/photos/store-ducts-1-sm.webp" alt="" loading="eager"></span></div>
       <div class="cap-row r2"><span class="cap" style="--i:6"><img src="../assets/photos/alpinist-drilling-winter-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:7"><img src="../assets/photos/split-bedroom-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:8"><img src="../assets/photos/store-ducts-1-sm.webp" alt="" loading="eager"></span><span class="cap cap-film" style="--i:9"><video src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline autoplay preload="auto"></video></span><span class="cap" style="--i:10"><img src="../assets/photos/garage-ceiling-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:11"><img src="../assets/photos/alpinist-outdoor-unit-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:12"><img src="../assets/photos/bathroom-fan-sm.webp" alt="" loading="eager"></span></div>
@@ -1306,6 +1350,20 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
     capRows[2].style.transform = `translateX(${(p * w * .28).toFixed(1)}px)`;
     capRows[1].style.transform = `scale(${(1 + p * .12).toFixed(3)})`;
   }
+  /* hero variant B: the 3D unit cycles conditioner → recuperator → panel; A keeps the capsules */
+  const hbList = hero.querySelector('.hb-dirs'), hbBtns = [...hbList.querySelectorAll('button')], hvBtns = [...hero.querySelectorAll('.hv-sw button')];
+  let hbK = 0, hbT = 0, hbOn = false; const HB_T = 3600;
+  function hbShow(k) { hbK = k; hbBtns.forEach((b, i) => { b.parentElement.classList.toggle('on', i === k); b.setAttribute('aria-pressed', i === k); }); if (hbOn) hero.dataset.scene = hbBtns[k].dataset.shape; }
+  function hbLoop() { clearTimeout(hbT); if (!hbOn || reduce) return; hbT = setTimeout(() => { if (!hbList.classList.contains('hold')) hbShow((hbK + 1) % 3); hbLoop(); }, HB_T); }
+  hbBtns.forEach(b => b.addEventListener('click', () => { hbShow(+b.dataset.k); hbLoop(); }));
+  hbList.addEventListener('pointerenter', () => hbList.classList.add('hold')); hbList.addEventListener('pointerleave', () => hbList.classList.remove('hold'));
+  function hvSet(v) {
+    document.documentElement.dataset.hv = v; hvBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.hv === v));
+    try { localStorage.setItem('csp-hv', v); } catch (e) {}
+    hbOn = v === 'b'; hero.dataset.scene = hbOn ? hbBtns[hbK].dataset.shape : 'off'; hbShow(hbK); hbLoop();
+  }
+  hvBtns.forEach(b => b.addEventListener('click', () => hvSet(b.dataset.hv)));
+  { let v = new URLSearchParams(location.search).get('hv'); try { v = v || localStorage.getItem('csp-hv'); } catch (e) {} hvSet(v === 'a' ? 'a' : 'b'); }
   /* numbers: the giant line travels with the section; cards rise once */
   const nums = document.getElementById('numbers'), numsText = document.getElementById('numsText'), statsEl = nums.querySelector('.stats');
   function numsUpdate() {
