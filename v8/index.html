@@ -712,6 +712,102 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
 .end { padding-top: var(--out); }
 .end .ask { grid-column: 1 / 7; }
 .form { grid-column: 7 / -1; }
+/* ---------- hero variant B: the crew film in a rounded card, three direction tiles below (A/B switch, temporary) ---------- */
+.hv-sw { position: absolute; z-index: 6; top: 76px; right: var(--m); display: flex; align-items: center; gap: 4px; padding: 4px 4px 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.85); backdrop-filter: blur(8px); }
+.hv-sw button { all: unset; cursor: pointer; min-width: 30px; height: 28px; display: grid; place-items: center; border-radius: 999px; color: var(--muted); }
+.hv-sw button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.hv-sw button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.hc-card, .hc-dirs { display: none; }
+html[data-hv="b"] .caps, html[data-hv="b"] .hero .dir-price, html[data-hv="b"] .hero .scroll { display: none; }
+html[data-hv="b"] .hc-card { display: block; position: absolute; z-index: 0; left: var(--m); right: var(--m); top: 64px; bottom: 176px; overflow: hidden; border-radius: var(--r); background: #1B2A31;
+  clip-path: inset(18% 22% 18% 22% round 999px); transition: clip-path 1.5s cubic-bezier(.76,0,.24,1); }
+html[data-hv="b"] .hero.open .hc-card { clip-path: inset(0 round 16px); }
+.hc-card video { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.15); transition: transform 2.2s cubic-bezier(.16,1,.3,1); }
+.hero.open .hc-card video { transform: none; }
+.hc-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(18,26,30,.35) 0%, rgba(18,26,30,0) 30%, rgba(18,26,30,.25) 55%, rgba(18,26,30,.82) 100%); }
+html[data-hv="b"] .hero .foot { bottom: 176px; padding: 0 calc(var(--m) + 8px) 28px; color: #fff; }
+html[data-hv="b"] .hero .foot::before { display: none; }
+html[data-hv="b"] .offer { padding-left: 24px; }
+html[data-hv="b"] .offer > * { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .8s cubic-bezier(.16,1,.3,1); }
+html[data-hv="b"] .hero.open .offer > * { opacity: 1; transform: none; transition-delay: .9s; }
+html[data-hv="b"] .offer p, html[data-hv="b"] .offer .offer-tags, html[data-hv="b"] .aud-top .mono { color: rgba(255,255,255,.8); }
+html[data-hv="b"] .offer h1 em { color: var(--air-2); }
+html[data-hv="b"] .aud { background: rgba(255,255,255,.16); backdrop-filter: blur(8px); }
+html[data-hv="b"] .aud button { color: rgba(255,255,255,.8); }
+html[data-hv="b"] .aud button[aria-pressed="true"] { background: #fff; color: var(--ink); }
+html[data-hv="b"] .offer .btn-soft { background: rgba(255,255,255,.16); color: #fff; backdrop-filter: blur(8px); }
+html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left: var(--m); right: var(--m); bottom: 20px; height: 140px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.hc-dirs a { position: relative; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto; column-gap: 12px; padding: 16px 20px 18px; border: 1px solid var(--line); border-radius: var(--r); background: #fff; color: var(--ink); text-decoration: none;
+  opacity: 0; transform: translateY(24px); transition: opacity .6s ease calc(1s + var(--i) * .08s), transform .8s cubic-bezier(.16,1,.3,1) calc(1s + var(--i) * .08s), background .3s ease, color .3s ease, border-color .3s ease; }
+.hero.open .hc-dirs a { opacity: 1; transform: none; }
+.hc-dirs .mono { color: var(--muted); }
+.hc-dirs i { font: 400 14px/1 var(--mono); font-style: normal; color: var(--muted); }
+.hc-dirs b { grid-column: 1 / -1; align-self: end; font-weight: 300; font-size: clamp(24px, 2.1vw, 32px); letter-spacing: -.035em; line-height: 1.05; }
+.hc-dirs small { font-size: 13px; color: var(--muted); align-self: end; }
+.hc-dirs em { font-style: normal; font-size: 15px; white-space: nowrap; align-self: end; }
+.hc-dirs a:hover { background: var(--air); border-color: var(--air); color: #fff; }
+.hc-dirs a:hover .mono, .hc-dirs a:hover i, .hc-dirs a:hover small { color: rgba(255,255,255,.8); }
+.hc-dirs a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+
+/* ===================== V8 DESIGN SYSTEM PASS — the older blocks follow the same rules =====================
+   cards: white, 1px line, radius --r · pills for every button · air-blue = data/progress · orange = action/marks */
+.btn { border-radius: 999px; padding: 0 22px; }
+.sb-cta .btn, .svc-cta .btn { justify-content: space-between; }
+/* prices: two cards instead of the ink-framed sheet */
+.sheet { border: 0; border-radius: 0; background: transparent; column-gap: 16px; grid-template-columns: minmax(0, 1fr) minmax(320px, 400px); }
+.sheet-plan { background: #fff; border: 1px solid var(--line); border-bottom: 0; border-radius: var(--r) var(--r) 0 0; }
+.sheet-ctl { background: #fff; border: 1px solid var(--line); border-radius: 0 0 var(--r) var(--r); }
+.sheet-block { border-left: 0; border-radius: var(--r); overflow: hidden; color: #fff; background: linear-gradient(170deg, var(--air) 0%, #4C78FF 58%, #8DB0FF 100%); }
+.sb-row { border-bottom-color: rgba(255,255,255,.2); }
+.sb-head { background: transparent; border-bottom-color: rgba(255,255,255,.2); }
+.sheet-block .mono { color: rgba(255,255,255,.75); }
+.sb-head .mono + .mono { color: #fff; }
+.sb-row > span:not(.mono) { color: rgba(255,255,255,.85); }
+.sb-price b { font-size: clamp(44px, 3.8vw, 60px); }
+.sb-cta .btn-ink { background: #fff; color: var(--ink); }
+.sb-cta .btn-ink:hover { background: var(--air-soft); }
+.sheet-block .plan-hint { color: rgba(255,255,255,.75); }
+.pb-range::-webkit-slider-runnable-track { background: linear-gradient(90deg, var(--air) var(--p, 25%), #E3E7E9 var(--p, 25%)); }
+.pb-range::-moz-range-progress { background: var(--air); }
+.pb-range::-webkit-slider-thumb { border-color: var(--air); box-shadow: 0 4px 12px rgba(47,91,234,.35), 0 0 0 6px rgba(47,91,234,.12); }
+.pb-range:hover::-webkit-slider-thumb { box-shadow: 0 4px 14px rgba(47,91,234,.45), 0 0 0 9px rgba(47,91,234,.16); }
+.pb-range::-moz-range-thumb { border-color: var(--air); box-shadow: 0 4px 12px rgba(47,91,234,.35), 0 0 0 6px rgba(47,91,234,.12); }
+.pb-zones span.on { color: var(--air); }
+/* montage: cool tints, air-blue progress and labels, callout as a card */
+.tint.t0 { background: radial-gradient(70% 60% at 50% 45%, #E6EBF4 0%, #F2F4F8 55%, #FAFAFA 100%); }
+.tint.t1 { background: radial-gradient(70% 60% at 50% 45%, #E3EAFB 0%, #F0F3FB 55%, #FAFAFA 100%); }
+.tint.t2 { background: radial-gradient(70% 60% at 50% 45%, #DCE5FA 0%, #EDF1FB 55%, #FAFAFA 100%); }
+.tint.t3 { background: radial-gradient(70% 60% at 50% 45%, #D5E1FB 0%, #EAF0FD 55%, #FAFAFA 100%); }
+.st-prog i { background: var(--air); }
+.st-facts .mono, .st-call .mono { color: var(--air); }
+.st-call { border-radius: 14px; }
+.st-head .aside { justify-self: start; padding: 10px 14px; border-radius: 12px; background: rgba(250,250,250,.86); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+/* guarantees */
+.gt-list { border-top-color: var(--line); }
+.gt-row { padding-left: 12px; padding-right: 12px; border-radius: 12px; }
+.gt-row:hover, .gt-row[aria-selected="true"] { background: var(--air-soft); }
+.gt-row[aria-selected="true"] .mono:first-child { color: var(--air); }
+.gt-row[aria-selected="true"] .src { background: var(--air); border-color: var(--air); }
+.paper, .paper-stack::before, .paper-stack::after { border-radius: var(--r); }
+.paper-body .clause { border-radius: 10px; background: var(--air-soft); box-shadow: inset 3px 0 0 var(--air); }
+.paper-body .clause .mono { color: var(--air); }
+/* reviews, faq, contact */
+.rv-card { border-radius: var(--r); }
+.rv-av { background: var(--air-soft); color: var(--air); }
+.rv-nav button:hover:not(:disabled) { background: var(--air); border-color: var(--air); }
+.faq-list { border-top-color: var(--line); }
+.faq-list details[open] summary::after { background: var(--air); border-color: var(--air); }
+.form, .b2b-form { background: #fff; border: 1px solid var(--line); border-radius: var(--r); padding: clamp(20px, 2.4vw, 32px); }
+.qc-est b, .end .ask { letter-spacing: -.04em; }
+.qc-est b { color: var(--air); }
+.field input:focus, .b2b-form select:focus { border-bottom-color: var(--air); outline: none; }
+.consent input { accent-color: var(--air); }
+
+/* ===================== works: pinned, the ribbon travels sideways while you scroll down ===================== */
+.wk-stage { display: flex; flex-direction: column; justify-content: center; padding-top: 56px; }
+.wk-stage .title { padding-top: 16px; }
+.wk-grid { overflow: visible; scroll-snap-type: none; will-change: transform; }
+.wk, .wk.big, .wk.tall { height: clamp(300px, calc(100vh - 400px), 620px); }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
@@ -837,6 +933,22 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
   .b2b-ask, .b2b-form { grid-column: 1 / -1; }
   .b2b-form { grid-template-columns: 1fr; }
   .fin-h { font-size: 13vw; }
+  /* v8 pass, mobile */
+  html[data-hv="b"] .hc-card { top: 60px; bottom: 300px; }
+  html[data-hv="b"] .hero .foot { bottom: 300px; padding: 0 var(--m) 18px; }
+  html[data-hv="b"] .offer { padding-left: 14px; padding-right: 14px; }
+  html[data-hv="b"] .offer p, html[data-hv="b"] .offer .offer-tags, html[data-hv="b"] .offer .btn-soft { display: none; }
+  html[data-hv="b"] .offer h1 { font-size: 30px; }
+  html[data-hv="b"] .hc-dirs { height: 206px; grid-template-columns: 1fr; gap: 6px; bottom: 82px; }
+  .hc-dirs a { grid-template-columns: 30px 1fr auto; grid-template-rows: 1fr; align-items: center; padding: 10px 14px; }
+  .hc-dirs b { grid-column: auto; align-self: center; font-size: 20px; }
+  .hc-dirs small, .hc-dirs i { display: none; }
+  .hc-dirs em { align-self: center; font-size: 13px; }
+  .sheet { grid-template-columns: 1fr; row-gap: 0; }
+  .sheet-block { border-top: 0; margin-top: 12px; }
+  .wk, .wk.big, .wk.tall { height: calc(100svh - 420px); }
+  .wk-stage .title { padding-bottom: 16px; }
+  .wk-grid { overflow: visible; scroll-snap-type: none; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -848,6 +960,7 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
   .rv-track { grid-auto-columns: 86%; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .hc-card, .hc-card video, .hc-dirs a, html[data-hv="b"] .offer > * { transition: none !important; }
   .cap, .stat, .fcard, .tl-w { transition: none !important; }
   html { scroll-behavior: auto; }
   .ring .ticks { animation: none; }
@@ -899,6 +1012,13 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
 <main id="top">
   <!-- 1 -->
 <section class="hero" data-scene="off" aria-label="Climate Solution Pro">
+    <div class="hv-sw mono" role="group" aria-label="Вариант первого экрана"><span>экран:</span><button type="button" data-hv="a">A</button><button type="button" data-hv="b">B</button></div>
+    <div class="hc-card" aria-hidden="true"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></div>
+    <nav class="hc-dirs" aria-label="Направления">
+      <a href="#services" data-tab="t1" style="--i:0"><span class="mono">01</span><i aria-hidden="true">↗</i><b>Кондиционирование</b><small>сплит, мульти, канальные, обслуживание</small><em>от 14 900 ₽</em></a>
+      <a href="#services" data-tab="t2" style="--i:1"><span class="mono">02</span><i aria-hidden="true">↗</i><b>Вентиляция</b><small>проект, приток и вытяжка, рекуператоры</small><em>от 25 000 ₽</em></a>
+      <a href="#services" data-tab="t3" style="--i:2"><span class="mono">03</span><i aria-hidden="true">↗</i><b>Электромонтаж</b><small>щит, проводка, освещение, розетки</small><em>от 12 000 ₽</em></a>
+    </nav>
     <div class="caps" id="caps" aria-hidden="true">
       <div class="cap-row r1"><span class="cap" style="--i:0"><img src="../assets/photos/alpinist-outdoor-unit-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:1"><img src="../assets/photos/store-ducts-2-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:2"><img src="../assets/photos/split-bedroom-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:3"><img src="../assets/photos/garage-ceiling-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:4"><img src="../assets/photos/bathroom-fan-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:5"><img src="../assets/photos/store-ducts-1-sm.webp" alt="" loading="eager"></span></div>
       <div class="cap-row r2"><span class="cap" style="--i:6"><img src="../assets/photos/alpinist-drilling-winter-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:7"><img src="../assets/photos/split-bedroom-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:8"><img src="../assets/photos/store-ducts-1-sm.webp" alt="" loading="eager"></span><span class="cap cap-film" style="--i:9"><video src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline autoplay preload="auto"></video></span><span class="cap" style="--i:10"><img src="../assets/photos/garage-ceiling-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:11"><img src="../assets/photos/alpinist-outdoor-unit-sm.webp" alt="" loading="eager"></span><span class="cap" style="--i:12"><img src="../assets/photos/bathroom-fan-sm.webp" alt="" loading="eager"></span></div>
@@ -1135,6 +1255,7 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
   <!-- 6 works -->
   <section class="sec" id="works">
     <div class="rule"></div>
+    <div class="wk-pin" id="wkPin"><div class="sticky wk-stage">
     <div class="grid title"><h2>Объекты</h2>
       <p class="aside">Фото с наших объектов: квартиры, дома, офисы и магазины — климат, вентиляция и электрика.</p></div>
     <div class="grid wk-filter"><div class="chips c1-12" role="group" aria-label="Фильтр объектов"><button type="button" aria-pressed="true" data-f="all">Все</button><button type="button" aria-pressed="false" data-f="ac">Кондиционирование</button><button type="button" aria-pressed="false" data-f="ve">Вентиляция</button><button type="button" aria-pressed="false" data-f="el">Электрика</button></div></div>
@@ -1148,6 +1269,7 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
       <figure class="wk" data-dir="el"><img src="../assets/photos/store-ducts-2-sm.webp" srcset="../assets/photos/store-ducts-2-sm.webp 720w, ../assets/photos/store-ducts-2.webp 1400w" sizes="(max-width: 900px) 82vw, 34vw" alt="Освещение и кабельные лотки вдоль витрин торгового зала" loading="lazy" decoding="async"><figcaption><span class="mono">Магазин</span><b>Свет и лотки вдоль витрин</b><span class="wk-meta">Екатеринбург · без закрытия соседей</span></figcaption></figure>
     </div>
     <div class="grid wk-foot"><div class="wk-prog c1-9"><i id="wkProg"></i></div><div class="wk-nav c10-12"><button type="button" id="wkPrev" aria-label="Предыдущий объект">←</button><button type="button" id="wkNext" aria-label="Следующий объект">→</button></div></div>
+    </div></div>
   </section>
 
   <!-- 7 -->
@@ -1306,6 +1428,19 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
     capRows[2].style.transform = `translateX(${(p * w * .28).toFixed(1)}px)`;
     capRows[1].style.transform = `scale(${(1 + p * .12).toFixed(3)})`;
   }
+  /* hero variant B: film card opens from a capsule; tiles open the matching service */
+  const hvBtns = [...hero.querySelectorAll('.hv-sw button')], hcVid = hero.querySelector('.hc-card video');
+  let hvT = 0;
+  function hvSet(v) {
+    document.documentElement.dataset.hv = v; hvBtns.forEach(b => b.setAttribute('aria-pressed', b.dataset.hv === v));
+    try { localStorage.setItem('csp-hv', v); } catch (e) {}
+    clearTimeout(hvT); hero.classList.remove('open');
+    if (v === 'b') { if (!hcVid.src) hcVid.src = hcVid.dataset.src; if (!reduce) hcVid.play().catch(() => {}); hvT = setTimeout(() => hero.classList.add('open'), reduce ? 0 : 300); }
+    else hcVid.pause();
+  }
+  hvBtns.forEach(b => b.addEventListener('click', () => hvSet(b.dataset.hv)));
+  hero.querySelectorAll('.hc-dirs a').forEach(a => a.addEventListener('click', () => { const t = document.getElementById(a.dataset.tab); if (t) t.click(); }));
+  { let v = new URLSearchParams(location.search).get('hv'); try { v = v || localStorage.getItem('csp-hv'); } catch (e) {} hvSet(v === 'a' ? 'a' : 'b'); }
   /* numbers: the giant line travels with the section; cards rise once */
   const nums = document.getElementById('numbers'), numsText = document.getElementById('numsText'), statsEl = nums.querySelector('.stats');
   function numsUpdate() {
@@ -1329,7 +1464,7 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
   wkChips.forEach(c => c.addEventListener('click', () => {
     wkChips.forEach(x => x.setAttribute('aria-pressed', x === c));
     wkFigs.forEach(f => { f.hidden = c.dataset.f !== 'all' && f.dataset.dir !== c.dataset.f; });
-    document.getElementById('wkTrack').scrollTo({ left: 0 }); dispatchEvent(new Event('resize'));
+    dispatchEvent(new Event('resize'));
   }));
   /* business: КП request (prototype — nothing is sent) */
   const kp = document.getElementById('kpForm');
@@ -1483,12 +1618,17 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
     if (k !== tlK) { tlK = k; tlWords.forEach((w, i) => w.classList.toggle('on', i === k)); tlText.textContent = TL[k][1]; tlMeta.textContent = TL[k][2]; tlCount.textContent = `0${k + 1} / 0${TL.length} · ${TL[k][3]}`; }
   }
   tlBuild(); addEventListener('resize', () => { tlBuild(); pvUpdate(); });
-  /* works carousel: progress bar and arrows */
-  const wkTrack = document.getElementById('wkTrack'), wkProg = document.getElementById('wkProg');
-  const wkSync = () => { const m = wkTrack.scrollWidth - wkTrack.clientWidth; wkProg.style.width = (m > 0 ? 100 * (wkTrack.scrollLeft / m) : 100).toFixed(1) + '%'; };
-  const wkStep = d => { const c = wkTrack.querySelector('.wk'); wkTrack.scrollBy({ left: d * ((c ? c.offsetWidth : 600) + 16), behavior: reduce ? 'auto' : 'smooth' }); };
+  /* works: the section is pinned and the ribbon moves sideways with the vertical scroll */
+  const wkTrack = document.getElementById('wkTrack'), wkProg = document.getElementById('wkProg'), wkPin = document.getElementById('wkPin');
+  let wkMax = 0;
+  const wkP = () => { const r = wkPin.getBoundingClientRect(), span = r.height - innerHeight; return span > 0 ? clamp(-r.top / span) : 0; };
+  function wkUpdate() { const p = wkP(); wkTrack.style.transform = `translateX(${(-p * wkMax).toFixed(1)}px)`; wkProg.style.width = (p * 100).toFixed(1) + '%'; }
+  function wkLayout() { wkTrack.style.transform = 'none'; wkMax = Math.max(0, wkTrack.scrollWidth - innerWidth); wkPin.style.height = (innerHeight + wkMax) + 'px'; wkUpdate(); }
+  const wkGo = p => { const top = wkPin.getBoundingClientRect().top + scrollY, y = top + clamp(p) * (wkPin.offsetHeight - innerHeight);
+    if (window.__lenis) window.__lenis.scrollTo(y, { duration: .9 }); else scrollTo({ top: y, behavior: reduce ? 'auto' : 'smooth' }); };
+  const wkStep = d => { if (!wkMax) return; const c = wkTrack.querySelector('.wk:not([hidden])'), w = (c ? c.offsetWidth : 600) + 16; wkGo((wkP() * wkMax + d * w) / wkMax); };
   document.getElementById('wkPrev').addEventListener('click', () => wkStep(-1)); document.getElementById('wkNext').addEventListener('click', () => wkStep(1));
-  wkTrack.addEventListener('scroll', wkSync, { passive: true }); addEventListener('resize', wkSync); wkSync();
+  addEventListener('resize', wkLayout); addEventListener('load', wkLayout); wkLayout();
   /* works: autoplay the video tile only while it is on screen */
   document.querySelectorAll('.wk-video').forEach(v => {
     if (reduce) return;
@@ -1619,7 +1759,7 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
     const ep = prog(equipTrack);
     setEquip(Math.min(EQUIP.length - 1, Math.floor(ep * EQUIP.length)));
     ringArc.setAttribute('stroke-dasharray', `${(ep * 1483).toFixed(0)} 1483`);
-    pvUpdate(); heroUpdate(); numsUpdate();
+    pvUpdate(); heroUpdate(); numsUpdate(); wkUpdate();
   }
   addEventListener('scroll', onScroll, { passive: true });
   addEventListener('resize', onScroll);
