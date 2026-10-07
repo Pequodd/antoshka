@@ -90,7 +90,7 @@ h1, h2, h3, p { margin: 0; }
 .hud-ind { position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 0; width: 0; border-radius: 999px; background: var(--ink); opacity: 0; transition: transform .45s cubic-bezier(.2,.7,.2,1), width .45s cubic-bezier(.2,.7,.2,1), opacity .3s ease; }
 .hud-end { justify-self: end; display: flex; align-items: center; gap: 10px; }
 .hud .tel { text-decoration: none; white-space: nowrap; font-variant-numeric: tabular-nums; margin-right: 6px; }
-.hud-cta { min-height: 38px; padding: 0 16px; border-radius: 999px; font-size: 13px; }
+.hud-cta { white-space: nowrap; min-height: 38px; padding: 0 16px; border-radius: 999px; font-size: 13px; }
 .hud-menu { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 10px; min-height: 38px; padding: 0 8px 0 14px; border-radius: 999px; border: 1px solid var(--line); background: rgba(255,255,255,.7); font-size: 13px; transition: background .2s, border-color .2s; }
 .hud-menu:hover { background: #fff; border-color: var(--faint); }
 .hud-menu:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
@@ -733,6 +733,80 @@ html[data-aud="biz"] .b2b-form { border-color: #D5DADD; }
 .lt-foot { display: flex; justify-content: space-between; align-items: end; gap: 12px; }
 .lt-sign { flex: 1; padding-top: 18px; border-bottom: 1px solid #121619; font: 400 10px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
 .lt-stamp { width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid rgba(18,22,25,.35); display: grid; place-items: center; font: 500 8px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: rgba(18,22,25,.45); transform: rotate(-12deg); }
+/* ================= V9 · BUSINESS BLOCKS (rebuilt) ================= */
+html[data-aud="biz"] .hud { background: rgba(244,245,245,.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-color: #D5DADD; }
+/* hero */
+.bhero { position: relative; z-index: 3; min-height: 100svh; padding: 64px var(--m) 28px; display: grid; grid-template-rows: 1fr auto; background: #0E1215; color: #fff; overflow: hidden;
+  background-image: linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px); background-size: calc((100% - var(--m) * 2) / 12) 100%; background-position: var(--m) 0; }
+.bh-grid { align-self: center; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); align-items: end; padding: clamp(40px, 8vh, 96px) 0 clamp(32px, 6vh, 64px); }
+.bh-l { grid-column: 1 / 8; display: grid; gap: 22px; }
+.bh-kick { color: rgba(255,255,255,.6); }
+.bh-h { margin: 0; font-weight: 300; font-size: clamp(44px, 5vw, 84px); line-height: 1; letter-spacing: -.05em; }
+.bh-h em { font-style: normal; color: rgba(255,255,255,.55); }
+.bh-p { margin: 0; max-width: 52ch; font-size: 18px; line-height: 1.5; color: rgba(255,255,255,.72); }
+.bh-cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.bh-btn { min-height: 54px; background: #fff; color: #0E1215; }
+.bh-btn:hover { background: #E6EAEC; }
+.bh-ghost { min-height: 54px; background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.3); }
+.bh-ghost:hover { border-color: #fff; }
+.bh-spec { grid-column: 9 / -1; align-self: end; border: 1px solid rgba(255,255,255,.18); border-radius: var(--r); background: rgba(255,255,255,.03); }
+.bh-spec-h { display: flex; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,.14); color: rgba(255,255,255,.55); }
+.bh-spec dl { margin: 0; }
+.bh-spec dl div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,.1); }
+.bh-spec dt { font-size: 14px; color: rgba(255,255,255,.62); }
+.bh-spec dd { margin: 0; font-size: 16px; text-align: right; }
+.bh-spec-f { display: flex; justify-content: space-between; padding: 14px 18px; color: #fff; text-decoration: none; font-size: 15px; }
+.bh-spec-f:hover { background: rgba(255,255,255,.06); }
+.bh-spec-f i { font-style: normal; font-family: var(--mono); }
+.bh-logos { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 24px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,.14); }
+.bh-logos .mono { color: rgba(255,255,255,.5); }
+.bh-logos ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.bh-logos img { display: block; height: 22px; width: auto; filter: brightness(0) invert(1); opacity: .62; transition: opacity .25s ease; }
+.bh-logos li:hover img { opacity: 1; }
+/* industries */
+.ind-grid { margin: 0 var(--m); display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid #121619; border-left: 1px solid #D5DADD; }
+.ind { display: grid; gap: 12px; align-content: start; padding: 28px 28px 32px; border-right: 1px solid #D5DADD; border-bottom: 1px solid #D5DADD; background: #fff; transition: background .25s ease, color .25s ease; }
+.ind svg { width: 40px; height: 40px; color: #121619; transition: color .25s ease; }
+.ind h3 { margin: 4px 0 0; font-weight: 400; font-size: 24px; letter-spacing: -.025em; }
+.ind p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; transition: color .25s ease; }
+.ind:hover { background: #121619; color: #fff; }
+.ind:hover svg { color: #fff; } .ind:hover p { color: rgba(255,255,255,.7); }
+/* directions matrix */
+.mx { margin: 0 var(--m); border: 1px solid #D5DADD; border-radius: var(--r); overflow: hidden; background: #fff; }
+.mx-h, .mx-r { display: grid; grid-template-columns: 160px repeat(3, minmax(0, 1fr)); }
+.mx-h { background: #121619; color: #fff; }
+.mx-h > div { display: grid; gap: 4px; padding: 20px 22px; border-left: 1px solid rgba(255,255,255,.12); }
+.mx-h .mono { color: rgba(255,255,255,.5); }
+.mx-h b { font-weight: 400; font-size: clamp(20px, 1.7vw, 26px); letter-spacing: -.025em; }
+.mx-r { border-top: 1px solid #D5DADD; }
+.mx-r > .mono { padding: 18px 22px; color: var(--muted); }
+.mx-r > div { padding: 18px 22px; border-left: 1px solid #D5DADD; font-size: 16px; line-height: 1.5; }
+.mx-r:last-child > div { font-size: 18px; color: #121619; }
+/* roles */
+.role-grid { margin: 0 var(--m); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.role { display: grid; gap: 12px; align-content: start; padding: 22px 0 0; border-top: 2px solid #121619; }
+.role .mono { color: var(--muted); }
+.role h3 { margin: 0; font-weight: 400; font-size: clamp(22px, 1.8vw, 28px); line-height: 1.12; letter-spacing: -.03em; }
+.role ul { list-style: none; margin: 6px 0 0; padding: 0; }
+.role li { padding: 10px 0 10px 18px; border-bottom: 1px solid #D5DADD; position: relative; font-size: 15px; }
+.role li::before { content: ""; position: absolute; left: 0; top: 1.05em; width: 8px; height: 1px; background: #121619; }
+/* project plan */
+.gn-chart { margin: 0 var(--m); border-top: 1px solid #121619; }
+.gn-row { display: grid; grid-template-columns: minmax(180px, 3fr) 9fr; align-items: center; border-bottom: 1px solid #D5DADD; min-height: 56px; }
+.gn-name { padding-right: 16px; font-size: 16px; }
+.gn-lane { position: relative; height: 100%; min-height: 56px; background: repeating-linear-gradient(90deg, #D5DADD 0 1px, transparent 1px calc(100% / 7)); }
+.gn-weeks .gn-lane { display: grid; grid-template-columns: repeat(7, 1fr); background: none; min-height: 36px; align-items: center; }
+.gn-weeks .gn-lane span { font: 400 11px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); padding-left: 8px; }
+.gn-bar { position: absolute; top: 12px; bottom: 12px; left: calc(var(--a) / 7 * 100%); width: calc((var(--b) - var(--a)) / 7 * 100%); min-width: 6px; border-radius: 6px; background: #121619; display: flex; align-items: center; overflow: hidden;
+  transform: scaleX(0); transform-origin: 0 50%; transition: transform .7s cubic-bezier(.65,0,.35,1) calc(var(--i) * .12s); }
+.gn-chart.in .gn-bar { transform: none; }
+.gn-bar span { padding: 0 10px; white-space: nowrap; font: 400 11px/1 var(--mono); letter-spacing: .04em; color: #fff; }
+.gn-dash { background: repeating-linear-gradient(90deg, #121619 0 10px, #5E6C73 10px 14px); }
+/* business faq */
+.bq-grid { margin: 0 var(--m); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--g); border-top: 1px solid #121619; }
+.bq { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 16px; padding: 24px 0; border-bottom: 1px solid #D5DADD; }
+.bq h3 { margin: 0; font-weight: 400; font-size: 19px; line-height: 1.3; letter-spacing: -.015em; }
+.bq p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.55; }
 /* ============ LAYOUT SYSTEM ============
    12-col grid, side margin --m.
    G1 = column 1 (left edge): section titles and primary content.
@@ -1263,6 +1337,28 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   .terms-head, .terms-list { grid-column: 1 / -1; position: static; }
   .terms-list { margin-top: 28px; }
   .terms-list div { grid-template-columns: 1fr; gap: 4px; }
+  .bhero { padding: 56px var(--m) 84px; min-height: 0; background-size: 25% 100%; }
+  .bh-l, .bh-spec { grid-column: 1 / -1; }
+  .bh-spec { margin-top: 28px; }
+  .bh-h { font-size: 40px; }
+  .bh-logos { grid-template-columns: 1fr; gap: 14px; }
+  .bh-logos ul { justify-content: flex-start; gap: 18px 22px; }
+  .bh-logos img { height: 18px; }
+  .ind-grid, .role-grid, .bq-grid { grid-template-columns: 1fr; }
+  .ind { padding: 22px; }
+  .mx { border-radius: 12px; }
+  .mx-h { display: none; }
+  .mx-r { grid-template-columns: 1fr; }
+  .mx-r > .mono { padding: 14px 16px 6px; background: #121619; color: #fff; }
+  .mx-r > div { border-left: 0; border-top: 1px solid #D5DADD; padding: 12px 16px; }
+  .mx-r > div::before { content: attr(data-col); display: block; margin-bottom: 4px; font: 400 10px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .gn-row { grid-template-columns: 1fr; padding: 8px 0; }
+  .gn-name { font-size: 14px; padding-bottom: 6px; }
+  .gn-lane { min-height: 34px; }
+  .gn-bar { top: 6px; bottom: 6px; min-width: 14px; }
+  .gn-bar span { display: none; }
+  .gn-weeks .gn-name { display: none; }
+  .bq { grid-template-columns: 1fr; gap: 6px; }
   /* layout system, mobile */
   :root { --out: 96px; --sec-t: 28px; --sec-h: 28px; --inner: 56px; }
   .title h2, .title .aside, .st-head .aside { grid-column: 1 / -1; }
@@ -1274,6 +1370,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   .rv-track { grid-auto-columns: 86%; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .gn-bar { transition: none !important; transform: none; }
   .pn { transition: none !important; opacity: 1; transform: none; }
   .ph-img, .ph-img img, .ph-text { transition: none !important; }
   .fx-air i { animation: none; }
@@ -1288,7 +1385,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
 
 <header class="hud" id="hud">
   <a class="brand" href="#top" aria-label="Climate Solution Pro — наверх"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5" fill="none" stroke="#24363F" stroke-width="2.4" stroke-dasharray="36 12" transform="rotate(30 10 10)"/></svg><b>climate solution pro</b></a>
-  <nav class="hud-nav" aria-label="Разделы"><div class="aud hud-aud" role="group" aria-label="Для кого"><button type="button" data-aud="home" aria-pressed="true">Дом</button><button type="button" data-aud="biz" aria-pressed="false">Бизнес</button></div><i class="hud-sep" aria-hidden="true"></i><span class="hud-links"><span class="hud-ind" id="hudInd" aria-hidden="true"></span><a href="#services">Услуги</a><a href="#pains" data-aud-only="biz">Почему мы</a><a href="#cases" data-aud-only="biz">Кейсы</a><a href="#terms" data-aud-only="biz">Условия</a><a href="#prices" data-aud-only="home">Цены</a><a href="#works" data-aud-only="home">Объекты</a><a href="#process" data-aud-only="home">Процесс</a><a href="#letters" data-aud-only="biz">Письма</a><a href="#faq">Вопросы</a></span></nav>
+  <nav class="hud-nav" aria-label="Разделы"><div class="aud hud-aud" role="group" aria-label="Для кого"><button type="button" data-aud="home" aria-pressed="true">Дом</button><button type="button" data-aud="biz" aria-pressed="false">Бизнес</button></div><i class="hud-sep" aria-hidden="true"></i><span class="hud-links"><span class="hud-ind" id="hudInd" aria-hidden="true"></span><a href="#services" data-aud-only="home">Услуги</a><a href="#industries" data-aud-only="biz">Отрасли</a><a href="#bdirs" data-aud-only="biz">Направления</a><a href="#cases" data-aud-only="biz">Кейсы</a><a href="#terms" data-aud-only="biz">Условия</a><a href="#prices" data-aud-only="home">Цены</a><a href="#works" data-aud-only="home">Объекты</a><a href="#process" data-aud-only="home">Процесс</a><a href="#letters" data-aud-only="biz">Письма</a><a href="#faq" data-aud-only="home">Вопросы</a><a href="#bfaq" data-aud-only="biz">Вопросы</a></span></nav>
   <div class="hud-end">
     <a class="tel" href="tel:+73510000000">+7 351 XXX-XX-XX</a>
     <a class="btn btn-ink hud-cta" href="#contact" data-aud-only="home">Заявка</a><a class="btn hud-cta hud-kp" href="#b2b-form" data-aud-only="biz">Запросить КП</a>
@@ -1303,7 +1400,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   </div>
   <nav class="menu-links" aria-label="Все разделы">
     <div class="mcol mcol-home"><span class="mono mcol-h">для дома · b2c</span><a href="#services" style="--i:0" data-set-aud="home" data-tab="t1">Кондиционер в квартиру</a><a href="#services" style="--i:1" data-set-aud="home" data-tab="t2">Вентиляция в доме</a><a href="#services" style="--i:2" data-set-aud="home" data-tab="t3">Электрика при ремонте</a><a href="#prices" style="--i:3" data-set-aud="home">Цены</a><a href="#contact" style="--i:4" data-set-aud="home">Расчёт стоимости</a></div>
-    <div class="mcol mcol-biz"><span class="mono mcol-h">для бизнеса · b2b</span><a href="#pains" style="--i:5" data-set-aud="biz">Почему мы</a><a href="#cases" style="--i:6" data-set-aud="biz">Кейсы</a><a href="#terms" style="--i:7" data-set-aud="biz">Условия договора</a><a href="#letters" style="--i:8" data-set-aud="biz">Благодарственные письма</a><a href="#b2b-form" style="--i:9" data-set-aud="biz">Запросить КП</a></div>
+    <div class="mcol mcol-biz"><span class="mono mcol-h">для бизнеса · b2b</span><a href="#industries" style="--i:5" data-set-aud="biz">Отрасли</a><a href="#bdirs" style="--i:6" data-set-aud="biz">Направления</a><a href="#cases" style="--i:7" data-set-aud="biz">Кейсы</a><a href="#terms" style="--i:8" data-set-aud="biz">Условия договора</a><a href="#b2b-form" style="--i:9" data-set-aud="biz">Запросить КП</a></div>
     <div class="mcol mcol-gen"><span class="mono mcol-h">о компании</span><a href="#standard" style="--i:11">Монтаж</a><a href="#process" style="--i:12">Процесс</a><a href="#guarantee" style="--i:13">Гарантии</a><a href="#reviews" style="--i:14">Отзывы</a><a href="#faq" style="--i:15">Вопросы</a></div>
   </nav>
   <aside class="menu-side">
@@ -1320,7 +1417,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
 
 <main id="top">
   <!-- 1 -->
-<section class="hero" data-scene="off" aria-label="Climate Solution Pro">
+<section class="hero" data-scene="off" aria-label="Climate Solution Pro" data-aud-only="home">
     <div class="hc-card" aria-hidden="true"><video data-src="../assets/hero-site.mp4" poster="../assets/hero-site-poster.jpg" muted loop playsinline preload="none"></video></div>
     <nav class="hc-dirs" aria-label="Направления">
       <a href="#services" data-tab="t1" style="--i:0" data-aud-only="home"><span class="mono">01</span><i aria-hidden="true">↗</i><b>Кондиционер в квартиру</b><small>подбор, монтаж за день, обслуживание</small><em>от 14 900 ₽</em></a>
@@ -1344,8 +1441,26 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     </div>
   </section>
 
+  <!-- B2B hero -->
+  <section class="bhero" id="bhero" data-aud-only="biz" aria-labelledby="bhH">
+    <div class="bh-grid">
+      <div class="bh-l">
+        <span class="mono bh-kick">для бизнеса · Челябинск · Екатеринбург</span>
+        <h1 class="bh-h" id="bhH">Инженерные системы для&nbsp;бизнеса — <em>без остановки работы</em></h1>
+        <p class="bh-p">Климат, вентиляция и электромонтаж для офисов, магазинов, общепита и сетей. Смета по разделам, монтаж ночью, полный пакет документов.</p>
+        <div class="bh-cta"><a class="btn bh-btn" href="#b2b-form">Запросить КП <i>↗</i></a><a class="btn bh-ghost" href="#cases">Смотреть кейсы</a></div>
+      </div>
+      <aside class="bh-spec" aria-label="Паспорт подрядчика">
+        <div class="bh-spec-h"><span class="mono">паспорт подрядчика</span><span class="mono">CSP · 2026</span></div>
+        <dl><div><dt>Объектов сдано</dt><dd>1 200+</dd></div><div><dt>КП по вашему ТЗ</dt><dd>2 дня</dd></div><div><dt>Аварийный выезд</dt><dd>4 часа</dd></div><div><dt>Гарантия на работы</dt><dd>3 года</dd></div><div><dt>Работы на объекте</dt><dd>ночью и в выходные</dd></div><div><dt>Документы</dt><dd>КС-2, КС-3, исполнительная</dd></div></dl>
+        <a class="bh-spec-f" href="#terms">Условия договора <i>↗</i></a>
+      </aside>
+    </div>
+    <div class="bh-logos"><span class="mono">работали на объектах</span><ul><li><img src="../assets/logos/mfc.svg" alt="МФЦ" loading="lazy"></li><li><img src="../assets/logos/pyaterochka.svg" alt="Пятёрочка" loading="lazy"></li><li><img src="../assets/logos/megafon.svg" alt="МегаФон" loading="lazy"></li><li><img src="../assets/logos/beeline.svg" alt="билайн" loading="lazy"></li><li><img src="../assets/logos/magnit.svg" alt="Магнит" loading="lazy"></li><li><img src="../assets/logos/dns.svg" alt="DNS" loading="lazy"></li><li><img src="../assets/logos/rzd.svg" alt="РЖД" loading="lazy"></li><li><img src="../assets/logos/rostelecom.svg" alt="Ростелеком" loading="lazy"></li></ul></div>
+  </section>
+
   <!-- 2 trust: partner tiles + centred statement (anveril-style) -->
-  <section class="sec trust" id="trust" aria-labelledby="trustH">
+  <section class="sec trust" id="trust" data-aud-only="home" aria-labelledby="trustH">
     <div class="tr-frame">
       <p class="trust-label mono">Работали на объектах</p>
       <h2 class="tr-h" id="trustH">Нам доверяют сети, операторы связи и&nbsp;госучреждения</h2>
@@ -1367,7 +1482,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   </section>
 
   <!-- 2b numbers: a giant line that moves with the scroll + glowing figure cards -->
-  <section class="sec nums" id="numbers" aria-labelledby="numsH">
+  <section class="sec nums" id="numbers" data-aud-only="home" aria-labelledby="numsH">
     <div class="nums-line" aria-hidden="true"><div class="nums-text" id="numsText"><span data-aud-only="home">Кондиционеры · вентиляция · электрика · для квартир и домов</span><span data-aud-only="biz">Офисы · магазины · общепит · сети · по договору и ТЗ</span></div></div>
     <h2 class="sr-only" id="numsH">Цифры</h2>
     <div class="stats">
@@ -1413,12 +1528,12 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   </section>
 
   <!-- 4 -->
-  <section class="sec" id="services">
+  <section class="sec" id="services" data-aud-only="home">
     <div class="rule"></div>
     <div class="grid title"><h2>Услуги</h2>
       <p class="aside" data-aud-only="home">Кондиционер, вентиляция и электрика в квартире или доме — один подрядчик, одна смета, одна гарантия.</p><p class="aside" data-aud-only="biz">Климат, вентиляция и электромонтаж на коммерческих объектах — один подрядчик по договору, без стыков между бригадами.</p></div>
   </section>
-  <section class="svc" id="svc" data-scene="split" data-ry="-0.4" data-anchor=".svc-anchor">
+  <section class="svc" id="svc" data-aud-only="home" data-scene="split" data-ry="-0.4" data-anchor=".svc-anchor">
     <div class="grid svc-grid">
       <div class="svc-left">
         <div class="tabs" role="tablist" aria-label="Направления">
@@ -1459,6 +1574,42 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     </div>
   </section>
 
+  <!-- B2B: industries -->
+  <section class="sec" id="industries" data-aud-only="biz">
+    <div class="rule"></div>
+    <div class="grid title"><h2>Отрасли</h2>
+      <p class="aside">Знаем требования и режим работы каждой — от торгового зала до пищеблока.</p></div>
+    <div class="ind-grid">
+      <article class="ind" style="--i:0"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M8 14h32l-3 24H11z"/><path d="M17 14a7 7 0 0 1 14 0"/></svg><h3>Ритейл и сети</h3><p>Залы, склады и витрины: климат, вытяжка, свет. Монтаж ночью, тиражное решение для всех точек.</p></article>
+      <article class="ind" style="--i:1"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M10 22h28v4a14 14 0 0 1-28 0z"/><path d="M38 24h4a4 4 0 0 1 0 8h-5"/><path d="M18 8v8M24 6v10M30 8v8"/></svg><h3>Общепит</h3><p>Кухонная вытяжка и приток, электрика под тепловое оборудование, паспорт системы.</p></article>
+      <article class="ind" style="--i:2"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="10" y="8" width="28" height="32"/><path d="M16 14h4M28 14h4M16 21h4M28 21h4M16 28h4M28 28h4M21 40v-6h6v6"/></svg><h3>Офисы</h3><p>Кондиционирование open space и переговорных, серверные, освещение и розеточные группы.</p></article>
+      <article class="ind" style="--i:3"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 20 24 8l18 12v20H6z"/><path d="M14 40V26h20v14M14 32h20"/></svg><h3>Склады и производство</h3><p>Вентиляция и освещение пролётов, силовые линии, щиты и учёт.</p></article>
+      <article class="ind" style="--i:4"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 18 24 8l18 10z"/><path d="M10 20v14M18 20v14M30 20v14M38 20v14M6 38h36"/></svg><h3>Банки и отделения</h3><p>Типовые решения по стандарту сети, работы вне часов приёма, регламентное ТО.</p></article>
+      <article class="ind" style="--i:5"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="8" y="10" width="32" height="30" rx="2"/><path d="M24 17v16M16 25h16"/></svg><h3>Медицина и образование</h3><p>Воздухообмен по нормам, документация для проверок, работа в каникулы и выходные.</p></article>
+    </div>
+  </section>
+
+  <!-- B2B: directions matrix -->
+  <section class="sec" id="bdirs" data-aud-only="biz">
+    <div class="rule"></div>
+    <div class="grid title"><h2>Направления</h2>
+      <p class="aside">Три системы в одном договоре: что делаем, на каких объектах и какие документы передаём.</p></div>
+    <div class="mx" role="table" aria-label="Направления работ"><div class="mx-h"><span></span><div><span class="mono">01</span><b>Кондиционирование</b></div><div><span class="mono">02</span><b>Вентиляция</b></div><div><span class="mono">03</span><b>Электромонтаж</b></div></div><div class="mx-r"><span class="mono">Работы</span><div data-col="Кондиционирование">Кассетные, канальные, мульти и VRF<br>Серверные, регламентное ТО</div><div data-col="Вентиляция">Проект по нормам и ТЗ<br>Приточно-вытяжные установки, кухни</div><div data-col="Электромонтаж">Щиты и учёт, освещение залов<br>Кабельные трассы и лотки</div></div><div class="mx-r"><span class="mono">Объекты</span><div data-col="Кондиционирование">Залы, офисы, серверные</div><div data-col="Вентиляция">Залы, кухни, склады</div><div data-col="Электромонтаж">Залы, витрины, склады</div></div><div class="mx-r"><span class="mono">Документы</span><div data-col="Кондиционирование">Спецификация, акты ПНР</div><div data-col="Вентиляция">Проект, паспорт системы</div><div data-col="Электромонтаж">Исполнительная, протоколы замеров</div></div><div class="mx-r"><span class="mono">Ориентир</span><div data-col="Кондиционирование">от 38 000 ₽ за блок</div><div data-col="Вентиляция">проект от 25 000 ₽</div><div data-col="Электромонтаж">по ТЗ, от 450 ₽ / точка</div></div></div>
+  </section>
+
+  <!-- B2B: roles -->
+  <section class="sec" id="roles" data-aud-only="biz">
+    <div class="rule"></div>
+    <div class="grid title"><h2>Кому в компании это важно</h2>
+      <p class="aside">У каждого, кто участвует в проекте, свой вопрос к подрядчику. Ответы — в договоре.</p></div>
+    <div class="role-grid">
+      <article class="role" style="--i:0"><span class="mono">собственнику и директору</span><h3>Бюджет и срок под контролем</h3><ul><li>Смета по разделам, без роста по ходу</li><li>Срок и неустойка в договоре</li><li>Один ответственный за все системы</li></ul></article>
+      <article class="role" style="--i:1"><span class="mono">управляющему объектом</span><h3>Объект работает, пока мы работаем</h3><ul><li>Монтаж ночью и в выходные</li><li>Регламентное ТО по графику</li><li>Аварийный выезд за 4 часа</li></ul></article>
+      <article class="role" style="--i:2"><span class="mono">бухгалтерии и юристам</span><h3>Документы без напоминаний</h3><ul><li>Договор и спецификация</li><li>КС-2, КС-3, закрывающие</li><li>Безнал, оплата по этапам</li></ul></article>
+      <article class="role" style="--i:3"><span class="mono">инженеру и техзаказчику</span><h3>Сделано по проекту и нормам</h3><ul><li>Проект и расчёты до монтажа</li><li>Исполнительная схема</li><li>Протоколы замеров и ПНР</li></ul></article>
+    </div>
+  </section>
+
   <!-- B2B 2: cases -->
   <section class="sec" id="cases" data-aud-only="biz">
     <div class="rule"></div>
@@ -1471,6 +1622,23 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
         <h3>Кухня столовой</h3><dl><div><dt>Задача</dt><dd>Вытяжка над тепловым оборудованием, приточная установка</dd></div><div><dt>Срок</dt><dd>10 дней</dd></div><div><dt>Результат</dt><dd>Паспорт системы, приёмка без замечаний</dd></div></dl></article>
       <article class="cs" style="--i:2"><div class="cs-img"><img src="../assets/photos/store-ducts-2.webp" alt="Свет и лотки для сети" loading="lazy"><span class="mono">сеть · 4 точки</span></div>
         <h3>Свет и лотки для сети</h3><dl><div><dt>Задача</dt><dd>Освещение витрин и кабельные лотки по единому стандарту</dd></div><div><dt>Срок</dt><dd>4 выходных</dd></div><div><dt>Результат</dt><dd>Одинаковый результат во всех точках сети</dd></div></dl></article>
+    </div>
+  </section>
+
+  <!-- B2B: project plan -->
+  <section class="sec" id="bplan" data-aud-only="biz">
+    <div class="rule"></div>
+    <div class="grid title"><h2>Как идёт проект</h2>
+      <p class="aside">Типичный объект 300–1 000 м²: от запроса до сдачи — около шести недель. Точный график — в договоре.</p></div>
+    <div class="gn-chart" aria-label="План проекта по неделям">
+      <div class="gn-row gn-weeks" aria-hidden="true"><span class="gn-name"></span><div class="gn-lane"><span>н1</span><span>н2</span><span>н3</span><span>н4</span><span>н5</span><span>н6</span><span>далее</span></div></div>
+      <div class="gn-row" style="--a:0;--b:1;--i:0"><span class="gn-name">Обследование и ТЗ</span><div class="gn-lane"><i class="gn-bar"><span>1 нед.</span></i></div></div>
+      <div class="gn-row" style="--a:0.7;--b:2;--i:1"><span class="gn-name">Проект и смета</span><div class="gn-lane"><i class="gn-bar"><span>1–2 нед.</span></i></div></div>
+      <div class="gn-row" style="--a:1.8;--b:3.6;--i:2"><span class="gn-name">Закупка оборудования</span><div class="gn-lane"><i class="gn-bar"><span>по графику поставки</span></i></div></div>
+      <div class="gn-row" style="--a:2.8;--b:5.4;--i:3"><span class="gn-name">Монтаж ночью</span><div class="gn-lane"><i class="gn-bar"><span>2–3 нед.</span></i></div></div>
+      <div class="gn-row" style="--a:5;--b:5.8;--i:4"><span class="gn-name">Пусконаладка</span><div class="gn-lane"><i class="gn-bar"><span>3 дня</span></i></div></div>
+      <div class="gn-row" style="--a:5.8;--b:6.4;--i:5"><span class="gn-name">Сдача: КС-2, КС-3, исполнительная</span><div class="gn-lane"><i class="gn-bar"><span>1 день</span></i></div></div>
+      <div class="gn-row" style="--a:6.4;--b:7;--i:6"><span class="gn-name">Регламентное ТО</span><div class="gn-lane"><i class="gn-bar gn-dash"><span>по договору</span></i></div></div>
     </div>
   </section>
 
@@ -1553,10 +1721,10 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   </section>
 
   <!-- 5 equipment heading + block from V4 -->
-  <section class="sec">
+  <section class="sec" data-aud-only="home">
     <div class="rule"></div>
   </section>
-  <section class="equip" id="equip" data-scene="equip" data-anchor=".ring">
+  <section class="equip" id="equip" data-aud-only="home" data-scene="equip" data-anchor=".ring">
     <div class="equip-track" id="equipTrack">
       <div class="sticky">
         <div class="ring" aria-hidden="true">
@@ -1583,7 +1751,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   </section>
 
   <!-- 6 works -->
-  <section class="sec" id="works">
+  <section class="sec" id="works" data-aud-only="home">
     <div class="rule"></div>
     <div class="wk-pin" id="wkPin"><div class="sticky wk-stage">
     <div class="grid title"><h2>Объекты</h2>
@@ -1603,7 +1771,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   </section>
 
   <!-- 7 -->
-  <section class="sec" id="process">
+  <section class="sec" id="process" data-aud-only="home">
     <div class="rule"></div>
     <div class="tl-track" id="tlTrack"><div class="sticky tl-stage">
       <div class="grid title tl-title"><h2>Процесс</h2>
@@ -1713,7 +1881,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   </section>
 
   <!-- 11 faq -->
-  <section class="sec" id="faq">
+  <section class="sec" id="faq" data-aud-only="home">
     <div class="rule"></div>
     <div class="grid title"><h2>Вопросы</h2>
       <p class="aside">Частые вопросы по трём направлениям и работе с компаниями.</p></div>
@@ -1738,6 +1906,21 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
         <details data-cat="biz"><summary>Работаете с юрлицами?</summary><p>Да: договор, ТЗ, безнал, закрывающие документы. Можем работать ночью и в выходные, чтобы не останавливать ваш бизнес.</p></details>
         <details data-cat="gen"><summary>Нужно ли обслуживание?</summary><p>Раз в год — чистка и проверка давления. Напомним сами, когда подойдёт срок. Регулярное ТО продлевает жизнь компрессору.</p></details>
       </div>
+    </div>
+  </section>
+
+  <!-- B2B: questions -->
+  <section class="sec" id="bfaq" data-aud-only="biz">
+    <div class="rule"></div>
+    <div class="grid title"><h2>Вопросы компаний</h2>
+      <p class="aside">Коротко о том, что обычно спрашивают на первой встрече.</p></div>
+    <div class="bq-grid">
+      <div class="bq"><h3>Можно работать по нашему ТЗ и проекту?</h3><p>Да. Проверим проект, предложим замечания до старта и зафиксируем объём в спецификации.</p></div>
+      <div class="bq"><h3>Как быстро приедете по аварии?</h3><p>В течение 4 часов в рабочее время по договору обслуживания, в остальное — по графику дежурств.</p></div>
+      <div class="bq"><h3>Работаете в нескольких городах?</h3><p>Челябинск, Екатеринбург и области. Для сетей — выезд на точки по согласованному графику.</p></div>
+      <div class="bq"><h3>Передаёте исполнительную документацию?</h3><p>Да: исполнительные схемы, акты, протоколы замеров и паспорта систем — в день сдачи.</p></div>
+      <div class="bq"><h3>Можно договор только на обслуживание?</h3><p>Да. Обследуем установленные системы, составим регламент и журнал работ.</p></div>
+      <div class="bq"><h3>Как считаете стоимость?</h3><p>Смета по разделам после обследования. Форму расчётов согласуем в договоре, реквизиты пришлём вместе с КП.</p></div>
     </div>
   </section>
 
@@ -1813,7 +1996,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
   <div class="fx-top"><nav class="fx-social" aria-label="Мессенджеры"><a href="https://wa.me/73510000000" target="_blank" rel="noopener">WhatsApp</a><a href="https://t.me/" target="_blank" rel="noopener">Telegram</a><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте</a></nav><a class="fx-mail" href="mailto:hello@climate-solution.pro">hello@climate-solution.pro</a></div>
   <div class="fx-mid">
     <a class="fx-brand" href="#top" aria-label="Climate Solution Pro — наверх"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-dasharray="36 12" transform="rotate(30 10 10)"/></svg><b>climate solution pro</b></a>
-    <nav class="fx-nav" aria-label="Разделы"><a href="#services">Услуги</a><a href="#b2b">Бизнесу</a><a href="#prices">Цены</a><a href="#works">Объекты</a><a href="#faq">Вопросы</a><a href="#contact">Расчёт</a></nav>
+    <nav class="fx-nav" aria-label="Разделы"><a href="#services" data-aud-only="home">Услуги</a><a href="#b2b" data-aud-only="home">Бизнесу</a><a href="#prices" data-aud-only="home">Цены</a><a href="#works" data-aud-only="home">Объекты</a><a href="#faq" data-aud-only="home">Вопросы</a><a href="#contact" data-aud-only="home">Расчёт</a><a href="#industries" data-aud-only="biz">Отрасли</a><a href="#cases" data-aud-only="biz">Кейсы</a><a href="#terms" data-aud-only="biz">Условия</a><a href="#bfaq" data-aud-only="biz">Вопросы</a><a href="#b2b-form" data-aud-only="biz">Запросить КП</a></nav>
     <div class="fx-info"><p>Кондиционирование, вентиляция и электромонтаж — для квартир, домов и бизнеса.</p>
       <dl><div><dt>Челябинск</dt><dd><a href="tel:+73510000000">+7 (351) XXX-XX-XX</a></dd></div><div><dt>Екатеринбург</dt><dd><a href="tel:+73430000000">+7 (343) XXX-XX-XX</a></dd></div><div><dt>Заявки</dt><dd><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">Тимур Антонов ↗</a></dd></div></dl></div>
   </div>
@@ -1852,7 +2035,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
     numsText.style.transform = `translateX(${(innerWidth * .35 - p * (span + innerWidth * .55)).toFixed(1)}px)`;
   }
   const onceIn = (el, th = .25) => { if (reduce) { el.classList.add('in'); return; } new IntersectionObserver(([e], o) => { if (e.isIntersecting) { el.classList.add('in'); o.disconnect(); } }, { threshold: th }).observe(el); };
-  onceIn(statsEl); onceIn(document.getElementById('fan'), .35); onceIn(document.querySelector('.pn-list'), .15);
+  onceIn(statsEl); onceIn(document.getElementById('fan'), .35); onceIn(document.querySelector('.pn-list'), .15); onceIn(document.querySelector('.gn-chart'), .2);
   /* audience: homes or companies — swaps the hero copy and CTA, remembered per visitor */
   const audBtns = [...document.querySelectorAll('.aud button')];
   const audToast = document.createElement('div'); audToast.className = 'aud-toast'; audToast.setAttribute('role', 'status'); document.body.appendChild(audToast);
