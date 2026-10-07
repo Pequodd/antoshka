@@ -1355,6 +1355,10 @@ html[data-aud="biz"] main { overflow-x: clip; }
 .tl-st.cur b { color: var(--ink); }
 .tl-st.cur em { opacity: 1; transform: none; color: var(--air); }
 .tl-pin { display: none; }
+/* no section heading here: the step word is the headline (title kept for screen readers only) */
+.tl-stage .tl-title { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.tl-ruler { top: 24%; }
+.tl-words { top: 46%; }
 .tl-cap .tl-meta { display: none; }
 @media (max-width: 900px) {
   :root { --m: 16px; --g: 12px; }
@@ -1460,7 +1464,8 @@ html[data-aud="biz"] main { overflow-x: clip; }
   .wk-nav { display: none; }
   .wk-prog { grid-column: 1 / -1; }
   .tl-title .aside { display: none; }
-  .tl-ruler { top: 30%; }
+  .tl-ruler { top: 20%; }
+  .tl-words { top: 40%; }
   .tl-st { width: 160px; }
   .tl-pin { top: calc(34% - 14px); }
   .tl-w { font-size: 13vw; }
