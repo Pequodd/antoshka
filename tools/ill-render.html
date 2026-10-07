@@ -1,0 +1,119 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:transparent}</style></head><body>
+<canvas id="c" width="960" height="720"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(960, 720, false); renderer.setClearColor(0, 0);
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.outputEncoding = THREE.sRGBEncoding;
+
+const M = (c, r = .62, m = .05) => new THREE.MeshStandardMaterial({ color: new THREE.Color(c).convertSRGBToLinear(), roughness: r, metalness: m });
+const BODY = M('#EEF0F1'), PANEL = M('#FAFBFB', .5), DARK = M('#2A3940', .7), METAL = M('#C9CFD3', .4, .35), GRILLE = M('#3B4A52', .6), ORANGE = M('#F47920', .55), SOFT = M('#DCE1E4', .7);
+const GLASS = M('#3B4A52', .25, .2);
+const LINE = new THREE.LineBasicMaterial({ color: new THREE.Color('#24363F').convertSRGBToLinear(), transparent: true, opacity: .55 });
+function add(g, geom, mat, x = 0, y = 0, z = 0, edges = true, rot) {
+  const m = new THREE.Mesh(geom, mat); m.position.set(x, y, z); if (rot) m.rotation.set(...rot); m.castShadow = true; m.receiveShadow = true; g.add(m);
+  if (edges) { const l = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 28), LINE); l.position.copy(m.position); l.rotation.copy(m.rotation); g.add(l); }
+  return m;
+}
+const box = (w, h, d) => new THREE.BoxGeometry(w, h, d);
+function roundRect(w, h, r) { const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+  s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r);
+  s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+  s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s; }
+function rbox(w, h, d, r) { const g = new THREE.ExtrudeGeometry(roundRect(w, h, r), { depth: d, bevelEnabled: false, curveSegments: 6 }); g.translate(0, 0, -d / 2); return g; }
+// flat rounded slab lying on the ground (w along x, d along z)
+function slab(w, d, h, r) { const g = rbox(w, d, h, r); g.rotateX(-Math.PI / 2); return g; }
+const cylY = (r, h, seg = 40, open = false) => new THREE.CylinderGeometry(r, r, h, seg, 1, open);
+function prism(w, h, d) { const s = new THREE.Shape(); s.moveTo(-w / 2, 0); s.lineTo(w / 2, 0); s.lineTo(0, h); s.lineTo(-w / 2, 0);
+  const g = new THREE.ExtrudeGeometry(s, { depth: d, bevelEnabled: false }); g.translate(0, 0, -d / 2); return g; }
+
+function plinth(g) { add(g, slab(3.2, 3.2, .22, .22), BODY, 0, -.11, 0); }
+
+const SCENES = {
+  retail() { // storefront with a striped awning
+    const g = new THREE.Group(); plinth(g);
+    add(g, box(2.2, 1.5, 1.3), BODY, 0, .75, 0);
+    add(g, box(2.3, .12, 1.4), PANEL, 0, 1.56, 0);
+    add(g, box(1.2, .8, .04), GLASS, -.35, .7, .66, false); add(g, box(1.24, .84, .02), METAL, -.35, .7, .655, false);
+    add(g, box(.5, 1.05, .04), DARK, .7, .53, .66, false); add(g, box(.04, .14, .03), METAL, .54, .55, .69, false);
+    for (let i = 0; i < 7; i++) add(g, box(2.2 / 7, .06, .55), i % 2 ? PANEL : ORANGE, -1.1 + 2.2 / 14 + i * 2.2 / 7, 1.24, .9, true, [.42, 0, 0]);
+    add(g, box(1.0, .2, .04), PANEL, 0, 1.75, .3); // sign
+    [[-1.0, 1.15], [-.6, 1.25]].forEach(([x, z], k) => { add(g, box(.36, .3, .3), k ? SOFT : PANEL, x, .15, z); });
+    return g;
+  },
+  food() { // cup on a saucer with steam, a plate
+    const g = new THREE.Group(); plinth(g);
+    add(g, cylY(.95, .08, 64), PANEL, -.15, .04, 0);
+    const cup = new THREE.CylinderGeometry(.55, .42, .85, 64, 1, false); add(g, cup, BODY, -.15, .5, 0);
+    add(g, cylY(.5, .02, 64), M('#6B4B3A', .8), -.15, .9, 0, false);
+    add(g, new THREE.TorusGeometry(.22, .06, 12, 40, Math.PI * 1.2), BODY, .38, .5, 0, true, [0, 0, -Math.PI * .6]);
+    add(g, cylY(.57, .06, 64), ORANGE, -.15, .62, 0, false);
+    for (let k = 0; k < 3; k++) { const pts = []; for (let i = 0; i <= 20; i++) { const t = i / 20; pts.push(new THREE.Vector3(-.4 + k * .25 + Math.sin(t * 6 + k) * .08, 1.05 + t * 1.0, 0)); }
+      add(g, new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 40, .035, 8, false), SOFT, -.15 + 0.0, 0, 0, false); }
+    add(g, cylY(.5, .05, 48), PANEL, .95, .03, .85); add(g, cylY(.3, .02, 48), SOFT, .95, .07, .85, false);
+    return g;
+  },
+  office() { // tower with a window grid and a low annex
+    const g = new THREE.Group(); plinth(g);
+    add(g, box(1.2, 2.6, 1.2), BODY, -.3, 1.3, -.2);
+    for (let r = 0; r < 6; r++) for (let c = 0; c < 3; c++) add(g, box(.26, .26, .02), r === 3 && c === 1 ? ORANGE : GLASS, -.3 - .36 + c * .36, .45 + r * .36, .41, false);
+    for (let r = 0; r < 6; r++) for (let c = 0; c < 3; c++) add(g, box(.02, .26, .26), GLASS, .31, .45 + r * .36, -.2 - .36 + c * .36, false);
+    add(g, box(1.3, .1, 1.3), PANEL, -.3, 2.65, -.2);
+    add(g, box(.9, .8, 1.0), PANEL, .85, .4, .35);
+    for (let c = 0; c < 2; c++) add(g, box(.3, .3, .02), GLASS, .65 + c * .4, .45, .86, false);
+    add(g, box(.28, .5, .02), DARK, -.3, .25, .41, false);
+    return g;
+  },
+  storage() { // warehouse with a rolling door and pallets
+    const g = new THREE.Group(); plinth(g);
+    add(g, box(2.2, 1.0, 1.6), BODY, 0, .5, -.3);
+    const roof = new THREE.CylinderGeometry(.8, .8, 2.2, 40, 1, false, 0, Math.PI); roof.rotateZ(Math.PI / 2); roof.rotateX(Math.PI / 2);
+    add(g, roof, PANEL, 0, 1.0, -.3, true, [0, 0, 0]);
+    add(g, box(1.0, .8, .04), METAL, -.3, .4, .51, false);
+    for (let i = 0; i < 8; i++) add(g, box(1.0, .015, .02), DARK, -.3, .07 + i * .1, .535, false);
+    add(g, box(.4, .04, .3), SOFT, .75, 1.05, .52); // canopy
+    const pal = (x, z, mat) => { add(g, box(.6, .08, .6), SOFT, x, .04, z); add(g, box(.5, .45, .5), mat, x, .33, z); };
+    pal(.85, .95, PANEL); pal(.15, 1.05, ORANGE); add(g, box(.42, .38, .42), PANEL, .85, .75, .95);
+    return g;
+  },
+  bank() { // columns, pediment, coin stack
+    const g = new THREE.Group(); plinth(g);
+    add(g, box(2.4, .12, 1.6), PANEL, 0, .06, -.2); add(g, box(2.2, .12, 1.45), BODY, 0, .18, -.2);
+    for (let i = 0; i < 4; i++) add(g, cylY(.12, 1.2, 32), PANEL, -.81 + i * .54, .84, .35);
+    add(g, box(2.0, 1.2, .9), SOFT, 0, .84, -.45, false);
+    add(g, box(2.3, .14, 1.5), BODY, 0, 1.51, -.2);
+    add(g, prism(2.3, .55, 1.5), PANEL, 0, 1.58, -.2);
+    add(g, cylY(.12, .02, 32), ORANGE, 0, 1.78, .56, false, [Math.PI / 2, 0, 0]);
+    for (let i = 0; i < 4; i++) add(g, cylY(.26, .07, 40), i === 3 ? ORANGE : METAL, 1.05, .04 + i * .075, 1.05);
+    for (let i = 0; i < 2; i++) add(g, cylY(.26, .07, 40), METAL, .55, .04 + i * .075, 1.25);
+    return g;
+  },
+  med() { // first-aid case with a cross and a stack of books
+    const g = new THREE.Group(); plinth(g);
+    add(g, rbox(1.6, 1.1, .8, .12), BODY, -.25, .55, -.1);
+    add(g, new THREE.TorusGeometry(.22, .05, 10, 30, Math.PI), DARK, -.25, 1.1, -.1, false);
+    add(g, box(.42, .13, .04), ORANGE, -.25, .55, .32, false); add(g, box(.13, .42, .04), ORANGE, -.25, .55, .32, false);
+    const bk = (y, mat, rot) => { add(g, box(.9, .16, .62), mat, .85, y, .9, true, [0, rot, 0]); add(g, box(.84, .12, .02), PANEL, .85, y, .9, false, [0, rot, 0]); };
+    bk(.08, DARK, .2); bk(.24, SOFT, -.1); bk(.4, BODY, .35);
+    return g;
+  }
+};
+
+const scene = new THREE.Scene();
+scene.add(new THREE.HemisphereLight(0xffffff, 0x8f9aa1, .85));
+const key = new THREE.DirectionalLight(0xffffff, 1.05); key.position.set(-4, 7, 5); key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: .5, far: 30 }); key.shadow.bias = -.0008; key.shadow.radius = 6;
+scene.add(key); const rim = new THREE.DirectionalLight(0xffffff, .45); rim.position.set(5, 2, -4); scene.add(rim);
+const camera = new THREE.PerspectiveCamera(24, 960 / 720, .1, 100);
+
+window.renderScene = name => {
+  scene.children.filter(o => o.userData.model).forEach(o => scene.remove(o));
+  const g = SCENES[name](); g.userData.model = true; g.rotation.y = -.55; scene.add(g);
+  const bb = new THREE.Box3().setFromObject(g), c = bb.getCenter(new THREE.Vector3()), r = bb.getBoundingSphere(new THREE.Sphere()).radius;
+  const dir = new THREE.Vector3(0, .62, 1).normalize(), dist = r / Math.sin(THREE.MathUtils.degToRad(24 / 2)) * .82;
+  camera.position.copy(c).addScaledVector(dir, dist); camera.lookAt(c); camera.updateProjectionMatrix();
+  renderer.render(scene, camera); return canvas.toDataURL('image/png');
+};
+window.ready = true;
+</script></body></html>

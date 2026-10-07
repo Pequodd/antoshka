@@ -1222,6 +1222,14 @@ html[data-aud="biz"] main { overflow-x: clip; }
 .ind:hover::before { clip-path: circle(150% at var(--mx, 50%) var(--my, 50%)); }
 .ind svg * { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s cubic-bezier(.65,0,.35,1) calc(var(--d, 0) * 110ms + .35s); }
 .ind.in svg * { stroke-dashoffset: 0; }
+/* industries: 3D clay illustrations (same materials as the GL devices) */
+.ind-art { display: block; width: calc(100% + 24px); height: 230px; margin: -10px -12px 0; object-fit: contain; transform: translateY(18px) scale(.92); opacity: 0;
+  transition: opacity .7s ease calc(var(--d, 0) * 110ms + .45s), transform 1.1s cubic-bezier(.16,1,.3,1) calc(var(--d, 0) * 110ms + .45s); }
+.ind.in .ind-art { opacity: 1; transform: none; }
+.ind-grid { border-left: 0; border-right: 1px solid #D5DADD; }
+.ind-grid .ind { border-right: 0; border-bottom: 0; box-shadow: inset 1px 0 0 #D5DADD, inset 0 -1px 0 #D5DADD; }
+.ind.in.done .ind-art { transition: transform .6s cubic-bezier(.16,1,.3,1); }
+.ind.in:hover .ind-art { transform: translateY(-8px) scale(1.04); }
 /* directions: pinned stage, the GL device morphs per system, panes flip in 3D */
 .bdx { position: relative; }
 .bdx-track { height: 300vh; }
@@ -1537,6 +1545,7 @@ html[data-aud="biz"] main { overflow-x: clip; }
   .bh-logos { grid-template-columns: 1fr; gap: 12px; }
   .bh-logos ul { gap: 44px; padding-right: 44px; }
   .ind { --d: 0 !important; }
+  .ind-art { height: 190px; }
   .bdx-track { height: 280vh; }
   .bdx-stage { grid-template-columns: 1fr; grid-template-rows: auto 34svh 1fr auto; padding: 66px var(--m) 84px; row-gap: 10px; }
   .bdx-top h2 { font-size: 28px; }
@@ -1560,7 +1569,7 @@ html[data-aud="biz"] main { overflow-x: clip; }
   .lt-grid.in .lt:not(.in) { opacity: 0; transform: translateY(50px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .bsplit .bw > span, .ind, .ind svg *, .cs, .cs-img, .cs-img img, .lt, .bq, .bq::after, .terms-list > div dt, .terms-list > div dd, .pn-a, .pn i, .pn-q span, .bdx-p > *, .bh-kick, .bh-p, .bh-cta, .bh-dev, .bh-stats div, .bh-logos { transition: none !important; }
+  .bsplit .bw > span, .ind, .ind svg *, .ind-art, .cs, .cs-img, .cs-img img, .lt, .bq, .bq::after, .terms-list > div dt, .terms-list > div dd, .pn-a, .pn i, .pn-q span, .bdx-p > *, .bh-kick, .bh-p, .bh-cta, .bh-dev, .bh-stats div, .bh-logos { transition: none !important; }
   .bhero { transform: none; } .bhero::before { border-radius: 0; } .bhero > .bh-grid { opacity: 1; transform: none; }
   .pains { clip-path: none; } .role { transform: none; } .role::after { opacity: 0; }
   .bh-mq-t, .bh-dots .on::after { animation: none; } .bh-dots .on::after { transform: none; }
@@ -1776,12 +1785,12 @@ html[data-aud="biz"] main { overflow-x: clip; }
     <div class="grid title"><h2>Отрасли</h2>
       <p class="aside">Знаем требования и режим работы каждой — от торгового зала до пищеблока.</p></div>
     <div class="ind-grid">
-      <article class="ind" style="--i:0"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M8 14h32l-3 24H11z"/><path d="M17 14a7 7 0 0 1 14 0"/></svg><h3>Ритейл и сети</h3><p>Залы, склады и витрины: климат, вытяжка, свет. Монтаж ночью, тиражное решение для всех точек.</p></article>
-      <article class="ind" style="--i:1"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M10 22h28v4a14 14 0 0 1-28 0z"/><path d="M38 24h4a4 4 0 0 1 0 8h-5"/><path d="M18 8v8M24 6v10M30 8v8"/></svg><h3>Общепит</h3><p>Кухонная вытяжка и приток, электрика под тепловое оборудование, паспорт системы.</p></article>
-      <article class="ind" style="--i:2"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="10" y="8" width="28" height="32"/><path d="M16 14h4M28 14h4M16 21h4M28 21h4M16 28h4M28 28h4M21 40v-6h6v6"/></svg><h3>Офисы</h3><p>Кондиционирование open space и переговорных, серверные, освещение и розеточные группы.</p></article>
-      <article class="ind" style="--i:3"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 20 24 8l18 12v20H6z"/><path d="M14 40V26h20v14M14 32h20"/></svg><h3>Склады и производство</h3><p>Вентиляция и освещение пролётов, силовые линии, щиты и учёт.</p></article>
-      <article class="ind" style="--i:4"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M6 18 24 8l18 10z"/><path d="M10 20v14M18 20v14M30 20v14M38 20v14M6 38h36"/></svg><h3>Банки и отделения</h3><p>Типовые решения по стандарту сети, работы вне часов приёма, регламентное ТО.</p></article>
-      <article class="ind" style="--i:5"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><rect x="8" y="10" width="32" height="30" rx="2"/><path d="M24 17v16M16 25h16"/></svg><h3>Медицина и образование</h3><p>Воздухообмен по нормам, документация для проверок, работа в каникулы и выходные.</p></article>
+      <article class="ind" style="--i:0"><img class="ind-art" src="../assets/ill/ind-retail.webp" alt="" width="800" height="580" loading="lazy"><h3>Ритейл и сети</h3><p>Залы, склады и витрины: климат, вытяжка, свет. Монтаж ночью, тиражное решение для всех точек.</p></article>
+      <article class="ind" style="--i:1"><img class="ind-art" src="../assets/ill/ind-food.webp" alt="" width="800" height="580" loading="lazy"><h3>Общепит</h3><p>Кухонная вытяжка и приток, электрика под тепловое оборудование, паспорт системы.</p></article>
+      <article class="ind" style="--i:2"><img class="ind-art" src="../assets/ill/ind-office.webp" alt="" width="800" height="580" loading="lazy"><h3>Офисы</h3><p>Кондиционирование open space и переговорных, серверные, освещение и розеточные группы.</p></article>
+      <article class="ind" style="--i:3"><img class="ind-art" src="../assets/ill/ind-storage.webp" alt="" width="800" height="580" loading="lazy"><h3>Склады и производство</h3><p>Вентиляция и освещение пролётов, силовые линии, щиты и учёт.</p></article>
+      <article class="ind" style="--i:4"><img class="ind-art" src="../assets/ill/ind-bank.webp" alt="" width="800" height="580" loading="lazy"><h3>Банки и отделения</h3><p>Типовые решения по стандарту сети, работы вне часов приёма, регламентное ТО.</p></article>
+      <article class="ind" style="--i:5"><img class="ind-art" src="../assets/ill/ind-med.webp" alt="" width="800" height="580" loading="lazy"><h3>Медицина и образование</h3><p>Воздухообмен по нормам, документация для проверок, работа в каникулы и выходные.</p></article>
     </div>
   </section>
 
