@@ -3165,7 +3165,7 @@ html[data-aud="biz"] main { overflow-x: clip; }
   for (let i = 0; i < 4; i++) radd(ladder, new THREE.BoxGeometry(.44, .03, .06), STEEL, 0, .3 + i * .33, 0);
   // workers: faceted low-poly mannequins (flat shading), one grey, one in the brand accent
   const FIG_GREY = new THREE.MeshStandardMaterial({ color: '#8F979D', roughness: .85, flatShading: true });
-  const FIG_ACCENT = new THREE.MeshStandardMaterial({ color: '#D9531E', roughness: .8, flatShading: true });
+  const FIG_ACCENT = new THREE.MeshStandardMaterial({ color: '#0B3BFF', roughness: .8, flatShading: true });
   function lp(geom, mat) { const m = new THREE.Mesh(geom, mat); m.castShadow = true; return m; }
   function limb(r1, r2, len, mat) { const g = new THREE.CylinderGeometry(r1, r2, len, 6, 2); g.translate(0, -len / 2, 0); return lp(g, mat); }
   function joint(r, mat) { return lp(new THREE.IcosahedronGeometry(r, 0), mat); }
