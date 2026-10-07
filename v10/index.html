@@ -1355,6 +1355,10 @@ html[data-aud="biz"] main { overflow-x: clip; }
 .tl-st.cur b { color: var(--ink); }
 .tl-st.cur em { opacity: 1; transform: none; color: var(--air); }
 .tl-pin { display: none; }
+/* prices: an inviting two-line heading, the second line in the accent */
+#prices .title h2 { font-size: clamp(42px, 5vw, 80px); line-height: .98; }
+#prices .title h2 em { font-style: normal; color: var(--air); }
+#prices .title .aside { align-self: end; }
 /* hero film: a fine grain over the video hides the softness of the generated footage */
 .hc-card::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background-image: var(--grain); background-size: 180px; mix-blend-mode: soft-light; opacity: .22; }
 /* no section heading here: the step word is the headline (title kept for screen readers only) */
@@ -1941,7 +1945,7 @@ html[data-aud="biz"] main { overflow-x: clip; }
   <!-- 2 prices: one big price + package index (anveril "index list" pattern) -->
   <section class="sec" id="prices" data-aud-only="home">
     <div class="rule"></div>
-    <div class="grid title"><h2>Цены</h2>
+    <div class="grid title"><h2>Рассчитайте<br><em>под свою квартиру</em></h2>
       <p class="aside">Цена фиксируется в смете до начала работ и не растёт на месте. Ниже — расчёт кондиционера; вентиляцию и электрику считаем по проекту, ориентиры — в таблице.</p></div>
     <div class="grid sheet-kick"><span class="mono dot c1-12">калькулятор · кондиционер в комнату</span></div>
     <div class="sheet pb-out" id="sheet">
