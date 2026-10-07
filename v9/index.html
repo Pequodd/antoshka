@@ -1202,6 +1202,16 @@ html[data-aud="biz"] main { overflow-x: clip; }
 .pn.in i { opacity: 1; transform: none; }
 .pn-a { opacity: 0; transform: perspective(900px) translateX(48px) rotateY(-32deg); transform-origin: 0 50%; transition: opacity .7s ease .7s, transform 1.1s cubic-bezier(.16,1,.3,1) .7s; }
 .pn.in .pn-a { opacity: 1; transform: none; }
+/* pains: hover preview follows the cursor (poruka works-table mechanics) */
+.pn-list { position: relative; }
+.pn-list.hov .pn { transition: opacity .2s cubic-bezier(.2,.7,0,1), transform .8s cubic-bezier(.16,1,.3,1); }
+.pn-list.hov .pn.in:not(.hi) { opacity: .32; }
+.pn-prev { position: absolute; left: 0; top: 0; width: 320px; aspect-ratio: 16 / 10; z-index: 5; pointer-events: none; list-style: none; overflow: hidden; border-radius: 10px; background: #1B2125;
+  opacity: 0; transform: translate(-50%, -50%) scale(.85); transition: opacity .2s cubic-bezier(.2,.7,0,1), transform .45s cubic-bezier(.2,.7,0,1); }
+.pn-list.hov .pn-prev { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.pn-prev img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.pn-prev img.on { opacity: 1; }
+@media (hover: none), (max-width: 900px) { .pn-prev { display: none; } .pn-list.hov .pn.in:not(.hi) { opacity: 1; } }
 /* industries: tiles fold down in 3D, icons draw themselves, a dark fill spreads from the cursor */
 .ind { position: relative; overflow: hidden; isolation: isolate; opacity: 0; transform: perspective(1000px) rotateX(-75deg) translateY(30px); transform-origin: 50% 0;
   transition: opacity .6s ease calc(var(--d, 0) * 110ms), transform 1.2s cubic-bezier(.16,1,.3,1) calc(var(--d, 0) * 110ms), color .3s ease; }
@@ -1687,12 +1697,13 @@ html[data-aud="biz"] main { overflow-x: clip; }
     <div class="grid title"><h2>Что мешает бизнесу</h2>
       <p class="aside">Типичные риски монтажа на работающем объекте — и как мы снимаем их договором, а не обещаниями.</p></div>
     <ol class="pn-list">
-      <li class="pn" style="--i:0"><span class="mono">01</span><p class="pn-q"><span>Монтаж остановит торговлю или офис</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Работаем ночью и в выходные</b><p>График согласуем с управляющим объекта — к открытию зал чистый.</p></div></li>
-      <li class="pn" style="--i:1"><span class="mono">02</span><p class="pn-q"><span>Сорвём дату открытия</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Срок и неустойка в договоре</b><p>График по этапам с ответственными, еженедельный отчёт с фото.</p></div></li>
-      <li class="pn" style="--i:2"><span class="mono">03</span><p class="pn-q"><span>Смета вырастет по ходу работ</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Фиксированная смета по разделам</b><p>Дополнительные работы — только по письменному согласованию.</p></div></li>
-      <li class="pn" style="--i:3"><span class="mono">04</span><p class="pn-q"><span>Нет документов для бухгалтерии и арендодателя</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Полный пакет документов</b><p>Договор, КС-2, КС-3, исполнительная схема, протоколы замеров.</p></div></li>
-      <li class="pn" style="--i:4"><span class="mono">05</span><p class="pn-q"><span>Три подрядчика — никто не отвечает за стыки</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Один подрядчик на три системы</b><p>Климат, вентиляция и электрика в одном договоре и одной смете.</p></div></li>
-      <li class="pn" style="--i:5"><span class="mono">06</span><p class="pn-q"><span>Летом встал кондиционер в зале</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Регламентное ТО и аварийный выезд</b><p>Обслуживание по графику, выезд по аварии в течение 4 часов.</p></div></li>
+      <li class="pn" style="--i:0" data-k="0"><span class="mono">01</span><p class="pn-q"><span>Монтаж остановит торговлю или офис</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Работаем ночью и в выходные</b><p>График согласуем с управляющим объекта — к открытию зал чистый.</p></div></li>
+      <li class="pn" style="--i:1" data-k="1"><span class="mono">02</span><p class="pn-q"><span>Сорвём дату открытия</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Срок и неустойка в договоре</b><p>График по этапам с ответственными, еженедельный отчёт с фото.</p></div></li>
+      <li class="pn" style="--i:2" data-k="2"><span class="mono">03</span><p class="pn-q"><span>Смета вырастет по ходу работ</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Фиксированная смета по разделам</b><p>Дополнительные работы — только по письменному согласованию.</p></div></li>
+      <li class="pn" style="--i:3" data-k="3"><span class="mono">04</span><p class="pn-q"><span>Нет документов для бухгалтерии и арендодателя</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Полный пакет документов</b><p>Договор, КС-2, КС-3, исполнительная схема, протоколы замеров.</p></div></li>
+      <li class="pn" style="--i:4" data-k="4"><span class="mono">05</span><p class="pn-q"><span>Три подрядчика — никто не отвечает за стыки</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Один подрядчик на три системы</b><p>Климат, вентиляция и электрика в одном договоре и одной смете.</p></div></li>
+      <li class="pn" style="--i:5" data-k="5"><span class="mono">06</span><p class="pn-q"><span>Летом встал кондиционер в зале</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Регламентное ТО и аварийный выезд</b><p>Обслуживание по графику, выезд по аварии в течение 4 часов.</p></div></li>
+      <li class="pn-prev" aria-hidden="true"><img src="../assets/photos/store-ducts-1-sm.webp" alt="" loading="lazy"><img src="../assets/photos/store-ducts-2-sm.webp" alt="" loading="lazy"><img src="../assets/photos/ceiling-ducts-wiring-sm.webp" alt="" loading="lazy"><img src="../assets/photos/garage-ceiling-sm.webp" alt="" loading="lazy"><img src="../assets/photos/kitchen-ventilation-sm.webp" alt="" loading="lazy"><img src="../assets/photos/alpinist-outdoor-unit-sm.webp" alt="" loading="lazy"></li>
     </ol>
   </section>
 
@@ -2343,6 +2354,15 @@ html[data-aud="biz"] main { overflow-x: clip; }
       bh.querySelectorAll('[data-count]').forEach(el => { const n = +el.dataset.count, t0 = performance.now(), D = reduce ? 0 : 1500;
         const step = now => { const p = D ? Math.min(1, (now - t0) / D) : 1; el.textContent = Math.round(n * (1 - Math.pow(1 - p, 3))).toLocaleString('ru-RU'); if (p < 1) requestAnimationFrame(step); }; step(t0); }); }
     new IntersectionObserver(([e]) => { bhVis = e.isIntersecting; if (bhVis) { bh.classList.add('in'); countUp(); devSet(dk); } else clearInterval(dT); }, { threshold: .2 }).observe(bh);
+    /* pains: preview image follows the cursor over the list, swaps per row */
+    const pnList = document.querySelector('.pn-list'), pnPrev = pnList.querySelector('.pn-prev'), pnImgs = [...pnPrev.querySelectorAll('img')];
+    if (matchMedia('(hover: hover)').matches) {
+      pnImgs.forEach(i => { i.loading = 'eager'; });
+      pnList.addEventListener('mousemove', e => { const r = pnList.getBoundingClientRect(); pnPrev.style.left = (e.clientX - r.left) + 'px'; pnPrev.style.top = (e.clientY - r.top) + 'px'; });
+      pnList.querySelectorAll('.pn').forEach(row => row.addEventListener('mouseenter', () => { const k = +row.dataset.k;
+        pnList.classList.add('hov'); pnList.querySelectorAll('.pn').forEach(r => r.classList.toggle('hi', r === row)); pnImgs.forEach((im, i) => im.classList.toggle('on', i === k)); }));
+      pnList.addEventListener('mouseleave', () => { pnList.classList.remove('hov'); pnList.querySelectorAll('.pn.hi').forEach(r => r.classList.remove('hi')); });
+    }
     /* reveals */
     document.querySelectorAll('.ind').forEach((c, i) => { c.style.setProperty('--d', i % 3); show(c, .3, 1500); });
     document.querySelectorAll('.ind svg path, .ind svg rect').forEach(p => p.setAttribute('pathLength', '1'));
