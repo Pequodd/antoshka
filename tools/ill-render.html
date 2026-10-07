@@ -5,12 +5,12 @@
 const canvas = document.getElementById('c');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
 renderer.setPixelRatio(1); renderer.setSize(960, 720, false); renderer.setClearColor(0, 0);
-renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.shadowMap.enabled = false; renderer.shadowMap.type = THREE.PCFSoftShadowMap; renderer.outputEncoding = THREE.sRGBEncoding;
 
-const M = (c, r = .62, m = .05) => new THREE.MeshStandardMaterial({ color: new THREE.Color(c).convertSRGBToLinear(), roughness: r, metalness: m });
-const BODY = M('#EEF0F1'), PANEL = M('#FAFBFB', .5), DARK = M('#2A3940', .7), METAL = M('#C9CFD3', .4, .35), GRILLE = M('#3B4A52', .6), ORANGE = M('#F47920', .55), SOFT = M('#DCE1E4', .7);
+const M = (c, r = .62, m = .05) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m });
+const BODY = M('#EEF0F1'), PANEL = M('#FAFBFB', .5), DARK = M('#2A3940', .7), METAL = M('#C9CFD3', .4, .35), GRILLE = M('#3B4A52', .6), ORANGE = M('#D4561A', .55), SOFT = M('#DCE1E4', .7);
 const GLASS = M('#3B4A52', .25, .2);
-const LINE = new THREE.LineBasicMaterial({ color: new THREE.Color('#24363F').convertSRGBToLinear(), transparent: true, opacity: .55 });
+const LINE = new THREE.LineBasicMaterial({ color: '#24363F', transparent: true, opacity: .55 });
 function add(g, geom, mat, x = 0, y = 0, z = 0, edges = true, rot) {
   const m = new THREE.Mesh(geom, mat); m.position.set(x, y, z); if (rot) m.rotation.set(...rot); m.castShadow = true; m.receiveShadow = true; g.add(m);
   if (edges) { const l = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 28), LINE); l.position.copy(m.position); l.rotation.copy(m.rotation); g.add(l); }
@@ -28,7 +28,7 @@ const cylY = (r, h, seg = 40, open = false) => new THREE.CylinderGeometry(r, r, 
 function prism(w, h, d) { const s = new THREE.Shape(); s.moveTo(-w / 2, 0); s.lineTo(w / 2, 0); s.lineTo(0, h); s.lineTo(-w / 2, 0);
   const g = new THREE.ExtrudeGeometry(s, { depth: d, bevelEnabled: false }); g.translate(0, 0, -d / 2); return g; }
 
-function plinth(g) { add(g, slab(3.2, 3.2, .22, .22), BODY, 0, -.11, 0); }
+function plinth(g) {}
 
 const SCENES = {
   retail() { // storefront with a striped awning
@@ -81,7 +81,7 @@ const SCENES = {
     const g = new THREE.Group(); plinth(g);
     add(g, box(2.4, .12, 1.6), PANEL, 0, .06, -.2); add(g, box(2.2, .12, 1.45), BODY, 0, .18, -.2);
     for (let i = 0; i < 4; i++) add(g, cylY(.12, 1.2, 32), PANEL, -.81 + i * .54, .84, .35);
-    add(g, box(2.0, 1.2, .9), SOFT, 0, .84, -.45, false);
+    add(g, box(2.0, 1.2, .9), METAL, 0, .84, -.45, false);
     add(g, box(2.3, .14, 1.5), BODY, 0, 1.51, -.2);
     add(g, prism(2.3, .55, 1.5), PANEL, 0, 1.58, -.2);
     add(g, cylY(.12, .02, 32), ORANGE, 0, 1.78, .56, false, [Math.PI / 2, 0, 0]);
@@ -101,17 +101,17 @@ const SCENES = {
 };
 
 const scene = new THREE.Scene();
-scene.add(new THREE.HemisphereLight(0xffffff, 0x8f9aa1, .85));
-const key = new THREE.DirectionalLight(0xffffff, 1.05); key.position.set(-4, 7, 5); key.castShadow = true;
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb9c2c7, 1.05));
+const key = new THREE.DirectionalLight(0xffffff, 1.1); key.position.set(-3, 5, 6);
 key.shadow.mapSize.set(2048, 2048); Object.assign(key.shadow.camera, { left: -4, right: 4, top: 4, bottom: -4, near: .5, far: 30 }); key.shadow.bias = -.0008; key.shadow.radius = 6;
 scene.add(key); const rim = new THREE.DirectionalLight(0xffffff, .45); rim.position.set(5, 2, -4); scene.add(rim);
 const camera = new THREE.PerspectiveCamera(24, 960 / 720, .1, 100);
 
 window.renderScene = name => {
   scene.children.filter(o => o.userData.model).forEach(o => scene.remove(o));
-  const g = SCENES[name](); g.userData.model = true; g.rotation.y = -.55; scene.add(g);
+  const g = SCENES[name](); g.userData.model = true; g.rotation.set(.22, -.5, 0, 'XYZ'); scene.add(g);
   const bb = new THREE.Box3().setFromObject(g), c = bb.getCenter(new THREE.Vector3()), r = bb.getBoundingSphere(new THREE.Sphere()).radius;
-  const dir = new THREE.Vector3(0, .62, 1).normalize(), dist = r / Math.sin(THREE.MathUtils.degToRad(24 / 2)) * .82;
+  const dir = new THREE.Vector3(0, 0, 1), dist = r / Math.sin(THREE.MathUtils.degToRad(24 / 2)) * .86;
   camera.position.copy(c).addScaledVector(dir, dist); camera.lookAt(c); camera.updateProjectionMatrix();
   renderer.render(scene, camera); return canvas.toDataURL('image/png');
 };

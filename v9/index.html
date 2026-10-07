@@ -1223,13 +1223,13 @@ html[data-aud="biz"] main { overflow-x: clip; }
 .ind svg * { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.4s cubic-bezier(.65,0,.35,1) calc(var(--d, 0) * 110ms + .35s); }
 .ind.in svg * { stroke-dashoffset: 0; }
 /* industries: 3D clay illustrations (same materials as the GL devices) */
-.ind-art { display: block; width: calc(100% + 24px); height: 230px; margin: -10px -12px 0; object-fit: contain; transform: translateY(18px) scale(.92); opacity: 0;
+.ind-art { display: block; width: 100%; height: 230px; margin: 0 0 6px; padding: 8px 0; box-sizing: border-box; object-fit: contain; background: #ECEFF0; border-radius: 12px; transform: translateY(18px) scale(.92); opacity: 0;
   transition: opacity .7s ease calc(var(--d, 0) * 110ms + .45s), transform 1.1s cubic-bezier(.16,1,.3,1) calc(var(--d, 0) * 110ms + .45s); }
 .ind.in .ind-art { opacity: 1; transform: none; }
 .ind-grid { border-left: 0; border-right: 1px solid #D5DADD; }
 .ind-grid .ind { border-right: 0; border-bottom: 0; box-shadow: inset 1px 0 0 #D5DADD, inset 0 -1px 0 #D5DADD; }
 .ind.in.done .ind-art { transition: transform .6s cubic-bezier(.16,1,.3,1); }
-.ind.in:hover .ind-art { transform: translateY(-8px) scale(1.04); }
+.ind.in:hover .ind-art { transform: translateY(-6px) scale(1.02); background-color: #F4F5F5; }
 /* directions: pinned stage, the GL device morphs per system, panes flip in 3D */
 .bdx { position: relative; }
 .bdx-track { height: 300vh; }
