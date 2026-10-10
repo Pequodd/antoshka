@@ -295,6 +295,7 @@ PAGES = {
   'about.html':    ('about', 'О компании — Climate Solutions', 'Команда, гарантии, отзывы и реквизиты Climate Solutions.', ABOUT),
   'contacts.html': ('contacts', 'Контакты — Climate Solutions', f'{ADDR}, {TEL_H}.', CONTACTS),
 }
-for fn, (k, t, d, b) in PAGES.items():
-    open(os.path.join(OUT, fn), 'w').write(page(k, t, d, b))
-print('built', len(PAGES), 'pages')
+if __name__ == '__main__':
+    for fn, (k, t, d, b) in PAGES.items():
+        open(os.path.join(OUT, fn), 'w').write(page(k, t, d, b))
+    print('built', len(PAGES), 'pages')

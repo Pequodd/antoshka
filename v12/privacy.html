@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ru">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/png" href="../assets/brand/mark-64.png">
+<title>Политика конфиденциальности — Climate Solutions</title>
+<meta name="description" content="Политика обработки персональных данных и использования cookie на сайте Climate Solutions.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+:root {
+  color-scheme: light;
+  --m: 24px;
+  --bg: #FAFAFA;
+  --ink: #24363F;
+  --muted: #5E6C73;
+  --line: #E4E6E7;
+  --air: #E2261C;
+  --sans: "Onest", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; overflow-wrap: break-word; }
+a { color: inherit; text-underline-offset: 2px; }
+a:hover { color: var(--air); }
+a:focus-visible { outline: 2px solid var(--air); outline-offset: 2px; border-radius: 4px; }
+.mono { font: 400 11px/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px var(--m); background: rgba(250,250,250,.92); border-bottom: 1px solid var(--line); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+.brand img { height: 30px; width: auto; }
+.brand b { display: grid; font-weight: 500; font-size: 15px; line-height: 1.05; }
+.brand small { font: 400 9px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.back { min-height: 44px; padding: 0 18px; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; border: 1px solid var(--line); background: #fff; text-decoration: none; font-size: 15px; }
+.back:hover { border-color: var(--ink); color: var(--ink); }
+.wrap { display: grid; grid-template-columns: minmax(0, 280px) minmax(0, 720px); gap: 64px; justify-content: center; padding: clamp(48px, 8vw, 96px) var(--m) 96px; }
+.head { grid-column: 1 / -1; max-width: 1064px; width: 100%; justify-self: center; display: grid; gap: 14px; padding-bottom: 40px; border-bottom: 1px solid var(--line); }
+.head .mono { color: var(--air); }
+h1 { margin: 0; font-weight: 300; font-size: clamp(32px, 6vw, 84px); hyphens: auto; line-height: .95; letter-spacing: -.055em; }
+.head p { margin: 0; max-width: 60ch; color: var(--muted); }
+.toc { position: sticky; top: 96px; align-self: start; display: grid; gap: 2px; padding: 0; margin: 0; list-style: none; counter-reset: t; }
+.toc a { display: flex; gap: 10px; padding: 7px 0; font-size: 14px; color: var(--muted); text-decoration: none; }
+.toc a::before { counter-increment: t; content: counter(t, decimal-leading-zero); font: 400 11px/1.9 var(--mono); color: var(--air); }
+.toc a:hover { color: var(--ink); }
+article { counter-reset: s; }
+section { padding: 28px 0; border-bottom: 1px solid var(--line); scroll-margin-top: 80px; }
+section:first-child { padding-top: 0; }
+h2 { margin: 0 0 12px; font-weight: 400; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2; letter-spacing: -.025em; display: flex; gap: 14px; align-items: baseline; }
+h2::before { counter-increment: s; content: counter(s, decimal-leading-zero); font: 400 12px/1 var(--mono); color: var(--air); }
+p, li { color: #3A4A52; }
+p { margin: 0 0 12px; }
+ul { margin: 0 0 12px; padding-left: 20px; }
+li { margin: 4px 0; }
+.ph { padding: 0 4px; border-radius: 4px; background: #FDECEA; color: #B3201A; }
+dl { margin: 0; display: grid; grid-template-columns: 180px 1fr; border-top: 1px solid var(--line); }
+dt, dd { margin: 0; padding: 10px 0; border-bottom: 1px solid var(--line); }
+dt { color: var(--muted); font-size: 14px; }
+.date { margin-top: 28px; color: var(--muted); font-size: 14px; }
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .toc { position: static; }
+  dl { grid-template-columns: 1fr; }
+  dt { padding-bottom: 0; border-bottom: 0; }
+  .brand small { display: none; }
+}
+</style>
+
+<header class="top">
+  <a class="brand" href="index.html"><img src="../assets/brand/mark.png" alt="" width="253" height="410"><b>climate solutions<small>for home &amp; business</small></b></a>
+  <a class="back" href="index.html">← На сайт</a>
+</header>
+
+<main class="wrap">
+  <div class="head">
+    <span class="mono">документ · персональные данные</span>
+    <h1>Политика конфиденциальности</h1>
+    <p>Как Climate Solutions собирает, использует и защищает персональные данные посетителей сайта и клиентов, а также как сайт использует cookie. Документ составлен в соответствии с Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных».</p>
+  </div>
+
+  <nav aria-label="Содержание">
+    <ol class="toc">
+      <li><a href="#p1">Оператор</a></li>
+      <li><a href="#p2">Какие данные мы обрабатываем</a></li>
+      <li><a href="#p3">Цели обработки</a></li>
+      <li><a href="#p4">Правовые основания</a></li>
+      <li><a href="#p5">Cookie</a></li>
+      <li><a href="#p6">Передача третьим лицам</a></li>
+      <li><a href="#p7">Сроки хранения</a></li>
+      <li><a href="#p8">Защита данных</a></li>
+      <li><a href="#p9">Ваши права</a></li>
+      <li><a href="#p10">Изменения и контакты</a></li>
+    </ol>
+  </nav>
+
+  <article>
+    <section id="p1">
+      <h2>Оператор</h2>
+      <p>Оператор персональных данных — лицо, которое ведёт деятельность под брендом Climate Solutions:</p>
+      <dl>
+        <dt>Наименование</dt><dd>ИП <span class="ph">[ФИО]</span></dd>
+        <dt>ИНН / ОГРНИП</dt><dd><span class="ph">[ИНН]</span> / <span class="ph">[ОГРНИП]</span></dd>
+        <dt>Адрес</dt><dd>г. Челябинск, ул. 5 Декабря, 32</dd>
+        <dt>Телефон</dt><dd><a href="tel:+79514596275">+7 (951) 459-62-75</a></dd>
+        <dt>E-mail для обращений</dt><dd><span class="ph">[e-mail]</span></dd>
+      </dl>
+    </section>
+
+    <section id="p2">
+      <h2>Какие данные мы обрабатываем</h2>
+      <p>Только те данные, которые вы сами указываете в формах на сайте или сообщаете при общении с нами:</p>
+      <ul>
+        <li>имя или имя контактного лица;</li>
+        <li>номер телефона и адрес электронной почты;</li>
+        <li>адрес доставки и монтажа, состав заказа — при оформлении покупки в интернет-магазине;</li>
+        <li>название компании, ИНН и адрес объекта — для запросов коммерческого предложения;</li>
+        <li>описание задачи и приложенные файлы (ТЗ, фото места установки);</li>
+        <li>технические данные: IP-адрес, тип браузера и устройства, страницы сайта, которые вы посетили, данные cookie.</li>
+      </ul>
+      <p>Мы не обрабатываем специальные категории персональных данных и биометрические данные.</p>
+    </section>
+
+    <section id="p3">
+      <h2>Цели обработки</h2>
+      <ul>
+        <li>принять и выполнить заказ из интернет-магазина: подтвердить наличие, доставить и смонтировать оборудование;</li>
+        <li>связаться с вами по заявке, рассчитать стоимость и согласовать выезд;</li>
+        <li>подготовить коммерческое предложение и заключить договор;</li>
+        <li>выполнить работы, провести сервисное обслуживание и гарантийные обязательства;</li>
+        <li>отвечать на вопросы и обращения;</li>
+        <li>улучшать работу сайта на основе обезличенной статистики посещений.</li>
+      </ul>
+    </section>
+
+    <section id="p4">
+      <h2>Правовые основания</h2>
+      <p>Мы обрабатываем данные на основании вашего согласия, которое вы даёте, отмечая чекбокс в форме перед отправкой, а также для заключения и исполнения договора, стороной которого вы являетесь (ст. 6 152-ФЗ). Без отметки согласия форма не отправляется.</p>
+    </section>
+
+    <section id="p5">
+      <h2>Cookie</h2>
+      <p>Cookie — небольшие файлы, которые браузер сохраняет на вашем устройстве. Вместе с ними сайт использует локальное хранилище браузера — похожую технологию. Это нужно, чтобы:</p>
+      <ul>
+        <li>работать корректно: хранить содержимое корзины и то, что вы уже закрыли уведомление о cookie;</li>
+        <li>собирать обезличенную статистику посещений, если на сайте подключены сервисы веб-аналитики.</li>
+      </ul>
+      <p>Вы можете удалить cookie или запретить их сохранение в настройках браузера. Часть функций сайта после этого может работать иначе.</p>
+    </section>
+
+    <section id="p6">
+      <h2>Передача третьим лицам</h2>
+      <p>Мы не продаём и не передаём ваши данные третьим лицам, кроме случаев, когда это нужно для выполнения вашей заявки (например, поставщику оборудования для оформления гарантии), с вашего согласия или по требованию закона. Данные хранятся и обрабатываются на территории Российской Федерации.</p>
+    </section>
+
+    <section id="p7">
+      <h2>Сроки хранения</h2>
+      <p>Данные хранятся до достижения целей обработки или до отзыва согласия, но не дольше, чем требуется по закону и договору. Данные по заявкам, которые не перешли в договор, удаляются не позднее чем через 12 месяцев с момента последнего обращения.</p>
+    </section>
+
+    <section id="p8">
+      <h2>Защита данных</h2>
+      <p>Мы принимаем правовые, организационные и технические меры, чтобы защитить данные от неправомерного доступа, изменения, распространения и уничтожения: ограничиваем круг сотрудников с доступом, используем защищённые каналы передачи и пароли.</p>
+    </section>
+
+    <section id="p9">
+      <h2>Ваши права</h2>
+      <ul>
+        <li>узнать, какие ваши данные мы обрабатываем, и получить их копию;</li>
+        <li>потребовать уточнить, заблокировать или удалить данные;</li>
+        <li>отозвать согласие на обработку в любой момент;</li>
+        <li>обжаловать действия оператора в Роскомнадзоре или в суде.</li>
+      </ul>
+      <p>Чтобы воспользоваться правами, напишите или позвоните нам по контактам из раздела «Оператор». Мы ответим в течение 10 рабочих дней.</p>
+    </section>
+
+    <section id="p10">
+      <h2>Изменения и контакты</h2>
+      <p>Мы можем обновлять эту политику. Новая редакция действует с момента публикации на этой странице. По любым вопросам об обработке данных звоните <a href="tel:+79514596275">+7 (951) 459-62-75</a> или приходите в офис: Челябинск, ул. 5 Декабря, 32.</p>
+      <p class="date">Редакция от 7 октября 2026 года.</p>
+    </section>
+  </article>
+</main>
