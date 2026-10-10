@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Каталог кондиционеров с установкой — Climate Solutions</title>
+<meta name="description" content="Сплит-системы, мульти-сплит, кассетные, канальные и мобильные кондиционеры с монтажом в Челябинске.">
+<link rel="icon" type="image/png" href="../assets/brand/mark-64.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@300;400;500&family=IBM+Plex+Mono:wght@400&display=swap">
+<link rel="stylesheet" href="site.css">
+</head>
+<body data-page="catalog">
+<a class="sr-only" href="#main">К содержанию</a>
+<div class="topbar"><div class="wrap"><span class="tb-addr">Челябинск, ул. 5 Декабря, 32 · Челябинск и область</span><nav aria-label="Связь"><a href="https://wa.me/79514596275" target="_blank" rel="noopener">WhatsApp</a><a href="https://t.me/+79514596275" target="_blank" rel="noopener">Telegram</a><a href="tel:+79514596275">+7 (951) 459-62-75</a></nav></div></div>
+<header class="hdr"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="Climate Solutions — на главную"><img src="../assets/brand/mark.png" alt="" width="253" height="410"><b>climate solutions<small>for home &amp; business</small></b></a>
+  <nav class="nav" aria-label="Разделы"><a href="catalog.html" aria-current="page">Каталог</a><a href="services.html">Монтаж и услуги</a><a href="business.html">Бизнесу</a><a href="about.html">О компании</a><a href="contacts.html">Контакты</a></nav>
+  <a class="hdr-tel" href="tel:+79514596275">+7 (951) 459-62-75</a>
+  <a class="cart-btn" href="cart.html" aria-label="Корзина"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L21 8H6.2"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg><span class="cart-t">Корзина</span><span class="cart-n" data-n="0">0</span></a>
+  <button class="btn btn-red" type="button" data-req data-title="Оставить заявку">Заявка</button>
+  <button class="burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="drawer"><span></span></button>
+</div></header>
+<div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Меню"><div class="drawer-bg"></div><div class="drawer-p">
+  <button class="x" type="button" aria-label="Закрыть меню">×</button>
+  <nav aria-label="Разделы"><a href="index.html">Главная</a><a href="catalog.html" aria-current="page">Каталог</a><a href="services.html">Монтаж и услуги</a><a href="business.html">Бизнесу</a><a href="about.html">О компании</a><a href="contacts.html">Контакты</a><a href="cart.html">Корзина</a></nav>
+  <a class="dr-tel" href="tel:+79514596275">+7 (951) 459-62-75</a>
+  <button class="btn btn-red" type="button" data-req data-title="Оставить заявку">Оставить заявку</button>
+  <a class="btn btn-line" href="https://wa.me/79514596275" target="_blank" rel="noopener">Написать в WhatsApp</a>
+</div></div>
+<main id="main">
+<div class="wrap"><ol class="crumbs" aria-label="Навигация"><li><a href="index.html">Главная</a></li><li aria-current="page">Каталог</li></ol>
+<div class="ph"><h1>Кондиционеры</h1><p class="lead">Сплит-системы, мульти-сплит и полупромышленные модели — с монтажом под ключ. Не нашли нужную модель? Привезём под заказ.</p></div>
+<div class="cat-l">
+  <form class="card flt" id="flt" aria-label="Фильтры" onsubmit="return false">
+    <div style="display:flex;justify-content:space-between;align-items:center"><h2>Фильтры</h2><button class="md-x flt-x" type="button" aria-label="Закрыть фильтры" style="position:static;display:none">×</button></div>
+    <fieldset><legend>Тип</legend><div id="fType"></div></fieldset>
+    <fieldset><legend>Площадь помещения</legend><div class="chips" id="fArea" role="group" aria-label="Площадь"></div></fieldset>
+    <fieldset><legend>Цена, ₽</legend><div class="range"><label class="sr-only" for="pMin">от</label><input id="pMin" type="number" inputmode="numeric" placeholder="от 20 000" min="0" step="1000"><label class="sr-only" for="pMax">до</label><input id="pMax" type="number" inputmode="numeric" placeholder="до 160 000" min="0" step="1000"></div></fieldset>
+    <fieldset><legend>Возможности</legend><label class="sw">Инверторный компрессор<input type="checkbox" id="fInv"></label><label class="sw">Управление по Wi-Fi<input type="checkbox" id="fWifi"></label></fieldset>
+    <fieldset><legend>Бренд</legend><div id="fBrand"></div></fieldset>
+    <button class="flt-reset" type="button" id="fReset">Сбросить фильтры</button>
+    <button class="btn flt-x" type="button" style="display:none;width:100%;margin-top:8px">Показать <span id="fN">0</span></button>
+  </form>
+  <div>
+    <div class="bar"><span class="bar-n" id="cnt" aria-live="polite"></span>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-line btn-s flt-open" type="button" id="fOpen" aria-expanded="false" aria-controls="flt">Фильтры<span id="fAct"></span></button>
+      <label class="sr-only" for="sort">Сортировка</label><select class="sel" id="sort"><option value="pop">Сначала популярные</option><option value="cheap">Сначала дешевле</option><option value="exp">Сначала дороже</option><option value="area">По площади</option></select></div></div>
+    <div class="pgrid" id="grid"></div>
+    <p class="demo-note" style="margin-top:20px">Демо-каталог: бренды и серии реальные, цены и характеристики ориентировочные — пришлите прайс, заменим</p>
+  </div>
+</div></div>
+</main>
+<footer class="ftr"><div class="wrap">
+  <div class="ftr-g">
+    <div><a class="brand" href="index.html"><img src="../assets/brand/mark-light.png" alt="" width="253" height="410"><b>climate solutions<small>for home &amp; business</small></b></a>
+      <a class="ftr-tel" href="tel:+79514596275">+7 (951) 459-62-75</a><p style="margin-top:8px;font-size:14px">Челябинск, ул. 5 Декабря, 32</p></div>
+    <div><h3>Каталог</h3><ul><li><a href="catalog.html?type=wall">Настенные сплит-системы</a></li><li><a href="catalog.html?type=multi">Мульти-сплит</a></li><li><a href="catalog.html?type=cassette,ducted,floor">Полупромышленные</a></li><li><a href="catalog.html?type=mobile">Мобильные</a></li></ul></div>
+    <div><h3>Услуги</h3><ul><li><a href="services.html#ac">Монтаж кондиционеров</a></li><li><a href="services.html#vent">Вентиляция</a></li><li><a href="services.html#el">Электромонтаж</a></li><li><a href="services.html#service">Обслуживание</a></li></ul></div>
+    <div><h3>Компания</h3><ul><li><a href="about.html">О компании</a></li><li><a href="about.html#team">Команда</a></li><li><a href="about.html#reviews">Отзывы</a></li><li><a href="business.html">Для бизнеса</a></li></ul></div>
+    <div><h3>Связь</h3><ul><li><a href="https://wa.me/79514596275" target="_blank" rel="noopener">WhatsApp</a></li><li><a href="https://t.me/+79514596275" target="_blank" rel="noopener">Telegram</a></li><li><a href="https://vk.com/tim_antonov" target="_blank" rel="noopener">ВКонтакте</a></li><li><a href="contacts.html">Контакты и карта</a></li></ul></div>
+  </div>
+  <div class="ftr-b"><span>Climate Solutions © 2026 · ИП [ФИО] · ИНН [—]</span><span><a href="privacy.html">Политика конфиденциальности</a></span></div>
+</div></footer>
+<dialog class="md" id="md" aria-labelledby="mdT"><form class="md-box" id="mdForm" novalidate>
+  <button class="md-x" id="mdX" type="button" aria-label="Закрыть">×</button>
+  <span class="mono kick">заявка</span><h2 class="md-t" id="mdT">Оставить заявку</h2><p class="md-s" id="mdS">Оставьте телефон — перезвоним в течение 15 минут в рабочее время.</p>
+  <input type="hidden" id="mdWhat">
+  <div class="fld"><label for="mdName">Имя *</label><input id="mdName" autocomplete="name" required></div>
+  <div class="fld"><label for="mdPhone">Телефон *</label><input id="mdPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__" required></div>
+  <label class="pd"><input type="checkbox" class="pd-box" id="mdPd"><span>Согласен на обработку персональных данных и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>
+  <div class="err" id="mdErr" role="alert"></div>
+  <button class="btn btn-red" type="submit">Отправить</button>
+</form></dialog>
+<div class="ck" id="ck" role="region" aria-label="Уведомление о cookie" hidden><p>Мы используем cookie, чтобы сайт и корзина работали корректно. Подробнее — в <a href="privacy.html" target="_blank" rel="noopener">политике конфиденциальности</a>.</p><button class="btn btn-s" type="button" id="ckOk">Хорошо</button></div>
+<script src="products.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

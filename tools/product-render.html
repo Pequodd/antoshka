@@ -1,0 +1,118 @@
+<!doctype html><html><head><meta charset="utf-8"><style>html,body{margin:0;background:transparent}</style></head><body>
+<canvas id="c" width="1200" height="900"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* Product renders for the v11 catalog: one parametric scene, ?k=<kind> picks the unit. Transparent background, 1200x900. */
+const kind = new URLSearchParams(location.search).get('k') || 'wall-white';
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(1200, 900, false); renderer.setClearColor(0, 0);
+renderer.outputEncoding = THREE.sRGBEncoding; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(26, 1200 / 900, .1, 100);
+scene.add(new THREE.HemisphereLight('#ffffff', '#c9cfd3', .75));
+const key = new THREE.DirectionalLight('#ffffff', 1.05); key.position.set(-3, 5, 6); scene.add(key);
+const fill = new THREE.DirectionalLight('#eef3ff', .45); fill.position.set(5, 1, 3); scene.add(fill);
+const rim = new THREE.DirectionalLight('#ffffff', .5); rim.position.set(0, 3, -6); scene.add(rim);
+
+const M = (c, r = .45, m = .05) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m });
+const LINE = c => new THREE.LineBasicMaterial({ color: c, transparent: true, opacity: .35 });
+function roundRect(w, h, r) { const s = new THREE.Shape(), x = -w / 2, y = -h / 2;
+  s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r);
+  s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r);
+  s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s; }
+function rbox(w, h, d, r, bevel = .02) { const g = new THREE.ExtrudeGeometry(roundRect(w - bevel * 2, h - bevel * 2, Math.max(.001, r - bevel)), { depth: d - bevel * 2, bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 4, curveSegments: 10 }); g.translate(0, 0, -(d - bevel * 2) / 2); return g; }
+const G = new THREE.Group(); scene.add(G);
+function add(geom, mat, x = 0, y = 0, z = 0, rot, edge) { const m = new THREE.Mesh(geom, mat); m.position.set(x, y, z); if (rot) m.rotation.set(...rot); G.add(m);
+  if (edge) { const l = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 30), LINE(edge)); l.position.copy(m.position); l.rotation.copy(m.rotation); G.add(l); } return m; }
+
+const RED = M('#C40A08', .5);
+function wall(body, panel, accent, opt = {}) {
+  const w = opt.w || 2.4, h = opt.h || .78, d = opt.d || .56;
+  add(rbox(w, h, d, opt.r ?? .16, .05), body, 0, 0, 0, null, opt.edge);
+  // front panel
+  add(rbox(w - .04, h * .74, .04, .08, .015), panel, 0, h * .1, d / 2 + .005);
+  // louvre gap and flap
+  add(rbox(w * .88, .07, .05, .03, .01), M('#1A2226', .7), 0, -h * .36, d * .28, [-.5, 0, 0]);
+  add(rbox(w * .9, .1, .03, .04, .01), body, 0, -h * .42, d * .38, [-.9, 0, 0]);
+  // display
+  if (opt.display !== false) { add(rbox(.26, .07, .02, .03, .005), M('#0E1215', .3, .2), w * .3, -h * .05, d / 2 + .03);
+    add(new THREE.CircleGeometry(.012, 16), new THREE.MeshBasicMaterial({ color: accent }), w * .3 + .08, -h * .05, d / 2 + .042); }
+  if (opt.stripe) add(rbox(w - .1, .012, .01, .005, .002), M(opt.stripe, .35, .5), 0, h * .2, d / 2 + .03);
+  camera.position.set(-2.1, -.55, 5.0); camera.lookAt(.05, -.08, 0);
+}
+function cassette() {
+  const body = M('#F4F5F5', .5), grille = M('#E3E6E7', .6);
+  add(new THREE.BoxGeometry(2.3, .22, 2.3), body, 0, 0, 0, null, '#24363F');
+  add(new THREE.BoxGeometry(1.2, .02, 1.2), grille, 0, -.12, 0);
+  for (let i = -5; i <= 5; i++) add(new THREE.BoxGeometry(1.14, .012, .02), M('#C7CDD0', .6), 0, -.13, i * .1);
+  const sl = M('#2A3940', .6);
+  [[0, .85, 1.7, .12], [0, -.85, 1.7, .12], [.85, 0, .12, 1.7], [-.85, 0, .12, 1.7]].forEach(([x, z, a, b]) => add(new THREE.BoxGeometry(a, .02, b), sl, x, -.115, z));
+  add(new THREE.BoxGeometry(1.6, .45, 1.6), M('#DADFE1', .7), 0, .33, 0);
+  camera.position.set(-3.0, -2.7, 4.4); camera.lookAt(0, .05, 0);
+}
+function floorCeiling() {
+  const body = M('#F3F4F4', .45);
+  add(rbox(2.6, .7, 1.25, .2, .06), body, 0, 0, 0, null);
+  add(rbox(2.3, .12, .05, .05, .015), M('#1A2226', .7), 0, -.12, .64, [-.4, 0, 0]);
+  add(rbox(2.4, .14, .03, .05, .01), body, 0, -.2, .68, [-.9, 0, 0]);
+  add(rbox(.3, .08, .02, .03, .005), M('#0E1215', .3, .2), .85, .14, .64);
+  camera.position.set(-2.4, .9, 5.3); camera.lookAt(0, -.05, 0);
+}
+function ducted() {
+  const body = M('#D5DADC', .55, .25), flange = M('#9AA4A9', .5, .4);
+  add(new THREE.BoxGeometry(2.6, .55, 1.5), body, 0, 0, 0, null, '#24363F');
+  add(new THREE.BoxGeometry(2.2, .42, .08), flange, 0, 0, .78);
+  add(new THREE.BoxGeometry(2.2, .42, .08), flange, 0, 0, -.78);
+  for (let i = -8; i <= 8; i++) add(new THREE.BoxGeometry(.03, .36, .02), M('#2A3940', .6), i * .12, 0, .83);
+  add(new THREE.BoxGeometry(.5, .3, .02), M('#F4F5F5', .5), 1.05, 0, .76).position.z = .77;
+  camera.position.set(-3.6, 1.9, 5.4); camera.lookAt(0, 0, 0);
+}
+function outdoor(fans = 1) {
+  const body = M('#F1F2F2', .55), dark = M('#2A3940', .6);
+  const w = fans === 2 ? 2.3 : 2.0, h = fans === 2 ? 2.2 : 1.45;
+  add(new THREE.BoxGeometry(w, h, .82), body, 0, 0, 0, null, '#24363F');
+  for (let f = 0; f < fans; f++) { const y = fans === 2 ? (f ? -.5 : .5) : 0, x = -.22;
+    add(new THREE.CylinderGeometry(.56, .56, .05, 48), dark, x, y, .4, [Math.PI / 2, 0, 0]);
+    for (let i = 0; i < 9; i++) add(new THREE.TorusGeometry(.12 + i * .052, .008, 6, 48), M('#59666C', .5, .3), x, y, .44);
+    add(new THREE.BoxGeometry(.04, 1.1, .02), M('#59666C', .5, .3), x, y, .45); add(new THREE.BoxGeometry(1.1, .04, .02), M('#59666C', .5, .3), x, y, .45); }
+  add(new THREE.BoxGeometry(.42, h * .8, .02), M('#E2E5E6', .6), w / 2 - .3, -.02, .42);
+  [[-.7], [.7]].forEach(([x]) => add(new THREE.BoxGeometry(.18, .08, .9), M('#9AA4A9', .5, .4), x, -h / 2 - .04, 0));
+  camera.position.set(-3.2, 1.1, 5.6); camera.lookAt(0, -.05, 0);
+}
+function mobile() {
+  const body = M('#F4F5F5', .45);
+  add(rbox(1.05, 2.4, .9, .24, .06), body, 0, 0, 0);
+  add(rbox(.82, .5, .04, .08, .01), M('#2A3940', .6), 0, .82, .45);
+  for (let i = 0; i < 6; i++) add(new THREE.BoxGeometry(.78, .025, .02), M('#59666C', .6), 0, .64 + i * .075, .47);
+  add(rbox(.5, .12, .02, .04, .005), M('#0E1215', .3, .2), 0, .38, .46);
+  add(new THREE.CircleGeometry(.014, 16), new THREE.MeshBasicMaterial({ color: '#E2261C' }), .17, .38, .472);
+  const hose = new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(.3, -.3, -.45), new THREE.Vector3(.6, -.4, -1.0), new THREE.Vector3(1.4, -.2, -1.2), new THREE.Vector3(1.9, .6, -1.0)]), 40, .1, 16);
+  add(hose, M('#C9CFD3', .6), 0, 0, 0);
+  for (const x of [-.36, .36]) for (const z of [-.3, .3]) add(new THREE.CylinderGeometry(.06, .06, .06, 16), M('#2A3940', .6), x, -1.22, z);
+  camera.position.set(-3.0, 1.2, 6.6); camera.lookAt(.15, -.05, 0);
+}
+
+const K = {
+  'wall-white':    () => wall(M('#F5F6F6', .42), M('#FFFFFF', .35), '#3DA5FF'),
+  'wall-pro':      () => wall(M('#F2F3F3', .38), M('#FAFAFA', .2, .05), '#E2261C', { r: .06, stripe: '#C9CFD3' }),
+  'wall-black':    () => wall(M('#0B0D0E', .32, .25), M('#060708', .18, .3), '#FFFFFF', { r: .08, stripe: '#5A646A', edge: null }),
+  'wall-silver':   () => wall(M('#C5CBCE', .3, .55), M('#D9DDDF', .25, .6), '#3DA5FF', { r: .12 }),
+  'wall-compact':  () => wall(M('#F5F6F6', .45), M('#FFFFFF', .4), '#3DA5FF', { w: 2.1, h: .72, r: .2 }),
+  'cassette':      cassette,
+  'floor-ceiling': floorCeiling,
+  'ducted':        ducted,
+  'outdoor':       () => outdoor(1),
+  'outdoor-multi': () => outdoor(2),
+  'mobile':        mobile,
+};
+(K[kind] || K['wall-white'])();
+// soft contact shadow under the object
+const sh = document.createElement('canvas'); sh.width = sh.height = 256; const sx = sh.getContext('2d');
+const gr = sx.createRadialGradient(128, 128, 0, 128, 128, 128); gr.addColorStop(0, 'rgba(20,28,32,.28)'); gr.addColorStop(1, 'rgba(20,28,32,0)'); sx.fillStyle = gr; sx.fillRect(0, 0, 256, 256);
+const box = new THREE.Box3().setFromObject(G);
+if (kind !== 'cassette' && !kind.startsWith('wall')) { const shadow = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sh), transparent: true, depthWrite: false }));
+  const s = box.getSize(new THREE.Vector3()); shadow.scale.set(s.x * 1.5, s.z * 2.2 + .6, 1); shadow.rotation.x = -Math.PI / 2; shadow.position.set(0, box.min.y - .25, 0); scene.add(shadow); }
+renderer.render(scene, camera);
+window.__done = true;
+</script></body></html>
