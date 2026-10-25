@@ -72,8 +72,8 @@ if not os.path.exists(os.path.join(V10, 'shop-hud.css')): open(os.path.join(V10,
 .hud-cart.bump .cart-n { animation: cartbump .45s cubic-bezier(.2,.7,.2,1); }
 @keyframes cartbump { 40% { transform: scale(1.4); } }
 ''')
-for f in ['chrome.js', 'viewer.js', 'products.js']:
-    open(os.path.join(V10, f), 'w').write(open(os.path.join(ROOT, 'v13', f)).read())
-# v10 keeps its own shop.js (it has the reworked cart); v13's copy only seeds a fresh checkout
-if not os.path.exists(os.path.join(V10, 'shop.js')): open(os.path.join(V10, 'shop.js'), 'w').write(open(os.path.join(ROOT, 'v13', 'shop.js')).read())
+open(os.path.join(V10, 'chrome.js'), 'w').write(open(os.path.join(ROOT, 'v13', 'chrome.js')).read())
+# v10 keeps its own shop.js (reworked cart), viewer.js (per-product 3D models) and products.js (their renders); v13's copies only seed a fresh checkout
+for f in ['shop.js', 'viewer.js', 'products.js']:
+    if not os.path.exists(os.path.join(V10, f)): open(os.path.join(V10, f), 'w').write(open(os.path.join(ROOT, 'v13', f)).read())
 print('v10 shop built')
