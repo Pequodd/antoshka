@@ -111,7 +111,7 @@ def catgrid():
 SHOWCASE = slider() + '\n' + catgrid() + '\n' + ticker()
 
 # ---------------------------------------------------------------- catalog
-CATALOG = phx('Каталог', 'Кондиционеры с монтажом под ключ: выберите тип, площадь комнаты и бюджет.', '16 моделей', (( None, 'Каталог'),), cid='catN', extra='''
+CATALOG = phx('Каталог', 'Кондиционеры с монтажом под ключ. Подберите по типу, площади и бюджету — монтаж добавится одной галочкой.', None, (( None, 'Каталог'),), cid='catN', extra='''
   <div class="phx-tabs" role="group" aria-label="Тип" id="fType"></div>''') + '''
 <div class="fbar" id="flt"><div class="fbar-in">
   <div class="fbar-g"><span class="mono">площадь</span><div class="chips" id="fArea" role="group" aria-label="Площадь помещения"></div></div>

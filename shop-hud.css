@@ -57,3 +57,35 @@
 .menu-links .mcat .mono { width: auto; }
 .menu-links .mcat .mcat-t { padding-right: 8px; }
 @media (max-width: 900px) { .menu-links .mcat { padding: 12px 60px 12px 12px !important; } }
+
+/* the shop capsule: catalog and cart side by side in one outline, the cart labelled and its count inline */
+.hud-shop { display: inline-flex; align-items: stretch; border: 1px solid var(--ink); border-radius: 999px; overflow: hidden; }
+.hud-shop .hud-cat { border: 0; border-radius: 0; min-height: 42px; }
+.hud-shop .hud-cart { position: static; width: auto; height: auto; min-height: 42px; padding: 0 16px 0 14px; display: inline-flex; align-items: center; gap: 8px; border-radius: 0; border-left: 1px solid var(--ink); color: var(--ink); font-size: 14px; white-space: nowrap; }
+.hud-shop .hud-cart:hover, .hud-shop .hud-cart[aria-current="page"] { background: var(--ink); color: #fff; }
+.hud-shop .cart-n { position: static; display: inline-grid; place-items: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px; background: var(--air); color: #fff; font: 500 12px/1 var(--sans); }
+.hud-shop .cart-n[data-n="0"] { display: none; }
+.hud-shop .hud-cart:focus-visible, .hud-shop .hud-cat:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--air); }
+.hud-shop .hud-cart.bump .cart-n { animation: cartbump .45s cubic-bezier(.2,.7,.2,1); }
+@media (max-width: 1240px) {
+  .hud-shop .hud-cart-t { display: none; }
+  .hud-shop .hud-cart { padding: 0 12px; }
+  .hud-shop .hud-cat { width: auto; padding: 0 12px; }
+}
+@media (max-width: 900px) { .hud-shop .hud-cat span { display: inline; } .hud-shop .hud-cat { padding: 0 12px 0 12px; } .hud-shop .hud-cat, .hud-shop .hud-cart { min-height: 40px; } }
+@media (max-width: 380px) { .hud-shop .hud-cat span { display: none; } }
+
+/* catalog head: tighter, one count — the live one in the filter bar */
+body[data-page="catalog"] .phl-g { padding-top: clamp(28px, 5vh, 56px); padding-bottom: 18px; }
+body[data-page="catalog"] .phl-x { padding-bottom: 18px; }
+body[data-page="catalog"] .phl > .rule { display: none; }
+body[data-page="catalog"] .fbar { border-top: 1px solid var(--line); }
+@media (max-width: 480px) {
+  .hud-menu span { display: none; }
+  .hud-menu { padding: 0 !important; width: 44px; min-width: 44px; justify-content: center; }
+  .hud-end { gap: 6px; }
+  .hud-shop .hud-cat { padding: 0 10px; gap: 6px; font-size: 13px; }
+  .hud-shop .hud-cart { padding: 0 10px; gap: 6px; }
+}
+@media (max-width: 400px) { .hud .brand b small { display: none; } }
+@media (max-width: 340px) { .hud .brand b { display: none; } }

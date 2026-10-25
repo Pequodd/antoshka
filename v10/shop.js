@@ -104,7 +104,7 @@
         && (!s.prices.length || s.prices.some(([a, b]) => p.price >= a && p.price < b)) && (!s.inv || p.inverter) && (!s.wifi || p.wifi));
       const o = sort.value; l.sort(o === 'cheap' ? (a, b) => a.price - b.price : o === 'exp' ? (a, b) => b.price - a.price : o === 'area' ? (a, b) => a.area - b.area : (a, b) => b.pop - a.pop);
       grid.innerHTML = l.length ? l.map(cell).join('') : `<div class="empty"><b>Под эти условия моделей нет</b><p>Уберите часть фильтров или позвоните — подберём кондиционер под вашу комнату и привезём под заказ.</p><button class="btn btn-ink" type="button" id="emptyReset">Сбросить фильтры</button></div>`;
-      const n = l.length; $('#cnt').textContent = `${n} ${plural(n, 'модель', 'модели', 'моделей')}`; $('#catN').textContent = `${n} ${plural(n, 'модель', 'модели', 'моделей')}`;
+      const n = l.length; $('#cnt').textContent = `${n} ${plural(n, 'модель', 'модели', 'моделей')}`; if ($('#catN')) $('#catN').textContent = `${n} ${plural(n, 'модель', 'модели', 'моделей')}`;
       const u = new URLSearchParams(); if (s.types.length) u.set('type', s.types.join(',')); history.replaceState(null, '', u.toString() ? '?' + u : location.pathname);
     }
     $('#fType').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
