@@ -39,7 +39,7 @@ b13.CK = cut('<div class="ck" id="ck"', '</div>\n')
 b13.MBAR = cut('<nav class="mbar"', '</nav>').replace('href="#contact"', 'href="#req"').replace('href="#b2b-form"', 'href="#req"')
 for fn in ['catalog.html', 'product.html', 'cart.html']:
     k, t, d, body, aud, three, cur = b13.PAGES[fn]
-    html = b13.page(k, t, d, body, aud, three, cur).replace('<link rel="stylesheet" href="v12.css">\n<link rel="stylesheet" href="v13.css">', '<link rel="stylesheet" href="shop.css">')
+    html = b13.page(k, t, d, body, aud, three, cur).replace('<link rel="stylesheet" href="v12.css">\n<link rel="stylesheet" href="v13.css">', '<link rel="stylesheet" href="shop.css">\n<link rel="stylesheet" href="shop-hud.css">').replace('<script src="shop.js"></script>', '<script src="shop.js"></script>\n<script src="menu.js"></script>')
     html = re.sub(r'\n<meta property="og:[^>]*>(?:<meta property="og:[^>]*>)*', '', html)
     html = html.replace('"assets/', '"../assets/')
     open(os.path.join(V10, fn), 'w').write(html)
@@ -49,7 +49,7 @@ a = s.index('<style>') + len('<style>'); z = s.index('</style>')
 open(os.path.join(V10, 'base.css'), 'w').write('/* the v10 styles, extracted for the shop pages (index.html keeps its own inline copy) */\n' + s[a:z].strip() + '\n')
 css13 = open(os.path.join(ROOT, 'v13', 'v13.css')).read().replace(':root { --air: #D9231A; --orange: #D9231A; }\n', '')  # keep v10's own red
 open(os.path.join(V10, 'shop.css'), 'w').write('/* shop pages for v10: components from v12, audit fixes from v13 */\n' + open(os.path.join(ROOT, 'v13', 'v12.css')).read() + '\n' + css13)
-open(os.path.join(V10, 'shop-hud.css'), 'w').write('''/* v10 + shop: the header cart */
+if not os.path.exists(os.path.join(V10, 'shop-hud.css')): open(os.path.join(V10, 'shop-hud.css'), 'w').write('''/* v10 + shop: the header cart */
 .hud-cart { position: relative; display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; color: var(--ink); text-decoration: none; transition: background .2s; }
 .hud-cart:hover { background: rgba(36,54,63,.07); }
 .hud-cart svg { width: 20px; height: 20px; }
