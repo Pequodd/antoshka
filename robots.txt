@@ -1,0 +1,18 @@
+User-agent: *
+Disallow: /v3/
+Disallow: /v4/
+Disallow: /v5/
+Disallow: /v6/
+Disallow: /v7/
+Disallow: /v8/
+Disallow: /v9/
+Disallow: /v10/
+Disallow: /v11/
+Disallow: /v12/
+Disallow: /v13/
+Disallow: /scroll-3d/
+Disallow: /tools/
+Disallow: /versions.html
+Disallow: /cart.html
+
+Sitemap: https://kliamatpro.ru/sitemap.xml
