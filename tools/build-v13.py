@@ -112,6 +112,7 @@ SHOWCASE = slider() + '\n' + catgrid() + '\n' + ticker()
 
 # ---------------------------------------------------------------- catalog
 CATALOG = phx('Каталог', 'Кондиционеры с монтажом под ключ. Подберите по типу, площади и бюджету — монтаж добавится одной галочкой.', None, (( None, 'Каталог'),), cid='catN', extra='''
+  <form class="csearch" role="search" onsubmit="return false"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.75"/><path d="M13 13l4.5 4.5"/></svg><label class="sr-only" for="fQ">Поиск по каталогу</label><input id="fQ" type="search" placeholder="Поиск: бренд, модель, «инвертор», «Wi-Fi»…" autocomplete="off" enterkeyhint="search"><button type="button" id="fQx" aria-label="Очистить поиск" hidden>×</button></form>
   <div class="phx-tabs" role="group" aria-label="Тип" id="fType"></div>''') + '''
 <div class="fbar" id="flt"><div class="fbar-in">
   <div class="fbar-g"><span class="mono">площадь</span><div class="chips" id="fArea" role="group" aria-label="Площадь помещения"></div></div>

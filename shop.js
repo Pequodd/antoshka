@@ -97,13 +97,18 @@
     $('#fPrice').innerHTML = PRICES.map((a, i) => `<button type="button" aria-pressed="false" data-i="${i}">${a[2]}</button>`).join('');
     const q = new URLSearchParams(location.search), qt = (q.get('type') || '').split(',').filter(Boolean);
     if (qt.length) { $$('#fType button').forEach(b => b.setAttribute('aria-pressed', qt.includes(b.dataset.t))); }
-    const st = () => ({ types: $$('#fType [aria-pressed="true"]').map(b => b.dataset.t).filter(Boolean), areas: $$('#fArea [aria-pressed="true"]').map(b => AREAS[+b.dataset.i]),
+    /* search: every word must match the brand, model, type, tags or features (inverter, wi-fi, area, power) */
+    const norm = v => String(v).toLowerCase().replace(/ё/g, 'е').replace(/[‐-—]/g, '-');
+    const RU = { 'Haier': 'хайер хаер хаир', 'Ballu': 'баллу балу', 'Royal Clima': 'роял клима ройал', 'Hisense': 'хайсенс хисенс хайсенс', 'Midea': 'мидеа мидея', 'LG': 'элджи лж лджи', 'Electrolux': 'электролюкс', 'Mitsubishi Electric': 'мицубиси митсубиси мицубиши мицубиси электрик', 'Daikin': 'дайкин' };
+    const hay = p => norm([p.brand, RU[p.brand] || '', /black/i.test(p.name) || p.img === 'wall-black' ? 'черный чёрный black' : '', p.name, T[p.type], (p.tags || []).join(' '), p.inverter ? 'инвертор инверторный inverter' : '', p.wifi ? 'wi-fi wifi вайфай' : '', `${p.area} м2 м² кв`, `${String(p.kw).replace('.', ',')} квт ${p.kw}`, p.cls].join(' '));
+    const qWords = () => norm($('#fQ').value.trim()).split(/\s+/).filter(Boolean);
+    const st = () => ({ q: qWords(), types: $$('#fType [aria-pressed="true"]').map(b => b.dataset.t).filter(Boolean), areas: $$('#fArea [aria-pressed="true"]').map(b => AREAS[+b.dataset.i]),
       prices: $$('#fPrice [aria-pressed="true"]').map(b => PRICES[+b.dataset.i]), inv: $('#fInv').checked, wifi: $('#fWifi').checked });
     function render() {
-      const s = st(); let l = P.filter(p => (!s.types.length || s.types.includes(p.type)) && (!s.areas.length || s.areas.some(([a, b]) => p.area > a && p.area <= b))
+      const s = st(); let l = P.filter(p => (!s.q.length || s.q.every(w => hay(p).includes(w))) && (!s.types.length || s.types.includes(p.type)) && (!s.areas.length || s.areas.some(([a, b]) => p.area > a && p.area <= b))
         && (!s.prices.length || s.prices.some(([a, b]) => p.price >= a && p.price < b)) && (!s.inv || p.inverter) && (!s.wifi || p.wifi));
       const o = sort.value; l.sort(o === 'cheap' ? (a, b) => a.price - b.price : o === 'exp' ? (a, b) => b.price - a.price : o === 'area' ? (a, b) => a.area - b.area : (a, b) => b.pop - a.pop);
-      grid.innerHTML = l.length ? l.map(cell).join('') : `<div class="empty"><b>Под эти условия моделей нет</b><p>Уберите часть фильтров или позвоните — подберём кондиционер под вашу комнату и привезём под заказ.</p><button class="btn btn-ink" type="button" id="emptyReset">Сбросить фильтры</button></div>`;
+      grid.innerHTML = l.length ? l.map(cell).join('') : `<div class="empty"><b>${s.q.length ? `По запросу «${esc($('#fQ').value.trim())}» ничего нет` : 'Под эти условия моделей нет'}</b><p>Уберите часть фильтров или позвоните — подберём кондиционер под вашу комнату и привезём под заказ.</p><button class="btn btn-ink" type="button" id="emptyReset">Сбросить фильтры</button></div>`;
       const n = l.length; $('#cnt').textContent = `${n} ${plural(n, 'модель', 'модели', 'моделей')}`; if ($('#catN')) $('#catN').textContent = `${n} ${plural(n, 'модель', 'модели', 'моделей')}`;
       const u = new URLSearchParams(); if (s.types.length) u.set('type', s.types.join(',')); history.replaceState(null, '', u.toString() ? '?' + u : location.pathname);
     }
@@ -113,7 +118,12 @@
       render(); });
     ['#fArea', '#fPrice'].forEach(id => $(id).addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; b.setAttribute('aria-pressed', b.getAttribute('aria-pressed') !== 'true'); render(); }));
     [$('#fInv'), $('#fWifi'), sort].forEach(el => el.addEventListener('change', render));
-    grid.addEventListener('click', e => { if (e.target.id !== 'emptyReset') return; $$('#fType button').forEach(b => b.setAttribute('aria-pressed', !b.dataset.t)); $$('#fArea button, #fPrice button').forEach(b => b.setAttribute('aria-pressed', 'false')); $('#fInv').checked = $('#fWifi').checked = false; render(); });
+    const fQ = $('#fQ'), fQx = $('#fQx');
+    fQ.addEventListener('input', () => { fQx.hidden = !fQ.value; render(); });
+    fQx.addEventListener('click', () => { fQ.value = ''; fQx.hidden = true; render(); fQ.focus(); });
+    fQ.addEventListener('keydown', e => { if (e.key === 'Escape' && fQ.value) { e.preventDefault(); fQx.click(); } });
+    document.addEventListener('keydown', e => { if (e.key === '/' && !/input|textarea|select/i.test(document.activeElement.tagName)) { e.preventDefault(); fQ.focus(); } });
+    grid.addEventListener('click', e => { if (e.target.id !== 'emptyReset') return; fQ.value = ''; fQx.hidden = true; $$('#fType button').forEach(b => b.setAttribute('aria-pressed', !b.dataset.t)); $$('#fArea button, #fPrice button').forEach(b => b.setAttribute('aria-pressed', 'false')); $('#fInv').checked = $('#fWifi').checked = false; render(); });
     render();
   }
 
