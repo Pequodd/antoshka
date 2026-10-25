@@ -195,3 +195,7 @@ html[data-aud="biz"] .bx-go { background: #121619; }
 
 /* desktop: the header already has the version switch, the sections, the catalog and the cart, so the fullscreen menu button is only for phones and tablets */
 @media (min-width: 901px) { .hud-menu { display: none !important; } }
+
+/* product: the noise level explained by comparison, under the key figures */
+.pp-noise { margin: -8px 0 0; padding: 12px 16px; border-radius: 14px; background: #F0F2F3; font-size: 14px; line-height: 1.45; color: var(--muted); }
+.pp-noise b { font-weight: 500; color: var(--ink); }

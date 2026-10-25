@@ -29,6 +29,13 @@
 
   /* ---------- product cell ---------- */
   const spec = p => `до ${p.area} м² · ${kw(p.kw)} кВт${p.inverter ? ' · инвертор' : ''}`;
+  /* decibels in plain words: what the quietest mode sounds like and where it fits */
+  const noise = db => db <= 20 ? ['Тише шелеста листьев', 'Можно спать рядом и не заметить, что он работает.']
+    : db <= 25 ? ['Как шелест листьев за окном', 'В спальне почти незаметен, сну не мешает.']
+    : db <= 30 ? ['Как шёпот', 'Ночью слышно, только если прислушаться.']
+    : db <= 40 ? ['Как в тихой библиотеке', 'Отлично для гостиной, кухни и офиса, для спальни громковато.']
+    : db <= 50 ? ['Как работающий холодильник', 'Подойдёт для дачи или кухни, спать рядом будет шумно.']
+    : ['Как обычный разговор', 'Для жилых комнат шумновато.'];
   const instLine = p => { const v = instPrice(p); return v === null ? 'монтаж по смете' : v === 0 ? 'без монтажа' : `+ монтаж ${rub(v)}`; };
   function addBtn(p) { const inC = cart.has(p.id); return `<button class="add${inC ? ' in' : ''}" type="button" data-add="${p.id}" aria-label="${inC ? 'В корзине — перейти в корзину' : 'Добавить в корзину: ' + esc(p.brand + ' ' + p.name)}">${inC ? CHECK : PLUS}</button>`; }
   function cell(p) {
@@ -136,6 +143,7 @@
     $('#ppInfo').innerHTML = `<ol class="crumbs" aria-label="Навигация"><li><a href="index.html">Главная</a></li><li><a href="catalog.html">Каталог</a></li><li><a href="catalog.html?type=${p.type}">${T[p.type]}</a></li></ol>
       <div><span class="mono">${esc(p.brand)} · ${T[p.type]}</span><h1>${esc(p.brand)} ${esc(p.name)}</h1></div><div class="pp-tags">${tags}</div>
       <div class="pp-key"><div><b>${p.area} м²</b><span>площадь до</span></div><div><b>${kw(p.kw)} кВт</b><span>охлаждение</span></div><div><b>${p.db} дБ</b><span>шум, от</span></div></div>
+      <p class="pp-noise"><b>${noise(p.db)[0]}.</b> ${noise(p.db)[1]}</p>
       <div class="buy-p"><span class="price" id="ppSum">${rub(p.price)}</span><small id="ppNote">за оборудование</small></div>
       ${ip > 0 ? `<label class="opt"><div><b>Монтаж под ключ, + ${rub(ip)}</b><span>Трасса до 3 м, кронштейны, вакуумирование, запуск. Гарантия на монтаж 3 года.</span></div><span class="sw"><input type="checkbox" id="ppInst" checked aria-label="Добавить монтаж под ключ"></span></label>`
         : ip === null ? `<div class="opt" style="cursor:default"><div><b>Монтаж — по смете</b><span>Инженер приедет на бесплатный замер и посчитает монтаж до покупки.</span></div></div>` : ''}
@@ -147,7 +155,7 @@
     qN.addEventListener('change', sum); $('#ppInst')?.addEventListener('change', sum); sum();
     $('#ppAdd').addEventListener('click', () => { cart.add(p.id, +qN.value, $('#ppInst') ? $('#ppInst').checked : false); bump(); toast('Добавлено в корзину <a href="cart.html">Оформить</a>'); });
     $('#tSpec').innerHTML = `<table class="spec"><tbody><tr><th>Бренд</th><td>${esc(p.brand)}</td></tr><tr><th>Тип</th><td>${T[p.type]}</td></tr><tr><th>Площадь</th><td>до ${p.area} м²</td></tr><tr><th>Мощность охлаждения</th><td>${kw(p.kw)} кВт</td></tr>
-      <tr><th>Компрессор</th><td>${p.inverter ? 'инверторный — плавно держит температуру и экономит электроэнергию' : 'on/off'}</td></tr><tr><th>Уровень шума</th><td>от ${p.db} дБ</td></tr><tr><th>Энергоэффективность</th><td>${p.cls}</td></tr><tr><th>Wi-Fi</th><td>${p.wifi ? 'да, через приложение' : 'нет'}</td></tr><tr><th>Режимы</th><td>охлаждение, обогрев, осушение, вентиляция</td></tr></tbody></table>`;
+      <tr><th>Компрессор</th><td>${p.inverter ? 'инверторный — плавно держит температуру и экономит электроэнергию' : 'on/off'}</td></tr><tr><th>Уровень шума</th><td>от ${p.db} дБ — ${noise(p.db)[0].toLowerCase()}</td></tr><tr><th>Энергоэффективность</th><td>${p.cls}</td></tr><tr><th>Wi-Fi</th><td>${p.wifi ? 'да, через приложение' : 'нет'}</td></tr><tr><th>Режимы</th><td>охлаждение, обогрев, осушение, вентиляция</td></tr></tbody></table>`;
     $$('.pp-tabs button').forEach(b => b.addEventListener('click', () => { $$('.pp-tabs button').forEach(x => x.setAttribute('aria-selected', x === b)); $$('[role="tabpanel"]').forEach(t => t.hidden = t.id !== b.getAttribute('aria-controls')); }));
     $('#sim').innerHTML = P.filter(x => x.id !== p.id && (x.type === p.type || Math.abs(x.area - p.area) <= 10)).sort((a, b) => Math.abs(a.price - p.price) - Math.abs(b.price - p.price)).slice(0, 4).map(cell).join('');
     if (window.csViewer) window.csViewer(p); else { const f = $('#pvFallback'); f.src = IMG(p.img); f.hidden = false; $('#pv').hidden = true; }
