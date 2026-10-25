@@ -79,8 +79,13 @@
   }
 
   /* ---------- geography ---------- */
-  const geo = $$('.geo-r'), map = $('.geo-m iframe');
-  geo.forEach(b => b.addEventListener('click', () => { geo.forEach(x => x.setAttribute('aria-pressed', x === b)); if (map) map.src = b.dataset.map; }));
+  /* geography: the map is a facade until asked for — rows switch the place, the button loads Yandex Maps */
+  const geo = $$('.geo-r'), box = $('.geo-m');
+  const mapSrc = () => ($('.geo-r[aria-pressed="true"]') || geo[0]).dataset.map;
+  function loadMap() { if (!box || $('iframe', box)) return; const f = document.createElement('iframe'); f.title = 'Climate Solutions на Яндекс Картах'; f.src = mapSrc(); f.referrerPolicy = 'no-referrer-when-downgrade'; box.innerHTML = ''; box.appendChild(f); f.focus(); }
+  if (box) box.addEventListener('click', e => { if (e.target.closest('.map-load')) loadMap(); });
+  geo.forEach(b => b.addEventListener('click', () => { geo.forEach(x => x.setAttribute('aria-pressed', x === b)); const f = box && $('iframe', box);
+    if (f) f.src = b.dataset.map; else if (box) { const t = $('.map-fac b', box); if (t) t.textContent = b.querySelector('b').textContent + ' · ' + b.querySelector('span').textContent; } }));
 
   /* ---------- catalog ---------- */
   if (page === 'catalog') {
@@ -99,7 +104,7 @@
         && (!s.prices.length || s.prices.some(([a, b]) => p.price >= a && p.price < b)) && (!s.inv || p.inverter) && (!s.wifi || p.wifi));
       const o = sort.value; l.sort(o === 'cheap' ? (a, b) => a.price - b.price : o === 'exp' ? (a, b) => b.price - a.price : o === 'area' ? (a, b) => a.area - b.area : (a, b) => b.pop - a.pop);
       grid.innerHTML = l.length ? l.map(cell).join('') : `<div class="empty"><b>Под эти условия моделей нет</b><p>Уберите часть фильтров или позвоните — подберём кондиционер под вашу комнату и привезём под заказ.</p><button class="btn btn-ink" type="button" id="emptyReset">Сбросить фильтры</button></div>`;
-      const n = l.length; $('#cnt').textContent = `${n} ${plural(n, 'модель', 'модели', 'моделей')}`; $('#catN').textContent = `(${n})`;
+      const n = l.length; $('#cnt').textContent = `${n} ${plural(n, 'модель', 'модели', 'моделей')}`; $('#catN').textContent = `${n} ${plural(n, 'модель', 'модели', 'моделей')}`;
       const u = new URLSearchParams(); if (s.types.length) u.set('type', s.types.join(',')); history.replaceState(null, '', u.toString() ? '?' + u : location.pathname);
     }
     $('#fType').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
@@ -144,7 +149,7 @@
   if (page === 'cart') {
     const box = $('#cartBox');
     function draw() {
-      const items = cart.items(), n = cart.count(); $('#cartN').textContent = `(${n})`;
+      const items = cart.items(), n = cart.count(); $('#cartN').textContent = `${n} ${plural(n, 'товар', 'товара', 'товаров')}`;
       if (!items.length) { box.innerHTML = `<div class="done"><b>В корзине пока пусто</b><p>Выберите кондиционер в каталоге — монтаж добавится одной галочкой.</p><a class="btn btn-red" href="catalog.html">Перейти в каталог <i>↗</i></a></div>`; return; }
       let goods = 0, inst = 0, survey = false;
       const rows = items.map(i => { const p = byId(i.id), ip = instPrice(p); goods += p.price * i.qty; if (i.inst && ip > 0) inst += ip * i.qty; if (ip === null) survey = true;
@@ -185,7 +190,7 @@
       if (!pdOk(f, err)) return;
       const no = 'CS-' + String(Date.now()).slice(-6), name = n.value.trim(); cart.clear();
       box.innerHTML = `<div class="done"><span class="mono">заказ ${no} оформлен</span><b>Спасибо, ${esc(name)}! Перезвоним в течение 15 минут</b><p>Подтвердим наличие, время доставки и монтажа. Прототип: заказ никуда не отправлен.</p><a class="btn btn-ink" href="catalog.html">Вернуться в каталог <i>↗</i></a></div>`;
-      $('#cartN').textContent = '(0)'; scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+      $('#cartN').textContent = '0 товаров'; scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
     });
     draw(); addr();
   }

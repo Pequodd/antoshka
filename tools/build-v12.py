@@ -260,6 +260,8 @@ PAGES = {
   '404.html':      ('nf', 'Страница не найдена — Climate Solutions', 'Страница не найдена.', NOTFOUND, 'home', False, None),
 }
 if __name__ == '__main__':
+    import sys
+    if not os.environ.get('V12_TO_ROOT'): sys.exit('v12 is archived: the root is now built from v10 (tools/build-root.py). Set V12_TO_ROOT=1 to overwrite the root with v12 anyway.')
     home = TPL.replace('<!--V12SHOWCASE-->', SHOWCASE, 1)
     tail = '<script src="products.js"></script>\n<script src="chrome.js"></script>\n<script src="shop.js"></script>\n'
     home = home.replace('</html>\n' + tail, tail.replace('<script src="chrome.js"></script>\n', '') + '</html>\n') if home.endswith(tail) else home
