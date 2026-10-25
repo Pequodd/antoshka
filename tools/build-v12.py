@@ -16,6 +16,7 @@ def pd(i): return PD.format(i=i)
 
 # ---------------------------------------------------------------- chrome taken from the v10 home, verbatim
 HEAD = TPL[:TPL.index('<title>')]
+FONTS = cut('<link rel="preconnect" href="https://fonts.googleapis.com">', '&display=swap">')  # Onest + Plex Mono, cut off together with <title> before
 HUD = cut('<header class="hud"', '</header>').replace('href="#top"', 'href="index.html"')
 MENU = cut('<div class="menu" id="menu"', '<div class="menu-foot mono" aria-hidden="true"><span>[ climate solutions ]</span><span>[ ЧЛБ · ЕКБ ]</span></div>\n</div>').replace('href="#top"', 'href="index.html"')
 FOOT = cut('<footer class="foot-x"', '</footer>').replace('href="#top"', 'href="index.html"')
@@ -29,6 +30,7 @@ def page(key, title, desc, body, aud='home', three=False, cur=None):
     hud = hud.replace('href="#contact" data-aud-only="home" data-title="Оставить заявку"', 'href="#req" data-aud-only="home" data-title="Оставить заявку"').replace('href="#b2b-form" data-aud-only="biz"', 'href="#req" data-aud-only="biz" data-title="Запросить КП"')
     return f'''{HEAD.replace('<html lang="ru"', f'<html lang="ru" data-aud="{aud}"', 1)}<title>{title}</title>
 <meta name="description" content="{desc}">
+{FONTS}
 <link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="v12.css">
 </head>

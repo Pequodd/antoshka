@@ -16,6 +16,7 @@ def pd(i): return PD.format(i=i)
 
 # ---------------------------------------------------------------- chrome taken from the v10 home, verbatim
 HEAD = TPL[:TPL.index('<title>')]
+FONTS = cut('<link rel="preconnect" href="https://fonts.googleapis.com">', '&display=swap">')  # Onest + Plex Mono, cut off together with <title> before
 HUD = cut('<header class="hud"', '</header>').replace('href="#top"', 'href="index.html"')
 MENU = cut('<div class="menu" id="menu"', '<div class="menu-foot mono" aria-hidden="true"><span>[ climate solutions ]</span><span>[ ЧЛБ · ЕКБ ]</span></div>\n</div>').replace('href="#top"', 'href="index.html"')
 FOOT = cut('<footer class="foot-x"', '</footer>').replace('href="#top"', 'href="index.html"')
@@ -31,6 +32,7 @@ def page(key, title, desc, body, aud='home', three=False, cur=None):
     OG = OG_T.format(t=title, d=desc)
     return f'''{HEAD.replace('<html lang="ru"', f'<html lang="ru" data-aud="{aud}"', 1)}<title>{title}</title>
 <meta name="description" content="{desc}">
+{FONTS}
 <link rel="stylesheet" href="base.css">
 <link rel="stylesheet" href="v12.css">
 <link rel="stylesheet" href="v13.css">
@@ -65,13 +67,13 @@ def crumbs(*items):
 H = ('index.html', 'Главная')
 
 def phx(title, sub='', count=None, crumb=(), extra='', cid=''):
-    """Zero Tech page head: a dark grainy frame, giant uppercase word, counter in parentheses."""
-    c = f'<sup{f" id={chr(34)}{cid}{chr(34)}" if cid else ""}>({count})</sup>' if count is not None else ''
-    return f'''<section class="phx"><div class="phx-f">
+    """v10 section head: crumbs, a big light title with its count as a mono label, the description on the right, a rule."""
+    c = f' <span class="mono phl-n"{f" id={chr(34)}{cid}{chr(34)}" if cid else ""}>{count}</span>' if count is not None else ''
+    return f'''<section class="phl"><div class="grid phl-g">
   {crumbs(H, *crumb)}
-  <h1 class="phx-t">{title}{c}</h1>
-  {f'<p class="phx-s">{sub}</p>' if sub else ''}{extra}
-</div></section>'''
+  <h1 class="phl-t">{title}{c}</h1>
+  {f'<p class="aside">{sub}</p>' if sub else ''}
+</div>{f'<div class="phl-x">{extra}</div>' if extra else ''}<div class="rule"></div></section>'''
 
 def ticker(words=('climate', 'solutions')):
     item = ''.join(f'<span>{w}</span><i>/</i>' for w in words) * 4
@@ -109,7 +111,7 @@ def catgrid():
 SHOWCASE = slider() + '\n' + catgrid() + '\n' + ticker()
 
 # ---------------------------------------------------------------- catalog
-CATALOG = phx('Каталог', 'Кондиционеры с монтажом под ключ: выберите тип, площадь комнаты и бюджет.', 16, (( None, 'Каталог'),), cid='catN', extra='''
+CATALOG = phx('Каталог', 'Кондиционеры с монтажом под ключ: выберите тип, площадь комнаты и бюджет.', '16 моделей', (( None, 'Каталог'),), cid='catN', extra='''
   <div class="phx-tabs" role="group" aria-label="Тип" id="fType"></div>''') + '''
 <div class="fbar" id="flt"><div class="fbar-in">
   <div class="fbar-g"><span class="mono">площадь</span><div class="chips" id="fArea" role="group" aria-label="Площадь помещения"></div></div>
@@ -137,7 +139,7 @@ PRODUCT = '''<section class="pp" id="pp">
 </div></section>
 <section class="sec">''' + sec_t('Похожие модели') + '''<div class="pgrid" id="sim"></div></section>'''
 
-CART = phx('Корзина', '', 0, (('catalog.html', 'Каталог'), (None, 'Корзина')), cid='cartN') + '<section class="sec cart-sec"><div class="cart-l" id="cartBox"></div></section>'
+CART = phx('Корзина', 'Проверьте заказ и оставьте контакты — менеджер перезвонит и подтвердит наличие и время доставки.', '0 товаров', (('catalog.html', 'Каталог'), (None, 'Корзина')), cid='cartN') + '<section class="sec cart-sec"><div class="cart-l" id="cartBox"></div></section>'
 
 # ---------------------------------------------------------------- services
 def plist(rows): return '<table class="pl"><tbody>' + ''.join(f'<tr><th scope="row"><b>{a}</b>{f"<span>{c}</span>" if c else ""}</th><td>{p}</td></tr>' for a, c, p in rows) + '</tbody></table>'
@@ -177,7 +179,7 @@ def lead(title, sub, fid, kind='lead'):
     <div class="ld-a"><button class="btn ld-btn" type="submit">Перезвоните мне <i>↗</i></button><a class="mono" href="{WA}" target="_blank" rel="noopener">WhatsApp ↗</a><a class="mono" href="tel:{TEL}">{TEL_H}</a></div>
   </form></div></section>'''
 
-SERVICES = phx('Услуги', 'Цена фиксируется в смете до начала работ и не растёт на месте. Выезд и замер — бесплатно.', 4, ((None, 'Услуги'),),
+SERVICES = phx('Услуги', 'Цена фиксируется в смете до начала работ и не растёт на месте. Выезд и замер — бесплатно.', '4 направления', ((None, 'Услуги'),),
   extra='<nav class="phx-tabs" aria-label="Направления"><a href="#ac">Кондиционеры</a><a href="#vent">Вентиляция</a><a href="#el">Электрика</a><a href="#service">Сервис</a></nav>') \
   + dirs() + ticker(('монтаж', 'вентиляция', 'электрика', 'сервис')) + coop() + faq(b.FAQ) + lead('Посчитаем монтаж под ваш объект', 'Пришлите фото места установки в WhatsApp или оставьте телефон — назовём цену и запишем на бесплатный замер.', 'sv')
 
