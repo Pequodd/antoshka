@@ -2002,7 +2002,6 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
       <li class="pn" style="--i:3" data-k="3"><span class="mono">04</span><p class="pn-q"><span>Нет документов для бухгалтерии и арендодателя</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Полный пакет документов</b><p>Договор, КС-2, КС-3, исполнительная схема, протоколы замеров.</p></div></li>
       <li class="pn" style="--i:4" data-k="4"><span class="mono">05</span><p class="pn-q"><span>Три подрядчика — никто не отвечает за стыки</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Один подрядчик на три системы</b><p>Климат, вентиляция и электрика в одном договоре и одной смете.</p></div></li>
       <li class="pn" style="--i:5" data-k="5"><span class="mono">06</span><p class="pn-q"><span>Летом встал кондиционер в зале</span></p><i aria-hidden="true">→</i><div class="pn-a"><b>Регламентное ТО и аварийный выезд</b><p>Обслуживание по графику, выезд по аварии в течение 4 часов.</p></div></li>
-      <li class="pn-prev" aria-hidden="true"><img src="../assets/photos/store-ducts-1-sm.webp" alt="" loading="lazy"><img src="../assets/photos/store-ducts-2-sm.webp" alt="" loading="lazy"><img src="../assets/photos/ceiling-ducts-wiring-sm.webp" alt="" loading="lazy"><img src="../assets/photos/garage-ceiling-sm.webp" alt="" loading="lazy"><img src="../assets/photos/kitchen-ventilation-sm.webp" alt="" loading="lazy"><img src="../assets/photos/alpinist-outdoor-unit-sm.webp" alt="" loading="lazy"></li>
     </ol>
   </section>
 
@@ -2738,13 +2737,11 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
       bh.querySelectorAll('[data-count]').forEach(el => { const n = +el.dataset.count, t0 = performance.now(), D = reduce ? 0 : 1500;
         const step = now => { const p = D ? Math.min(1, (now - t0) / D) : 1; el.textContent = Math.round(n * (1 - Math.pow(1 - p, 3))).toLocaleString('ru-RU'); if (p < 1) requestAnimationFrame(step); }; step(t0); }); }
     new IntersectionObserver(([e]) => { bhVis = e.isIntersecting; if (bhVis) { bh.classList.add('in'); countUp(); devSet(dk); } else clearInterval(dT); }, { threshold: .2 }).observe(bh);
-    /* pains: preview image follows the cursor over the list, swaps per row */
-    const pnList = document.querySelector('.pn-list'), pnPrev = pnList.querySelector('.pn-prev'), pnImgs = [...pnPrev.querySelectorAll('img')];
+    /* pains: the hovered row stays bright, the others dim */
+    const pnList = document.querySelector('.pn-list');
     if (matchMedia('(hover: hover)').matches) {
-      pnImgs.forEach(i => { i.loading = 'eager'; });
-      pnList.addEventListener('mousemove', e => { const r = pnList.getBoundingClientRect(); pnPrev.style.left = (e.clientX - r.left) + 'px'; pnPrev.style.top = (e.clientY - r.top) + 'px'; });
-      pnList.querySelectorAll('.pn').forEach(row => row.addEventListener('mouseenter', () => { const k = +row.dataset.k;
-        pnList.classList.add('hov'); pnList.querySelectorAll('.pn').forEach(r => r.classList.toggle('hi', r === row)); pnImgs.forEach((im, i) => im.classList.toggle('on', i === k)); }));
+      pnList.querySelectorAll('.pn').forEach(row => row.addEventListener('mouseenter', () => {
+        pnList.classList.add('hov'); pnList.querySelectorAll('.pn').forEach(r => r.classList.toggle('hi', r === row)); }));
       pnList.addEventListener('mouseleave', () => { pnList.classList.remove('hov'); pnList.querySelectorAll('.pn.hi').forEach(r => r.classList.remove('hi')); });
     }
     /* reveals */
