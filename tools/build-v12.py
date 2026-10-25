@@ -4,9 +4,9 @@ partly re-composed after the Zero Tech reference. Home = v10 (shortened) + showc
 Run from the repo root: python3 tools/build-v12.py  (needs v12/home.tpl.html, made once from v10)."""
 import importlib.util, os, re
 
-HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE); OUT = os.path.join(ROOT, 'v12')
+HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE); OUT = ROOT  # the site is served from the domain root (kliamatpro.ru)
 spec = importlib.util.spec_from_file_location('b11', os.path.join(HERE, 'build-v11.py')); b = importlib.util.module_from_spec(spec); spec.loader.exec_module(b)
-TPL = open(os.path.join(OUT, 'home.tpl.html')).read()
+TPL = open(os.path.join(HERE, 'v12-home.tpl.html')).read()
 TEL, TEL_H, WA, TG, VK, ADDR, rub = b.TEL, b.TEL_H, b.WA, b.TG, b.VK, b.ADDR, b.rub
 UR = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11l6-6M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 AR = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -83,7 +83,7 @@ SLIDES = [('Системы', 'кондиционирования', 'outdoor', 'c
           ('Системы', 'вентиляции', 'ducted', 'services.html#vent', 'Проект, приточные установки и рекуператоры', 'Услуги')]
 def slider():
     sl = ''.join(f'''<div class="hs{' on' if not i else ''}"{' aria-hidden="true"' if i else ''}>
-      <img class="hs-img" src="../assets/shop/{img}.webp" alt="" width="800" height="600" loading="lazy">
+      <img class="hs-img" src="assets/shop/{img}.webp" alt="" width="800" height="600" loading="lazy">
       <h2 class="hs-t"><span>{a}</span>{w}</h2><p class="hs-s">{s}</p>
       <a class="hs-go" href="{href}"{' tabindex="-1"' if i else ''}>{go}</a></div>''' for i, (a, w, img, href, s, go) in enumerate(SLIDES))
     return f'''<section class="sec shw" aria-roledescription="карусель" aria-label="Каталог по направлениям"><div class="shw-f grain">
@@ -97,7 +97,7 @@ CATS = [('wall', 'Настенные сплит-системы', 'wall-white', '
         ('cassette', 'Кассетные', 'cassette', 'в потолок офиса и зала'), ('ducted', 'Канальные', 'ducted', 'скрытый монтаж'),
         ('floor', 'Напольно-потолочные', 'floor-ceiling', 'для залов и магазинов'), ('mobile', 'Мобильные', 'mobile', 'без монтажа')]
 def catgrid():
-    t = ''.join(f'''<a class="cg" href="catalog.html?type={k}"><img src="../assets/shop/{img}.webp" alt="" loading="lazy" width="800" height="600">
+    t = ''.join(f'''<a class="cg" href="catalog.html?type={k}"><img src="assets/shop/{img}.webp" alt="" loading="lazy" width="800" height="600">
       <span class="cg-b"><b>{n}</b><span>{d} · <em data-count="{k}">моделей</em></span></span><span class="cg-a">{UR}</span></a>''' for k, n, img, d in CATS)
     return f'''<section class="sec" aria-labelledby="cgH">{sec_t('<span id="cgH">Каталог</span>', 'Кондиционеры со склада и под заказ — с монтажом нашими бригадами и гарантией 3 года.')}
   <div class="cgrid">{t}</div></section>'''
@@ -150,15 +150,15 @@ DIRS = [
 def dirs():
     return ''.join(f'''<section class="dr" id="{k}"><div class="dr-w">{w}</div>
   <div class="grid dr-g"><div class="dr-l"><p>{t}</p><button class="btn btn-ink" type="button" data-req data-title="{btn}">{btn} <i>↗</i></button></div>
-  <figure class="dr-ph"><img src="../assets/photos/{img}-sm.webp" alt="" loading="lazy"></figure><div class="dr-p">{plist(rows)}</div></div></section>''' for k, w, t, img, btn, rows in DIRS)
+  <figure class="dr-ph"><img src="assets/photos/{img}-sm.webp" alt="" loading="lazy"></figure><div class="dr-p">{plist(rows)}</div></div></section>''' for k, w, t, img, btn, rows in DIRS)
 
 COOP = [('Консультация', 'ico-cube', 'по телефону или в мессенджере, в день обращения'), ('Выезд и замер', 'ico-hex', 'бесплатно, в удобное время'), ('Смета и договор', 'ico-oct', 'цена фиксируется до начала работ'),
         ('Поставка', 'ico-dodeca', 'со склада или под заказ'), ('Монтаж', 'ico-torus', 'сплит — за 3–4 часа, без грязи'), ('Запуск и сдача', 'ico-ico', 'инструктаж, акт и гарантия 3 года')]
 def coop(title='Как мы работаем'):
-    t = ''.join(f'<li class="co-t"><span class="co-i">{i + 1:02d}</span><img src="../assets/shop/{img}.webp" alt="" loading="lazy" width="400" height="400"><b>{n}</b><span>{d}</span></li>' for i, (n, img, d) in enumerate(COOP))
+    t = ''.join(f'<li class="co-t"><span class="co-i">{i + 1:02d}</span><img src="assets/shop/{img}.webp" alt="" loading="lazy" width="400" height="400"><b>{n}</b><span>{d}</span></li>' for i, (n, img, d) in enumerate(COOP))
     return f'''<section class="sec" id="process">{sec_t(title, 'Один подрядчик от первого звонка до сервиса — без стыков между бригадами.')}
   <ol class="coop"><li class="co-t co-d grain"><p>Берём объект целиком: от консультации и замера до пусконаладки, акта и обслуживания.</p></li>{t}
-    <li class="co-t co-r"><a href="#req" data-req data-title="Записаться на замер"><img src="../assets/photos/alpinist-outdoor-unit-sm.webp" alt="" loading="lazy"><b>Записаться на замер {UR}</b></a></li></ol></section>'''
+    <li class="co-t co-r"><a href="#req" data-req data-title="Записаться на замер"><img src="assets/photos/alpinist-outdoor-unit-sm.webp" alt="" loading="lazy"><b>Записаться на замер {UR}</b></a></li></ol></section>'''
 
 def faq(items, fid='faq'):
     return f'''<section class="sec" id="{fid}">{sec_t('Вопросы')}<div class="grid"><div class="fq c1-12">''' + ''.join(f'<details><summary><b>{q}</b><i aria-hidden="true"></i></summary><p>{a}</p></details>' for q, a in items) + '</div></div></section>'
@@ -203,7 +203,7 @@ BUSINESS = phx('Бизнесу', 'Климат, вентиляция и элек
   extra=f'<div class="phx-cta"><a class="btn phx-btn" href="#kp">Запросить КП <i>↗</i></a><a class="btn btn-soft" href="tel:{TEL}">{TEL_H}</a></div>') \
   + STATS.format(a='2 дня', at='КП по вашему ТЗ', b_='4 часа', bt='аварийный выезд по договору', txt='Обследуем объект, считаем по разделам и согласуем график под режим работы — ночью, в выходные, по этапам. После сдачи — регламентное ТО и журнал работ.', href='#terms', link='Условия договора', AR=AR) \
   + f'''<section class="sec">{sec_t('Отрасли', 'Знаем требования и режим работы каждой — от торгового зала до пищеблока.')}
-  <div class="igrid">{''.join(f'<article class="ig"><img src="../assets/ill/v10/ind-{i}.webp" alt="" loading="lazy"><b>{t}</b><p>{d}</p></article>' for i, t, d in IND)}</div></section>''' \
+  <div class="igrid">{''.join(f'<article class="ig"><img src="assets/ill/v10/ind-{i}.webp" alt="" loading="lazy"><b>{t}</b><p>{d}</p></article>' for i, t, d in IND)}</div></section>''' \
   + f'''<section class="sec">{sec_t('Что мешает бизнесу', 'Типичные риски монтажа на работающем объекте — и как мы снимаем их договором.')}
   <ol class="pn2">{''.join(f'<li><span class="mono">{i + 1:02d}</span><s>{a}</s><b>{c}</b><p>{d}</p></li>' for i, (a, c, d) in enumerate(PAINS))}</ol></section>''' \
   + ticker(('офисы', 'магазины', 'общепит', 'склады', 'сети')) \
@@ -226,7 +226,7 @@ WORKS = [('alpinist-outdoor-unit', 'Наружный блок без автов�
          ('split-wallpaper', 'Сплит 2,5 кВт, трасса в коробе', 'Челябинск · 3 часа'), ('bathroom-fan', 'Вытяжка в санузле', 'Челябинск · скрытая проводка'), ('garage-ceiling', 'Свет в потолке-грильято', 'Сосновка · линии и автоматы')]
 def team():
     return '<section class="sec" id="team">' + sec_t('Команда', 'Один ответственный на весь объект и инженеры по каждому направлению.') + '<div class="tm3">' + ''.join(
-        f'<article class="tm3-c"><div class="tm3-ph"><img src="../assets/team/{i}.webp" alt="{n}" width="1000" height="914" loading="lazy"></div><span class="mono">{r}</span><b>{n}</b><p>{d}</p></article>' for i, r, n, d in b.TEAM) + '</div></section>'
+        f'<article class="tm3-c"><div class="tm3-ph"><img src="assets/team/{i}.webp" alt="{n}" width="1000" height="914" loading="lazy"></div><span class="mono">{r}</span><b>{n}</b><p>{d}</p></article>' for i, r, n, d in b.TEAM) + '</div></section>'
 def reviews():
     return '<section class="sec" id="reviews">' + sec_t('Отзывы', 'Тексты с Яндекс Карт — как у авторов.', f'<a class="rate" href="{b.YM}" target="_blank" rel="noopener"><b>4,3</b><span>5 отзывов<br>на Яндекс Картах ↗</span></a>') + '<div class="rv3">' + ''.join(
         f'<blockquote class="rv3-c"><p>«{t}»</p><footer><b>{w}</b><span>Яндекс Карты · {d}</span><a href="{b.YM}?reviews%5BpublicId%5D={i}&amp;utm_source=review" target="_blank" rel="noopener">оригинал ↗</a></footer></blockquote>' for d, w, t, i in b.REVIEWS) + '</div></section>'
@@ -236,7 +236,7 @@ ABOUT = phx('О компании', 'Продаём и монтируем кон�
   + f'''<section class="sec" id="guarantee">{sec_t('Гарантии', 'Мы не обещаем «качество и профессионализм» — каждое условие записано в документ.')}
   <dl class="tg">{''.join(f'<div><dt class="mono">{c}</dt><dd><b>{a}</b>{d}</dd></div>' for a, d, c in GUAR)}</dl></section>''' \
   + f'''<section class="sec" id="works">{sec_t('Объекты', 'Фото с наших объектов: квартиры, дома, офисы и магазины.')}
-  <div class="wk6">{''.join(f'<figure><img src="../assets/photos/{i}-sm.webp" alt="{t}" loading="lazy"><figcaption><b>{t}</b><span>{c}</span></figcaption></figure>' for i, t, c in WORKS)}</div></section>''' \
+  <div class="wk6">{''.join(f'<figure><img src="assets/photos/{i}-sm.webp" alt="{t}" loading="lazy"><figcaption><b>{t}</b><span>{c}</span></figcaption></figure>' for i, t, c in WORKS)}</div></section>''' \
   + reviews() + f'''<section class="sec">{sec_t('Реквизиты')}<div class="grid"><dl class="req c1-8"><dt class="mono">наименование</dt><dd>ИП <span class="hl">[ФИО]</span></dd><dt class="mono">ИНН / ОГРНИП</dt><dd><span class="hl">[ИНН]</span> / <span class="hl">[ОГРНИП]</span></dd><dt class="mono">адрес</dt><dd>{ADDR}</dd><dt class="mono">телефон</dt><dd><a href="tel:{TEL}">{TEL_H}</a></dd></dl></div></section>'''
 
 CONTACTS = phx('Контакты', 'Челябинск и область, по договору — по всей России. Звоните, пишите в мессенджер или приезжайте в офис.', None, ((None, 'Контакты'),),
@@ -244,7 +244,7 @@ CONTACTS = phx('Контакты', 'Челябинск и область, по �
   + f'''<section class="sec"><div class="grid"><dl class="req c1-8"><dt class="mono">второй номер</dt><dd><a href="tel:+79000800838">+7 (900) 080-08-38</a></dd><dt class="mono">адрес</dt><dd>{ADDR}</dd><dt class="mono">мессенджеры</dt><dd class="req-l"><a href="{WA}" target="_blank" rel="noopener">WhatsApp ↗</a><a href="{TG}" target="_blank" rel="noopener">Telegram ↗</a><a href="{VK}" target="_blank" rel="noopener">ВКонтакте ↗</a></dd><dt class="mono">для компаний</dt><dd>Реквизиты, допуски и образец договора отправим вместе с КП.</dd></dl></div></section>''' \
   + geo('Где мы работаем') + lead('Напишите нам', 'Ответим в течение 15 минут в рабочее время — про кондиционеры, вентиляцию, электрику и заказы из каталога.', 'ct')
 
-NOTFOUND = f'''<section class="nf"><div class="nf-f grain"><img src="../assets/shop/outdoor.webp" alt="" class="nf-img"><b class="nf-n">404</b>
+NOTFOUND = f'''<section class="nf"><div class="nf-f grain"><img src="assets/shop/outdoor.webp" alt="" class="nf-img"><b class="nf-n">404</b>
   <p>Такой страницы нет — возможно, она переехала. Кондиционеры на месте.</p><div class="phx-cta"><a class="nf-go" href="index.html">На главную</a><a class="btn btn-soft" href="catalog.html">В каталог <i>↗</i></a></div></div></section>'''
 
 PAGES = {
@@ -264,5 +264,16 @@ if __name__ == '__main__':
     home = home.replace('<body', '<body data-page="home"', 1)
     open(os.path.join(OUT, 'index.html'), 'w').write(home)
     for fn, (k, t, d, body, aud, three, cur) in PAGES.items():
-        open(os.path.join(OUT, fn), 'w').write(page(k, t, d, body, aud, three, cur))
+        html = page(k, t, d, body, aud, three, cur)
+        if fn == '404.html': html = html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<base href="/">', 1)  # served for any missing path
+        open(os.path.join(OUT, fn), 'w').write(html)
+    # old /v12/… links keep working: each one forwards to the same page at the root
+    os.makedirs(os.path.join(ROOT, 'v12'), exist_ok=True)
+    for fn in ['index.html', *PAGES, 'privacy.html']:
+        target = '' if fn == 'index.html' else fn
+        open(os.path.join(ROOT, 'v12', fn), 'w').write(f'''<!doctype html><html lang="ru"><meta charset="utf-8"><title>Climate Solutions</title>
+<meta name="robots" content="noindex"><link rel="canonical" href="../{target}"><meta http-equiv="refresh" content="0; url=../{target}">
+<script>var q = location.search.replace(/[?&]aud=[^&]*/, '').replace(/^&/, '?'); location.replace('../{target}' + (q === '?' ? '' : q) + location.hash);</script>
+<a href="../{target}">Climate Solutions</a></html>
+''')
     print('built', len(PAGES) + 1, 'pages')

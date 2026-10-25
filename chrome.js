@@ -14,7 +14,7 @@
   /* header */
   const hud = $('#hud'), sync = () => hud.classList.toggle('scrolled', scrollY > 8);
   addEventListener('scroll', sync, { passive: true }); sync();
-  $$('.aud button').forEach(b => { b.setAttribute('aria-pressed', b.dataset.aud === aud); b.addEventListener('click', () => { store.set('csp-aud', b.dataset.aud); location.href = 'index.html?aud=' + b.dataset.aud; }); });
+  $$('.aud button').forEach(b => { b.setAttribute('aria-pressed', b.dataset.aud === aud); b.addEventListener('click', () => { store.set('csp-aud', b.dataset.aud); location.href = 'index.html'; }); });
 
   /* fullscreen menu */
   const menu = $('#menu'), mOpen = $('#menuOpen'), mClose = $('#menuClose');

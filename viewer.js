@@ -2,7 +2,7 @@
    Drag to turn (pointer or touch), idles into a slow turn, indoor / outdoor unit switch. Falls back to the render image. */
 window.csViewer = function (p) {
   const canvas = document.getElementById('pv'), stage = document.getElementById('ppStage'), seg = document.getElementById('pvSeg');
-  const fallback = () => { const f = document.getElementById('pvFallback'); f.src = `../assets/shop/${p.img}.webp`; f.hidden = false; canvas.hidden = true; };
+  const fallback = () => { const f = document.getElementById('pvFallback'); f.src = `assets/shop/${p.img}.webp`; f.hidden = false; canvas.hidden = true; };
   if (!window.THREE) return fallback();
   let renderer; try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true }); } catch (e) { return fallback(); }
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -5,7 +5,7 @@
   const P = window.CS_PRODUCTS || [], T = window.CS_TYPES || {}, INST = window.CS_INSTALL || 14900;
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches, page = document.body.dataset.page;
   const byId = id => P.find(p => p.id === id), rub = n => n.toLocaleString('ru-RU').replace(/,/g, ' ') + ' ₽', kw = n => String(n).replace('.', ',');
-  const IMG = k => `../assets/shop/${k}.webp`, instPrice = p => p.install === undefined ? INST : p.install;
+  const IMG = k => `assets/shop/${k}.webp`, instPrice = p => p.install === undefined ? INST : p.install;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const plural = (n, a, b, c) => n % 10 === 1 && n % 100 !== 11 ? a : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? b : c;
   const PLUS = '<svg viewBox="0 0 18 18" aria-hidden="true"><path d="M9 3v12M3 9h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>';
