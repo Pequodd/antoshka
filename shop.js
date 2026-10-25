@@ -36,13 +36,16 @@
     : db <= 40 ? ['Как в тихой библиотеке', 'Отлично для гостиной, кухни и офиса, для спальни громковато.', 'как в тихой библиотеке']
     : db <= 50 ? ['Как работающий холодильник', 'Подойдёт для дачи или кухни, спать рядом будет шумно.', 'шумит, как холодильник']
     : ['Как обычный разговор', 'Для жилых комнат шумновато.', 'шумный, как разговор'];
+  /* a five-bar meter: how many bars are lit and the tone (quiet / medium / loud) */
+  const nLvl = db => db <= 20 ? 1 : db <= 25 ? 2 : db <= 30 ? 3 : db <= 40 ? 4 : 5;
+  const meter = db => { const l = nLvl(db); return `<i class="nm nm-${l <= 3 ? 'q' : l === 4 ? 'm' : 'l'}" aria-hidden="true">${[1, 2, 3, 4, 5].map(i => `<b${i <= l ? ' class="on"' : ''}></b>`).join('')}</i>`; };
   const instLine = p => { const v = instPrice(p); return v === null ? 'монтаж по смете' : v === 0 ? 'без монтажа' : `+ монтаж ${rub(v)}`; };
   function addBtn(p) { const inC = cart.has(p.id); return `<button class="add${inC ? ' in' : ''}" type="button" data-add="${p.id}" aria-label="${inC ? 'В корзине — перейти в корзину' : 'Добавить в корзину: ' + esc(p.brand + ' ' + p.name)}">${inC ? CHECK : PLUS}</button>`; }
   function cell(p) {
     const tags = (p.tags || []).map(t => `<span class="tag${t === 'Хит' ? ' tag-hot' : ''}">${t}</span>`).join('') + (p.wifi ? '<span class="tag">wi-fi</span>' : '');
     return `<article class="pc"><div class="pc-top"><span class="mono">${esc(p.brand)}<br>${T[p.type]}</span><span class="pc-tags">${tags}</span></div>
       <div class="pc-img"><img src="${IMG(p.img)}" alt="" width="800" height="600" loading="lazy"></div>
-      <div><a class="pc-n" href="product.html?id=${p.id}">${esc(p.name)}</a><div class="pc-spec">${spec(p)}</div><div class="pc-noise">${p.db} дБ · ${noise(p.db)[2]}</div></div>
+      <div><a class="pc-n" href="product.html?id=${p.id}">${esc(p.name)}</a><div class="pc-spec">${spec(p)}</div><div class="pc-noise nz-${nLvl(p.db) <= 3 ? 'q' : nLvl(p.db) === 4 ? 'm' : 'l'}">${meter(p.db)}<b>${p.db} дБ</b> · ${noise(p.db)[2]}</div></div>
       <div class="pc-f"><div><span class="price">${rub(p.price)}</span><small>${instLine(p)}</small></div>${addBtn(p)}</div></article>`;
   }
   document.addEventListener('click', e => {
@@ -142,8 +145,7 @@
     const tags = (p.tags || []).map(t => `<span class="tag${t === 'Хит' ? ' tag-hot' : ''}">${t}</span>`).join('') + (p.inverter ? '<span class="tag">инвертор</span>' : '') + (p.wifi ? '<span class="tag">wi-fi</span>' : '') + `<span class="tag">класс ${p.cls}</span>`;
     $('#ppInfo').innerHTML = `<ol class="crumbs" aria-label="Навигация"><li><a href="index.html">Главная</a></li><li><a href="catalog.html">Каталог</a></li><li><a href="catalog.html?type=${p.type}">${T[p.type]}</a></li></ol>
       <div><span class="mono">${esc(p.brand)} · ${T[p.type]}</span><h1>${esc(p.brand)} ${esc(p.name)}</h1></div><div class="pp-tags">${tags}</div>
-      <div class="pp-key"><div><b>${p.area} м²</b><span>площадь до</span></div><div><b>${kw(p.kw)} кВт</b><span>охлаждение</span></div><div><b>${p.db} дБ</b><span>шум, от</span></div></div>
-      <p class="pp-noise"><b>${noise(p.db)[0]}.</b> ${noise(p.db)[1]}</p>
+      <div class="pp-key"><div><b>${p.area} м²</b><span>площадь до</span></div><div><b>${kw(p.kw)} кВт</b><span>охлаждение</span></div><div class="pp-nz"><b>${p.db} дБ ${meter(p.db)}</b><span>шум, от</span><em>${noise(p.db)[0]}</em><small>${noise(p.db)[1]}</small></div></div>
       <div class="buy-p"><span class="price" id="ppSum">${rub(p.price)}</span><small id="ppNote">за оборудование</small></div>
       ${ip > 0 ? `<label class="opt"><div><b>Монтаж под ключ, + ${rub(ip)}</b><span>Трасса до 3 м, кронштейны, вакуумирование, запуск. Гарантия на монтаж 3 года.</span></div><span class="sw"><input type="checkbox" id="ppInst" checked aria-label="Добавить монтаж под ключ"></span></label>`
         : ip === null ? `<div class="opt" style="cursor:default"><div><b>Монтаж — по смете</b><span>Инженер приедет на бесплатный замер и посчитает монтаж до покупки.</span></div></div>` : ''}
