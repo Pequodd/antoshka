@@ -37,9 +37,9 @@
   function decal(wpx, hpx, draw) { const c = document.createElement('canvas'); c.width = wpx; c.height = hpx; const x = c.getContext('2d'); draw(x, wpx, hpx);
     const t = new T3.CanvasTexture(c); t.encoding = T3.sRGBEncoding; t.anisotropy = 4; return t; }
   /* brand mark sized by its letter height: returns a plane of height hgt */
-  function logo(G, text, color, font, hgt, x, y, z, rx = 0) {
+  function logo(G, text, color, font, hgt, x, y, z, rx = 0, maxW = 9) {
     const f = font || '600 104px Helvetica, Arial, sans-serif', m = document.createElement('canvas').getContext('2d'); m.font = f;
-    const tw = Math.ceil(m.measureText(text).width) + 24, tex = decal(tw, 160, (c, w, h) => { c.fillStyle = color; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = f; c.fillText(text, w / 2, h / 2 + 4); });
+    const tw = Math.ceil(m.measureText(text).width) + 24; hgt = Math.min(hgt, maxW * 160 / tw); const tex = decal(tw, 160, (c, w, h) => { c.fillStyle = color; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = f; c.fillText(text, w / 2, h / 2 + 4); });
     return plane(G, tex, hgt * tw / 160, hgt, x, y, z, rx, { toneMapped: true }); }
   function displayTex(kind, color) { return decal(256, 96, (x, w, h) => {
     x.shadowColor = color; x.shadowBlur = 14; x.fillStyle = color;
@@ -89,8 +89,8 @@
 
   /* ---------------- outdoor unit ---------------- */
   function outdoor(G, o) {
-    const kw = o.kw || 2.6, fans = o.fans || 1, w = o.w || 1.75 + Math.min(.9, kw * .09), h = o.h || (fans === 2 ? 2.3 : 1.25 + Math.min(.6, kw * .06)), d = .66 + Math.min(.25, kw * .02);
-    const body = PAINT[o.body || 'matte'](), dark = M('#283238', .7), metal = M('#59666C', .5, .3), fx = -w * .12, fr = Math.min(h / fans * .4, w * .3);
+    const kw = o.kw || 2.6, fans = o.fans || 1, w = o.w || 1.75 + Math.min(.9, kw * .09), h = o.h || (fans === 2 ? 2.3 : 1.25 + Math.min(.6, kw * .06)), d = o.d || .66 + Math.min(.25, kw * .02);
+    const body = PAINT[o.body || 'matte'](), dark = M('#283238', .7), metal = M('#59666C', .5, .3), fx = -w * .12, fr = Math.min(h / fans * .36, w * .27);
     add(G, rbox(w, h, d, .05, .025), body);
     add(G, new T3.BoxGeometry(w * .2, h * .92, .02), M('#E1E4E5', .55), w / 2 - w * .13, 0, d / 2 + .006);   // service panel
     add(G, rbox(.2, .14, .03, .03, .008), M('#B8C0C4', .4, .4), w / 2 - w * .13, -h * .3, d / 2 + .02);
@@ -108,7 +108,7 @@
     }
     if (o.side) add(G, new T3.BoxGeometry(.012, h * .9, d * .9), PAINT[o.side](), -w / 2 - .004, 0, 0);
     for (let i = 0; i < 14; i++) add(G, new T3.BoxGeometry(.01, h * .8, .012), M('#C8CED1', .6), w / 2 + .004, 0, -d / 2 + .06 + i * (d - .12) / 13, [0, 0, 0]);   // side fins
-    if (o.logo) logo(G, o.logo.t, o.logo.c || '#6C777C', o.logo.font, .085, w / 2 - w * .3, h / 2 - .13, d / 2 + .008);
+    if (o.logo) logo(G, o.logo.t, o.logo.c || '#6C777C', o.logo.font, .085, w / 2 - w * .13, h / 2 - .14, d / 2 + .02, 0, w * .18);   // on the service panel
     [-w * .32, w * .32].forEach(x => add(G, new T3.BoxGeometry(.16, .08, d + .14), M('#8E989D', .5, .4), x, -h / 2 - .04, 0));
   }
 
@@ -120,7 +120,7 @@
     [[0, .86, 1.62, .16, 0], [0, -.86, 1.62, .16, 0], [.86, 0, .16, 1.62, 1], [-.86, 0, .16, 1.62, 1]].forEach(([x, z, a, c, r]) => { add(G, new T3.BoxGeometry(a, .02, c), M('#26323A', .7), x, -.075, z); add(G, new T3.BoxGeometry(r ? .12 : a * .98, .014, r ? c * .98 : .12), b, x, -.1, z, r ? [0, 0, x > 0 ? -.35 : .35] : [z > 0 ? .35 : -.35, 0, 0]); });
     add(G, new T3.BoxGeometry(1.7, .5, 1.7), M('#D7DCDE', .7, .1), 0, .32, 0);
     plane(G, displayTex('dots', '#3DA5FF'), .22, .08, .78, -.09, .78, -Math.PI / 2);
-    if (o.logo) logo(G, o.logo.t, '#7A858A', null, .08, -.6, -.091, .96, -Math.PI / 2, { toneMapped: true });
+    if (o.logo) logo(G, o.logo.t, '#7A858A', null, .08, -.6, -.091, .96, -Math.PI / 2);
     G.rotation.x = -.9; }
   function ducted(G, o) { const b = M('#C9D0D3', .4, .55);
     add(G, rbox(2.6, .5, 1.5, .03, .015), b, 0, 0, 0);
@@ -129,7 +129,7 @@
     add(G, new T3.BoxGeometry(2.2, .38, .08), M('#9AA4A9', .45, .5), 0, 0, -.79);
     add(G, new T3.BoxGeometry(.36, .4, .24), M('#E2E6E8', .5), 1.42, 0, .2);
     [-1.1, 1.1].forEach(x => add(G, new T3.BoxGeometry(.18, .06, 1.7), M('#7E888D', .5, .5), x, .28, 0));
-    if (o.logo) logo(G, o.logo.t, '#4E5A60', null, .08, -.7, .02, .752, 0, { toneMapped: true });
+    if (o.logo) logo(G, o.logo.t, '#4E5A60', null, .08, -.7, .02, .752, 0);
     G.rotation.x = .32; }
   function floorCeiling(G, o) { const b = PAINT.white(), w = 2.7, h = .72, d = 1.25;
     const S = sideShape({ d, h, bulge: .03, rt: .2, hb: h * .42, under: .5, rb: .1 }); G.rotation.x = .28;   // seen from below, as it hangs under the ceiling
@@ -137,7 +137,7 @@
     const y = S.yb - .06, z = S.front(S.yb) - .14; add(G, new T3.BoxGeometry(w * .86, .006, .4), PAINT.dark(), 0, y, z - .02, [.6, 0, 0]);
     add(G, rbox(w * .88, .16, .02, .03, .008), b, 0, y - .05, z + .08, [-.4, 0, 0]);
     plane(G, displayTex('digits', '#3DA5FF'), .3, .11, w * .32, .08, S.front(.08) + .066);
-    if (o.logo) logo(G, o.logo.t, '#7A858A', null, .08, -w * .32, .16, S.front(.16) + .066, 0, { toneMapped: true }); }
+    if (o.logo) logo(G, o.logo.t, '#7A858A', null, .08, -w * .32, .16, S.front(.16) + .066, 0); }
   function mobile(G, o) { const b = PAINT.white(), w = 1.05, h = 2.5, d = .85;
     add(G, rbox(w, h, d, .22, .08), b);
     add(G, rbox(w * .8, .5, .04, .1, .015), M('#2B363C', .6), 0, h * .32, d / 2 + .005);
@@ -147,7 +147,7 @@
     add(G, rbox(w * .7, h * .42, .02, .08, .006), M('#E6E9EA', .5), 0, -h * .18, d / 2 + .002);
     for (let i = 0; i < 10; i++) add(G, new T3.BoxGeometry(w * .6, .012, .012), M('#C0C7CA', .6), 0, -h * .36 + i * .08, d / 2 + .014);
     [-.36, .36].forEach(x => [-.28, .28].forEach(z => add(G, new T3.CylinderGeometry(.06, .06, .05, 20), M('#2A3238', .6), x, -h / 2 - .02, z, [0, 0, Math.PI / 2])));
-    if (o.logo) logo(G, o.logo.t, '#7A858A', null, .08, 0, h * .43, d / 2 + .005, 0, { toneMapped: true }); }
+    if (o.logo) logo(G, o.logo.t, '#7A858A', null, .08, 0, h * .43, d / 2 + .005, 0); }
 
   /* ---------------- per-product looks (indicative, after each series' real styling) ---------------- */
   const LG_FONT = '700 120px Helvetica, Arial, sans-serif', SERIF = '600 96px Georgia, serif';
@@ -176,13 +176,29 @@
     'ballu-floor-18': { grille: 'bars', logo: { t: 'BALLU' } },
   };
   const BRAND = { 'Royal Clima': 'ROYAL CLIMA', Ballu: 'BALLU', Midea: 'Midea' };
+  /* real sizes from the spec sheets, mm, width × height × depth (indoor, outdoor); 1 scene unit = 350 mm.
+     Where the exact model's sheet was not found, the nearest model of the same series stands in (noted). */
+  const DIM = {
+    'lg-artcool-09':         { in: [837, 308, 192], out: [717, 483, 230] },   // LG, AC09BQ
+    'mitsubishi-ln-25':      { in: [890, 307, 233], out: [800, 550, 285] },   // MSZ-LN25VG / MUZ-LN25VG
+    'hisense-expert-12':     { in: [978, 313, 217], out: [810, 585, 280] },   // same series, AS-13UW4RXVQF00
+    'midea-breezeless-09':   { in: [940, 325, 193] },                         // same series, MSFA2-09N8D6
+    'royal-clima-gloria-09': { in: [777, 250, 205] },                         // Gloria RC-GL28HN
+    'daikin-perfera-35':     { in: [804, 298, 252] },                         // Perfera FTXM35A
+    'haier-flexis-12':       { in: [856, 300, 197] },                         // same series, AS35S2SF4FA
+    'haier-coral-09':        { in: [800, 290, 200] },                         // Haier 2.0–2.5 kW wall unit of the same class
+    'ballu-olympio-07':      { in: [715, 285, 194] },                         // Ballu 07 wall unit of the same class
+    'ballu-igreen-24':       { in: [1080, 335, 226], out: [890, 673, 342] },  // Ballu 24 wall unit of the same class
+  };
+  const U = mm => mm / 350;
 
   /* builds the unit into a new group; returns { group, radius } */
   function build(p, which) {
     const G = new T3.Group(), id = p.id;
-    if (which === 'out') outdoor(G, Object.assign({ kw: p.kw }, OUT[id] || { grille: 'round', logo: { t: p.brand } }));
+    const dm = DIM[id] || {}, sized = (a, o) => a ? Object.assign(o, { w: U(a[0]), h: U(a[1]), d: U(a[2]) }) : o;
+    if (which === 'out') outdoor(G, sized(dm.out, Object.assign({ kw: p.kw }, OUT[id] || { grille: 'round', logo: { t: p.brand } })));
     else if (p.type === 'wall' || p.type === 'multi') {
-      const o = Object.assign({ kw: p.type === 'multi' ? 2.6 : p.kw }, SPEC[id] || { display: { kind: 'digits', c: '#5AC8FF', x: .5, y: .45 }, logo: { t: p.brand, x: -.6, y: .8, w: .34 } });
+      const o = sized(dm.in, Object.assign({ kw: p.type === 'multi' ? 2.6 : p.kw }, SPEC[id] || { display: { kind: 'digits', c: '#5AC8FF', x: .5, y: .45 }, logo: { t: p.brand, x: -.6, y: .8, w: .34 } }));
       if (o.multi) { const a = new T3.Group(), b = new T3.Group(); wall(a, o); wall(b, Object.assign({}, o, { kw: 3.5 })); a.position.set(-.35, .62, .35); b.position.set(.35, -.55, -.35); G.add(a, b); }
       else wall(G, o);
     }
