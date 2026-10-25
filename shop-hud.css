@@ -216,3 +216,12 @@ html[data-aud="biz"] .bx-go { background: #121619; }
 .pp-nz .nm { height: 18px; margin-left: 6px; gap: 3px; }
 .pp-nz .nm b { width: 4px; }
 .pp-nz .nm b:nth-child(1) { height: 6px; } .pp-nz .nm b:nth-child(2) { height: 9px; } .pp-nz .nm b:nth-child(3) { height: 12px; } .pp-nz .nm b:nth-child(4) { height: 15px; } .pp-nz .nm b:nth-child(5) { height: 18px; }
+
+/* cart options: an icon on the left, the label and the note beside it */
+.bx-o:has(svg) { grid-template-columns: 22px minmax(0, 1fr); column-gap: 10px; align-items: center; }
+.bx-o svg { grid-row: span 2; width: 22px; height: 22px; fill: none; stroke: var(--muted); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: stroke .2s; }
+.bx-o:has(input:checked) svg { stroke: var(--air); }
+.bx-o b, .bx-o span { grid-column: 2; }
+.bx-seg3 .bx-o:has(svg) { grid-template-columns: minmax(0, 1fr); align-content: start; }
+.bx-seg3 .bx-o svg { grid-row: auto; margin-bottom: 6px; }
+.bx-seg3 .bx-o b, .bx-seg3 .bx-o span { grid-column: 1; }

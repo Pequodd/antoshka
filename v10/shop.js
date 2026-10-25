@@ -167,7 +167,13 @@
   if (page === 'cart') {
     const box = $('#cartBox'), side = $('#cartSide'), form = $('#co');
     const X = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
-    const opt = (name, v, b, s, on, off) => `<label class="bx-o${off ? ' off' : ''}"><input type="radio" name="${name}" value="${v}" data-k${on ? ' checked' : ''}${off ? ' disabled' : ''}><b>${b}</b><span>${s}</span></label>`;
+    /* line icons for the delivery and payment options */
+    const ICO = { install: '<path d="M2 6h11v9H2zM13 9h4l3 3v3h-7"/><circle cx="6" cy="17" r="1.8"/><circle cx="16" cy="17" r="1.8"/>',
+      pickup: '<path d="M3 9l1.5-5h15L21 9M3 9h18M3 9v11h18V9M9 20v-6h6v6"/>',
+      cash: '<rect x="2.5" y="6" width="19" height="12" rx="2"/><path d="M2.5 10h19M6 14.5h4"/>',
+      invoice: '<path d="M6 3h9l4 4v14H6zM14 3v5h5M9 12h7M9 16h7"/>',
+      online: '<rect x="7" y="2.5" width="10" height="19" rx="2"/><path d="M11 18.5h2"/>' };
+    const opt = (name, v, b, s, on, off) => `<label class="bx-o${off ? ' off' : ''}"><input type="radio" name="${name}" value="${v}" data-k${on ? ' checked' : ''}${off ? ' disabled' : ''}>${ICO[v] ? `<svg viewBox="0 0 24 24" aria-hidden="true">${ICO[v]}</svg>` : ''}<b>${b}</b><span>${s}</span></label>`;
     function draw() {
       const items = cart.items(), n = cart.count(); $('#cartN').textContent = `${n} ${plural(n, 'товар', 'товара', 'товаров')}`;
       if (!items.length) { side.innerHTML = ''; form.classList.add('bx-solo'); box.innerHTML = `<div class="bx-empty"><b>В корзине пока пусто</b><p>Выберите кондиционер в каталоге — монтаж добавится одной галочкой.</p><a class="btn btn-red" href="catalog.html">Перейти в каталог <i>↗</i></a></div>`; return; }
@@ -188,7 +194,7 @@
         <header class="bx-h bx-sep"><span class="bx-n">03</span><h2>Получение и оплата</h2></header>
         <div class="bx-seg" role="radiogroup" aria-label="Получение">${opt('dlv', 'install', 'Доставка' + (inst ? ' и монтаж' : ''), 'Челябинск и область', true)}${opt('dlv', 'pickup', 'Самовывоз', 'ул. 5 Декабря, 32')}</div>
         <label class="bx-f" id="addrF"><span>Адрес</span><input id="coAddr" data-k autocomplete="street-address" placeholder="Город, улица, дом, квартира"></label>
-        <div class="bx-seg bx-seg3" role="radiogroup" aria-label="Оплата">${opt('pay', 'cash', 'При получении', 'наличные или карта', true)}${opt('pay', 'invoice', 'По счёту', 'для юрлиц и ИП')}${opt('pay', 'online', 'Онлайн', 'скоро', false, true)}</div>
+        <div class="bx-seg bx-seg3" role="radiogroup" aria-label="Оплата">${opt('pay', 'cash', 'При получении', 'наличные, карта', true)}${opt('pay', 'invoice', 'По счёту', 'для юрлиц и ИП')}${opt('pay', 'online', 'Онлайн', 'скоро', false, true)}</div>
         <details class="bx-note"><summary>Комментарий к заказу</summary><textarea id="coNote" data-k rows="2" placeholder="Этаж, удобное время, нужен ли демонтаж старого"></textarea></details>
         <div class="bx-sum">
           <dl><div><dt>Товары, ${n} шт.</dt><dd>${rub(goods)}</dd></div>${inst ? `<div><dt>Монтаж под ключ</dt><dd>${rub(inst)}</dd></div>` : ''}${survey ? '<div><dt>Монтаж по смете</dt><dd>после замера</dd></div>' : ''}</dl>
