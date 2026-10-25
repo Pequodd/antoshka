@@ -39,6 +39,18 @@ b13.CK = cut('<div class="ck" id="ck"', '</div>\n')
 b13.MBAR = cut('<nav class="mbar"', '</nav>').replace('href="#contact"', 'href="#req"').replace('href="#b2b-form"', 'href="#req"')
 # the cart: the head (same type as every page) and the goods on the left, the checkout panel from the top on the right, so the button is on the first screen
 b13.PAGES['cart.html'] = b13.PAGES['cart.html'][:3] + ('<form class="bx" id="co" novalidate><div class="bx-l">' + b13.phx('Корзина', '', '0 товаров', (('catalog.html', 'Каталог'), (None, 'Корзина')), cid='cartN') + '<div id="cartBox"></div></div><aside class="bx-r" id="cartSide" aria-label="Оформление"></aside></form>',) + b13.PAGES['cart.html'][4:]
+# product: the details (specs, what the installation includes, delivery) follow the buy block in the right column,
+# which scrolls while the 3D unit on the left stays put
+_pr = b13.PAGES['product.html']; _b = _pr[3]
+_panel = lambda pid: re.search(r'<div class="c1-8[^"]*" role="tabpanel" id="%s"[^>]*>(.*?)</div>\n' % pid, _b, re.S).group(1)
+_more = ('<div class="pp-more">'
+         '<section class="pp-blk"><h2 class="pp-h">Характеристики</h2><div id="tSpec"></div></section>'
+         '<section class="pp-blk"><h2 class="pp-h">Что входит в монтаж</h2><div class="txt">' + _panel('tInst') + '</div></section>'
+         '<section class="pp-blk"><h2 class="pp-h">Доставка и оплата</h2><div class="txt">' + _panel('tDlv') + '</div></section></div>')
+_b = _b.replace('<div class="pp-i" id="ppInfo"></div>', '<div class="pp-r"><div class="pp-i" id="ppInfo"></div>' + _more + '</div>')
+_b = re.sub(r'<section class="sec pp-more">.*?</div></section>\n', '', _b, flags=re.S)
+assert 'pp-tabs' not in _b and 'id="tSpec"' in _b
+b13.PAGES['product.html'] = _pr[:3] + (_b,) + _pr[4:]
 for fn in ['catalog.html', 'product.html', 'cart.html']:
     k, t, d, body, aud, three, cur = b13.PAGES[fn]
     html = b13.page(k, t, d, body, aud, three, cur).replace('<link rel="stylesheet" href="v12.css">\n<link rel="stylesheet" href="v13.css">', '<link rel="stylesheet" href="shop.css">\n<link rel="stylesheet" href="shop-hud.css">').replace('<script src="shop.js"></script>', '<script src="shop.js"></script>\n<script src="menu.js"></script>')

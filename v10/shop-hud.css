@@ -184,3 +184,11 @@ html[data-aud="biz"] .bx-go { background: #121619; }
   .bx-2 { grid-template-columns: minmax(0, 1fr); }
   .bx-side .bx-seg:not(.bx-seg3) { grid-template-columns: minmax(0, 1fr); } .bx-seg3 { grid-template-columns: 1fr 1fr; }
 }
+
+/* product: the right column carries the buy block and then all the details, the 3D stage on the left stays fixed */
+.pp-r { min-width: 0; }
+.pp-r .pp-more { padding: 8px 0 clamp(32px, 6vh, 64px); }
+.pp-blk { display: grid; gap: 14px; padding: 28px 0; border-top: 1px solid var(--line); }
+.pp-h { margin: 0; font-weight: 400; font-size: 22px; letter-spacing: -.02em; }
+.pp-blk .spec th { width: 46%; }
+.pp-blk .txt { max-width: none; font-size: 15px; line-height: 1.55; }
