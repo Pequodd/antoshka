@@ -2,7 +2,7 @@
 """The domain root (kliamatpro.ru) = a copy of v10 with the shop. v10/ itself is not changed.
 Run after any v10 change: python3 tools/build-root.py
 Root-only differences: asset paths, the home/business choice is remembered without ?aud= in the address,
-the AI-upscaled hero video, a 404 page in v10's chrome, and forwards from the old v12 pages."""
+the AI-upscaled hero video, a 404 page in v10's chrome, forwards from the old v12 pages, and noindex everywhere."""
 import os, re, runpy
 
 HERE = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.dirname(HERE); V10 = os.path.join(ROOT, 'v10')
@@ -48,9 +48,16 @@ for old in ['v12.css']:   # the v12 stylesheet is no longer used at the root
     pth = os.path.join(ROOT, old)
     if os.path.exists(pth): os.remove(pth)
 
-# sitemap: the landing, the catalog and every product
-ids = re.findall(r"id: '([^']+)'", open(os.path.join(ROOT, 'products.js')).read())
-urls = ['', 'catalog.html', 'privacy.html'] + [f'product.html?id={i}' for i in ids]
-open(os.path.join(ROOT, 'sitemap.xml'), 'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    + ''.join(f'  <url><loc>https://kliamatpro.ru/{u}</loc></url>\n' for u in urls) + '</urlset>\n')
+# the site is a portfolio piece, not a live shop: kept out of search engines entirely —
+# robots.txt closes every path, and every root page also carries noindex in case a link to it gets crawled
+open(os.path.join(ROOT, 'robots.txt'), 'w').write('User-agent: *\nDisallow: /\n')
+if os.path.exists(os.path.join(ROOT, 'sitemap.xml')): os.remove(os.path.join(ROOT, 'sitemap.xml'))
+NOINDEX = '<meta name="robots" content="noindex, nofollow">'
+for fn in os.listdir(ROOT):
+    if not fn.endswith('.html'): continue
+    pth = os.path.join(ROOT, fn); h = open(pth).read()
+    h = re.sub(r'<meta name="robots" content="[^"]*">', NOINDEX, h)
+    if NOINDEX not in h: h = h.replace('<meta charset="utf-8">', '<meta charset="utf-8">' + ('' if h.startswith('<!doctype html><html lang="ru"><meta') else '\n') + NOINDEX, 1)
+    assert NOINDEX in h, fn
+    open(pth, 'w').write(h)
 print('root built from v10')
