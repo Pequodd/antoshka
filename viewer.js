@@ -7,12 +7,12 @@ window.csViewer = function (p) {
   let renderer; try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true }); } catch (e) { return fallback(); }
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   renderer.setPixelRatio(Math.min(2, devicePixelRatio)); renderer.setClearColor(0, 0); renderer.outputEncoding = THREE.sRGBEncoding;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.05;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = .92;
   const scene = new THREE.Scene(), camera = new THREE.PerspectiveCamera(28, 1, .1, 100);
-  scene.add(new THREE.HemisphereLight('#ffffff', '#20303a', .8));
+  scene.add(new THREE.HemisphereLight('#ffffff', '#9aa6ad', .85));
   const key = new THREE.DirectionalLight('#ffffff', 1.1); key.position.set(-3, 5, 6); scene.add(key);
-  const blue = new THREE.DirectionalLight('#6f86ff', .55); blue.position.set(4, 1, -4); scene.add(blue);
-  const red = new THREE.DirectionalLight('#ff6a5c', .35); red.position.set(3, -3, 3); scene.add(red);
+  const blue = new THREE.DirectionalLight('#dfe6ff', .35); blue.position.set(4, 1, -4); scene.add(blue);
+  const red = new THREE.DirectionalLight('#ffffff', .2); red.position.set(3, -3, 3); scene.add(red);
   const M = (c, r = .45, m = .05) => new THREE.MeshStandardMaterial({ color: c, roughness: r, metalness: m });
   function roundRect(w, h, r) { const s = new THREE.Shape(), x = -w / 2, y = -h / 2; s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r);
     s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s; }
