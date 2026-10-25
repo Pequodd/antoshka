@@ -202,9 +202,15 @@ html[data-aud="biz"] .bx-go { background: #121619; }
 .nm b:nth-child(1) { height: 4px; } .nm b:nth-child(2) { height: 6px; } .nm b:nth-child(3) { height: 8px; } .nm b:nth-child(4) { height: 10px; } .nm b:nth-child(5) { height: 12px; }
 .nm b.on { opacity: 1; }
 .nm-q, .nz-q { color: #23885A; } .nm-m, .nz-m { color: #B7791F; } .nm-l, .nz-l { color: #C2410C; }
-.pc-noise { display: inline-flex; align-items: center; gap: 6px; margin-top: 8px; padding: 5px 11px 5px 9px; border-radius: 999px; font-size: 13px; line-height: 1.2; }
-.pc-noise.nz-q { background: #E7F4EC; } .pc-noise.nz-m { background: #FBF1DE; } .pc-noise.nz-l { background: #FDECE3; }
-.pc-noise b { font-weight: 500; }
+/* catalog card: price first, then the area it cools, then how loud it is */
+.pc .pc-n { font-size: clamp(18px, 1.4vw, 21px); }
+.pc-area { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 10px; margin-top: 8px; }
+.pc-area b { font-weight: 500; font-size: 17px; letter-spacing: -.01em; color: var(--ink); }
+.pc-area span { font-size: 13px; color: var(--muted); }
+.pc-noise { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 13px; line-height: 1.2; color: var(--muted); }
+.pc-noise b { font-weight: 400; color: var(--ink); }
+.pc-f .price { font-weight: 500; font-size: clamp(28px, 2.2vw, 34px); letter-spacing: -.035em; }
+@media (max-width: 640px) { .pc-area b { font-size: 15px; } .pc-f .price { font-size: 22px; } .pc-noise { font-size: 12px; } }
 .pp-nz em { display: block; margin-top: 8px; font-style: normal; font-weight: 500; font-size: 14px; line-height: 1.3; color: var(--ink); }
 .pp-nz small { display: block; margin-top: 2px; font-size: 13px; line-height: 1.4; color: var(--muted); }
 .pp-nz .nm { height: 18px; margin-left: 6px; gap: 3px; }

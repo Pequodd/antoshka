@@ -45,7 +45,7 @@
     const tags = (p.tags || []).map(t => `<span class="tag${t === 'Хит' ? ' tag-hot' : ''}">${t}</span>`).join('') + (p.wifi ? '<span class="tag">wi-fi</span>' : '');
     return `<article class="pc"><div class="pc-top"><span class="mono">${esc(p.brand)}<br>${T[p.type]}</span><span class="pc-tags">${tags}</span></div>
       <div class="pc-img"><img src="${IMG(p.img)}" alt="" width="800" height="600" loading="lazy"></div>
-      <div><a class="pc-n" href="product.html?id=${p.id}">${esc(p.name)}</a><div class="pc-spec">${spec(p)}</div><div class="pc-noise nz-${nLvl(p.db) <= 3 ? 'q' : nLvl(p.db) === 4 ? 'm' : 'l'}">${meter(p.db)}<b>${p.db} дБ</b> · ${noise(p.db)[2]}</div></div>
+      <div><a class="pc-n" href="product.html?id=${p.id}">${esc(p.name)}</a><div class="pc-area"><b>до ${p.area} м²</b><span>${kw(p.kw)} кВт${p.inverter ? ' · инвертор' : ''}</span></div><div class="pc-noise nz-${nLvl(p.db) <= 3 ? 'q' : nLvl(p.db) === 4 ? 'm' : 'l'}">${meter(p.db)}<b>${p.db} дБ</b> · ${noise(p.db)[2]}</div></div>
       <div class="pc-f"><div><span class="price">${rub(p.price)}</span><small>${instLine(p)}</small></div>${addBtn(p)}</div></article>`;
   }
   document.addEventListener('click', e => {
