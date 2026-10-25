@@ -130,7 +130,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .hero .scroll { justify-self: start; display: flex; align-items: center; gap: 10px; text-decoration: none; }
 
 
-/* 3 standard: full-screen stage — 3D room where the crew installs the unit as you scroll */
+/* 3 standard: full-screen stage — 3D room where the crew installs the unit as you scroll */
 .std { position: relative; }
 .std-track { height: 480vh; }
 .st-stage { overflow: hidden; }
@@ -216,7 +216,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .svc-visual .bl { left: 16px; bottom: 12px; } .svc-visual .br { right: 16px; bottom: 12px; }
 .svc-anchor { position: absolute; left: 14%; right: 14%; top: 22%; bottom: 22%; }
 
-/* 5 equipment — carried over from V4 */
+/* 5 equipment — carried over from V4 */
 .equip { z-index: 2; background: transparent; }
 .equip-track { height: 620vh; }
 .equip .sticky > .grid { height: 100%; grid-template-rows: auto 1fr auto; padding-block: 88px 40px; }
@@ -286,7 +286,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 .tr-c { position: absolute; z-index: 1; width: 5px; height: 5px; background: var(--ink); }
 .tr-c.c1 { left: -2px; top: -3px; } .tr-c.c2 { right: -2px; top: -3px; } .tr-c.c3 { left: -2px; bottom: -2px; } .tr-c.c4 { right: -2px; bottom: -2px; }
 .trust-say { max-width: 22em; margin: var(--inner) auto 0; padding-inline: var(--m); text-align: center; font-weight: 400; font-size: clamp(30px, 3.4vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
-/* 2 prices: a drawing sheet — plan + slider on the left, title block on the right */
+/* 2 prices: a drawing sheet — plan + slider on the left, title block on the right */
 .sheet { margin: 24px var(--m) 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 380px); grid-template-rows: 1fr auto; border: 1px solid var(--ink); background: #FCFCFC; }
 .sheet-plan { grid-column: 1; grid-row: 1; margin: 0; position: relative; padding: 20px 24px 8px; }
 .sheet-plan figcaption { position: absolute; left: 24px; top: 16px; color: var(--muted); }
@@ -465,7 +465,7 @@ html.menu-lock, html.menu-lock body { overflow: hidden; }
 
 .mbar { display: none; }
 
-/* ================= V7 — 50% our system, 50% numa: capsules, air-blue display type, glow cards ================= */
+/* ================= V7 — 50% our system, 50% numa: capsules, air-blue display type, glow cards ================= */
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
@@ -492,7 +492,7 @@ html.lenis, html.lenis body { height: auto; }
 .stat sup { font: 400 12px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; vertical-align: 2.4em; margin-left: .3em; }
 .stat h3 { margin: 0 0 6px; font-weight: 400; font-size: 18px; letter-spacing: -.015em; color: var(--ink); }
 .stat p { margin: 0; font-size: 14px; line-height: 1.45; color: var(--muted); }
-/* services: tabs become an accordion of cards — the open one is air-blue */
+/* services: tabs become an accordion of cards — the open one is air-blue */
 #svc .svc-left { gap: 0; align-content: start; }
 #svc .tabs { display: contents; }
 #svc #t1 { order: 1; } #svc #p1 { order: 2; } #svc #t2 { order: 3; } #svc #p2 { order: 4; } #svc #t3 { order: 5; } #svc #p3 { order: 6; }
@@ -569,7 +569,7 @@ html.lenis, html.lenis body { height: auto; }
 /* small numa touches on existing blocks */
 .b2b-photo video { border-radius: var(--r); }
 .sheet { border-radius: 2px; }
-/* ================= V8 — three directions, homes and companies ================= */
+/* ================= V8 — three directions, homes and companies ================= */
 html:not([data-aud="biz"]) [data-aud-only="biz"], html[data-aud="biz"] [data-aud-only="home"] { display: none !important; }
 .aud-top { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .aud-top .mono { color: var(--muted); }
@@ -647,7 +647,7 @@ html[data-aud="biz"] .ac-biz, html:not([data-aud="biz"]) .ac-home { box-shadow: 
 .wk[hidden] { display: none; }
 /* finale caption under the morphing unit */
 .fin-tag { position: absolute; z-index: 3; left: 50%; top: 71%; transform: translateX(-50%); padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.9); color: var(--air); }
-/* ================= V9 — two sites in one: homes (B2C) and companies (B2B) ================= */
+/* ================= V9 — two sites in one: homes (B2C) and companies (B2B) ================= */
 html.aud-swap main, html.aud-swap .foot-x { opacity: 0; transform: translateY(10px); }
 main, .foot-x { transition: opacity .28s ease, transform .4s cubic-bezier(.16,1,.3,1); }
 .other-aud { padding-bottom: 0; }
@@ -658,7 +658,7 @@ main, .foot-x { transition: opacity .28s ease, transform .4s cubic-bezier(.16,1,
 .oa i { font-style: normal; color: var(--air); font-size: 17px; white-space: nowrap; }
 .aud-toast { position: fixed; z-index: 70; left: 50%; top: 76px; transform: translate(-50%, -10px); padding: 10px 18px; border-radius: 999px; background: var(--ink); color: #fff; font-size: 14px; opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .4s cubic-bezier(.16,1,.3,1); }
 .aud-toast.show { opacity: 1; transform: translate(-50%, 0); }
-/* ================= V9 · BUSINESS — the same system, strict and dark: graphite instead of air blue ================= */
+/* ================= V9 · BUSINESS — the same system, strict and dark: graphite instead of air blue ================= */
 html[data-aud="biz"] { --air: #121619; --air-2: #8A959C; --air-soft: #ECEEEF; }
 html[data-aud="biz"] body { background: #F4F5F5; }
 html[data-aud="biz"] .sec, html[data-aud="biz"] .end, html[data-aud="biz"] .ph { background: #F4F5F5; }
@@ -880,7 +880,7 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
 .hc-dirs a:hover .mono, .hc-dirs a:hover i, .hc-dirs a:hover small { color: rgba(255,255,255,.8); }
 .hc-dirs a:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
 
-/* ===================== V8 DESIGN SYSTEM PASS — the older blocks follow the same rules =====================
+/* ===================== V8 DESIGN SYSTEM PASS — the older blocks follow the same rules =====================
    cards: white, 1px line, radius --r · pills for every button · air-blue = data/progress · orange = action/marks */
 .btn { border-radius: 999px; padding: 0 22px; }
 .sb-cta .btn, .svc-cta .btn { justify-content: space-between; }
@@ -943,14 +943,14 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
 .field input:focus, .b2b-form select:focus { border-bottom-color: var(--air); outline: none; }
 .consent input { accent-color: var(--air); }
 
-/* reviews: pinned like the works — cards slide sideways while you scroll down */
+/* reviews: pinned like the works — cards slide sideways while you scroll down */
 .rv-stage { display: flex; flex-direction: column; justify-content: center; padding-top: 56px; }
 .rv-stage .title { padding-top: 16px; }
 .rv-stage .rv { padding-bottom: 0; }
 .rv-stage .rv-sum { position: static; }
 .rv-track { overflow: hidden; scroll-snap-type: none; }
 .rv-card { transform: translateX(var(--rx, 0px)); will-change: transform; }
-/* start: the main call to action — an air-blue card with a phone field and the three steps */
+/* start: the main call to action — an air-blue card with a phone field and the three steps */
 .go { position: relative; overflow: hidden; margin: 0 var(--m); padding: clamp(28px, 4vw, 56px); border-radius: var(--r); color: #fff; display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g); row-gap: clamp(40px, 6vh, 72px);
   background: radial-gradient(60% 90% at 85% 0%, rgba(255,255,255,.22) 0%, rgba(255,255,255,0) 60%), linear-gradient(160deg, var(--air) 0%, #EE4A3E 55%, #F58A80 100%); }
 .go-head { grid-column: 1 / 7; display: grid; gap: 14px; align-content: start; }
@@ -1010,7 +1010,7 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
 .calc-btn { width: 100%; min-height: 56px; justify-content: center; gap: 10px; background: var(--air); color: #fff; font-size: 16px; }
 .calc-btn:hover { background: #B81B13; }
 .end .done { padding: 8px 0; }
-/* footer: dark ink, slow air-blue currents, big nav, giant "На связи" */
+/* footer: dark ink, slow air-blue currents, big nav, giant "На связи" */
 .foot-x { position: relative; z-index: 3; overflow: hidden; margin-top: var(--out); padding: 0 var(--m) 28px; background: #0D161B; color: #fff; }
 .fx-air { position: absolute; inset: 0; z-index: 0; pointer-events: none; filter: blur(60px); }
 .fx-air i { position: absolute; border-radius: 50%; mix-blend-mode: screen; }
@@ -1053,7 +1053,7 @@ html[data-hv="b"] .hc-dirs { display: grid; position: absolute; z-index: 3; left
 .hud-sep { width: 1px; height: 18px; margin: 0 6px; background: rgba(36,54,63,.18); }
 .hud-kp { background: var(--air); color: #fff; }
 .hud-kp:hover { background: #B81B13; }
-/* fullscreen menu: three columns — homes, companies, about */
+/* fullscreen menu: three columns — homes, companies, about */
 .menu-links { grid-column: 1 / 9; display: grid; grid-template-columns: 1fr 1fr .8fr; grid-auto-flow: row; grid-template-rows: none; column-gap: clamp(24px, 3vw, 48px); align-items: start; }
 .mcol { display: grid; align-content: start; }
 .mcol-h { display: flex; align-items: center; gap: 8px; padding-bottom: 14px; color: var(--muted); }
@@ -1092,7 +1092,7 @@ html[data-aud="biz"] .mcol-biz, html:not([data-aud="biz"]) .mcol-home { box-shad
 .faq-list summary { padding: 20px 0; font-size: clamp(19px, 1.5vw, 24px); }
 .faq-list details p { margin: -4px 0 22px; }
 .faq-list details[hidden] { display: none; }
-/* calc v2: one joined card — the estimate pane on the left, the form pane on the right */
+/* calc v2: one joined card — the estimate pane on the left, the form pane on the right */
 .calc { column-gap: 0; }
 .est { grid-column: 1 / 6; border-radius: var(--r) 0 0 var(--r); grid-template-rows: auto auto auto auto 1fr; }
 .end .form { grid-column: 6 / -1; border-radius: 0 var(--r) var(--r) 0; border-left: 0; padding: clamp(24px, 3vw, 40px); gap: 26px; }

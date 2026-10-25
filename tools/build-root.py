@@ -60,4 +60,7 @@ for fn in os.listdir(ROOT):
     if NOINDEX not in h: h = h.replace('<meta charset="utf-8">', '<meta charset="utf-8">' + ('' if h.startswith('<!doctype html><html lang="ru"><meta') else '\n') + NOINDEX, 1)
     assert NOINDEX in h, fn
     open(pth, 'w').write(h)
+_t = runpy.run_path(os.path.join(HERE, 'typograf.py'))['run']
+for fn in os.listdir(ROOT):
+    if fn.endswith('.html'): _t(os.path.join(ROOT, fn))
 print('root built from v10')

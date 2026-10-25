@@ -1,4 +1,4 @@
-/* v12 inner pages: the v10 chrome without the v10 home script — Lenis, header state, fullscreen menu, clocks,
+/* v12 inner pages: the v10 chrome without the v10 home script — Lenis, header state, fullscreen menu, clocks,
    request popup (same markup as v10), cookie notice, audience switch that goes back to the home page. */
 (() => {
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -39,7 +39,7 @@
   if (ck && store.get('cs-cookie') !== '1') { ck.hidden = false; setTimeout(() => ck.classList.add('on'), reduce ? 0 : 1000);
     $('#ckOk').addEventListener('click', () => { store.set('cs-cookie', '1'); ck.classList.remove('on'); setTimeout(() => { ck.hidden = true; }, reduce ? 0 : 400); }); }
 
-  /* request popup — v10 markup, opened by [data-req], a[href="#req"] and the header/menu CTAs */
+  /* request popup — v10 markup, opened by [data-req], a[href="#req"] and the header/menu CTAs */
   const cm = $('#ctaModal'), form = $('#cmForm'), fresh = form.innerHTML; let back = null;
   const mask = ph => ph && ph.addEventListener('input', () => { let d = ph.value.replace(/\D/g, ''); if (d.startsWith('8') || d.startsWith('7')) d = d.slice(1); d = d.slice(0, 10);
     ph.value = d ? '+7 ' + d.slice(0, 3) + (d.length > 3 ? ' ' + d.slice(3, 6) : '') + (d.length > 6 ? '-' + d.slice(6, 8) : '') + (d.length > 8 ? '-' + d.slice(8, 10) : '') : ''; });
@@ -49,7 +49,7 @@
     if (!$('#cmName', form)) { form.innerHTML = fresh; bind(); }
     $('#cmKick').textContent = btn.dataset.kick || (aud === 'biz' ? 'коммерческое предложение' : 'заявка');
     $('#cmTitle').textContent = btn.dataset.title || btn.textContent.replace('↗', '').trim() || 'Оставить заявку';
-    $('#cmSub').textContent = btn.dataset.sub || (aud === 'biz' ? 'Оставьте контакты — инженер свяжется в течение рабочего дня, КП подготовим за 2 дня.' : 'Оставьте телефон — перезвоним в течение 15 минут и ответим на вопросы.');
+    $('#cmSub').textContent = btn.dataset.sub || (aud === 'biz' ? 'Оставьте контакты — инженер свяжется в течение рабочего дня, КП подготовим за 2 дня.' : 'Оставьте телефон — перезвоним в течение 15 минут и ответим на вопросы.');
     $('#cmErr').textContent = ''; back = btn; cm.showModal(); if (window.__lenis) window.__lenis.stop(); document.documentElement.style.overflow = 'hidden';
     requestAnimationFrame(() => cm.classList.add('on')); setTimeout(() => { const f = $(aud === 'biz' ? '#cmCo' : '#cmName'); if (f) f.focus(); }, 60);
   }
@@ -61,10 +61,10 @@
   bind();
   form.addEventListener('submit', e => {
     e.preventDefault(); const n = $('#cmName'), ph = $('#cmPhone'), err = $('#cmErr'), box = $('#cmPd'); [n, ph].forEach(f => f.removeAttribute('aria-invalid'));
-    if (!n.value.trim()) { err.textContent = 'Напишите, как к вам обращаться.'; n.setAttribute('aria-invalid', 'true'); n.focus(); return; }
-    if (ph.value.replace(/\D/g, '').length < 11) { err.textContent = 'Проверьте номер: нужно 10 цифр после +7.'; ph.setAttribute('aria-invalid', 'true'); ph.focus(); return; }
-    if (box && !box.checked) { err.textContent = 'Подтвердите согласие на обработку персональных данных.'; box.setAttribute('aria-invalid', 'true'); box.focus(); return; }
-    form.innerHTML = `<button class="cm-x" type="button" aria-label="Закрыть">×</button><div class="cm-done"><span class="mono cm-kick">заявка принята</span><b>${aud === 'biz' ? 'Свяжемся в течение рабочего дня' : 'Перезвоним в течение 15 минут'}</b><p>Прототип: данные никуда не отправляются.</p><button class="btn cm-go" type="button">Хорошо</button></div>`;
+    if (!n.value.trim()) { err.textContent = 'Напишите, как к вам обращаться.'; n.setAttribute('aria-invalid', 'true'); n.focus(); return; }
+    if (ph.value.replace(/\D/g, '').length < 11) { err.textContent = 'Проверьте номер: нужно 10 цифр после +7.'; ph.setAttribute('aria-invalid', 'true'); ph.focus(); return; }
+    if (box && !box.checked) { err.textContent = 'Подтвердите согласие на обработку персональных данных.'; box.setAttribute('aria-invalid', 'true'); box.focus(); return; }
+    form.innerHTML = `<button class="cm-x" type="button" aria-label="Закрыть">×</button><div class="cm-done"><span class="mono cm-kick">заявка принята</span><b>${aud === 'biz' ? 'Свяжемся в течение рабочего дня' : 'Перезвоним в течение 15 минут'}</b><p>Прототип: данные никуда не отправляются.</p><button class="btn cm-go" type="button">Хорошо</button></div>`;
     $$('.cm-x, .cm-go', form).forEach(b => b.addEventListener('click', close)); $('.cm-go', form).focus();
   });
   document.addEventListener('click', e => {

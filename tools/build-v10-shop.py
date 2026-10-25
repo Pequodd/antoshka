@@ -76,4 +76,9 @@ open(os.path.join(V10, 'chrome.js'), 'w').write(open(os.path.join(ROOT, 'v13', '
 # v10 keeps its own shop.js (reworked cart), viewer.js (per-product 3D models) and products.js (their renders); v13's copies only seed a fresh checkout
 for f in ['shop.js', 'viewer.js', 'products.js']:
     if not os.path.exists(os.path.join(V10, f)): open(os.path.join(V10, f), 'w').write(open(os.path.join(ROOT, 'v13', f)).read())
+# typography: non-breaking spaces after prepositions and conjunctions, before dashes, between numbers and units
+import runpy as _rp
+_t = _rp.run_path(os.path.join(HERE, 'typograf.py'))['run']
+for f in ['index.html', 'catalog.html', 'product.html', 'cart.html', 'privacy.html', 'shop.js', 'chrome.js', 'menu.js']:
+    if os.path.exists(os.path.join(V10, f)): _t(os.path.join(V10, f))
 print('v10 shop built')
