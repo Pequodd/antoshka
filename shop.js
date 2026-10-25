@@ -155,51 +155,64 @@
     if (window.csViewer) window.csViewer(p); else { const f = $('#pvFallback'); f.src = IMG(p.img); f.hidden = false; $('#pv').hidden = true; }
   }
 
-  /* ---------- cart + checkout ---------- */
+  /* ---------- cart + checkout: goods, contacts and delivery as three compact steps; the total, consent and the button stay in view on the right ---------- */
   if (page === 'cart') {
-    const box = $('#cartBox');
+    const box = $('#cartBox'), side = $('#cartSide'), form = $('#co');
+    const X = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>';
+    const opt = (name, v, b, s, on, off) => `<label class="bx-o${off ? ' off' : ''}"><input type="radio" name="${name}" value="${v}" data-k${on ? ' checked' : ''}${off ? ' disabled' : ''}><b>${b}</b><span>${s}</span></label>`;
     function draw() {
       const items = cart.items(), n = cart.count(); $('#cartN').textContent = `${n} ${plural(n, 'товар', 'товара', 'товаров')}`;
-      if (!items.length) { box.innerHTML = `<div class="done"><b>В корзине пока пусто</b><p>Выберите кондиционер в каталоге — монтаж добавится одной галочкой.</p><a class="btn btn-red" href="catalog.html">Перейти в каталог <i>↗</i></a></div>`; return; }
+      if (!items.length) { side.innerHTML = ''; form.classList.add('bx-solo'); box.innerHTML = `<div class="bx-empty"><b>В корзине пока пусто</b><p>Выберите кондиционер в каталоге — монтаж добавится одной галочкой.</p><a class="btn btn-red" href="catalog.html">Перейти в каталог <i>↗</i></a></div>`; return; }
       let goods = 0, inst = 0, survey = false;
       const rows = items.map(i => { const p = byId(i.id), ip = instPrice(p); goods += p.price * i.qty; if (i.inst && ip > 0) inst += ip * i.qty; if (ip === null) survey = true;
-        return `<div class="ci" data-id="${p.id}"><a class="ci-img" href="product.html?id=${p.id}" tabindex="-1" aria-hidden="true"><img src="${IMG(p.img)}" alt=""></a>
-          <div class="ci-m"><span class="mono">${esc(p.brand)} · ${T[p.type]}</span><a class="ci-n" href="product.html?id=${p.id}">${esc(p.name)}</a><span class="pc-spec">${spec(p)}</span>
-          ${ip > 0 ? `<label class="sw"><input type="checkbox" data-inst ${i.inst ? 'checked' : ''}>Монтаж под ключ, + ${rub(ip)}</label>` : ip === null ? '<span class="pc-spec">монтаж — по смете после бесплатного замера</span>' : ''}</div>
-          <div class="ci-r"><div class="qty"><button type="button" data-q="-1" aria-label="Меньше">−</button><input type="number" min="1" max="20" value="${i.qty}" aria-label="Количество" data-qn><button type="button" data-q="1" aria-label="Больше">+</button></div>
-          <div style="text-align:right"><span class="price">${rub((p.price + (i.inst && ip > 0 ? ip : 0)) * i.qty)}</span>${i.qty > 1 ? `<small style="display:block">${rub(p.price)} × ${i.qty}</small>` : ''}</div><button class="ci-del" type="button" data-del>удалить</button></div></div>`; }).join('');
-      box.innerHTML = `<div><div>${rows}</div>
-        <form class="co" id="co" novalidate><h2>Оформление</h2>
-          <div class="f2"><div class="field"><label class="mono" for="coName">Имя</label><input id="coName" autocomplete="name" required></div><div class="field"><label class="mono" for="coPhone">Телефон</label><input id="coPhone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__" required></div></div>
-          <div class="field"><span class="mono" id="dlvL">получение</span><div class="seg3" role="radiogroup" aria-labelledby="dlvL"><label><input type="radio" name="dlv" value="install" checked><b>Доставка${inst ? ' и монтаж' : ''}</b><span>Челябинск и область</span></label><label><input type="radio" name="dlv" value="pickup"><b>Самовывоз</b><span>ул. 5 Декабря, 32</span></label></div></div>
-          <div class="field" id="addrF"><label class="mono" for="coAddr">Адрес</label><input id="coAddr" autocomplete="street-address" placeholder="Город, улица, дом, квартира"></div>
-          <div class="field"><span class="mono" id="payL">оплата</span><div class="seg3" role="radiogroup" aria-labelledby="payL"><label><input type="radio" name="pay" value="cash" checked><b>При получении</b><span>наличные или карта</span></label><label><input type="radio" name="pay" value="invoice"><b>По счёту</b><span>для юрлиц и ИП</span></label><label class="off"><input type="radio" name="pay" disabled><b>Онлайн</b><span>подключим при запуске</span></label></div></div>
-          <div class="field"><label class="mono" for="coNote">Комментарий</label><textarea id="coNote" rows="2" placeholder="Этаж, удобное время, нужен ли демонтаж старого"></textarea></div>
-          <label class="pd"><input type="checkbox" class="pd-box" id="coPd"><span>Согласен на обработку персональных данных и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>
-          <div class="err" id="coErr" role="alert"></div></form></div>
-        <aside class="sum grain" aria-label="Итого"><span class="mono">ваш заказ</span><dl><div><dt>Товары, ${n} шт.</dt><dd>${rub(goods)}</dd></div>${inst ? `<div><dt>Монтаж под ключ</dt><dd>${rub(inst)}</dd></div>` : ''}${survey ? '<div><dt>Монтаж по смете</dt><dd>после замера</dd></div>' : ''}<div><dt>Выезд и замер</dt><dd>бесплатно</dd></div>
-          <div class="tot"><dt>Итого</dt><dd>${rub(goods + inst)}</dd></div></dl><button class="btn btn-red" type="submit" form="co">Оформить заказ <i>↗</i></button>
-          <span class="mono">это не оплата: менеджер перезвонит и подтвердит наличие${survey ? ', замер' : ''} и время доставки</span></aside>`;
+        return `<div class="bx-it" data-id="${p.id}"><a class="bx-img" href="product.html?id=${p.id}" tabindex="-1" aria-hidden="true"><img src="${IMG(p.img)}" alt=""></a>
+          <div class="bx-m"><span class="mono">${esc(p.brand)} · ${T[p.type]}</span><a class="bx-nm" href="product.html?id=${p.id}">${esc(p.name)}</a><span class="bx-sp">${spec(p)}</span>
+          ${ip > 0 ? `<label class="sw bx-inst"><input type="checkbox" data-inst ${i.inst ? 'checked' : ''}>Монтаж под ключ <em>+ ${rub(ip)}</em></label>` : ip === null ? '<span class="bx-sp">монтаж — по смете после бесплатного замера</span>' : ''}</div>
+          <div class="qty bx-q"><button type="button" data-q="-1" aria-label="Меньше">−</button><input type="number" min="1" max="20" value="${i.qty}" aria-label="Количество" data-qn><button type="button" data-q="1" aria-label="Больше">+</button></div>
+          <div class="bx-pr"><b>${rub((p.price + (i.inst && ip > 0 ? ip : 0)) * i.qty)}</b>${i.qty > 1 ? `<small>${rub(p.price)} × ${i.qty}</small>` : ''}</div>
+          <button class="bx-del" type="button" data-del aria-label="Удалить ${esc(p.name)}">${X}</button></div>`; }).join('');
+      form.classList.remove('bx-solo');
+      box.innerHTML = `<section class="bx-card bx-goods"><header class="bx-h"><span class="bx-n">01</span><h2>Товары</h2><a class="bx-add" href="catalog.html">+ добавить из каталога</a></header><div class="bx-list">${rows}</div>
+        <ul class="bx-perks"><li><b>Замер бесплатно</b><span>инженер приедет и уточнит трассу</span></li><li><b>Гарантия на монтаж</b><span>и на оборудование от производителя</span></li><li><b>Оплата после звонка</b><span>менеджер подтвердит наличие</span></li></ul></section>`;
+      side.innerHTML = `<div class="bx-card bx-side">
+        <header class="bx-h"><span class="bx-n">02</span><h2>Контакты</h2></header>
+        <div class="bx-2"><label class="bx-f"><span>Имя</span><input id="coName" data-k autocomplete="name" placeholder="Как к вам обращаться" required></label><label class="bx-f"><span>Телефон</span><input id="coPhone" data-k type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 ___ ___-__-__" required></label></div>
+        <header class="bx-h bx-sep"><span class="bx-n">03</span><h2>Получение и оплата</h2></header>
+        <div class="bx-seg" role="radiogroup" aria-label="Получение">${opt('dlv', 'install', 'Доставка' + (inst ? ' и монтаж' : ''), 'Челябинск и область', true)}${opt('dlv', 'pickup', 'Самовывоз', 'ул. 5 Декабря, 32')}</div>
+        <label class="bx-f" id="addrF"><span>Адрес</span><input id="coAddr" data-k autocomplete="street-address" placeholder="Город, улица, дом, квартира"></label>
+        <div class="bx-seg bx-seg3" role="radiogroup" aria-label="Оплата">${opt('pay', 'cash', 'При получении', 'наличные или карта', true)}${opt('pay', 'invoice', 'По счёту', 'для юрлиц и ИП')}${opt('pay', 'online', 'Онлайн', 'скоро', false, true)}</div>
+        <details class="bx-note"><summary>Комментарий к заказу</summary><textarea id="coNote" data-k rows="2" placeholder="Этаж, удобное время, нужен ли демонтаж старого"></textarea></details>
+        <div class="bx-sum">
+          <dl><div><dt>Товары, ${n} шт.</dt><dd>${rub(goods)}</dd></div>${inst ? `<div><dt>Монтаж под ключ</dt><dd>${rub(inst)}</dd></div>` : ''}${survey ? '<div><dt>Монтаж по смете</dt><dd>после замера</dd></div>' : ''}</dl>
+          <div class="bx-tot"><span>Итого</span><b>${rub(goods + inst)}</b></div>
+          <label class="pd"><input type="checkbox" class="pd-box" id="coPd" data-k><span>Согласен на обработку персональных данных и принимаю <a href="privacy.html" target="_blank" rel="noopener">политику конфиденциальности</a></span></label>
+          <div class="err" id="coErr" role="alert"></div>
+          <button class="btn btn-red bx-go" type="submit">Оформить заказ <i>↗</i></button>
+          <p class="bx-fine">Это не оплата: менеджер перезвонит и подтвердит наличие${survey ? ', замер' : ''} и время доставки.</p></div></div>`;
       mask($('#coPhone'));
     }
     const addr = () => { const f = $('#addrF'); if (f) f.hidden = $('input[name="dlv"]:checked')?.value === 'pickup'; };
-    function keep(fn) { const v = {}; $$('#co input, #co textarea').forEach(el => { v[el.id || el.name + ':' + el.value] = /radio|checkbox/.test(el.type) ? el.checked : el.value; });
-      const a = document.activeElement, row = a?.closest?.('.ci')?.dataset.id, key = a ? ['data-q', 'data-inst', 'data-qn'].find(k => a.hasAttribute?.(k)) : null, kv = key ? a.getAttribute(key) : null;
-      fn(); $$('#co input, #co textarea').forEach(el => { const k = el.id || el.name + ':' + el.value; if (k in v) { if (/radio|checkbox/.test(el.type)) el.checked = v[k]; else el.value = v[k]; } }); addr();
-      if (row && key) { const t = $(`.ci[data-id="${row}"] [${key}${kv ? `="${kv}"` : ''}]`); if (t) t.focus(); } }
-    box.addEventListener('change', e => { if (e.target.name === 'dlv') addr(); const r = e.target.closest('.ci'); if (!r) return;
+    /* redraws keep what was typed, the open comment and the focused control */
+    function keep(fn) { const v = {}, note = $('.bx-note')?.open; $$('#co [data-k]').forEach(el => { v[el.id || el.name + ':' + el.value] = /radio|checkbox/.test(el.type) ? el.checked : el.value; });
+      const a = document.activeElement, row = a?.closest?.('.bx-it')?.dataset.id, key = a ? ['data-q', 'data-inst', 'data-qn'].find(k => a.hasAttribute?.(k)) : null, kv = key ? a.getAttribute(key) : null;
+      fn(); $$('#co [data-k]').forEach(el => { const k = el.id || el.name + ':' + el.value; if (k in v) { if (/radio|checkbox/.test(el.type)) el.checked = v[k]; else el.value = v[k]; } }); addr();
+      if (note && $('.bx-note')) $('.bx-note').open = true;
+      if (row && key) { const t = $(`.bx-it[data-id="${row}"] [${key}${kv ? `="${kv}"` : ''}]`); if (t) t.focus(); } }
+    form.addEventListener('change', e => { if (e.target.name === 'dlv') addr(); const r = e.target.closest('.bx-it'); if (!r) return;
       if (e.target.matches('[data-inst]')) cart.set(r.dataset.id, { inst: e.target.checked }); if (e.target.matches('[data-qn]')) cart.set(r.dataset.id, { qty: +e.target.value || 1 }); });
-    box.addEventListener('click', e => { const r = e.target.closest('.ci'); if (!r) return; const it = cart.items().find(i => i.id === r.dataset.id), q = e.target.closest('[data-q]');
+    box.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.matches('[data-qn]')) { e.preventDefault(); e.target.blur(); } });
+    box.addEventListener('click', e => { const r = e.target.closest('.bx-it'); if (!r) return; const it = cart.items().find(i => i.id === r.dataset.id), q = e.target.closest('[data-q]');
       if (q) cart.set(r.dataset.id, { qty: it.qty + +q.dataset.q }); if (e.target.closest('[data-del]')) cart.remove(r.dataset.id); });
+    form.addEventListener('input', e => e.target.removeAttribute('aria-invalid'));
     document.addEventListener('cartchange', () => keep(draw));
-    box.addEventListener('submit', e => {
-      e.preventDefault(); const f = $('#co'), err = $('#coErr'), n = $('#coName'), ph = $('#coPhone'), ad = $('#coAddr'); err.textContent = '';
+    form.addEventListener('submit', e => {
+      e.preventDefault(); const f = form, err = $('#coErr'), n = $('#coName'), ph = $('#coPhone'), ad = $('#coAddr'); err.textContent = '';
       if (!n.value.trim()) return bad(n, err, 'Напишите, как к вам обращаться.');
       if (!phoneOk(ph)) return bad(ph, err, 'Проверьте номер: нужно 10 цифр после +7.');
       if (!$('#addrF').hidden && !ad.value.trim()) return bad(ad, err, 'Укажите адрес доставки.');
       if (!pdOk(f, err)) return;
-      const no = 'CS-' + String(Date.now()).slice(-6), name = n.value.trim(); cart.clear();
-      box.innerHTML = `<div class="done"><span class="mono">заказ ${no} оформлен</span><b>Спасибо, ${esc(name)}! Перезвоним в течение 15 минут</b><p>Подтвердим наличие, время доставки и монтажа. Прототип: заказ никуда не отправлен.</p><a class="btn btn-ink" href="catalog.html">Вернуться в каталог <i>↗</i></a></div>`;
+      const no = 'CS-' + String(Date.now()).slice(-6), name = n.value.trim(); cart.clear(); side.innerHTML = ''; form.classList.add('bx-solo');
+      box.innerHTML = `<div class="bx-empty bx-ok"><span class="mono">заказ ${no} оформлен</span><b>Спасибо, ${esc(name)}! Перезвоним в течение 15 минут</b><p>Подтвердим наличие, время доставки и монтажа. Прототип: заказ никуда не отправлен.</p><a class="btn btn-ink" href="catalog.html">Вернуться в каталог <i>↗</i></a></div>`;
       $('#cartN').textContent = '0 товаров'; scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
     });
     draw(); addr();

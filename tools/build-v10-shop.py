@@ -37,6 +37,8 @@ b13.FOOT = to_home(cut('<footer class="foot-x"', '</footer>')).replace('href="in
 b13.CM = cut('<dialog class="cm" id="ctaModal"', '</dialog>')
 b13.CK = cut('<div class="ck" id="ck"', '</div>\n')
 b13.MBAR = cut('<nav class="mbar"', '</nav>').replace('href="#contact"', 'href="#req"').replace('href="#b2b-form"', 'href="#req"')
+# the cart: the head (same type as every page) and the goods on the left, the checkout panel from the top on the right, so the button is on the first screen
+b13.PAGES['cart.html'] = b13.PAGES['cart.html'][:3] + ('<form class="bx" id="co" novalidate><div class="bx-l">' + b13.phx('Корзина', '', '0 товаров', (('catalog.html', 'Каталог'), (None, 'Корзина')), cid='cartN') + '<div id="cartBox"></div></div><aside class="bx-r" id="cartSide" aria-label="Оформление"></aside></form>',) + b13.PAGES['cart.html'][4:]
 for fn in ['catalog.html', 'product.html', 'cart.html']:
     k, t, d, body, aud, three, cur = b13.PAGES[fn]
     html = b13.page(k, t, d, body, aud, three, cur).replace('<link rel="stylesheet" href="v12.css">\n<link rel="stylesheet" href="v13.css">', '<link rel="stylesheet" href="shop.css">\n<link rel="stylesheet" href="shop-hud.css">').replace('<script src="shop.js"></script>', '<script src="shop.js"></script>\n<script src="menu.js"></script>')
@@ -58,6 +60,8 @@ if not os.path.exists(os.path.join(V10, 'shop-hud.css')): open(os.path.join(V10,
 .hud-cart.bump .cart-n { animation: cartbump .45s cubic-bezier(.2,.7,.2,1); }
 @keyframes cartbump { 40% { transform: scale(1.4); } }
 ''')
-for f in ['chrome.js', 'shop.js', 'viewer.js', 'products.js']:
+for f in ['chrome.js', 'viewer.js', 'products.js']:
     open(os.path.join(V10, f), 'w').write(open(os.path.join(ROOT, 'v13', f)).read())
+# v10 keeps its own shop.js (it has the reworked cart); v13's copy only seeds a fresh checkout
+if not os.path.exists(os.path.join(V10, 'shop.js')): open(os.path.join(V10, 'shop.js'), 'w').write(open(os.path.join(ROOT, 'v13', 'shop.js')).read())
 print('v10 shop built')
