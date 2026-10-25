@@ -2087,9 +2087,8 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
   </section>
 
   <!-- B2B: directions — pinned 3D scene, the scroll walks the three systems -->
-  <section class="bdx" id="bdirs" data-aud-only="biz" data-scene="multi" data-anchor=".bdx-anchor" aria-labelledby="bdxH">
+  <section class="bdx" id="bdirs" data-aud-only="biz" data-scene="multi" data-anchor=".bdx-anchor" aria-label="Три направления — один договор">
     <div class="bdx-track"><div class="sticky bdx-stage">
-      <div class="bdx-top"><h2 id="bdxH">Три направления — один договор</h2><span class="mono" id="bdxN">01 / 03</span></div>
       <span class="bdx-big" id="bdxBig" aria-hidden="true">01</span>
       <div class="bdx-anchor" aria-hidden="true"></div>
       <div class="bdx-panes">
@@ -2769,7 +2768,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
     function bdxSet(k) { if (k === bk) return; const prev = bk; bk = k; bdx.dataset.scene = BDX[k];
       panes.forEach((p, i) => { p.classList.toggle('on', i === k); p.classList.toggle('out', i === prev); });
       segs.forEach((s, i) => { s.classList.toggle('on', i === k); s.setAttribute('aria-pressed', i === k); });
-      document.getElementById('bdxN').textContent = `0${k + 1} / 03`; document.getElementById('bdxBig').textContent = `0${k + 1}`; }
+      document.getElementById('bdxBig').textContent = `0${k + 1}`; }
     function bxUpdate() {
       ticking = false; if (!isBiz()) return; const H = innerHeight;
       const hr = bh.getBoundingClientRect(); bh.style.setProperty('--bp', reduce ? 0 : clamp(-hr.top / hr.height).toFixed(3));
