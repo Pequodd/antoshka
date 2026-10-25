@@ -29,20 +29,20 @@
 
   /* ---------- product cell ---------- */
   const spec = p => `до ${p.area} м² · ${kw(p.kw)} кВт${p.inverter ? ' · инвертор' : ''}`;
-  /* decibels in plain words: what the quietest mode sounds like and where it fits */
-  const noise = db => db <= 20 ? ['Тише шелеста листьев', 'Можно спать рядом и не заметить, что он работает.']
-    : db <= 25 ? ['Как шелест листьев за окном', 'В спальне почти незаметен, сну не мешает.']
-    : db <= 30 ? ['Как шёпот', 'Ночью слышно, только если прислушаться.']
-    : db <= 40 ? ['Как в тихой библиотеке', 'Отлично для гостиной, кухни и офиса, для спальни громковато.']
-    : db <= 50 ? ['Как работающий холодильник', 'Подойдёт для дачи или кухни, спать рядом будет шумно.']
-    : ['Как обычный разговор', 'Для жилых комнат шумновато.'];
+  /* decibels in plain words: what the quietest mode sounds like, where it fits, and a short line for the catalog card */
+  const noise = db => db <= 20 ? ['Тише шелеста листьев', 'Можно спать рядом и не заметить, что он работает.', 'почти бесшумный']
+    : db <= 25 ? ['Как шелест листьев за окном', 'В спальне почти незаметен, сну не мешает.', 'тихий, как шелест листьев']
+    : db <= 30 ? ['Как шёпот', 'Ночью слышно, только если прислушаться.', 'тихий, как шёпот']
+    : db <= 40 ? ['Как в тихой библиотеке', 'Отлично для гостиной, кухни и офиса, для спальни громковато.', 'как в тихой библиотеке']
+    : db <= 50 ? ['Как работающий холодильник', 'Подойдёт для дачи или кухни, спать рядом будет шумно.', 'шумит, как холодильник']
+    : ['Как обычный разговор', 'Для жилых комнат шумновато.', 'шумный, как разговор'];
   const instLine = p => { const v = instPrice(p); return v === null ? 'монтаж по смете' : v === 0 ? 'без монтажа' : `+ монтаж ${rub(v)}`; };
   function addBtn(p) { const inC = cart.has(p.id); return `<button class="add${inC ? ' in' : ''}" type="button" data-add="${p.id}" aria-label="${inC ? 'В корзине — перейти в корзину' : 'Добавить в корзину: ' + esc(p.brand + ' ' + p.name)}">${inC ? CHECK : PLUS}</button>`; }
   function cell(p) {
     const tags = (p.tags || []).map(t => `<span class="tag${t === 'Хит' ? ' tag-hot' : ''}">${t}</span>`).join('') + (p.wifi ? '<span class="tag">wi-fi</span>' : '');
     return `<article class="pc"><div class="pc-top"><span class="mono">${esc(p.brand)}<br>${T[p.type]}</span><span class="pc-tags">${tags}</span></div>
       <div class="pc-img"><img src="${IMG(p.img)}" alt="" width="800" height="600" loading="lazy"></div>
-      <div><a class="pc-n" href="product.html?id=${p.id}">${esc(p.name)}</a><div class="pc-spec">${spec(p)}</div></div>
+      <div><a class="pc-n" href="product.html?id=${p.id}">${esc(p.name)}</a><div class="pc-spec">${spec(p)}</div><div class="pc-noise">${p.db} дБ · ${noise(p.db)[2]}</div></div>
       <div class="pc-f"><div><span class="price">${rub(p.price)}</span><small>${instLine(p)}</small></div>${addBtn(p)}</div></article>`;
   }
   document.addEventListener('click', e => {

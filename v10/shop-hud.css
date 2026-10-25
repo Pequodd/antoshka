@@ -199,3 +199,5 @@ html[data-aud="biz"] .bx-go { background: #121619; }
 /* product: the noise level explained by comparison, under the key figures */
 .pp-noise { margin: -8px 0 0; padding: 12px 16px; border-radius: 14px; background: #F0F2F3; font-size: 14px; line-height: 1.45; color: var(--muted); }
 .pp-noise b { font-weight: 500; color: var(--ink); }
+.pc-noise { margin-top: 4px; font-size: 13px; color: var(--muted); }
+.pc-noise::before { content: ""; display: inline-block; width: 6px; height: 6px; margin: 0 7px 1px 0; border-radius: 50%; background: #9FB6A8; vertical-align: middle; }
