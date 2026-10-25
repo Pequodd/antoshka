@@ -140,9 +140,7 @@
       ${ip > 0 ? `<label class="opt"><div><b>Монтаж под ключ, + ${rub(ip)}</b><span>Трасса до 3 м, кронштейны, вакуумирование, запуск. Гарантия на монтаж 3 года.</span></div><span class="sw"><input type="checkbox" id="ppInst" checked aria-label="Добавить монтаж под ключ"></span></label>`
         : ip === null ? `<div class="opt" style="cursor:default"><div><b>Монтаж — по смете</b><span>Инженер приедет на бесплатный замер и посчитает монтаж до покупки.</span></div></div>` : ''}
       <div class="buy-row"><div class="qty"><button type="button" id="qM" aria-label="Меньше">−</button><input id="qN" type="number" min="1" max="20" value="1" aria-label="Количество"><button type="button" id="qP" aria-label="Больше">+</button></div><button class="btn btn-red" type="button" id="ppAdd">В корзину <i>↗</i></button></div>
-      <button class="btn btn-soft" type="button" data-req data-title="Купить в 1 клик" data-kick="${esc(p.brand)} · ${rub(p.price)}" data-sub="${esc(p.brand)} ${esc(p.name)}. Оставьте телефон — перезвоним, уточним монтаж и доставку.">Купить в 1 клик</button>
-      <ul class="perks"><li>Выезд и замер — бесплатно</li><li>Доставка и монтаж в удобный вам день</li><li>Гарантия производителя и 3 года на монтаж</li></ul>
-      <p class="mono">демо-каталог · цена и наличие ориентировочные</p>`;
+      <ul class="perks"><li>Выезд и замер — бесплатно</li><li>Доставка и монтаж в удобный вам день</li><li>Гарантия производителя и 3 года на монтаж</li></ul>`;
     const qN = $('#qN'), sum = () => { const q = Math.max(1, Math.min(20, +qN.value || 1)), inst = $('#ppInst')?.checked; qN.value = q;
       $('#ppSum').textContent = rub((p.price + (inst ? ip : 0)) * q); $('#ppNote').textContent = (inst ? 'с монтажом' : 'за оборудование') + (q > 1 ? ` · ${q} шт.` : ''); };
     $('#qM').addEventListener('click', () => { qN.value = +qN.value - 1; sum(); }); $('#qP').addEventListener('click', () => { qN.value = +qN.value + 1; sum(); });
