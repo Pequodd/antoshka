@@ -86,3 +86,6 @@ input[type="checkbox"]:focus-visible, input[type="radio"]:focus-visible { outlin
 .phl .phx-btn, html[data-aud="biz"] .phl .phx-btn { background: var(--air); color: #fff; }
 html[data-aud="biz"] .phl .phx-btn:hover { background: #333; }
 .phl + .dr { padding-top: clamp(40px, 6vh, 72px); }
+
+/* toast on phones: above the bottom bar, full width */
+@media (max-width: 900px) { .toast { left: 12px; right: 12px; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); max-width: none; justify-content: space-between; transform: translateY(20px); } .toast.on { transform: none; } }

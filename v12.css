@@ -464,3 +464,6 @@ html[data-aud="biz"] .ld-btn { background: #fff; color: var(--stage); }
 .fbar-in { position: relative; }
 @media (max-width: 640px) { .dr-w { font-size: 9.6vw; overflow-wrap: normal; word-break: keep-all; } .phx-t { font-size: 13vw; } }
 .seg2[hidden] { display: none !important; }
+
+/* toast on phones: above the bottom bar, full width */
+@media (max-width: 900px) { .toast { left: 12px; right: 12px; bottom: calc(84px + env(safe-area-inset-bottom, 0px)); max-width: none; justify-content: space-between; transform: translateY(20px); } .toast.on { transform: none; } }
