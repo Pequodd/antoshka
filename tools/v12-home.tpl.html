@@ -47,7 +47,7 @@
 <main id="top">
   <!-- 1 -->
 <section class="hero" data-scene="off" aria-label="Climate Solutions" data-aud-only="home">
-    <div class="hc-card" aria-hidden="true"><video data-src="assets/hero-v10.mp4" poster="assets/hero-v10-poster.jpg" muted loop playsinline preload="none"></video></div>
+    <div class="hc-card" aria-hidden="true"><video data-src="assets/hero-hd.mp4" data-src-sm="assets/hero-1080.mp4" poster="assets/hero-hd-poster.jpg" muted loop playsinline preload="none"></video></div>
     <nav class="hc-dirs" aria-label="Направления">
       <a href="#services" data-tab="t1" style="--i:0" data-aud-only="home"><span class="mono">01</span><i aria-hidden="true">↗</i><b>Кондиционер в квартиру</b><small>подбор, монтаж за день, обслуживание</small><em>от 14 900 ₽</em></a>
       <a href="#services" data-tab="t2" style="--i:1" data-aud-only="home"><span class="mono">02</span><i aria-hidden="true">↗</i><b>Вентиляция в доме</b><small>вытяжка, приточка, рекуператор</small><em>от 4 500 ₽</em></a>
@@ -746,7 +746,8 @@
   function heroUpdate() {}
   /* hero variant B: film card opens from a capsule; tiles open the matching service */
   const hcVid = hero.querySelector('.hc-card video');
-  hcVid.src = hcVid.dataset.src; if (!reduce) hcVid.play().catch(() => {});
+  /* AI-upscaled 1440p for wide or dense screens, 1080p for the rest */
+  hcVid.src = innerWidth * Math.min(2, devicePixelRatio || 1) > 2000 ? hcVid.dataset.src : hcVid.dataset.srcSm; if (!reduce) hcVid.play().catch(() => {});
   setTimeout(() => hero.classList.add('open'), reduce ? 0 : 300);
   hero.querySelectorAll('.hc-dirs a').forEach(a => a.addEventListener('click', () => { const t = document.getElementById(a.dataset.tab); if (t) t.click(); }));
   /* numbers: the giant line travels with the section; cards rise once */
