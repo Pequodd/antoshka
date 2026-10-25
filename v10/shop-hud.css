@@ -229,3 +229,10 @@ html[data-aud="biz"] .bx-go { background: #121619; }
 /* typography: headings balance their lines, paragraphs avoid a lone last word */
 h1, h2, h3, .phl-t, .pc-n, .bx-h h2 { text-wrap: balance; }
 p, li, dd, td, th, .aside, small, .txt, .pp-noise, .bx-fine { text-wrap: pretty; }
+
+/* B2B hero: the same home / business switch as on the home hero, glass on the dark stage */
+.bh-aud { margin-bottom: 18px; }
+.bh-aud .aud { background: rgba(255,255,255,.16); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.bh-aud .aud button { color: rgba(255,255,255,.8); }
+.bh-aud .aud button:hover { color: #fff; }
+.bh-aud .aud button[aria-pressed="true"] { background: #fff; color: var(--ink); }
