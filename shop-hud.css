@@ -58,21 +58,21 @@
 .menu-links .mcat .mcat-t { padding-right: 8px; }
 @media (max-width: 900px) { .menu-links .mcat { padding: 12px 60px 12px 12px !important; } }
 
-/* header balance: the catalog sits by the logo, the cart is a light pill like «Меню» */
-.hud-start { justify-self: start; display: flex; align-items: center; gap: clamp(14px, 1.6vw, 28px); min-width: 0; }
-.hud .hud-cat { min-height: 38px; padding: 0 14px 0 12px; border: 0; background: rgba(236,238,239,.72); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font-size: 13px; }
-.hud .hud-cat:hover, .hud .hud-cat[aria-current="page"] { background: var(--ink); color: #fff; }
-.hud .hud-cart { position: relative; width: auto; height: auto; min-height: 38px; padding: 0 14px 0 12px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.7); color: var(--ink); font-size: 13px; white-space: nowrap; transition: background .2s, border-color .2s; }
-.hud .hud-cart svg { width: 18px; height: 18px; }
-.hud .hud-cart:hover { background: #fff; border-color: var(--faint); }
-.hud .hud-cart[aria-current="page"] { background: #fff; border-color: var(--ink); }
+/* header: catalog and cart as one light pill (like the other header controls), the count inline in red */
+.hud-start { justify-self: start; display: flex; align-items: center; min-width: 0; }
+.hud-shop { display: inline-flex; align-items: stretch; height: 38px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.7); overflow: hidden; }
+.hud .hud-shop .hud-cat, .hud .hud-shop .hud-cart { position: static; width: auto; height: auto; min-height: 0; display: inline-flex; align-items: center; gap: 8px; padding: 0 14px; border: 0; border-radius: 0; background: none; color: var(--ink); font-size: 13px; white-space: nowrap; text-decoration: none; transition: background .2s; }
+.hud .hud-shop .hud-cart { border-left: 1px solid var(--line); }
+.hud .hud-shop .hud-cat svg { width: 14px; height: 14px; }
+.hud .hud-shop .hud-cat span { display: inline; }
+.hud .hud-shop .hud-cart svg { width: 18px; height: 18px; }
+.hud .hud-shop .hud-cat:hover, .hud .hud-shop .hud-cart:hover { background: #fff; }
+.hud .hud-shop [aria-current="page"] { background: #fff; box-shadow: inset 0 -2px 0 var(--air); }
 .hud .cart-n { position: static; display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; margin-right: -6px; border-radius: 999px; background: var(--air); color: #fff; font: 500 11px/1 var(--sans); }
 .hud .cart-n[data-n="0"] { display: none; }
-.hud .hud-cart:focus-visible, .hud .hud-cat:focus-visible { outline: 2px solid var(--air); outline-offset: 2px; }
-@media (max-width: 1600px) { .hud .hud-cart-t { display: none; } .hud .hud-cart { padding: 0 12px; } }
-@media (max-width: 1240px) { .hud .hud-cat { width: 38px; padding: 0; justify-content: center; } }
-@media (max-width: 900px) { .hud .hud-cat { width: auto; padding: 0 12px; } .hud .hud-cat span { display: inline; } .hud-start { gap: 12px; } }
-@media (max-width: 480px) { .hud .hud-cat span { display: none; } .hud .hud-cat { width: 38px; padding: 0; } .hud .hud-cart { padding: 0 10px; } .hud-start { gap: 8px; } }
+.hud .hud-shop a:focus-visible { outline: none; box-shadow: inset 0 0 0 2px var(--air); }
+@media (max-width: 1240px) { .hud .hud-shop .hud-cart-t { display: none; } .hud .hud-shop .hud-cart { padding: 0 12px; } }
+@media (max-width: 420px) { .hud .hud-shop .hud-cat span { display: none; } .hud .hud-shop .hud-cat, .hud .hud-shop .hud-cart { padding: 0 11px; } }
 
 /* the shop pages keep v10's colours: no blue glow from v12 */
 :root, html[data-aud="biz"] { --aura: radial-gradient(40% 55% at 90% 108%, rgba(217,35,26,.22), rgba(217,35,26,0) 70%); }
