@@ -284,3 +284,12 @@ p, li, dd, td, th, .aside, small, .txt, .pp-noise, .bx-fine { text-wrap: pretty;
 .pc-noise b { white-space: nowrap; }
 .sheet-block .pl-cat { color: #fff; text-decoration-color: rgba(255,255,255,.5); }
 .sheet-block .pl-cat:hover { color: #fff; text-decoration-color: #fff; }
+/* showcase sits right under the hero: lower pictures so the whole row fits one screen */
+.sx-img img { aspect-ratio: 16 / 9; }
+
+/* product: a back link to the catalog above the crumbs */
+.pp-back { display: inline-flex; align-items: center; gap: 8px; justify-self: start; min-height: 40px; padding: 0 16px 0 12px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--ink); font-size: 14px; text-decoration: none; transition: border-color .2s, background .2s; }
+.pp-back svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: transform .25s; }
+.pp-back:hover { border-color: var(--ink); }
+.pp-back:hover svg { transform: translateX(-3px); }
+.pp-back:focus-visible { outline: 2px solid var(--air); outline-offset: 2px; }

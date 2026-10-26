@@ -160,7 +160,7 @@
     document.title = `${p.brand} ${p.name} — купить с установкой · Climate Solutions`;
     $('#ppWord').textContent = p.brand;
     const tags = (p.tags || []).map(t => `<span class="tag${t === 'Хит' ? ' tag-hot' : ''}">${t}</span>`).join('') + (p.inverter ? '<span class="tag">инвертор</span>' : '') + (p.wifi ? '<span class="tag">wi-fi</span>' : '') + `<span class="tag">класс ${p.cls}</span>`;
-    $('#ppInfo').innerHTML = `<ol class="crumbs" aria-label="Навигация"><li><a href="index.html">Главная</a></li><li><a href="catalog.html">Каталог</a></li><li><a href="catalog.html?type=${p.type}">${T[p.type]}</a></li></ol>
+    $('#ppInfo').innerHTML = `<a class="pp-back" href="catalog.html" id="ppBack"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>Назад в каталог</a><ol class="crumbs" aria-label="Навигация"><li><a href="index.html">Главная</a></li><li><a href="catalog.html">Каталог</a></li><li><a href="catalog.html?type=${p.type}">${T[p.type]}</a></li></ol>
       <div><span class="mono">${esc(p.brand)} · ${T[p.type]}</span><h1>${esc(p.brand)} ${esc(p.name)}</h1></div><div class="pp-tags">${tags}</div>
       <div class="pp-key"><div><b>${p.area} м²</b><span>площадь до</span></div><div><b>${kw(p.kw)} кВт</b><span>охлаждение</span></div><div class="pp-nz"><b>${p.db} дБ ${meter(p.db)}</b><span>шум, от</span><em>${noise(p.db)[0]}</em><small>${noise(p.db)[1]}</small></div></div>
       <div class="buy-p"><span class="price" id="ppSum">${rub(p.price)}</span><small id="ppNote">за оборудование</small></div>
@@ -168,6 +168,7 @@
         : ip === null ? `<div class="opt" style="cursor:default"><div><b>Монтаж — по смете</b><span>Инженер приедет на бесплатный замер и посчитает монтаж до покупки.</span></div></div>` : ''}
       <div class="buy-row"><div class="qty"><button type="button" id="qM" aria-label="Меньше">−</button><input id="qN" type="number" min="1" max="20" value="1" aria-label="Количество"><button type="button" id="qP" aria-label="Больше">+</button></div><button class="btn btn-red" type="button" id="ppAdd">В корзину <i>↗</i></button></div>
       <ul class="perks"><li>Выезд и замер — бесплатно</li><li>Доставка и монтаж в удобный вам день</li><li>Гарантия производителя и 3 года на монтаж</li></ul>`;
+    $('#ppBack').addEventListener('click', e => { try { if (document.referrer && new URL(document.referrer).pathname.endsWith('/catalog.html') && history.length > 1) { e.preventDefault(); history.back(); } } catch (x) {} });
     const qN = $('#qN'), sum = () => { const q = Math.max(1, Math.min(20, +qN.value || 1)), inst = $('#ppInst')?.checked; qN.value = q;
       $('#ppSum').textContent = rub((p.price + (inst ? ip : 0)) * q); $('#ppNote').textContent = (inst ? 'с монтажом' : 'за оборудование') + (q > 1 ? ` · ${q} шт.` : ''); };
     $('#qM').addEventListener('click', () => { qN.value = +qN.value - 1; sum(); }); $('#qP').addEventListener('click', () => { qN.value = +qN.value + 1; sum(); });
