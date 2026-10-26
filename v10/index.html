@@ -1926,10 +1926,10 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
         <p data-aud-only="home">Кондиционер в квартиру за день, вытяжка и приточка в доме, проводка при ремонте. Смета до начала работ, гарантия 3 года.</p>
         <p data-aud-only="biz">Климат, вентиляция и электромонтаж для офисов, магазинов, общепита и сетей. По ТЗ и договору, безнал, работы ночью — без остановки бизнеса.</p>
         <span class="mono offer-tags">Кондиционирование • вентиляция • электромонтаж</span>
-        <div class="row"><a class="btn btn-ink" href="#contact" data-aud-only="home">Рассчитать стоимость <i>↗</i></a><a class="btn btn-ink" href="#b2b-form" data-aud-only="biz">Запросить КП <i>↗</i></a><a class="btn btn-soft" href="#services">Все услуги</a></div>
+        <div class="row"><a class="btn btn-ink" href="#contact" data-aud-only="home">Рассчитать стоимость <i>↗</i></a><a class="btn btn-ink" href="#b2b-form" data-aud-only="biz">Запросить КП <i>↗</i></a><a class="btn btn-soft hero-shop" href="catalog.html" data-aud-only="home">Купить кондиционер <i>↗</i></a><a class="btn btn-soft" href="#services" data-aud-only="biz">Все услуги</a></div>
       </div>
       <a class="scroll mono c7-8" href="#trust" style="align-self:end">Листайте <span aria-hidden="true">↓</span></a>
-      <div class="dir-price c9-12"><span class="mono">Цены от</span><ul><li><span>Кондиционер под ключ</span><b>14 900 ₽</b></li><li><span>Проект вентиляции</span><b>25 000 ₽</b></li><li><span>Сборка электрощита</span><b>12 000 ₽</b></li></ul><span class="mono">Выезд и замер — бесплатно</span></div>
+      <div class="dir-price c9-12"><span class="mono">Цены от</span><ul><li class="dp-shop"><a href="catalog.html"><span>Кондиционеры в каталоге</span><b id="dpMin">21 990 ₽</b></a></li><li><span>Кондиционер под ключ</span><b>14 900 ₽</b></li><li><span>Проект вентиляции</span><b>25 000 ₽</b></li><li><span>Сборка электрощита</span><b>12 000 ₽</b></li></ul><span class="mono">Выезд и замер — бесплатно</span></div>
     </div>
   </section>
 
@@ -2213,7 +2213,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
         <div class="sb-row"><span class="mono">Мощность</span><b id="plKw">2–3,5 кВт</b></div>
         <div class="sb-row"><span class="mono">Подходит для</span><span id="plUse">Спальня, детская, кабинет</span></div>
         <div class="sb-row sb-price"><span class="mono">Монтаж под ключ</span><b id="plPrice">14 900 ₽</b></div>
-        <div class="sb-row sb-cta"><a class="btn btn-ink" href="#contact" id="plCta" data-pk="S">Рассчитать мой объект <i>↗</i></a><p class="plan-hint" id="plHint">Больше 90 м² — посчитаем мульти-сплит или канальную систему.</p></div>
+        <div class="sb-row sb-cta"><a class="btn btn-ink" href="#contact" id="plCta" data-pk="S">Рассчитать мой объект <i>↗</i></a><p class="plan-hint" id="plHint">Больше 90 м² — посчитаем мульти-сплит или канальную систему.</p><a class="pl-cat" id="plCat" href="catalog.html?area=30">Кондиционеры под 30 м² в каталоге <i>↗</i></a></div>
       </div>
     </div>
     <div class="px3">
@@ -2222,6 +2222,15 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
       <div class="px3-col"><h3>Электромонтаж</h3><dl><div><dt>Электрощит с УЗО</dt><dd>от 12 000 ₽</dd></div><div><dt>Проводка в квартире</dt><dd>от 45 000 ₽</dd></div><div><dt>Розетка или выключатель</dt><dd>350 ₽ / точка</dd></div><div><dt>Светильник</dt><dd>450 ₽ / точка</dd></div><div><dt>Диагностика сети</dt><dd>от 3 500 ₽</dd></div></dl><span class="mono">для квартир и коммерческих помещений</span></div>
     </div>
     <p class="px3-note">Для компаний — цены по договору и ТЗ, с учётом ночных работ и регламентного ТО. <a href="#b2b-form">Запросить КП ↗</a></p>
+  </section>
+
+  <!-- shop showcase: the catalog on the home page, picks change with the version -->
+  <section class="sec sx" id="shop" aria-labelledby="sxH">
+    <div class="rule"></div>
+    <div class="grid title"><h2 id="sxH"><span data-aud-only="home">Кондиционеры<br><em>с установкой под ключ</em></span><span data-aud-only="biz">Оборудование<br><em>для объектов</em></span></h2>
+      <p class="aside"><span data-aud-only="home">Купите кондиционер у нас — монтаж добавится одной галочкой, цена зафиксируется в смете до начала работ.</span><span data-aud-only="biz">Кассетные, канальные и напольно-потолочные системы с монтажом по договору и полным пакетом документов.</span></p></div>
+    <div class="sx-grid" id="sxGrid"></div>
+    <div class="sx-foot"><a class="btn btn-ink sx-all" href="catalog.html">Весь каталог <span id="sxN"></span> <i>↗</i></a><a class="sx-pick" href="#prices" data-aud-only="home">Не знаете, что выбрать? Подберём по площади</a><a class="sx-pick" href="#b2b-form" data-aud-only="biz">Нужен подбор под ТЗ? Запросите КП</a></div>
   </section>
 
 
@@ -3088,6 +3097,7 @@ html[data-aud="biz"] .tmx-mark { filter: grayscale(1) contrast(1.3) brightness(.
     const td = svgEl('text', { x: dx + 10, y: y + D / 2 + 4 }, g); td.textContent = dM.toFixed(1).replace('.', ',') + ' м';
     plRange.style.setProperty('--p', ((a - 10) / 80 * 100).toFixed(1) + '%');
     document.getElementById('plArea').textContent = a + ' м²';
+    const plCat = document.getElementById('plCat'); plCat.href = 'catalog.html?area=' + a; plCat.firstChild.textContent = `Кондиционеры под ${a}\u00a0м² в каталоге `;
     document.querySelectorAll('.pb-zones span').forEach((z, j) => z.classList.toggle('on', j === k));
     if (k !== plK) { plK = k; const o = document.querySelector('.pb-out'); o.classList.add('swap'); clearTimeout(plT); plT = setTimeout(() => o.classList.remove('swap'), reduce ? 0 : 140); }
     document.getElementById('plKicker').textContent = `пакет ${P.code}`;

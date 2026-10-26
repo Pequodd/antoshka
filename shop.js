@@ -55,6 +55,22 @@
   });
   document.addEventListener('cartchange', () => $$('[data-add]').forEach(b => { const p = byId(b.dataset.add), inC = cart.has(p.id); b.classList.toggle('in', inC); b.innerHTML = inC ? CHECK : PLUS; b.setAttribute('aria-label', inC ? 'В корзине — перейти в корзину' : 'Добавить в корзину: ' + p.brand + ' ' + p.name); }));
   addEventListener('storage', e => { if (e.key === 'cs12-cart') { cart.badge(); document.dispatchEvent(new CustomEvent('cartchange')); } });
+  /* ---------- home: the catalog showcase (picks follow the home / business version) and the lowest price in the hero ---------- */
+  const sxGrid = $('#sxGrid');
+  if (sxGrid) {
+    if ($('#dpMin')) $('#dpMin').textContent = rub(Math.min(...P.filter(p => p.type === 'wall').map(p => p.price)));
+    $('#sxN').textContent = `· ${P.length} ${plural(P.length, 'модель', 'модели', 'моделей')}`;
+    const card = p => `<article class="sx-c"><a class="sx-img" href="product.html?id=${p.id}" tabindex="-1" aria-hidden="true"><img src="${IMG(p.img)}" alt="" width="800" height="600" loading="lazy"></a>
+      <span class="mono">${esc(p.brand)} · ${T[p.type]}</span><a class="sx-n" href="product.html?id=${p.id}">${esc(p.name)}</a>
+      <div class="sx-area"><b>до ${p.area} м²</b><span>${kw(p.kw)} кВт${p.inverter ? ' · инвертор' : ''}</span></div>
+      <div class="pc-noise">${meter(p.db)}<b>${p.db} дБ</b> · ${noise(p.db)[2]}</div>
+      <div class="sx-f"><div><b class="sx-p">${rub(p.price)}</b><small>${instLine(p)}</small></div>${addBtn(p)}</div></article>`;
+    const pick = () => { const biz = document.documentElement.dataset.aud === 'biz';
+      const list = biz ? ['cassette', 'ducted', 'floor', 'multi'].map(t => P.find(p => p.type === t)).filter(Boolean) : P.filter(p => p.type === 'wall').sort((a, b) => b.pop - a.pop).slice(0, 4);
+      sxGrid.innerHTML = list.map(card).join(''); };
+    pick(); document.addEventListener('audchange', pick);
+  }
+
   cart.badge();
 
   /* ---------- forms ---------- */
@@ -107,6 +123,7 @@
     $('#fPrice').innerHTML = PRICES.map((a, i) => `<button type="button" aria-pressed="false" data-i="${i}">${a[2]}</button>`).join('');
     const q = new URLSearchParams(location.search), qt = (q.get('type') || '').split(',').filter(Boolean);
     if (qt.length) { $$('#fType button').forEach(b => b.setAttribute('aria-pressed', qt.includes(b.dataset.t))); }
+    const qa = +q.get('area'); if (qa) { const i = AREAS.findIndex(([lo, hi]) => qa > lo && qa <= hi); if (i >= 0) $$('#fArea button')[i].setAttribute('aria-pressed', 'true'); }
     /* search: every word must match the brand, model, type, tags or features (inverter, wi-fi, area, power) */
     const norm = v => String(v).toLowerCase().replace(/ё/g, 'е').replace(/[‐-—]/g, '-');
     const RU = { 'Haier': 'хайер хаер хаир', 'Ballu': 'баллу балу', 'Royal Clima': 'роял клима ройал', 'Hisense': 'хайсенс хисенс хайсенс', 'Midea': 'мидеа мидея', 'LG': 'элджи лж лджи', 'Electrolux': 'электролюкс', 'Mitsubishi Electric': 'мицубиси митсубиси мицубиши мицубиси электрик', 'Daikin': 'дайкин' };
