@@ -293,3 +293,15 @@ p, li, dd, td, th, .aside, small, .txt, .pp-noise, .bx-fine { text-wrap: pretty;
 .pp-back:hover { border-color: var(--ink); }
 .pp-back:hover svg { transform: translateX(-3px); }
 .pp-back:focus-visible { outline: 2px solid var(--air); outline-offset: 2px; }
+
+/* services: the accordion and the 3D unit share one panel instead of two separate blocks */
+#svc .svc-grid { position: relative; }
+#svc .svc-grid::before { content: ""; position: absolute; z-index: 0; left: var(--m); right: var(--m); top: 0; bottom: var(--sec-b, 120px); border-radius: var(--r); background: var(--panel); pointer-events: none; }
+#svc .svc-left { grid-column: 1 / 7; padding: 16px 0 16px 16px; }
+#svc .svc-visual { grid-column: 7 / -1; }
+#svc .svc-visual::before { background: none; }
+#svc .svc-left .tab, #svc .svc-left .panel { box-shadow: none; }
+@media (max-width: 900px) {
+  #svc .svc-left { grid-column: 1 / -1; padding: 0 12px 12px; }
+  #svc .svc-visual { grid-column: 1 / -1; }
+}
